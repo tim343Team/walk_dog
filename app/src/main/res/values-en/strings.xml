@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">WalkTheDog</string>
+    <string name="confirm">confirm</string>
+    <string name="cancle">cancle</string>
+    <string name="back">back</string>
+    <string name="successful">Success</string>
+    <string name="password_error">Password Error</string>
+    <string name="loading_notice">Please wait a moment…</string>
+    <string name="english">English</string>
+    <string name="japanese">Japanese</string>
+    <string name="chinese">Chinese</string>
+    <string name="login_tip_1">Preferred is to create or import a \naccount.Manage and restore your assets \nwith 12 memonic words, Once the 12 \nmnemonics are lost, your assets cannot be \nrecoverd.</string>
+    <string name="login_tip_2">
+        >Do not unload easily\n>Do note wipe application data\n>Copy 12 mnemonic words correctly
+    </string>
+    <string name="create_account">Create Account</string>
+    <string name="import_account">Import Account</string>
+    <string name="login_tip_3">I have read and agree . </string>
+    <string name="login_tip_4">Platform agreement</string>
+    <!--导入助记词-->
+    <string name="import_mnemonic">Import \nmnemonic words</string>
+    <string name="import_mnemonic_hint">Enter mnwmonic words separated by Spaces</string>
+    <string name="confirm_import">Confirm Import</string>
+    <string name="wait_import">Importing, please wait…</string>
+    <string name="error_import">Mncemonic input error…</string>
+    <string name="dialog_error_import">Mnemonic does not exist, please \ncheck and import again</string>
+    <!--设置密码-->
+    <string name="setting_password_warning">Anyone who asks you for a mnemonic \nor website is a liar. All QQ, Telegram \ngroup are false group</string>
+    <string name="enter_the_password">Enter the password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="match_password">The passwords you entered do not match. Please re-enter them</string>
+    <!--创建助记词-->
+    <string name="creat_mnemonic_1">Please be sure to</string>
+    <string name="creat_mnemonic_2">Copy 12 mnemonic words \ncorrectly</string>
+    <string name="creat_mnemonic_3">*Ban Screenshots\n\n\nMnemonics are the only way to recover your assets</string>
+    <string name="creat_mnemonic_4">Once lost, assets cannot be recovered</string>
+    <string name="creat_mnemonic_5">I copied it. Go check it out</string>
+    <string name="skip_mnemonic">Skip (not recommended)</string>
+    <string name="verify_title">Unable to restore account</string>
+    <string name="verify_content">Be sure to double check to make sure the \nwords are correct</string>
+    <string name="verify_again">Verify Again</string>
+    <string name="next">Next</string>
+    <!--验证助记词-->
+    <string name="verify_title_1">Have you copied the mnemonic yet?</string>
+    <string name="verify_title_2">In lose it again!</string>
+    <!--主页-->
+    <string name="home">主頁</string>
+    <string name="null_dog">還沒有狗狗</string>
+    <string name="start_add_dog">開始添加你的狗狗</string>
+    <string name="add_dog">添加狗狗</string>
+    <string name="walking">walking</string>
+    <string name="speed">速度: %s</string>
+    <string name="number">次數: %s</string>
+    <string name="trip">里程: %s</string>
+    <string name="more_operation">更多操作</string>
+    <!--商城-->
+    <string name="mail">商城</string>
+    <!--租赁-->
+    <string name="rental">租賃</string>
+    <!--我的-->
+    <string name="mine">我的</string>
+    <!--身份id卡-->
+    <string name="name_">姓名:</string>
+    <string name="gender_">性別:</string>
+    <string name="level_">等級:</string>
+    <string name="weight_">體重:</string>
+    <string name="muscle_">肌肉:</string>
+    <string name="personality_">個性:</string>
+    <string name="identity_information">身份信息</string>
+    <!--遛狗-->
+    <string name="walk_title">遛狗</string>
+    <string name="gps">GPS</string>
+    <string name="walk_notice_1">散步越遠，獲得\n的獎勵越多喲</string>
+    <string name="walk_stop">停止遛狗</string>
+    <string name="walk_start">开始遛狗</string>
+    <string name="walk_notice_2">你進入了[未知區域]，得到道具概率將會增加</string>
+    <string name="collect">收藏</string>
+    <string name="collect_notice">道具已经收集並且\n放在我的道具里了</string>
+    <string name="speed_up">需加速</string>
+    <string name="speed_down">需减速</string>
+    <string name="stop_count">后停止计数</string>
+    <string name="walk_notice_3">慢下来!快走，否则爱犬找不到宝物，没有收入哦</string>
+    <string name="walk_number">遛狗次數</string>
+    <string name="walk_notice_4">每隻狗狗，每天可以遛2次；次用用完了，就需要等到下一天才能遛狗</string>
+
+</resources>

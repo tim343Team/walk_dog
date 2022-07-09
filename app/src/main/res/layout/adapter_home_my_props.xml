@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_37"
+        android:layout_marginTop="@dimen/dimen_40"
+        android:layout_marginEnd="@dimen/dimen_37"
+        android:text="@string/conguratulations"
+        android:textColor="@color/color_548FEB"
+        android:textSize="@dimen/dimen_24"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_37"
+        android:layout_marginEnd="@dimen/dimen_37"
+        android:text="Found a bell"
+        android:textColor="@color/color_548FEB"
+        android:textSize="@dimen/dimen_24"
+        android:textStyle="bold" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_27"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_marginEnd="@dimen/dimen_27"
+        android:background="@mipmap/bg_dialog_normal">
+
+        <ImageView
+            android:id="@+id/img_prop"
+            android:layout_width="@dimen/dimen_130"
+            android:layout_height="@dimen/dimen_130"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_32"
+            android:background="@mipmap/icon_bell" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_prop"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_50"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_10"
+                android:text="Bell 1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:text="22:19:28"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp14" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <com.wallet.walkthedog.custom_view.ShadowContainer
+        android:id="@+id/group_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/transparent"
+        app:containerCornerRadius="@dimen/corner_radius"
+        app:containerDeltaLength="@dimen/delta_length"
+        app:containerShadowColor="@color/color_t_548FEB"
+        app:containerShadowRadius="@dimen/shadow_radius"
+        app:deltaX="@dimen/delta_x"
+        app:deltaY="@dimen/delta_y">
+
+        <TextView
+            android:id="@+id/txt_cancle"
+            android:layout_width="@dimen/dimen_170"
+            android:layout_height="@dimen/dimen_43"
+            android:layout_gravity="center"
+            android:background="@drawable/button_gradual_background"
+            android:gravity="center"
+            android:text="@string/collect"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_14" />
+
+    </com.wallet.walkthedog.custom_view.ShadowContainer>
+
+</LinearLayout>

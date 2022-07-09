@@ -1,0 +1,140 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorAccent">@color/text_BBBBBB</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+
+<!--    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+<!--        &lt;!&ndash; 状态栏颜色 &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/white</item>-->
+<!--        <item name="colorPrimaryDark">@color/transparent</item>-->
+<!--        <item name="colorAccent">@color/text_BBBBBB</item>-->
+<!--        <item name="android:windowBackground">@color/color_new_blue</item>-->
+<!--    </style>-->
+
+    <style name="Mdialog" parent="android:Theme.Holo.Light.Dialog">
+        <item name="android:windowBackground">@drawable/circular_white</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="PaddingScreen" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="PaddingCardView">
+        <item name="android:paddingStart">25dp</item>
+        <item name="android:paddingEnd">25dp</item>
+        <item name="android:paddingBottom">25dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:background">@mipmap/card_view</item>
+    </style>
+
+    <style name="PaddingParent">
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="TitlePaddingParent">
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">@dimen/dimen_20</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="MarginParent">
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="MatchParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="MatchWidth">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="WrapContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="WeightWidth">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="TextStyle1">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/color_848484</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextWhiteStyle">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextWhiteBoldStyle">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitle">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/color_4D67C1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RoundedImageButton">
+        <item name="android:layout_width">@dimen/dimen_64</item>
+        <item name="android:layout_height">@dimen/dimen_64</item>
+        <item name="android:padding">@dimen/dimen_16</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="ToolbarStyleCall" parent="Widget.AppCompat.Toolbar">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+    </style>
+
+    <style name="shadowstyle">
+        <item name="android:shadowColor">#ff00ff00</item>
+        <item name="android:shadowRadius">20</item>
+        <item name="android:shadowDx">5</item>
+        <item name="android:shadowDy">10</item>
+    </style>
+
+    <!--偏移背景 18 / 54-->
+    <style name="homePaddingStyle">
+        <item name="android:paddingStart">40dp</item>
+        <item name="android:paddingTop">38dp</item>
+        <item name="android:paddingBottom">36dp</item>
+        <item name="android:paddingEnd">40dp</item>
+    </style>
+
+<!--    &lt;!&ndash;偏移背景 按钮&ndash;&gt;-->
+<!--    <style name="buttonGroupStyle" parent="Shadow">-->
+<!--        <item name="app:containerDeltaLength">20dp</item>-->
+<!--        <item name="app:containerShadowRadius">10dp</item>-->
+<!--        <item name="app:containerCornerRadius">10dp</item>-->
+<!--        <item name="app:deltaY">10dp</item>-->
+<!--        <item name="app:enable">true</item>-->
+<!--        <item name="app:containerShadowColor">@color/color_t_548FEB</item>-->
+<!--    </style>-->
+
+</resources>

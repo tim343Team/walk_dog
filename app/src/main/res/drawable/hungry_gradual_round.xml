@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><!--<shape xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!-- 实现颜色渐变-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <size
+        android:width="@dimen/dimen_73"
+        android:height="@dimen/dimen_73" />
+    <gradient
+        android:angle="315"
+        android:endColor="#8E6227"
+        android:centerColor="#EBB154"
+        android:startColor="@color/white"/>
+    <corners android:radius="@dimen/dp10" />
+</shape>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--标题-->
+    <RelativeLayout
+        android:id="@+id/llTitle"
+        style="@style/TitlePaddingParent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/icon_back"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/icon_app_name" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/PaddingParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:text="@string/creat_mnemonic_1"
+                android:textSize="@dimen/dimen_16"
+                android:textColor="@color/color_848484"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:text="@string/creat_mnemonic_2"
+                android:textSize="@dimen/dimen_16"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:text="@string/creat_mnemonic_3"
+                android:textSize="@dimen/dimen_16"
+                android:textColor="@color/color_848484"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:text="@string/creat_mnemonic_4"
+                android:textSize="@dimen/dimen_16"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_notice"
+            android:layout_marginTop="@dimen/dp30"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/card_view"
+            style="@style/PaddingCardView"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/view_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dimen_50">
+
+            <Button
+                android:id="@+id/txt_copy"
+                android:layout_width="@dimen/dimen_275"
+                android:layout_height="@dimen/dimen_50"
+                android:background="@drawable/button_gradual_background"
+                android:textSize="@dimen/dimen_14"
+                android:textColor="@color/white"
+                android:text="@string/creat_mnemonic_5"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/txt_skip"
+                android:layout_width="@dimen/dimen_275"
+                android:layout_height="@dimen/dimen_50"
+                android:layout_marginTop="@dimen/dimen_30"
+                android:layout_below="@+id/txt_copy"
+                android:background="@drawable/button_gradual_background"
+                android:textSize="@dimen/dimen_14"
+                android:textColor="@color/white"
+                android:text="@string/skip_mnemonic"
+                android:gravity="center"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

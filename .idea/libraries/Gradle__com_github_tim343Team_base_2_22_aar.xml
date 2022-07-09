@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.tim343Team:base:2.22@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/04aad91270f65e67b25798c6772157fd/base-2.22/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/04aad91270f65e67b25798c6772157fd/jetified-base-2.22/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/04aad91270f65e67b25798c6772157fd/base-2.22/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/04aad91270f65e67b25798c6772157fd/base-2.22/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/04aad91270f65e67b25798c6772157fd/base-2.22/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/04aad91270f65e67b25798c6772157fd/jetified-base-2.22/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/04aad91270f65e67b25798c6772157fd/jetified-base-2.22/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/04aad91270f65e67b25798c6772157fd/jetified-base-2.22/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.tim343Team/base/2.22/6adbeb9005e51a1fadf16a624582d82416d22a4a/base-2.22-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

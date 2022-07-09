@@ -1,0 +1,192 @@
+<resources>
+    <string name="app_name">WalkTheDog</string>
+    <string name="confirm">確定</string>
+    <string name="cancle">取消</string>
+    <string name="back">返回</string>
+    <string name="successful">成功</string>
+    <string name="enter">確認</string>
+    <string name="password_error">密碼錯誤，請重新輸入</string>
+    <string name="loading_notice">Please wait a moment…</string>
+    <string name="english">英文</string>
+    <string name="japanese">日文</string>
+    <string name="chinese">中文</string>
+    <string name="login_tip_1">首先創建或者導入一個\賬號.通過12個助記詞掌管和回復您\n的資產,12個助記詞一旦丟失，您的資產將無法\n找回</string>
+    <string name="login_tip_2">
+        >不要輕易卸載\n>不要清除應用數據\n>正確抄寫12個助記詞\n>秘密保管助記詞
+    </string>
+    <string name="create_account">創建賬號</string>
+    <string name="import_account">導入賬號</string>
+    <string name="login_tip_3">我已閱讀並同意 </string>
+    <string name="login_tip_4">平台協議</string>
+    <!--导入助记词-->
+    <string name="import_mnemonic">導入 \n助記詞</string>
+    <string name="import_mnemonic_hint">輸入助記詞，用空格分隔</string>
+    <string name="confirm_import">確認導入</string>
+    <string name="wait_import">導入中, 請稍等…</string>
+    <string name="error_import">助記詞輸入錯誤…</string>
+    <string name="dialog_error_import">助記詞不存在, 請 \n檢查後再導入</string>
+    <!--设置密码-->
+    <string name="setting_password_warning">任何向你詢問助記詞\n或者網站的都是騙子. 所有的QQ, Telegram \n群都是假群</string>
+    <string name="enter_the_password">設置您的密碼</string>
+    <string name="enter_your_password">再次輸入您的密碼</string>
+    <string name="enter_password">輸入密碼</string>
+    <string name="match_password">您輸入的密碼不匹配. 請重新輸入</string>
+    <!--创建助记词-->
+    <string name="creat_mnemonic_1">請務必</string>
+    <string name="creat_mnemonic_2">正確抄寫12個\n助記詞</string>
+    <string name="creat_mnemonic_3">*禁止截屏\n\n\n助記詞是恢復您資產的唯一途徑</string>
+    <string name="creat_mnemonic_4">一旦丟失，資產將無法找回</string>
+    <string name="creat_mnemonic_5">我已抄好. 去驗證</string>
+    <string name="skip_mnemonic">以後抄，跳過 (不建議)</string>
+    <string name="verify_title">無法回復賬戶</string>
+    <string name="verify_content">請務必驗證一遍確保 \n助記詞正確</string>
+    <string name="verify_again">在此驗證</string>
+    <string name="next">下一步</string>
+    <!--验证助记词-->
+    <string name="verify_title_1">您已經抄寫好助記詞了嗎?</string>
+    <string name="verify_title_2">請輸入一遍!</string>
+    <!--主页-->
+    <string name="home">主頁</string>
+    <string name="null_dog">還沒有狗狗</string>
+    <string name="start_add_dog">開始添加你的狗狗</string>
+    <string name="add_dog">添加狗狗</string>
+    <string name="walking">walking</string>
+    <string name="speed">速度: %s</string>
+    <string name="number">次數: %s</string>
+    <string name="trip">里程: %s</string>
+    <string name="more_operation">更多操作</string>
+    <string name="feeding">餵食</string>
+    <string name="train">訓練</string>
+    <string name="replace_dog">更換狗狗</string>
+    <!--商城-->
+    <string name="mail">商城</string>
+    <string name="mail_dog">狗狗商城</string>
+    <string name="mail_prop">道具商城</string>
+    <string name="low_price">低價格</string>
+    <string name="high_price">高價格</string>
+    <string name="select_variety">選擇品種</string>
+    <string name="fee_">手續費:</string>
+    <string name="cancle_sale">取消售賣</string>
+    <string name="buy_success">購買成功</string>
+    <!--租赁-->
+    <string name="rental">租賃</string>
+    <!--我的-->
+    <string name="mine">我的</string>
+    <!--身份id卡-->
+    <string name="name_">姓名:</string>
+    <string name="gender_">性別:</string>
+    <string name="level_">等級:</string>
+    <string name="weight_">體重:</string>
+    <string name="muscle_">肌肉:</string>
+    <string name="personality_">個性:</string>
+    <string name="id_">編號:</string>
+    <string name="dog_walk_time_">遛狗時間:</string>
+    <string name="charm_value_">魅力值:</string>
+    <string name="identity_information">身份信息</string>
+    <!--遛狗-->
+    <string name="walk_title">遛狗</string>
+    <string name="gps_week">GPS信號弱</string>
+    <string name="gps">GPS</string>
+    <string name="walk_notice_1">散步越遠，獲得\n的獎勵越多喲</string>
+    <string name="walk_stop">停止遛狗</string>
+    <string name="walk_start">开始遛狗</string>
+    <string name="walk_notice_2">你進入了[未知區域]，得到道具概率將會增加</string>
+    <string name="collect">收藏</string>
+    <string name="collect_notice">道具已经收集並且\n放在我的道具里了</string>
+    <string name="speed_up">需加速</string>
+    <string name="speed_down">需减速</string>
+    <string name="stop_count">后停止计数</string>
+    <string name="walk_notice_3">慢下来!快走，否则爱犬找不到宝物，没有收入哦</string>
+    <string name="walk_number">遛狗次數</string>
+    <string name="walk_notice_4">每隻狗狗，每天可以遛2次；次用用完了，就需要等到下一天才能遛狗</string>
+    <!--喂食-->
+    <string name="hungry_notice">您的狗狗<font color='#548FEB'>餓了</font>，去餵食吧；保證狗狗<font color='#548FEB'>精力充沛</font>才能一起遛狗哦</string>
+    <string name="consumption_food">消耗的食物</string>
+    <string name="surplus_food">剩餘的食物</string>
+    <string name="feeding_su">餵食成功，狗狗盡力充沛</string>
+    <string name="feeding_error">食物不足，去商場購買吧</string>
+    <!--购买食物-->
+    <string name="buy_to_food">購買狗糧</string>
+    <string name="buy">購買</string>
+    <string name="pay">支付</string>
+    <string name="gain_weight">獲得體重</string>
+    <string name="balance_">餘額：</string>
+    <string name="food_info_1">Combat Hunger</string>
+    <string name="food_info_2">Full of energy</string>
+    <!--选择狗狗-->
+    <string name="my_dog">我的狗狗</string>
+    <string name="rental_dog">租賃的狗狗</string>
+    <string name="select">選擇</string>
+    <string name="deselect">取消選擇</string>
+    <string name="choose_select">選擇成功</string>
+    <!--訓練狗狗-->
+    <string name="training_dog">訓練狗狗</string>
+    <string name="sit_down">坐下</string>
+    <string name="lay_down">躺下</string>
+    <string name="come_to_me">過來</string>
+    <string name="leave_it">走開</string>
+    <string name="name_recognition">叫名字</string>
+    <string name="walk_on_a_lead">走前面</string>
+    <string name="get_back_to_his_place">回到自己的地方</string>
+    <string name="consume_food">消耗食物</string>
+    <string name="insufficient_food">食物不足</string>
+    <!--我的道具-->
+    <string name="my_props">我的道具</string>
+    <string name="cancle_props">道具已滿，請取消已有道具</string>
+    <string name="conguratulations">恭喜</string>
+    <!--邀請遛狗-->
+    <string name="invite_dog">邀請遛狗</string>
+    <string name="invite_empty">你沒有好友\b去添加好友吧</string>
+    <string name="invitation">邀請</string>
+    <string name="full_of_energy">精力充沛</string>
+    <string name="aggregate">合計</string>
+    <string name="walk_together">共同遛狗</string>
+    <string name="invitation_sent">邀請已發送</string>
+    <string name="invitation_error">已有其它人邀請，發送失敗</string>
+    <string name="invitation_sent_succeful">您接受了邀請，可以一起遛狗尋寶了</string>
+    <string name="invitation_error_2">您來晚了，好友已經和其它人遛狗了</string>
+    <string name="invitation_error_3">您來晚了，好友已經遛狗完了</string>
+    <string name="invitation_error_4">您拒絕了好友的邀請</string>
+    <string name="invitation_together">一起遛狗吧</string>
+    <string name="invitation_together_2">%s的狗狗%s\n邀請你和他一起遛狗</string>
+    <string name="invitation_together_3">和Ta狗狗一起散步</string>
+    <string name="invitation_together_4">一起遛狗可以增加獲得尋寶的成功幾率哦</string>
+    <string name="accept">接受</string>
+    <string name="refuse">拒絕</string>
+    <string name="name_nickname">名稱備註</string>
+    <string name="note_nickname">請輸入備註名稱</string>
+    <string name="remove">移除</string>
+    <string name="cancle_remove">取消邀請</string>
+    <string name="stop_invited">好友停止提醒</string>
+    <string name="treasure_together">一起尋寶收穫的物品</string>
+    <string name="treasure_together_2">%s的狗狗%s\n已經停止遛狗</string>
+    <!--移除好友-->
+    <string name="remove_friend">移除好友</string>
+    <string name="remove_friend_notice">確認從好友中移除%s的狗狗%s嗎?</string>
+    <string name="remove_friend_notice_2">和Ta一起遛狗</string>
+    <string name="remove_friend_notice_3">移除後，還可以在個人中心的好友列表查看歷史記錄</string>
+    <string name="remove_friend_success">移除成功</string>
+    <!--升級-->
+    <string name="congratulation_upgrade">恭喜升級</string>
+    <string name="congratulation_upgrade_info">恭喜您，您的狗狗達到%s了</string>
+    <!--租赁狗狗-->
+    <string name="lease_time">租賃時間</string>
+    <string name="available_rental_time">可租用%s天</string>
+    <string name="character_">性格:</string>
+    <string name="cancel_rental">取消租賃</string>
+    <string name="rental_success">租賃成功</string>
+    <!--我的主页-->
+    <string name="mine_item_food">我的狗糧</string>
+    <string name="mine_item_dog">我的狗狗</string>
+    <string name="mine_item_prop">我的道具</string>
+    <string name="mine_item_rental">我的租賃</string>
+    <string name="mine_item_walk_record">遛狗記錄</string>
+    <string name="mine_item_invited_record">邀請狗狗</string>
+    <string name="mine_item_train_record">訓練記錄</string>
+    <string name="mine_item_security">安全設置</string>
+    <string name="mine_item_language">語言設置</string>
+    <string name="mine_item_about">關於</string>
+    <string name="mine_item_version">版本</string>
+    <string name="logout">退出</string>
+
+</resources>

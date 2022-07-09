@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dimen_158"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_white"
+        android:padding="@dimen/dimen_12"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Found dog food"
+            android:textColor="@color/color_4D67C1"
+            android:textSize="@dimen/dimen_14"
+            />
+
+        <ImageView
+            android:id="@+id/img_equipment"
+            android:layout_width="@dimen/dimen_52"
+            android:layout_height="@dimen/dimen_60"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_below="@+id/txt_name"
+            android:background="@mipmap/icon_null_dog"/>
+
+        <TextView
+            android:id="@+id/txt_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_below="@+id/img_equipment"
+            android:text="23:32:16"
+            android:textColor="@color/color_848484"
+            android:textSize="@dimen/dimen_14"
+            />
+
+        <TextView
+            android:id="@+id/txt_collect"
+            android:layout_width="@dimen/dimen_123"
+            android:layout_height="@dimen/dimen_35"
+            android:gravity="center"
+            android:background="@drawable/button_gradual_background"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_below="@+id/txt_time"
+            android:text="@string/collect"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_14" />
+
+    </RelativeLayout>
+
+</LinearLayout>

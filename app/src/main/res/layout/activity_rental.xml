@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--标题-->
+    <RelativeLayout
+        android:id="@+id/llTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/MarginParent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_app_name" />
+
+        <RelativeLayout
+            android:id="@+id/view_select_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/txt_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen_18"
+                android:layout_marginEnd="@dimen/dimen_9"
+                android:layout_toStartOf="@+id/img_user_avatar"
+                android:text="Elun Mask"
+                android:textColor="@color/color_1B559F"
+                android:textSize="@dimen/dimen_15" />
+
+            <ImageView
+                android:id="@+id/img_user_avatar"
+                android:layout_width="@dimen/dimen_44"
+                android:layout_height="@dimen/dimen_44"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp12"
+                android:background="@mipmap/icon_avatar" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_16"
+        android:layout_marginStart="@dimen/dimen_20"
+        android:layout_marginEnd="@dimen/dimen_20"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_price"
+            android:layout_width="@dimen/dimen_0"
+            android:layout_height="@dimen/dimen_20"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_ebeeff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dimen_15"
+            android:paddingEnd="@dimen/dimen_15">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_9"
+                android:layout_height="@dimen/dimen_9"
+                android:layout_marginEnd="@dimen/dimen_9"
+                android:background="@mipmap/icon_polygon_down" />
+
+            <TextView
+                android:id="@+id/txt_pricey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/low_price"
+                android:textColor="@color/color_848484"
+                android:textSize="@dimen/dp12" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_variety"
+            android:layout_width="@dimen/dimen_0"
+            android:layout_height="@dimen/dimen_20"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dimen_15"
+            android:layout_marginStart="@dimen/dimen_15"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_ebeeff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dimen_15"
+            android:paddingEnd="@dimen/dimen_15">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_9"
+                android:layout_height="@dimen/dimen_9"
+                android:layout_marginEnd="@dimen/dimen_9"
+                android:background="@mipmap/icon_polygon_down" />
+
+            <TextView
+                android:id="@+id/txt_variety"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_variety"
+                android:textColor="@color/color_848484"
+                android:textSize="@dimen/dp12" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_lease"
+            android:layout_width="@dimen/dimen_0"
+            android:layout_height="@dimen/dimen_20"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_ebeeff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dimen_15"
+            android:paddingEnd="@dimen/dimen_15">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_9"
+                android:layout_height="@dimen/dimen_9"
+                android:layout_marginEnd="@dimen/dimen_9"
+                android:background="@mipmap/icon_polygon_down" />
+
+            <TextView
+                android:id="@+id/txt_lease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lease_time"
+                android:textColor="@color/color_848484"
+                android:textSize="@dimen/dp12" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dimen_5" />
+
+</LinearLayout>

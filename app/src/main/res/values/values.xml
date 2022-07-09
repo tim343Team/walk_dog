@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="corner_radius">10dip</dimen>
+    <dimen name="delta_length">12dip</dimen>
+    <dimen name="shadow_radius">15dip</dimen>
+    <dimen name="delta_x">1dip</dimen>
+    <dimen name="delta_y">5dip</dimen>
+
+    <declare-styleable name="PasswordView">
+        <!-- 密码的个数 -->
+        <attr name="passwordNumber" format="integer"/>
+        <!-- 密码圆点的半径 -->
+        <attr name="passwordRadius" format="dimension"/>
+        <!-- 密码圆点的颜色 -->
+        <attr name="passwordColor" format="color"/>
+        <!-- 外圈颜色 -->
+        <attr name="outRingColor" format="color"/>
+        <!-- 外圆线条大小 -->
+        <attr name="outRingLineSize" format="color"/>
+        <!-- 背景边框的颜色 -->
+        <attr name="bgColor" format="color"/>
+        <!-- 背景边框的大小 -->
+        <attr name="bgSize" format="dimension"/>
+        <!-- 背景边框的圆角大小 -->
+        <attr name="bgCorner" format="dimension"/>
+    </declare-styleable>
+
+</resources>
