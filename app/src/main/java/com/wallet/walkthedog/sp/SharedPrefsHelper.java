@@ -9,6 +9,7 @@ public class SharedPrefsHelper {
     private static final String SHARED_PREFS_NAME = "qb";
 
     private static final String SP_KEY_FIRST = "FIRST";
+    private static final String IS_LOGIN = "IS_LOGIN";
     private static final String SP_KEY_TOKEN = "SP_KEY_TOKEN";
     private static final String SIGN_PASSWORD = "SIGN_PASSWORD";
 
@@ -42,6 +43,21 @@ public class SharedPrefsHelper {
      */
     public boolean getFirst() {
         return sharedPreferences == null ? true : sharedPreferences.getBoolean(SP_KEY_FIRST, true);
+    }
+
+    /**
+     * 是否登录
+     */
+    public void setLogin() {
+        if (sharedPreferences == null) return;
+        sharedPreferences.edit().putBoolean(IS_LOGIN, false).apply();
+    }
+
+    /**
+     * 设置登录
+     */
+    public boolean isLogin() {
+        return sharedPreferences == null ? true : sharedPreferences.getBoolean(IS_LOGIN, true);
     }
 
     /**

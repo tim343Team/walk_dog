@@ -84,19 +84,6 @@
 
         </LinearLayout>
 
-        <!--        <androidx.cardview.widget.CardView-->
-        <!--            android:id="@+id/cv_demo"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="100dp"-->
-        <!--            android:layout_margin="50dp"-->
-        <!--            android:layout_centerInParent="true"-->
-        <!--            app:cardBackgroundColor="@color/colorPrimary"-->
-        <!--            app:cardElevation="10dp"-->
-        <!--            app:cardCornerRadius="10dp"-->
-        <!--            app:cardPreventCornerOverlap="true">-->
-
-        <!--        </androidx.cardview.widget.CardView>-->
-
         <RelativeLayout
             android:id="@+id/view_bottom"
             android:layout_width="match_parent"
@@ -182,6 +169,32 @@
                 android:textSize="@dimen/dimen_12" />
 
         </LinearLayout>
+
+        <com.wallet.walkthedog.custom_view.ShadowContainer
+            android:id="@+id/group_quick_entrance"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/view_bottom"
+            android:layout_marginBottom="@dimen/dimen_80"
+            android:layout_width="@dimen/dimen_275"
+            android:layout_height="@dimen/dimen_50"
+            android:background="@color/transparent"
+            app:containerCornerRadius="10dp"
+            app:containerDeltaLength="15dp"
+            app:containerShadowColor="@color/color_t_548FEB"
+            app:containerShadowRadius="15dp"
+            app:deltaY="@dimen/dp10"
+            app:deltaX="3dp">
+
+            <TextView
+                android:layout_width="@dimen/dimen_275"
+                android:layout_height="@dimen/dimen_50"
+                android:background="@drawable/button_gradual_background"
+                android:gravity="center"
+                android:text="开发时，快速进入主页入口"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_14" />
+
+        </com.wallet.walkthedog.custom_view.ShadowContainer>
 
     </RelativeLayout>
 

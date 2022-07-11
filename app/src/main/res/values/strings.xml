@@ -18,6 +18,11 @@
     <string name="import_account">導入賬號</string>
     <string name="login_tip_3">我已閱讀並同意 </string>
     <string name="login_tip_4">平台協議</string>
+    <!--Enter mailbox-->
+    <string name="mailbox_title">郵箱登錄</string>
+    <string name="mailbox_address">請輸入郵箱地址</string>
+    <string name="mailbox_code">郵箱驗證</string>
+    <string name="mailbox_code_notice">發送到郵箱hede....@gmail.com\n發送短信\n請輸入郵箱驗證碼</string>
     <!--导入助记词-->
     <string name="import_mnemonic">導入 \n助記詞</string>
     <string name="import_mnemonic_hint">輸入助記詞，用空格分隔</string>
