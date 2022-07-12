@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.custom_view.PasswordView;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.view.email.EmailActivity;
+import com.wallet.walkthedog.view.email.SettingMobileCodeActivity;
 import com.wallet.walkthedog.view.home.HomeActivity;
 
 import butterknife.BindView;
@@ -25,7 +27,7 @@ public class SettingPassWordActivity extends BaseActivity {
     @BindView(R.id.txt_match)
     TextView txtMatch;
 
-    private String type;//1:导入助记词 2：创建助记词
+    private String type;//1:导入助记词 2：创建助记词 3:邮箱登录 4:郵箱註冊
     private String enterPassword;
     private String password;
     private int status = 0;//0:输入密码 1：确认密码
@@ -78,8 +80,11 @@ public class SettingPassWordActivity extends BaseActivity {
                         txtTitle.setText(getResources().getString(R.string.enter_your_password));
                     } else if (status == 1) {
                         if (content.equals(password)) {
-                            //TODO 两次密码相同.保存密码，进入主页面
+                            //两次密码相同.保存密码，进入主页面
+                            //保存密碼
+                            //設置登陸狀態
                             SharedPrefsHelper.getInstance().saveSignPassword(password);
+                            SharedPrefsHelper.getInstance().setLogin();
                             txtMatch.setVisibility(View.GONE);
                             if (ImportActivity.instance != null) {
                                 ImportActivity.instance.finish();
@@ -89,6 +94,12 @@ public class SettingPassWordActivity extends BaseActivity {
                             }
                             if (CreateActivity.instance != null) {
                                 CreateActivity.instance.finish();
+                            }
+                            if (SettingMobileCodeActivity.instance != null) {
+                                SettingMobileCodeActivity.instance.finish();
+                            }
+                            if (EmailActivity.instance != null) {
+                                EmailActivity.instance.finish();
                             }
                             HomeActivity.actionStart(SettingPassWordActivity.this);
                         } else {

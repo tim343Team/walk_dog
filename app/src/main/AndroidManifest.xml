@@ -46,6 +46,12 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".view.login.InvitationActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".view.email.EmailActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"

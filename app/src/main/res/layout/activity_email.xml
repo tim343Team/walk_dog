@@ -33,7 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:background="@mipmap/icon_ok"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
@@ -75,6 +75,16 @@
                 android:hint="@string/mailbox_address"/>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_register"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50"
+            android:layout_above="@id/view_bottom"
+            android:textSize="@dimen/dimen_14"
+            android:textColor="@color/color_848484"
+            android:text="@string/sign_up"
+            android:gravity="center" />
 
         <RelativeLayout
             android:id="@+id/view_bottom"
