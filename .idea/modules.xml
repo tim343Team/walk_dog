@@ -4,7 +4,13 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/WalkTheDog.iml" filepath="$PROJECT_DIR$/.idea/modules/WalkTheDog.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WalkTheDog.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WalkTheDog.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WalkTheDog.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WalkTheDog.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WalkTheDog.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WalkTheDog.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WalkTheDog.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WalkTheDog.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lib-zxing/WalkTheDog.lib-zxing.iml" filepath="$PROJECT_DIR$/.idea/modules/lib-zxing/WalkTheDog.lib-zxing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lib-zxing/WalkTheDog.lib-zxing.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/lib-zxing/WalkTheDog.lib-zxing.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lib-zxing/WalkTheDog.lib-zxing.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lib-zxing/WalkTheDog.lib-zxing.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lib-zxing/WalkTheDog.lib-zxing.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/lib-zxing/WalkTheDog.lib-zxing.unitTest.iml" />
     </modules>
   </component>
 </project>

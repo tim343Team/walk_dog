@@ -1,14 +1,21 @@
 package com.wallet.walkthedog.view.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.view.home.HomeFragment;
 
+import butterknife.BindView;
 import tim.com.libnetwork.base.BaseTransFragment;
 
 public class MineFragment extends BaseTransFragment {
     public static final String TAG = HomeFragment.class.getSimpleName();
+
+    @BindView(R.id.avatar)
+    ImageView ivHeader;
 
     @Override
     protected String getmTag() {
@@ -22,7 +29,13 @@ public class MineFragment extends BaseTransFragment {
 
     @Override
     protected void init() {
-
+        ivHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(),AvatarActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

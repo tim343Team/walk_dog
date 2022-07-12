@@ -146,6 +146,7 @@
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.AvatarActivity" />
 
         <service android:name=".service.GpsService"/>
 
