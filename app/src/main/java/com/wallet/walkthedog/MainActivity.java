@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.home.HomeActivity;
 import com.wallet.walkthedog.view.login.LoginActivity;
 
@@ -46,10 +47,13 @@ public class MainActivity extends Activity {
             //判断是否第一次进入应用
             if (SharedPrefsHelper.getInstance().getFirst()) {
 //            SplashActivity.actionStart(this);
-                LoginActivity.actionStart(MainActivity.this);
+//                LoginActivity.actionStart(MainActivity.this);
+                EmailActivity.actionStart(MainActivity.this);
+                SharedPrefsHelper.getInstance().saveFirst();
             }else {
                 if(SharedPrefsHelper.getInstance().isLogin()){
-                    LoginActivity.actionStart(MainActivity.this);
+//                    LoginActivity.actionStart(MainActivity.this);
+                    EmailActivity.actionStart(MainActivity.this);
                 }else {
                     HomeActivity.actionStart(MainActivity.this);
                 }
