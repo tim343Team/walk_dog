@@ -200,5 +200,6 @@
     <string name="mine_item_about">關於</string>
     <string name="mine_item_version">版本</string>
     <string name="logout">退出</string>
+    <string name="edit">edit</string>
 
 </resources>

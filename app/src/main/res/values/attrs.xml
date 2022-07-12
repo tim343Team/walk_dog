@@ -16,4 +16,21 @@
 <!--        是否展示阴影,通过修改enable可以实现阴影的显示与隐藏，达到类似于选择器的效果-->
         <attr name="enable" format="boolean"/>
     </declare-styleable>
+
+
+
+    <declare-styleable name="ShadowBuilder">
+
+        <attr format="color" name="shadowStartColor"/>
+        <attr format="color" name="shadowEndColor"/>
+        <!-- Background color for CardView. -->
+        <attr format="color" name="cardBackgroundColor"/>
+        <!-- Corner radius for CardView. -->
+        <attr format="dimension" name="cardCornerRadius"/>
+        <!-- Elevation for CardView. -->
+        <attr format="dimension" name="cardElevation"/>
+    </declare-styleable>
+
+
+
 </resources>
