@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
             return;
         }
         Timer timer = new Timer();
-        timer.schedule(new MyTask(),2000);
+        timer.schedule(new MyTask(),3000);
     }
 
 
