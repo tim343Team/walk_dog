@@ -45,8 +45,6 @@ public class HomeFragment extends BaseTransFragment {
     public static final String TAG = HomeFragment.class.getSimpleName();
     @BindView(R.id.ll_null_dog)
     View viewNullDog;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
     @BindView(R.id.ll_have_dog)
     View viewDog;
     @BindView(R.id.txt_dog_name)
@@ -161,7 +159,7 @@ public class HomeFragment extends BaseTransFragment {
 
     @OnClick(R.id.ll_walk_dog)
     void startWalking() {
-        if (true) {
+        if (false) {
             //飢餓狀態
             HungryDialog dialog2 = HungryDialog.newInstance();
             dialog2.setTheme(R.style.PaddingScreen);
@@ -227,7 +225,6 @@ public class HomeFragment extends BaseTransFragment {
 //                return false;
 //            }
 //        });
-        initRecyclerView();
         //TODO 测试邀请遛狗,停止遛狗
 //        InvitedDialog dialog = InvitedDialog.newInstance();
 //        dialog.setTheme(R.style.PaddingScreen);
@@ -279,20 +276,6 @@ public class HomeFragment extends BaseTransFragment {
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
         super.onMultiWindowModeChanged(isInMultiWindowMode);
-    }
-
-    //初始化获取道具列表
-    private void initRecyclerView() {
-        //TODO 測試數據
-        for (int i = 0; i < 5; i++) {
-            PropDao propDao = new PropDao();
-            propDao.setId(i+"0");
-            data.add(propDao);
-        }
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setNestedScrollingEnabled(false);
-        adapter = new HomePropsAdapter(getActivity(), data);
-        recyclerView.setAdapter(adapter);
     }
 
     //设置进度条
