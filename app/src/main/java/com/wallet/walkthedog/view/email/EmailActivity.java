@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.dao.SendMailboxCodeDao;
+import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.view.home.HomeActivity;
 import com.wallet.walkthedog.view.login.InvitationActivity;
@@ -21,8 +24,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
-public class EmailActivity extends BaseActivity {
+public class EmailActivity extends BaseActivity implements EmailContract.EmailView {
     public static EmailActivity instance = null;
+    private EmailContract.EmailPresenter presenter;
     @BindView(R.id.edit)
     EditText editText;
 
@@ -36,6 +40,7 @@ public class EmailActivity extends BaseActivity {
             Toast.makeText(EmailActivity.this,R.string.mailbox_address_notice,Toast.LENGTH_SHORT).show();
             return;
         }
+        presenter.sendMailboxCode(new SendMailboxCodeRequest(editText.getText().toString()));//发起请求
         SettingMobileCodeActivity.actionStart(this, Constant.LOGIN_MAIL_LOGIN);
     }
 
@@ -72,6 +77,7 @@ public class EmailActivity extends BaseActivity {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         instance = this;
+        presenter = new EmailPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
     }
 
     @Override
@@ -100,5 +106,20 @@ public class EmailActivity extends BaseActivity {
             flag=false;
         }
         return flag;
+    }
+
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+
+    }
+
+    @Override
+    public void getSuccessCodeData(SendMailboxCodeDao dao) {
+        //发送验证码接口的返回
+    }
+
+    @Override
+    public void setPresenter(EmailContract.EmailPresenter presenter) {
+        this.presenter=presenter;
     }
 }

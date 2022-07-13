@@ -1,5 +1,7 @@
 package com.wallet.walkthedog.data;
 
+import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
+
 public class DataRepository implements DataSource {
     private static DataRepository INSTANCE = null;
     private final DataSource mRemoteDataSource;
@@ -20,4 +22,9 @@ public class DataRepository implements DataSource {
         isLocal = local;
     }
 
+    @Override
+    public void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.sendMailboxCode(request,dataCallback);
+        else mRemoteDataSource.sendMailboxCode(request,dataCallback);
+    }
 }

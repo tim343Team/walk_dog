@@ -1,5 +1,7 @@
 package com.wallet.walkthedog.data;
 
+import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
+
 public interface DataSource {
 
     interface DataCallback<T> {
@@ -8,6 +10,8 @@ public interface DataSource {
 
         void onDataNotAvailable(Integer code, String toastMessage);
     }
+
+    void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback);
 
 
 }
