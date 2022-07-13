@@ -6,6 +6,8 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
+import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
+
 public class LocalDataSource implements DataSource {
     private static LocalDataSource INSTANCE;
     private Context context;
@@ -22,4 +24,8 @@ public class LocalDataSource implements DataSource {
         return INSTANCE;
     }
 
+    @Override
+    public void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
+
+    }
 }
