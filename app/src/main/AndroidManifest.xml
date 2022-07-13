@@ -147,6 +147,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.AvatarActivity" />
+        <activity android:name=".view.mine.MyAssetActivity" />
+        <activity android:name=".view.mine.CollectionActivity" />
+        <activity android:name=".view.mine.TransferActivity" />
 
         <service android:name=".service.GpsService"/>
 

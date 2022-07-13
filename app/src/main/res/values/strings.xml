@@ -200,6 +200,22 @@
     <string name="mine_item_about">關於</string>
     <string name="mine_item_version">版本</string>
     <string name="logout">退出</string>
-    <string name="edit">edit</string>
+    <string name="edit">Edit</string>
+    <string name="modify_avatar">Modify Avatar</string>
+    <string name="click_save_qr_code">Click Save QR Code</string>
+    <string name="type">Type</string>
+    <string name="quantity">Quantity</string>
+    <string name="time">Time</string>
+    <string name="state">State</string>
+    <string name="info_collection">1.Do not recharge any SUZU other than Solana to the above landiords ohterwise the assest wills not recoverable\n2.After you rechare to the address you need the confirmation of the whole net fter you rechare to the address you need the confirmation of the whole net\n3.After you rechare to the address you need the confirmation of the whole net fter you rechare to the address you need the confirmation of the whole net.</string>
+    <string name="reminder">Reminder:</string>
+    <string name="save_qr_code">Save QR Code</string>
+    <string name="suzu_zol">SUZU_ZOL</string>
+    <string name="str_collection">Collection</string>
+    <string name="str_transfer">Transfer</string>
+    <string name="please_enter_the_address">Please enter the address</string>
+    <string name="please_enter_the_quantity">Please enter the quantity</string>
+    <string name="address">Address</string>
+    <string name="all">ALL</string>
 
 </resources>

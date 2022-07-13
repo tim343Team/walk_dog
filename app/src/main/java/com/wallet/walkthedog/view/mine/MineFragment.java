@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.dialog.QrDialog;
 import com.wallet.walkthedog.view.home.HomeFragment;
 
 import butterknife.BindView;
@@ -33,6 +34,22 @@ public class MineFragment extends BaseTransFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(requireContext(),AvatarActivity.class);
+                startActivity(intent);
+            }
+        });
+        rootView.findViewById(R.id.iv_qr).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO url地址
+                QrDialog qrDialog =  QrDialog.newInstance("xxxxx");
+                qrDialog.show(getChildFragmentManager(),"");
+
+            }
+        });
+        rootView.findViewById(R.id.layout_asset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(),MyAssetActivity.class);
                 startActivity(intent);
             }
         });

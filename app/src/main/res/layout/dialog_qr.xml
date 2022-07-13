@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen_16">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:background="@drawable/circular_white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dimen_25"
+            android:paddingTop="@dimen/dimen_30"
+            android:paddingEnd="@dimen/dimen_25"
+            android:paddingBottom="@dimen/dimen_30">
+
+            <TextView
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#548FEB"
+                android:text="@string/click_save_qr_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_qr"
+                android:scaleType="fitXY"
+                android:src="@mipmap/bg_qrcode"
+                android:layout_marginTop="@dimen/dimen_32"
+                android:layout_width="210dp"
+                android:layout_height="210dp" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/dimen_30"
+            android:background="@mipmap/icon_dialog_close" />
+
+    </RelativeLayout>
+
+</LinearLayout>
