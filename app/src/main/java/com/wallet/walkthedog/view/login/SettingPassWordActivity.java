@@ -102,6 +102,7 @@ public class SettingPassWordActivity extends BaseActivity {
                                 EmailActivity.instance.finish();
                             }
                             HomeActivity.actionStart(SettingPassWordActivity.this);
+                            finish();
                         } else {
                             //两次密码不相符
                             txtMatch.setVisibility(View.VISIBLE);
