@@ -53,6 +53,13 @@ public class MineFragment extends BaseTransFragment {
                 startActivity(intent);
             }
         });
+        rootView.findViewById(R.id.ll_walk_record).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(),DogWalkRecordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

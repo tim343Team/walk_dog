@@ -37,6 +37,9 @@ import androidx.annotation.Nullable;
 
 import com.wallet.walkthedog.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A rounded rectangle drawable which also includes a shadow around.
  */
@@ -61,6 +64,27 @@ public class ShadowDrawable extends Drawable {
             canvas.drawRoundRect(bounds, cornerRadius, cornerRadius, paint);
         }
     };
+    private static final PaddingHolder paddingHolder = new PaddingHolder();
+
+    private static class PaddingHolder {
+        private final Map<Integer, Rect> idToShadowPadding = new HashMap<>();
+
+        public void setOriginPadding(View view, Rect rect) {
+            idToShadowPadding.put(view.getId(), rect);
+            view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View v) {
+                    view.removeOnAttachStateChangeListener(this);
+                    idToShadowPadding.remove(view.getId());
+                }
+            });
+        }
+    }
 
     /**
      * 用它去bindView
@@ -70,10 +94,32 @@ public class ShadowDrawable extends Drawable {
         int paddingTop = view.getPaddingTop();
         int paddingRight = view.getPaddingRight();
         int paddingBottom = view.getPaddingBottom();
+
         view.setBackground(this);
         Rect shadowPadding = new Rect();
         getMaxShadowAndCornerPadding(shadowPadding);
-        view.setPadding(paddingLeft + shadowPadding.left, paddingTop + shadowPadding.top, paddingRight + shadowPadding.right, paddingBottom + shadowPadding.bottom);
+        if (view instanceof ShadowPadding) {
+            ((ShadowPadding) view).setShadowpadding(shadowPadding.left, shadowPadding.top, shadowPadding.right, shadowPadding.bottom, new Integer[]{paddingLeft, paddingTop, paddingRight, paddingBottom});
+        } else {
+            int id = view.getId();
+            if (id == View.NO_ID) {
+                throw new RuntimeException("view must has id or implements ShadowPadding");
+            }
+            Rect lastshadowPadding = paddingHolder.idToShadowPadding.get(id);
+            if (lastshadowPadding == null) {
+                lastshadowPadding = new Rect();
+                paddingHolder.setOriginPadding(view, lastshadowPadding);
+            }
+            view.setPadding(paddingLeft + shadowPadding.left - lastshadowPadding.left, paddingTop + shadowPadding.top - lastshadowPadding.top, paddingRight + shadowPadding.right - lastshadowPadding.right, paddingBottom + shadowPadding.bottom - lastshadowPadding.bottom);
+            lastshadowPadding.left = shadowPadding.left;
+            lastshadowPadding.top = shadowPadding.top;
+            lastshadowPadding.right = shadowPadding.right;
+            lastshadowPadding.bottom = shadowPadding.bottom;
+        }
+    }
+
+    public interface ShadowPadding {
+        void setShadowpadding(int left, int top, int right, int bottom, Integer[] integers);
     }
 
     private final Paint mPaint;

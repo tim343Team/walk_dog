@@ -138,7 +138,7 @@
 <!--    </style>-->
     <style name="defshadow_style">
         <item name="cardBackgroundColor">#2950A6</item>
-        <item name="shadowStartColor">#758BD4</item>
+        <item name="shadowStartColor">#56758BD4</item>
         <item name="shadowEndColor">#10E6E8EF</item>
         <item name="cardCornerRadius">10dp</item>
         <item name="cardElevation">8dp</item>
