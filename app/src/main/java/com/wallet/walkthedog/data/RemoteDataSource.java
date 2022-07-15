@@ -2,7 +2,10 @@ package com.wallet.walkthedog.data;
 
 import com.google.gson.reflect.TypeToken;
 import com.wallet.walkthedog.app.UrlFactory;
+import com.wallet.walkthedog.dao.EmailLoginDao;
 import com.wallet.walkthedog.dao.SendMailboxCodeDao;
+import com.wallet.walkthedog.dao.request.EmailLoginRequest;
+import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 
 import org.json.JSONException;
@@ -55,8 +58,7 @@ public class RemoteDataSource implements DataSource {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
                                 //举例：解析data为jsonObject的数据
-                                SendMailboxCodeDao obj = gson.fromJson(object.getJSONObject("data").toString(), SendMailboxCodeDao.class);
-                                dataCallback.onDataLoaded(obj);
+                                dataCallback.onDataLoaded(object.optString("data"));
                                 //举例：解析data为jsonArray的数据
 //                                List<SendMailboxCodeDao> objs = gson.fromJson(object.getJSONArray("data").toString(), new TypeToken<List<SendMailboxCodeDao>>() {
 //                                }.getType());
@@ -74,5 +76,43 @@ public class RemoteDataSource implements DataSource {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void emailRegister(EmailRegisterRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.post().url(UrlFactory.getEmailRegisterUrl())
+                .addParams("email",request.getEmail())
+                .addParams("checkCode",request.getCheckCode())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("邮箱注册:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("邮箱注册：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                EmailLoginDao obj = gson.fromJson(object.getJSONObject("data").toString(), EmailLoginDao.class);
+                                dataCallback.onDataLoaded(obj);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void emailLogin(EmailLoginRequest request, DataCallback dataCallback) {
+
     }
 }

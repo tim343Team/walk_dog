@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
                 EmailActivity.actionStart(MainActivity.this);
                 SharedPrefsHelper.getInstance().saveFirst();
             }else {
-                if(SharedPrefsHelper.getInstance().isLogin()){
+                if(SharedPrefsHelper.getInstance().getToken().isEmpty()){
 //                    LoginActivity.actionStart(MainActivity.this);
                     EmailActivity.actionStart(MainActivity.this);
                 }else {

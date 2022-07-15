@@ -1,5 +1,7 @@
 package com.wallet.walkthedog.data;
 
+import com.wallet.walkthedog.dao.request.EmailLoginRequest;
+import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 
 public interface DataSource {
@@ -12,6 +14,10 @@ public interface DataSource {
     }
 
     void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback);
+
+    void emailRegister(EmailRegisterRequest request, DataCallback dataCallback);
+
+    void emailLogin(EmailLoginRequest request, DataCallback dataCallback);
 
 
 }

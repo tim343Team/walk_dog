@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.untils;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
@@ -11,6 +12,10 @@ public class ToastUtils {
 
     private ToastUtils() {
         //empty
+    }
+
+    public static void shortToast(Context context, int resource) {
+        show(context,RootApplication.getInstance().getString(resource), Toast.LENGTH_SHORT);
     }
 
     public static void shortToast(String message) {
@@ -27,6 +32,10 @@ public class ToastUtils {
 
     public static void longToast(@StringRes int resource) {
         show(RootApplication.getInstance().getString(resource), Toast.LENGTH_LONG);
+    }
+
+    private static void show(Context context,String message, int length) {
+        Toast.makeText(context, message, length).show();
     }
 
     private static void show(String message, int length) {

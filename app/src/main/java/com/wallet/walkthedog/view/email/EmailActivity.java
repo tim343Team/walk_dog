@@ -12,9 +12,7 @@ import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.SendMailboxCodeDao;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.data.Constant;
-import com.wallet.walkthedog.view.home.HomeActivity;
-import com.wallet.walkthedog.view.login.InvitationActivity;
-import com.wallet.walkthedog.view.login.LoginActivity;
+import com.wallet.walkthedog.untils.ToastUtils;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -41,7 +39,6 @@ public class EmailActivity extends BaseActivity implements EmailContract.EmailVi
             return;
         }
         presenter.sendMailboxCode(new SendMailboxCodeRequest(editText.getText().toString()));//发起请求
-        SettingMobileCodeActivity.actionStart(this, Constant.LOGIN_MAIL_LOGIN);
     }
 
     @OnClick(R.id.ll_edit)
@@ -110,12 +107,14 @@ public class EmailActivity extends BaseActivity implements EmailContract.EmailVi
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-
+        ToastUtils.shortToast(EmailActivity.this,R.string.mailbox_send_error);
     }
 
     @Override
-    public void getSuccessCodeData(SendMailboxCodeDao dao) {
+    public void getSuccessCodeData(String dao,String email) {
         //发送验证码接口的返回
+        ToastUtils.shortToast(EmailActivity.this,R.string.mailbox_send_succeed);
+        SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_LOGIN);
     }
 
     @Override

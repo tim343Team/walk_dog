@@ -10,7 +10,7 @@ public class EmailContract {
 
         void getFail(Integer code, String toastMessage);
 
-        void getSuccessCodeData(SendMailboxCodeDao dao);
+        void getSuccessCodeData(String dao,String email);
 
     }
 

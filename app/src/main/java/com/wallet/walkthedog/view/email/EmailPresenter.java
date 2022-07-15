@@ -23,7 +23,7 @@ public class EmailPresenter implements EmailContract.EmailPresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-                view.getSuccessCodeData((SendMailboxCodeDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+                view.getSuccessCodeData((String) obj,request.getEmail());//接受RemoteDataSource里sendMailboxCode方法的返回
 //                view.getSuccessData((List<SendMailboxCodeDao>) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 

@@ -23,9 +23,13 @@
     <string name="mailbox_address">請輸入郵箱地址</string>
     <string name="mailbox_address_notice">請輸入正確的郵箱地址</string>
     <string name="mailbox_code">郵箱驗證</string>
+    <string name="mailbox_send_error">驗證碼發送失敗</string>
+    <string name="mailbox_send_succeed">驗證碼已發送</string>
+    <string name="mailbox_code_error">驗證碼錯誤</string>
     <string name="mailbox_resend">重新發送</string>
     <string name="sign_up">註冊</string>
-    <string name="mailbox_code_notice">發送到郵箱hede....@gmail.com發送短信請輸入郵箱驗證碼</string>
+    <string name="mailbox_sign_up">郵箱註冊</string>
+    <string name="mailbox_code_notice">發送到郵箱%s發送短信請輸入郵箱驗證碼</string>
     <!--邀请码-->
     <string name="invitation_code_title">輸入邀請碼</string>
     <string name="invitation_code_notice">請輸入邀請碼</string>
@@ -43,6 +47,7 @@
     <string name="enter_your_password">再次輸入您的密碼</string>
     <string name="enter_password">輸入密碼</string>
     <string name="match_password">您輸入的密碼不匹配. 請重新輸入</string>
+    <string name="match_password_error">密碼為6位字母，數字，或字母+數字</string>
     <!--创建助记词-->
     <string name="creat_mnemonic_1">請務必</string>
     <string name="creat_mnemonic_2">正確抄寫12個\n助記詞</string>

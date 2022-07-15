@@ -6,6 +6,8 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
+import com.wallet.walkthedog.dao.request.EmailLoginRequest;
+import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 
 public class LocalDataSource implements DataSource {
@@ -26,6 +28,16 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void emailRegister(EmailRegisterRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void emailLogin(EmailLoginRequest request, DataCallback dataCallback) {
 
     }
 }

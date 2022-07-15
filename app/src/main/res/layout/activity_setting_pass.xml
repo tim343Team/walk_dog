@@ -90,8 +90,8 @@
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    app:bgColor="#ffffff"
-                    android:background="@null"/>
+                    android:background="@null"
+                    app:bgColor="#ffffff" />
 
             </RelativeLayout>
 

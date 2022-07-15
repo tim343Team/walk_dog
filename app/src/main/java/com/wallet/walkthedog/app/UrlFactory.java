@@ -8,6 +8,16 @@ public class UrlFactory {
 
     //发送验证码
     public static String getSendMailboxUrl() {
-        return host + "/xxxx/xxxxxx";
+        return host + "/user/getEmailCheckCode.json";
+    }
+
+    //邮箱注册
+    public static String getEmailRegisterUrl() {
+        return host + "/user/emailRegister.json";
+    }
+
+    //邮箱登录
+    public static String getEmailLoginUrl() {
+        return host + "/user/login.json";
     }
 }

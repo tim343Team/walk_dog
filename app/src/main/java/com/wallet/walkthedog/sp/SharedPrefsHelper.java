@@ -9,7 +9,7 @@ public class SharedPrefsHelper {
     private static final String SHARED_PREFS_NAME = "qb";
 
     private static final String SP_KEY_FIRST = "FIRST";
-    private static final String IS_LOGIN = "IS_LOGIN";
+    private static final String USER_TOKEN = "USER_TOKEN";
     private static final String SP_KEY_TOKEN = "SP_KEY_TOKEN";
     private static final String SIGN_PASSWORD = "SIGN_PASSWORD";
 
@@ -46,18 +46,18 @@ public class SharedPrefsHelper {
     }
 
     /**
-     * 是否登录
+     * 获取token
      */
-    public void setLogin() {
-        if (sharedPreferences == null) return;
-        sharedPreferences.edit().putBoolean(IS_LOGIN, false).apply();
+    public String getToken() {
+        return sharedPreferences == null ? "" : sharedPreferences.getString(USER_TOKEN, "");
     }
 
     /**
-     * 设置登录
+     * 保存token
      */
-    public boolean isLogin() {
-        return sharedPreferences == null ? true : sharedPreferences.getBoolean(IS_LOGIN, true);
+    public void saveToken(String tokenKey) {
+        if (sharedPreferences == null) return;
+        sharedPreferences.edit().putString(USER_TOKEN, tokenKey).apply();
     }
 
     /**

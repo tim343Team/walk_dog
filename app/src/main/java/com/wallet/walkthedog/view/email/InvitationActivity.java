@@ -1,4 +1,4 @@
-package com.wallet.walkthedog.view.login;
+package com.wallet.walkthedog.view.email;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.data.Constant;
-import com.wallet.walkthedog.view.email.EmailActivity;
-import com.wallet.walkthedog.view.email.SettingMobileCodeActivity;
+import com.wallet.walkthedog.untils.ToastUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,12 +21,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
-public class InvitationActivity extends BaseActivity {
+public class InvitationActivity extends BaseActivity  implements EmailContract.EmailView{
     @BindView(R.id.txt_title)
     TextView txtTile;
     @BindView(R.id.edit)
     EditText editText;
 
+    private EmailContract.EmailPresenter presenter;
     private int status = 0;//0:输入邀請碼 1：輸入郵箱
 
     @OnClick({R.id.view_bottom, R.id.img_ok})
@@ -46,8 +48,7 @@ public class InvitationActivity extends BaseActivity {
                 Toast.makeText(InvitationActivity.this,R.string.mailbox_address_notice,Toast.LENGTH_SHORT).show();
                 return;
             }
-            SettingMobileCodeActivity.actionStart(this, Constant.LOGIN_MAIL_REGISTER);
-            finish();
+            presenter.sendMailboxCode(new SendMailboxCodeRequest(editText.getText().toString()));//发起请求
         }
     }
 
@@ -78,7 +79,7 @@ public class InvitationActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-
+        presenter = new EmailPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
     }
 
     @Override
@@ -98,7 +99,7 @@ public class InvitationActivity extends BaseActivity {
 
     private void switchToStatus(){
         status=1;
-        txtTile.setText(R.string.mailbox_title);
+        txtTile.setText(R.string.mailbox_sign_up);
         editText.setHint(R.string.mailbox_address);
         editText.setText("");
     }
@@ -114,5 +115,23 @@ public class InvitationActivity extends BaseActivity {
             flag=false;
         }
         return flag;
+    }
+
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+        ToastUtils.shortToast(this,R.string.mailbox_send_error);
+    }
+
+    @Override
+    public void getSuccessCodeData(String dao,String email) {
+        //发送验证码接口的返回
+        ToastUtils.shortToast(this,R.string.mailbox_send_succeed);
+        SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_REGISTER);
+        finish();
+    }
+
+    @Override
+    public void setPresenter(EmailContract.EmailPresenter presenter) {
+        this.presenter=presenter;
     }
 }
