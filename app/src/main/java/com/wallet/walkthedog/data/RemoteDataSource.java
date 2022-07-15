@@ -41,7 +41,7 @@ public class RemoteDataSource implements DataSource {
 //        WonderfulOkhttpUtils.get().url(UrlFactory.getSendMailboxUrl() + "?email=" + request.getEmail())
         //post方法
         WonderfulOkhttpUtils.post().url(UrlFactory.getSendMailboxUrl())
-                .addParams("email",request.getEmail())// addParams可以传递post方法的参数
+                .addParams("email", request.getEmail())// addParams可以传递post方法的参数
                 .build()
                 .execute(new StringCallBack() {
                     @Override
@@ -81,8 +81,10 @@ public class RemoteDataSource implements DataSource {
     @Override
     public void emailRegister(EmailRegisterRequest request, DataCallback dataCallback) {
         WonderfulOkhttpUtils.post().url(UrlFactory.getEmailRegisterUrl())
-                .addParams("email",request.getEmail())
-                .addParams("checkCode",request.getCheckCode())
+                .addParams("email", request.getEmail())
+                .addParams("checkCode", request.getCheckCode())
+                .addParams("spassword", request.getSpassword())
+                .addParams("parentInviteCode", request.getParentInviteCode() == null ? "" : request.getParentInviteCode())
                 .build()
                 .execute(new StringCallBack() {
                     @Override
