@@ -19,16 +19,13 @@ public class ShadowFrameLayout extends FrameLayout implements ShadowDrawable.Sha
         super(context, attrs);
         ShadowDrawable drawable = new ShadowDrawable.ShadowBuilder(context, attrs).create();
         drawable.bindView(this);
-        ShadowDrawable drawable1 = new ShadowDrawable.ShadowBuilder(context, attrs).create();
-        drawable1.bindView(this);
+
     }
 
     public ShadowFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         ShadowDrawable drawable = new ShadowDrawable.ShadowBuilder(context, attrs).create();
         drawable.bindView(this);
-        ShadowDrawable drawable1 = new ShadowDrawable.ShadowBuilder(context, attrs).create();
-        drawable1.bindView(this);
     }
 
     @Override
