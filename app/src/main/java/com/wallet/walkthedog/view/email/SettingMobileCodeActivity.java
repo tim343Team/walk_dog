@@ -42,6 +42,11 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
         presenter.sendMailboxCode(new SendMailboxCodeRequest(email));//发起请求
     }
 
+    @OnClick(R.id.txt_cancle)
+    void clear() {
+        passwordView.setText("");
+    }
+
     private EmailContract.EmailPresenter presenter;
     private CountDownTimer timer;
     private String type;

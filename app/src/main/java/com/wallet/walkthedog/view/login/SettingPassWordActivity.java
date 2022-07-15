@@ -56,6 +56,11 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
         passwordView.setText("");
     }
 
+    @OnClick(R.id.txt_cancle)
+    void clear() {
+        passwordView.setText("");
+    }
+
     @OnClick(R.id.img_back)
     void back() {
         finish();
@@ -67,7 +72,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
         activity.startActivity(intent);
     }
 
-    public static void actionStart(Activity activity, String type,String email,String code) {
+    public static void actionStart(Activity activity, String type, String email, String code) {
         Intent intent = new Intent(activity, SettingPassWordActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("email", email);
@@ -75,7 +80,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
         activity.startActivity(intent);
     }
 
-    public static void actionStart(Activity activity, String type,String email,String code,String invitedCode) {
+    public static void actionStart(Activity activity, String type, String email, String code, String invitedCode) {
         Intent intent = new Intent(activity, SettingPassWordActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("email", email);
@@ -106,7 +111,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
             @Override
             public void afterTextChanged(Editable editable) {
                 String content = editable.toString();
-                txtMatch.setVisibility(View.GONE);
+                txtMatch.setVisibility(View.INVISIBLE);
                 if (content.isEmpty()) {
                     return;
                 }
@@ -128,22 +133,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
                     } else if (status == 1) {
                         if (content.equals(password)) {
                             //两次密码相同
-                            txtMatch.setVisibility(View.GONE);
-                            if (ImportActivity.instance != null) {
-                                ImportActivity.instance.finish();
-                            }
-                            if (LoginActivity.instance != null) {
-                                LoginActivity.instance.finish();
-                            }
-                            if (CreateActivity.instance != null) {
-                                CreateActivity.instance.finish();
-                            }
-                            if (SettingMobileCodeActivity.instance != null) {
-                                SettingMobileCodeActivity.instance.finish();
-                            }
-                            if (EmailActivity.instance != null) {
-                                EmailActivity.instance.finish();
-                            }
+                            txtMatch.setVisibility(View.INVISIBLE);
                             if (type.equals(Constant.LOGIN_MAIL_LOGIN)) {
                                 //调用登录接口
 
@@ -154,7 +144,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
                                 request.setCheckCode(code);
                                 request.setSpassword(password);
                                 request.setParentInviteCode(invitedCode);
-                                presenter.emailRegister(request,password);
+                                presenter.emailRegister(request, password);
                             }
                         } else {
                             //两次密码不相符
@@ -203,26 +193,60 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
     }
 
     @Override
-    public void getSuccess(EmailLoginDao dao,String password) {
-        //保存密碼
-        //設置登陸狀態
-        //保存用户信息
-        SharedPrefsHelper.getInstance().saveSignPassword(password);
-        SharedPrefsHelper.getInstance().saveToken(dao.getUserToken());
-        ContentValues cv = new ContentValues();
-        cv.put("username", dao.getUserName());
-        cv.put("avatar", "");
-        cv.put("email", email);
-        cv.put("uid", dao.getId());
-        cv.put("fuid", "");
-        cv.put("mobile", "");
-        UserDao.insert(this, cv);
-        HomeActivity.actionStart(SettingPassWordActivity.this);
-        finish();
+    public void getSuccess(EmailLoginDao dao, String password) {
+        String type = dao.getType();
+        if (type.equals("-2")) {
+            //邀请码无效
+            NormalDialog dialog = NormalDialog.newInstance(R.string.match_invited_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+            dialog.setTheme(R.style.PaddingScreen);
+            dialog.setGravity(Gravity.CENTER);
+            dialog.show(getSupportFragmentManager(), "edit");
+        }else if(type.equals("1")){
+            //已注册
+            NormalDialog dialog = NormalDialog.newInstance(R.string.match_mailbox_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+            dialog.setTheme(R.style.PaddingScreen);
+            dialog.setGravity(Gravity.CENTER);
+            dialog.show(getSupportFragmentManager(), "edit");
+        }else {
+            //保存密碼
+            //設置登陸狀態
+            //保存用户信息
+            SharedPrefsHelper.getInstance().saveSignPassword(password);
+            SharedPrefsHelper.getInstance().saveToken(dao.getUserToken());
+            ContentValues cv = new ContentValues();
+            cv.put("username", dao.getUserName());
+            cv.put("avatar", "");
+            cv.put("email", email);
+            cv.put("uid", dao.getId());
+            cv.put("fuid", "");
+            cv.put("mobile", "");
+            UserDao.insert(this, cv);
+            HomeActivity.actionStart(SettingPassWordActivity.this);
+            closeLoginView();
+        }
     }
 
     @Override
     public void setPresenter(SettingPasswordContract.SettingPasswordPresenter presenter) {
         this.presenter = presenter;
+    }
+
+    void closeLoginView(){
+        if (ImportActivity.instance != null) {
+            ImportActivity.instance.finish();
+        }
+        if (LoginActivity.instance != null) {
+            LoginActivity.instance.finish();
+        }
+        if (CreateActivity.instance != null) {
+            CreateActivity.instance.finish();
+        }
+        if (SettingMobileCodeActivity.instance != null) {
+            SettingMobileCodeActivity.instance.finish();
+        }
+        if (EmailActivity.instance != null) {
+            EmailActivity.instance.finish();
+        }
+        finish();
     }
 }

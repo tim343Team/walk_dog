@@ -86,28 +86,20 @@
             android:text="@string/sign_up"
             android:gravity="center" />
 
-        <RelativeLayout
+
+        <com.wallet.walkthedog.custom_view.card.ShadowTextView
             android:id="@+id/view_bottom"
+            style="@style/defshadow_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_36"
-            android:layout_marginEnd="@dimen/dimen_36"
-            android:gravity="center_horizontal"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_50">
-
-            <TextView
-                android:id="@+id/txt_create"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50"
-                android:background="@drawable/button_gradual_background"
-                android:textSize="@dimen/dimen_14"
-                android:textColor="@color/white"
-                android:text="@string/confirm"
-                android:gravity="center" />
-
-        </RelativeLayout>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/confirm"
+            android:textColor="#FFF"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

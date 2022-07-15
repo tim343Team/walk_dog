@@ -29,4 +29,12 @@ public class EmailLoginDao {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

@@ -48,6 +48,8 @@
     <string name="enter_password">輸入密碼</string>
     <string name="match_password">您輸入的密碼不匹配. 請重新輸入</string>
     <string name="match_password_error">密碼為6位字母，數字，或字母+數字</string>
+    <string name="match_invited_error">邀請碼錯誤</string>
+    <string name="match_mailbox_error">該郵箱已註冊</string>
     <!--创建助记词-->
     <string name="creat_mnemonic_1">請務必</string>
     <string name="creat_mnemonic_2">正確抄寫12個\n助記詞</string>
