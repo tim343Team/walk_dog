@@ -151,6 +151,7 @@
         <activity android:name=".view.mine.MyAssetActivity" />
         <activity android:name=".view.mine.CollectionActivity" />
         <activity android:name=".view.mine.TransferActivity" />
+        <activity android:name=".view.mine.DogWalkRecordActivity" />
 
         <service android:name=".service.GpsService"/>
 

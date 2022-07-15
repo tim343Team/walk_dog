@@ -21,6 +21,7 @@
 
     <declare-styleable name="ShadowBuilder">
 
+        <attr format="string" name="shadowGradientColor"/>
         <attr format="color" name="shadowStartColor"/>
         <attr format="color" name="shadowEndColor"/>
         <!-- Background color for CardView. -->

@@ -37,6 +37,9 @@ import androidx.annotation.Nullable;
 
 import com.wallet.walkthedog.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A rounded rectangle drawable which also includes a shadow around.
  */
@@ -61,6 +64,27 @@ public class ShadowDrawable extends Drawable {
             canvas.drawRoundRect(bounds, cornerRadius, cornerRadius, paint);
         }
     };
+    private static final PaddingHolder paddingHolder = new PaddingHolder();
+
+    private static class PaddingHolder {
+        private final Map<Integer, Rect> idToShadowPadding = new HashMap<>();
+
+        public void setOriginPadding(View view, Rect rect) {
+            idToShadowPadding.put(view.getId(), rect);
+            view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View v) {
+                    view.removeOnAttachStateChangeListener(this);
+                    idToShadowPadding.remove(view.getId());
+                }
+            });
+        }
+    }
 
     /**
      * 用它去bindView
@@ -70,10 +94,32 @@ public class ShadowDrawable extends Drawable {
         int paddingTop = view.getPaddingTop();
         int paddingRight = view.getPaddingRight();
         int paddingBottom = view.getPaddingBottom();
+
         view.setBackground(this);
         Rect shadowPadding = new Rect();
         getMaxShadowAndCornerPadding(shadowPadding);
-        view.setPadding(paddingLeft + shadowPadding.left, paddingTop + shadowPadding.top, paddingRight + shadowPadding.right, paddingBottom + shadowPadding.bottom);
+        if (view instanceof ShadowPadding) {
+            ((ShadowPadding) view).setShadowpadding(shadowPadding.left, shadowPadding.top, shadowPadding.right, shadowPadding.bottom, new Integer[]{paddingLeft, paddingTop, paddingRight, paddingBottom});
+        } else {
+            int id = view.getId();
+            if (id == View.NO_ID) {
+                throw new RuntimeException("view must has id or implements ShadowPadding");
+            }
+            Rect lastshadowPadding = paddingHolder.idToShadowPadding.get(id);
+            if (lastshadowPadding == null) {
+                lastshadowPadding = new Rect();
+                paddingHolder.setOriginPadding(view, lastshadowPadding);
+            }
+            view.setPadding(paddingLeft + shadowPadding.left - lastshadowPadding.left, paddingTop + shadowPadding.top - lastshadowPadding.top, paddingRight + shadowPadding.right - lastshadowPadding.right, paddingBottom + shadowPadding.bottom - lastshadowPadding.bottom);
+            lastshadowPadding.left = shadowPadding.left;
+            lastshadowPadding.top = shadowPadding.top;
+            lastshadowPadding.right = shadowPadding.right;
+            lastshadowPadding.bottom = shadowPadding.bottom;
+        }
+    }
+
+    public interface ShadowPadding {
+        void setShadowpadding(int left, int top, int right, int bottom, Integer[] integers);
     }
 
     private final Paint mPaint;
@@ -97,7 +143,7 @@ public class ShadowDrawable extends Drawable {
     // actual value set by developer
     private float mRawShadowSize;
 
-    private ColorStateList mBackground;
+    private int[] mBackground;
 
     private boolean mDirty = true;
 
@@ -112,16 +158,19 @@ public class ShadowDrawable extends Drawable {
      */
     private boolean mPrintedShadowClipWarning = false;
 
-    ShadowDrawable(int startColor, int endColor, ColorStateList backgroundColor, float radius,
+    ShadowDrawable(int startColor, int endColor, int[] backgroundColors, float radius,
                    float shadowSize) {
         if (radius <= 0) {
             radius = 1F;
+        }
+        if (backgroundColors == null || backgroundColors.length == 0) {
+            backgroundColors = new int[]{Color.TRANSPARENT};
         }
         mShadowStartColor = startColor;
         mShadowEndColor = endColor;
         mInsetShadow = 3;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        setBackground(backgroundColor);
+        setBackground(backgroundColors);
         mCornerShadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         mCornerShadowPaint.setStyle(Paint.Style.FILL);
         mCornerRadius = (int) (radius + .5f);
@@ -131,9 +180,8 @@ public class ShadowDrawable extends Drawable {
         setShadowSize(shadowSize, shadowSize);
     }
 
-    private void setBackground(ColorStateList color) {
-        mBackground = (color == null) ? ColorStateList.valueOf(Color.TRANSPARENT) : color;
-        mPaint.setColor(mBackground.getColorForState(getState(), mBackground.getDefaultColor()));
+    private void setBackground(int[] color) {
+        mBackground = color;
     }
 
     /**
@@ -217,11 +265,11 @@ public class ShadowDrawable extends Drawable {
 
     @Override
     protected boolean onStateChange(int[] stateSet) {
-        final int newColor = mBackground.getColorForState(stateSet, mBackground.getDefaultColor());
-        if (mPaint.getColor() == newColor) {
-            return false;
-        }
-        mPaint.setColor(newColor);
+//        final int newColor = mBackground.getColorForState(stateSet, mBackground.getDefaultColor());
+//        if (mPaint.getColor() == newColor) {
+//            return false;
+//        }
+        //  mPaint.setColor(newColor);
         mDirty = true;
         invalidateSelf();
         return true;
@@ -229,7 +277,7 @@ public class ShadowDrawable extends Drawable {
 
     @Override
     public boolean isStateful() {
-        return (mBackground != null && mBackground.isStateful()) || super.isStateful();
+        return super.isStateful();
     }
 
     @Override
@@ -308,6 +356,14 @@ public class ShadowDrawable extends Drawable {
         RectF outerBounds = new RectF(innerBounds);
         outerBounds.inset(-mShadowSize, -mShadowSize);
 
+        if (mBackground.length == 1) {
+            mPaint.setColor(mBackground[0]);
+        } else {
+            LinearGradient linearGradient = new LinearGradient(0, mCardBounds.height() / 2, mCardBounds.width(), mCardBounds.height() / 2, mBackground, null, Shader.TileMode.MIRROR);
+            mPaint.setShader(linearGradient);
+        }
+
+
         if (mCornerShadowPath == null) {
             mCornerShadowPath = new Path();
         } else {
@@ -383,15 +439,6 @@ public class ShadowDrawable extends Drawable {
         return content + (mRawMaxShadowSize * SHADOW_MULTIPLIER + mInsetShadow) * 2;
     }
 
-    void setColor(@Nullable ColorStateList color) {
-        setBackground(color);
-        invalidateSelf();
-    }
-
-    ColorStateList getColor() {
-        return mBackground;
-    }
-
 
     interface RoundRectHelper {
         void drawRoundRect(Canvas canvas, RectF bounds, float cornerRadius, Paint paint);
@@ -404,6 +451,7 @@ public class ShadowDrawable extends Drawable {
         private int endColor;
         private float cardCornerRadius;
         private float cardElevation;
+        private int[] mGradientColor;
 
         public ShadowBuilder() {
 
@@ -413,6 +461,15 @@ public class ShadowDrawable extends Drawable {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ShadowBuilder);
             cardBackgroundColor = ta.getColor(R.styleable.ShadowBuilder_cardBackgroundColor, Color.TRANSPARENT);
             startColor = ta.getColor(R.styleable.ShadowBuilder_shadowStartColor, Color.TRANSPARENT);
+            String gradientColorStr = ta.getString(R.styleable.ShadowBuilder_shadowGradientColor);
+            if (gradientColorStr != null) {
+                String[] colors = gradientColorStr.split(",");
+                mGradientColor = new int[colors.length];
+                for (int i = 0; i < colors.length; i++) {
+                    mGradientColor[i] = Color.parseColor(colors[i]);
+                }
+            }
+
             endColor = ta.getColor(R.styleable.ShadowBuilder_shadowEndColor, startColor);
             cardCornerRadius = ta.getDimension(R.styleable.ShadowBuilder_cardCornerRadius, 0F);
             cardElevation = ta.getDimension(R.styleable.ShadowBuilder_cardElevation, 0F);
@@ -444,8 +501,15 @@ public class ShadowDrawable extends Drawable {
             return this;
         }
 
+        public void setmGradientColor(int[] mGradientColor) {
+            this.mGradientColor = mGradientColor;
+        }
+
         public ShadowDrawable create() {
-            return new ShadowDrawable(startColor, endColor, ColorStateList.valueOf(cardBackgroundColor), cardCornerRadius, cardElevation);
+            if (mGradientColor == null || mGradientColor.length == 0) {
+                mGradientColor = new int[]{cardBackgroundColor};
+            }
+            return new ShadowDrawable(startColor, endColor, mGradientColor, cardCornerRadius, cardElevation);
         }
 
 

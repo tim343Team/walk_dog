@@ -222,5 +222,25 @@
     <string name="please_enter_the_quantity">Please enter the quantity</string>
     <string name="address">Address</string>
     <string name="all">ALL</string>
+    <string name="dog_walking_record">Dog walking record</string>
+    <string name="total_data">Total data</string>
+    <string name="walking_record">walking record</string>
+    <string name="total_time">Total Time</string>
+    <string name="total_mileage">Total Mileage</string>
+    <string name="intermediate_area">Intermediate Area</string>
+    <string name="unknown_area">Unknown Area</string>
+    <string name="rubbish">Rubbish</string>
+    <string name="well_known_area">Well known area</string>
+    <string name="treasure_chest">Treasure chest</string>
+    <string name="dog_food">Dog Food</string>
+    <string name="other">Other</string>
+    <string name="times">Times</string>
+    <string name="dog_walking_time">Dog walking time</string>
+    <string name="mileages">Mileages</string>
+    <string name="top_speed">Top speed</string>
+    <string name="dog_species">Dog species</string>
+    <string name="dog_number">Dog Number</string>
+    <string name="dog_rating">Dog Rating</string>
+    <string name="friends">Friends</string>
 
 </resources>
