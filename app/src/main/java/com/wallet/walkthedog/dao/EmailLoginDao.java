@@ -4,6 +4,7 @@ public class EmailLoginDao {
     private String userToken;
     private String id;
     private String userName;
+    private String type;
 
     public String getUserToken() {
         return userToken;

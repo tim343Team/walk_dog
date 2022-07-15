@@ -46,6 +46,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
     private String type;//1:导入助记词 2：创建助记词 3:邮箱登录 4:郵箱註冊
     private String email;
     private String code;
+    private String invitedCode;
     private String enterPassword;
     private String password;
     private int status = 0;//0:输入密码 1：确认密码
@@ -71,6 +72,15 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
         intent.putExtra("type", type);
         intent.putExtra("email", email);
         intent.putExtra("code", code);
+        activity.startActivity(intent);
+    }
+
+    public static void actionStart(Activity activity, String type,String email,String code,String invitedCode) {
+        Intent intent = new Intent(activity, SettingPassWordActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("email", email);
+        intent.putExtra("code", code);
+        intent.putExtra("invitedCode", invitedCode);
         activity.startActivity(intent);
     }
 
@@ -142,6 +152,8 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
                                 EmailRegisterRequest request = new EmailRegisterRequest();
                                 request.setEmail(email);
                                 request.setCheckCode(code);
+                                request.setSpassword(password);
+                                request.setParentInviteCode(invitedCode);
                                 presenter.emailRegister(request,password);
                             }
                         } else {
@@ -159,6 +171,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
         type = getIntent().getStringExtra("type");
         email = getIntent().getStringExtra("email");
         code = getIntent().getStringExtra("code");
+        invitedCode = getIntent().getStringExtra("invitedCode");
     }
 
     @Override
