@@ -14,12 +14,14 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.custom_view.PasswordView;
 import com.wallet.walkthedog.dao.EmailLoginDao;
+import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.UserCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.email.EmailPresenter;
 import com.wallet.walkthedog.view.email.SettingMobileCodeActivity;
@@ -69,6 +71,13 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
     public static void actionStart(Activity activity, String type) {
         Intent intent = new Intent(activity, SettingPassWordActivity.class);
         intent.putExtra("type", type);
+        activity.startActivity(intent);
+    }
+
+    public static void actionStart(Activity activity, String type, String email) {
+        Intent intent = new Intent(activity, SettingPassWordActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("email", email);
         activity.startActivity(intent);
     }
 
@@ -128,14 +137,20 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
                     if (status == 0) {
                         password = content;
                         status = 1;
-                        passwordView.setText("");
-                        txtTitle.setText(getResources().getString(R.string.enter_your_password));
+                        if(type.equals(Constant.LOGIN_MAIL_LOGIN)){
+                            //调用登录接口
+                            EmailLoginRequest request=new EmailLoginRequest(email,password);
+                            presenter.passwordLogin(request,password);
+                        }else if(type.equals(Constant.LOGIN_MAIL_REGISTER)){
+                            passwordView.setText("");
+                            txtTitle.setText(getResources().getString(R.string.enter_your_password));
+                        }
                     } else if (status == 1) {
                         if (content.equals(password)) {
                             //两次密码相同
                             txtMatch.setVisibility(View.INVISIBLE);
                             if (type.equals(Constant.LOGIN_MAIL_LOGIN)) {
-                                //调用登录接口
+
 
                             } else if (type.equals(Constant.LOGIN_MAIL_REGISTER)) {
                                 //调用注册接口
@@ -189,7 +204,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-
+        ToastUtils.shortToast(toastMessage);
     }
 
     @Override

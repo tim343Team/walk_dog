@@ -20,4 +20,9 @@ public class UrlFactory {
     public static String getEmailLoginUrl() {
         return host + "/user/login.json";
     }
+
+    //密碼登录
+    public static String getPasswordLoginUrl() {
+        return host + "/user/login.json";
+    }
 }

@@ -41,4 +41,10 @@ public class DataRepository implements DataSource {
         if (isLocal) mLocalDataSource.emailLogin(request,dataCallback);
         else mRemoteDataSource.emailLogin(request,dataCallback);
     }
+
+    @Override
+    public void passwordLogin(EmailLoginRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.passwordLogin(request,dataCallback);
+        else mRemoteDataSource.passwordLogin(request,dataCallback);
+    }
 }

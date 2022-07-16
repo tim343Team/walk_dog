@@ -40,4 +40,9 @@ public class LocalDataSource implements DataSource {
     public void emailLogin(EmailLoginRequest request, DataCallback dataCallback) {
 
     }
+
+    @Override
+    public void passwordLogin(EmailLoginRequest request, DataCallback dataCallback) {
+
+    }
 }
