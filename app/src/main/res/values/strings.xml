@@ -256,5 +256,21 @@
     <string name="number_id">Number</string>
     <string name="total_training_times">Total training times</string>
     <string name="chinese_1">繁体中文</string>
+    <string name="security_settings">Security Settings</string>
+    <string name="mnemonic_words">Mnemonic words</string>
+    <string name="mailbox_binding_change">Mailbox binding change</string>
+    <string name="password_settings">Password settings</string>
+    <string name="enter_the_original_password">Enter the original password</string>
+    <string name="original_password">Original password</string>
+    <string name="new_password">New password</string>
+    <string name="enter_new_password">Enter new password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="enter_the_new_password_again">Enter the new password again</string>
+    <string name="pw_limit">The password is 6- digit pure letters, or letters + numbers</string>
+    <string name="original_mailbox">Original Mailbox</string>
+    <string name="send">Send</string>
+    <string name="enter_verification_code">Enter verification code</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="email_code_limit">The password is 6- digit pure letters, or letters + numbers</string>
 
 </resources>

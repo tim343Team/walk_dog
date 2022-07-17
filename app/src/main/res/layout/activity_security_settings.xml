@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/llTitle"
+        style="@style/TitlePaddingParent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/icon_back" />
+
+        <TextView
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/security_settings" />
+
+        <ImageView
+            android:id="@+id/img_add"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/icon_add"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
+        android:id="@+id/layout_mnemonic"
+        style="@style/def_while_shadow_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mnemonic_words"
+            android:textColor="#485EA8"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical|end"
+            android:src="@mipmap/ic_right"
+            app:tint="#485EA8" />
+    </com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>
+
+
+    <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
+        android:id="@+id/layout_mailbox"
+        style="@style/def_while_shadow_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mailbox_binding_change"
+            android:textColor="#485EA8"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical|end"
+            android:src="@mipmap/ic_right"
+            app:tint="#485EA8" />
+    </com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>
+
+
+    <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
+        android:id="@+id/layout_pw"
+        style="@style/def_while_shadow_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password_settings"
+            android:textColor="#485EA8"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical|end"
+            android:src="@mipmap/ic_right"
+            app:tint="#485EA8" />
+    </com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>
+
+</LinearLayout>
