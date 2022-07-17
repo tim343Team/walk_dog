@@ -28,6 +28,7 @@ import com.wallet.walkthedog.dialog.NoticeDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.TrainDogDialog;
 import com.wallet.walkthedog.dialog.TrainListDialog;
+import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.invite.InviteActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
@@ -88,6 +89,7 @@ public class HomeFragment extends BaseTransFragment {
 
     @OnClick(R.id.ll_add_dog)
     void addDoag() {
+        String token=SharedPrefsHelper.getInstance().getToken();
         //TODO 切换
         viewNullDog.setVisibility(View.GONE);
         viewDog.setVisibility(View.VISIBLE);
