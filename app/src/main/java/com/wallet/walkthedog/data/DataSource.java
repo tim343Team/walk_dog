@@ -19,5 +19,7 @@ public interface DataSource {
 
     void emailLogin(EmailLoginRequest request, DataCallback dataCallback);
 
+    void passwordLogin(EmailLoginRequest request, DataCallback dataCallback);
+
 
 }

@@ -51,4 +51,22 @@ public class SettingPasswordPresenter implements SettingPasswordContract.Setting
             }
         });
     }
+
+    @Override
+    public void passwordLogin(EmailLoginRequest request, String password) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.passwordLogin(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getSuccess((EmailLoginDao) obj,password);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
 }

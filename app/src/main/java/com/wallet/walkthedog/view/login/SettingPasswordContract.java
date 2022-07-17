@@ -21,5 +21,7 @@ public class SettingPasswordContract {
 
         void emailLogin(EmailLoginRequest request,String password);
 
+        void passwordLogin(EmailLoginRequest request,String password);
+
     }
 }

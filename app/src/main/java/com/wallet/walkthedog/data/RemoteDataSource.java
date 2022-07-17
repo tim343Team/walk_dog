@@ -117,4 +117,37 @@ public class RemoteDataSource implements DataSource {
     public void emailLogin(EmailLoginRequest request, DataCallback dataCallback) {
 
     }
+
+    @Override
+    public void passwordLogin(EmailLoginRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.post().url(UrlFactory.getPasswordLoginUrl())
+                .addParams("username", request.getEmail())
+                .addParams("password", request.getPassword())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("密碼登录:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("密碼登录：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                EmailLoginDao obj = gson.fromJson(object.getJSONObject("data").toString(), EmailLoginDao.class);
+                                dataCallback.onDataLoaded(obj);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
 }

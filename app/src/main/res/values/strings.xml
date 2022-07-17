@@ -22,12 +22,16 @@
     <string name="mailbox_title">郵箱登錄</string>
     <string name="mailbox_address">請輸入郵箱地址</string>
     <string name="mailbox_address_notice">請輸入正確的郵箱地址</string>
+    <string name="login_type">登录方式</string>
+    <string name="password_login">密碼登录</string>
+    <string name="mail_code_login">驗證碼登錄</string>
     <string name="mailbox_code">郵箱驗證</string>
     <string name="mailbox_send_error">驗證碼發送失敗</string>
     <string name="mailbox_send_succeed">驗證碼已發送</string>
     <string name="mailbox_code_error">驗證碼錯誤</string>
     <string name="mailbox_resend">重新發送</string>
     <string name="sign_up">註冊</string>
+    <string name="sign_in">登錄</string>
     <string name="mailbox_sign_up">郵箱註冊</string>
     <string name="mailbox_code_notice">發送到郵箱%s發送短信請輸入郵箱驗證碼</string>
     <!--邀请码-->

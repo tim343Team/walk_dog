@@ -93,8 +93,15 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
                 if (content.length() == 6) {
                     //判断郵箱验证码是否正确
                     if(code.equals(content)){
-                        SettingPassWordActivity.actionStart(SettingMobileCodeActivity.this, type,email,code);
-                        finish();
+                        if(type.equals(Constant.LOGIN_MAIL_LOGIN)){
+                            //登錄
+                            //TODO 調用驗證碼登錄
+                            ToastUtils.shortToast("暫無驗證碼登錄接口");
+                        }else if(type.equals(Constant.LOGIN_MAIL_REGISTER)){
+                            //註冊
+                            SettingPassWordActivity.actionStart(SettingMobileCodeActivity.this, type,email,code);
+                            finish();
+                        }
                     }else {
                         //验证码错误
                         NormalDialog dialog = NormalDialog.newInstance(R.string.mailbox_code_error, R.mipmap.icon_normal_no,R.color.color_E12828);

@@ -22,9 +22,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
-public class EmailActivity extends BaseActivity implements EmailContract.EmailView {
+public class EmailActivity extends BaseActivity{
     public static EmailActivity instance = null;
-    private EmailContract.EmailPresenter presenter;
     @BindView(R.id.edit)
     EditText editText;
 
@@ -38,7 +37,7 @@ public class EmailActivity extends BaseActivity implements EmailContract.EmailVi
             Toast.makeText(EmailActivity.this,R.string.mailbox_address_notice,Toast.LENGTH_SHORT).show();
             return;
         }
-        presenter.sendMailboxCode(new SendMailboxCodeRequest(editText.getText().toString()));//发起请求
+        LoginTypeActivity.actionStart(this,editText.getText().toString());
     }
 
     @OnClick(R.id.ll_edit)
@@ -74,7 +73,6 @@ public class EmailActivity extends BaseActivity implements EmailContract.EmailVi
     @Override
     protected void initViews(Bundle savedInstanceState) {
         instance = this;
-        presenter = new EmailPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
     }
 
     @Override
@@ -103,22 +101,5 @@ public class EmailActivity extends BaseActivity implements EmailContract.EmailVi
             flag=false;
         }
         return flag;
-    }
-
-    @Override
-    public void getFail(Integer code, String toastMessage) {
-        ToastUtils.shortToast(EmailActivity.this,R.string.mailbox_send_error);
-    }
-
-    @Override
-    public void getSuccessCodeData(String dao,String email) {
-        //发送验证码接口的返回
-        ToastUtils.shortToast(EmailActivity.this,R.string.mailbox_send_succeed);
-        SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_LOGIN);
-    }
-
-    @Override
-    public void setPresenter(EmailContract.EmailPresenter presenter) {
-        this.presenter=presenter;
     }
 }
