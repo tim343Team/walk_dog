@@ -2,6 +2,7 @@ package com.wallet.walkthedog.dao;
 
 public class EmailLoginDao {
     private String userToken;
+    private String token;
     private String id;
     private String userName;
     private String type;
@@ -12,6 +13,14 @@ public class EmailLoginDao {
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getId() {

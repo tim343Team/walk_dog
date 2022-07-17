@@ -155,7 +155,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void getUserDog(DataCallback dataCallback) {
-        WonderfulOkhttpUtils.post().url(UrlFactory.getUserDogUrl())
+        WonderfulOkhttpUtils.get().url(UrlFactory.getUserDogUrl())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {

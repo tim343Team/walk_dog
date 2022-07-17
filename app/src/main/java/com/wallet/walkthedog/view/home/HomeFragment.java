@@ -91,10 +91,11 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.ll_add_dog)
     void addDoag() {
-        String token=SharedPrefsHelper.getInstance().getToken();
-        //TODO 切换
-        viewNullDog.setVisibility(View.GONE);
-        viewDog.setVisibility(View.VISIBLE);
+        SelectDogActivity.actionStart(getActivity());
+//        String token=SharedPrefsHelper.getInstance().getToken();
+//        //TODO 切换
+//        viewNullDog.setVisibility(View.GONE);
+//        viewDog.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.img_invate)

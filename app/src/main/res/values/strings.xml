@@ -142,6 +142,7 @@
     <string name="select">選擇</string>
     <string name="deselect">取消選擇</string>
     <string name="choose_select">選擇成功</string>
+    <string name="_time">%s 次</string>
     <!--訓練狗狗-->
     <string name="training_dog">訓練狗狗</string>
     <string name="sit_down">坐下</string>

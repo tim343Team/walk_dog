@@ -12,6 +12,7 @@ public class SharedPrefsHelper {
     private static final String USER_TOKEN = "USER_TOKEN";
     private static final String SP_KEY_TOKEN = "SP_KEY_TOKEN";
     private static final String SIGN_PASSWORD = "SIGN_PASSWORD";
+    private static final String CURRENT_DOG_ID = "CURRENT_DOG_ID";
 
     private static SharedPrefsHelper instance;
 
@@ -74,4 +75,20 @@ public class SharedPrefsHelper {
     public String getSignPassword() {
         return sharedPreferences == null ? "" : sharedPreferences.getString(SIGN_PASSWORD, "");
     }
+
+    /**
+     * 获取当前狗狗id
+     */
+    public String getDogId() {
+        return sharedPreferences == null ? "" : sharedPreferences.getString(CURRENT_DOG_ID, "");
+    }
+
+    /**
+     * 保存当前狗狗id
+     */
+    public void saveDogId(String id) {
+        if (sharedPreferences == null) return;
+        sharedPreferences.edit().putString(CURRENT_DOG_ID, id).apply();
+    }
+
 }

@@ -3,6 +3,17 @@ package com.wallet.walkthedog.dao;
 import java.io.Serializable;
 
 public class DogInfoDao implements Serializable {
+
+    private String id;
+
+    private String name;
+
+    private int nftTypeCatagoryId;
+
+    private String img;
+
+    private String dogNumberChain;
+
     private int sex;
 
     private int level;
@@ -13,9 +24,11 @@ public class DogInfoDao implements Serializable {
 
     private long walkTheDogKm;
 
-    private int walkTheDogCount;
+    private int walkTheDogCount;//总次数
 
-    private String walkTheDogTime;
+    private int dayLimit;//今日次数
+
+    private String walkTheDogTime;//总时长（秒）
 
     private double weight;
 
@@ -40,6 +53,46 @@ public class DogInfoDao implements Serializable {
     private String nickName;
 
     private String email;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getNftTypeCatagoryId() {
+        return nftTypeCatagoryId;
+    }
+
+    public void setNftTypeCatagoryId(int nftTypeCatagoryId) {
+        this.nftTypeCatagoryId = nftTypeCatagoryId;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getDogNumberChain() {
+        return dogNumberChain;
+    }
+
+    public void setDogNumberChain(String dogNumberChain) {
+        this.dogNumberChain = dogNumberChain;
+    }
 
     public int getSex() {
         return sex;
@@ -191,5 +244,13 @@ public class DogInfoDao implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getDayLimit() {
+        return dayLimit;
+    }
+
+    public void setDayLimit(int dayLimit) {
+        this.dayLimit = dayLimit;
     }
 }

@@ -12,7 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.MyDogsAdapter;
 import com.wallet.walkthedog.adapter.RentDogsAdapter;
+import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.db.UserDao;
+import com.wallet.walkthedog.db.dao.UserCache;
+import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.view.email.EmailPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
-public class SelectDogActivity extends BaseActivity {
+public class SelectDogActivity extends BaseActivity implements SelectContract.SelectView{
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
     @BindView(R.id.recyclerview_rent)
@@ -31,6 +36,7 @@ public class SelectDogActivity extends BaseActivity {
     @BindView(R.id.txt_my_dog)
     TextView txtMyDog;
 
+    private SelectContract.SelectPresenter presenter;
     private int status = 0;//0:我的狗狗 1:租赁的狗狗
 
     @OnClick(R.id.txt_my_dog)
@@ -80,6 +86,7 @@ public class SelectDogActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        presenter = new SelectPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         initRecyclerView();
         initRecyclerViewRent();
     }
@@ -96,32 +103,40 @@ public class SelectDogActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-
+        presenter.getUserDog();
     }
 
     private void initRecyclerView() {
-        //TODO 測試數據
-        for (int i = 0; i < 10; i++) {
-            DogInfoDao dogInfoDao = new DogInfoDao();
-            data.add(dogInfoDao);
-        }
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        adapter = new MyDogsAdapter(R.layout.adapter_my_dog, data);
+        adapter = new MyDogsAdapter(R.layout.adapter_my_dog, data, SharedPrefsHelper.getInstance().getDogId());
         adapter.bindToRecyclerView(recyclerView);
         adapter.setEnableLoadMore(false);
     }
 
     private void initRecyclerViewRent() {
-        //TODO 測試數據
-        for (int i = 0; i < 10; i++) {
-            DogInfoDao dogInfoDao = new DogInfoDao();
-            dataRent.add(dogInfoDao);
-        }
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewRent.setLayoutManager(manager);
         adapterRent = new RentDogsAdapter(R.layout.adapter_rent_dog, dataRent);
         adapterRent.bindToRecyclerView(recyclerViewRent);
         adapterRent.setEnableLoadMore(false);
+    }
+
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+
+    }
+
+    @Override
+    public void getMyDogSuccess(List<DogInfoDao> dogInfoDaos) {
+        if(dogInfoDaos.size()>0){
+            data.addAll(dogInfoDaos);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void setPresenter(SelectContract.SelectPresenter presenter) {
+        this.presenter=presenter;
     }
 }
