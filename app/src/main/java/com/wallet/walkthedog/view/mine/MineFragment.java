@@ -60,6 +60,27 @@ public class MineFragment extends BaseTransFragment {
                 startActivity(intent);
             }
         });
+        rootView.findViewById(R.id.ll_invited_record).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(),InvitedDogActivity.class);
+                startActivity(intent);
+            }
+        });
+        rootView.findViewById(R.id.ll_train_record).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(),TrainRecordActivity.class);
+                startActivity(intent);
+            }
+        });
+        rootView.findViewById(R.id.ll_language).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(),LanguageSetActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

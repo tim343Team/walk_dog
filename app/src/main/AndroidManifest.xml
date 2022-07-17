@@ -33,11 +33,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -98,7 +93,14 @@
             android:name=".view.home.HomeActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".view.walk.WalkActivity"
@@ -147,11 +149,14 @@
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.AvatarActivity" />
-        <activity android:name=".view.mine.MyAssetActivity" />
-        <activity android:name=".view.mine.CollectionActivity" />
-        <activity android:name=".view.mine.TransferActivity" />
-        <activity android:name=".view.mine.DogWalkRecordActivity" />
+        <activity android:name=".view.mine.AvatarActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.MyAssetActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.CollectionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.TransferActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.DogWalkRecordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.InvitedDogActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.TrainRecordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.LanguageSetActivity" android:screenOrientation="portrait"/>
 
         <service android:name=".service.GpsService"/>
 

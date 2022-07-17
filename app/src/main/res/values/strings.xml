@@ -244,5 +244,13 @@
     <string name="dog_number">Dog Number</string>
     <string name="dog_rating">Dog Rating</string>
     <string name="friends">Friends</string>
+    <string name="friends_list">Friends list</string>
+    <string name="invite_others">Invite others</string>
+    <string name="be_invited">Be Invited</string>
+    <string name="dog_food_consumption_g">Dog food consumption(g)</string>
+    <string name="increase_muscle_g">Increase muscle(g)</string>
+    <string name="number_id">Number</string>
+    <string name="total_training_times">Total training times</string>
+    <string name="chinese_1">繁体中文</string>
 
 </resources>
