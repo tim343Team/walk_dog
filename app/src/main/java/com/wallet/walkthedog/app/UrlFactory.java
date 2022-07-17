@@ -25,4 +25,9 @@ public class UrlFactory {
     public static String getPasswordLoginUrl() {
         return host + "/user/login.json";
     }
+
+    //获取我的狗狗
+    public static String getUserDogUrl() {
+        return host + "/dog/getUserDog";
+    }
 }

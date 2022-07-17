@@ -47,4 +47,10 @@ public class DataRepository implements DataSource {
         if (isLocal) mLocalDataSource.passwordLogin(request,dataCallback);
         else mRemoteDataSource.passwordLogin(request,dataCallback);
     }
+
+    @Override
+    public void getUserDog(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getUserDog(dataCallback);
+        else mRemoteDataSource.getUserDog(dataCallback);
+    }
 }

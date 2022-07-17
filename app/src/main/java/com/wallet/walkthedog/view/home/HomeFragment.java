@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.HomePropsAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
+import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
 import com.wallet.walkthedog.dialog.FeedingDialog;
@@ -42,7 +43,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseTransFragment;
 
-public class HomeFragment extends BaseTransFragment {
+public class HomeFragment extends BaseTransFragment implements HomeContract.HomeView {
     public static final String TAG = HomeFragment.class.getSimpleName();
     @BindView(R.id.ll_null_dog)
     View viewNullDog;
@@ -83,6 +84,7 @@ public class HomeFragment extends BaseTransFragment {
     @BindView(R.id.txt_region)
     TextView txtRegion;
 
+    private HomeContract.HomePresenter presenter;
     private int progressAll = 0;
     private HomePropsAdapter adapter;
     private List<PropDao> data = new ArrayList<>();
@@ -334,5 +336,20 @@ public class HomeFragment extends BaseTransFragment {
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+
+    }
+
+    @Override
+    public void getMyDogSuccess(List<DogInfoDao> data) {
+
+    }
+
+    @Override
+    public void setPresenter(HomeContract.HomePresenter presenter) {
+        this.presenter=presenter;
     }
 }

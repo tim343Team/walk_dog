@@ -21,5 +21,7 @@ public interface DataSource {
 
     void passwordLogin(EmailLoginRequest request, DataCallback dataCallback);
 
+    void getUserDog(DataCallback dataCallback);
+
 
 }
