@@ -23,5 +23,11 @@ public interface DataSource {
 
     void getUserDog(DataCallback dataCallback);
 
+    void getDogInfo(String dogId,DataCallback dataCallback);
+
+    void getUseDog(String dogId,DataCallback dataCallback);
+
+    void getWalkTheDogFriend(DataCallback dataCallback);
+
 
 }

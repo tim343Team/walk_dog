@@ -68,7 +68,7 @@
                     android:id="@+id/ll_null_dog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:id="@+id/ll_null_dog_center"
@@ -157,7 +157,7 @@
                     android:id="@+id/ll_have_dog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <RelativeLayout
                         android:id="@+id/ll_dog_center"
@@ -197,8 +197,8 @@
 
                                     <ImageView
                                         android:id="@+id/img_gender"
-                                        android:layout_width="@dimen/dimen_11"
-                                        android:layout_height="@dimen/dimen_19"
+                                        android:layout_width="@dimen/dimen_16"
+                                        android:layout_height="@dimen/dimen_16"
                                         android:background="@mipmap/icon_female" />
 
                                     <TextView
@@ -233,7 +233,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="精力充沛"
+                                    android:text=""
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/dp15" />
 
@@ -253,8 +253,7 @@
                             android:id="@+id/img_dog"
                             android:layout_width="@dimen/dimen_186"
                             android:layout_height="@dimen/dimen_186"
-                            android:layout_centerInParent="true"
-                            android:background="@mipmap/icon_null_dog" />
+                            android:layout_centerInParent="true"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -361,7 +360,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp10"
-                            android:text="@string/add_dog"
+                            android:text="@string/walking"
                             android:textColor="@color/text_767676"
                             android:textSize="@dimen/dp12" />
 

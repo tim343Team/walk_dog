@@ -26,8 +26,18 @@ public class UrlFactory {
         return host + "/user/login.json";
     }
 
-    //获取我的狗狗
+    //获取我的狗狗列表
+    public static String getDogInfoUrl() {
+        return host + "/dog/getDogInfo";
+    }
+
+    //获取我的狗狗列表
     public static String getUserDogUrl() {
         return host + "/dog/getUserDog";
+    }
+
+    //获取一起遛狗的好友
+    public static String getWalkTheDogFriendUrl() {
+        return host + "/index/getWalkTheDogFriend";
     }
 }

@@ -22,7 +22,7 @@ public class DogInfoDao implements Serializable {
 
     private int status;
 
-    private long walkTheDogKm;
+    private double walkTheDogKm;
 
     private int walkTheDogCount;//总次数
 
@@ -53,6 +53,10 @@ public class DogInfoDao implements Serializable {
     private String nickName;
 
     private String email;
+
+    private int rateOfProgress;
+
+    private int starvation;//1饥饿 2正常
 
     public String getId() {
         return id;
@@ -126,11 +130,11 @@ public class DogInfoDao implements Serializable {
         this.status = status;
     }
 
-    public long getWalkTheDogKm() {
+    public double getWalkTheDogKm() {
         return walkTheDogKm;
     }
 
-    public void setWalkTheDogKm(long walkTheDogKm) {
+    public void setWalkTheDogKm(double walkTheDogKm) {
         this.walkTheDogKm = walkTheDogKm;
     }
 
@@ -252,5 +256,21 @@ public class DogInfoDao implements Serializable {
 
     public void setDayLimit(int dayLimit) {
         this.dayLimit = dayLimit;
+    }
+
+    public int getRateOfProgress() {
+        return rateOfProgress;
+    }
+
+    public void setRateOfProgress(int rateOfProgress) {
+        this.rateOfProgress = rateOfProgress;
+    }
+
+    public int getStarvation() {
+        return starvation;
+    }
+
+    public void setStarvation(int starvation) {
+        this.starvation = starvation;
     }
 }

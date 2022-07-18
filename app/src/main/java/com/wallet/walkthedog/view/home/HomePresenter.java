@@ -17,13 +17,48 @@ public class HomePresenter implements HomeContract.HomePresenter{
     }
 
     @Override
-    public void getUserDog() {
+    public void getDogInfo(String dogId) {
         view.displayLoadingPopup();//显示loading
-        dataRepository.getUserDog(new DataSource.DataCallback() {
+        dataRepository.getDogInfo(dogId,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-                view.getMyDogSuccess((List<DogInfoDao>) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+                view.getCurrentDogInfo((DogInfoDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getUseDog(String dogId) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.getUseDog(dogId,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+//                view.getMyDogSuccess((List<DogInfoDao>) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getWalkTheDogFriend(String dogId) {
+        dataRepository.getWalkTheDogFriend(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+//                view.getMyDogSuccess((List<DogInfoDao>) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.dao.DogInfoDao;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,17 +27,17 @@ public class IdentityDialog extends BaseDialogFragment {
     @BindView(R.id.txt_id)
     TextView txtId;
 
+    private DogInfoDao mDefultDogInfo;
 
     @OnClick(R.id.txt_cancle)
     void back(){
         dismiss();
     }
 
-    public static IdentityDialog newInstance() {
+    public static IdentityDialog newInstance(DogInfoDao mDefultDogInfo) {
         IdentityDialog fragment = new IdentityDialog();
         Bundle bundle = new Bundle();
-//        bundle.putString("message",message);
-//        bundle.putString("type","0");
+        bundle.putSerializable("mDefultDogInfo",mDefultDogInfo);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -59,8 +60,18 @@ public class IdentityDialog extends BaseDialogFragment {
     @Override
     protected void initView() {
         Bundle bundle = getArguments();
-//        String message = bundle.getString("message");
-//        String type = bundle.getString("type","0");
+        mDefultDogInfo = (DogInfoDao) bundle.getSerializable("mDefultDogInfo");
+        if (mDefultDogInfo.getSex() == 0) {
+            txtGender.setText(R.string.male);
+        } else {
+            txtGender.setText(R.string.female);
+        }
+        txtName.setText(mDefultDogInfo.getName());
+        txtLevel.setText(mDefultDogInfo.getLevel());
+        txtWeight.setText(mDefultDogInfo.getWeight()+"Kg");
+        txtMucle.setText("確認肌肉值字段");
+        txtPerspmality.setText("????有這個值嗎");
+        txtId.setText(mDefultDogInfo.getId());
     }
 
     @Override

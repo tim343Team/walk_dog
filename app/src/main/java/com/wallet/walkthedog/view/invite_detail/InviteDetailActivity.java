@@ -68,10 +68,10 @@ public class InviteDetailActivity extends BaseActivity {
 
     @OnClick(R.id.img_identity)
     void startIdentity() {
-        IdentityDialog dialog = IdentityDialog.newInstance();
-        dialog.setTheme(R.style.PaddingScreen);
-        dialog.setGravity(Gravity.CENTER);
-        dialog.show(getSupportFragmentManager(), "edit");
+//        IdentityDialog dialog = IdentityDialog.newInstance();
+//        dialog.setTheme(R.style.PaddingScreen);
+//        dialog.setGravity(Gravity.CENTER);
+//        dialog.show(getSupportFragmentManager(), "edit");
     }
 
     @OnClick(R.id.img_more)

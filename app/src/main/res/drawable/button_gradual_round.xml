@@ -7,7 +7,7 @@
         android:height="@dimen/dimen_73" />
     <gradient
         android:angle="315"
-        android:endColor="#27408E"
+        android:endColor="#2a4876"
         android:startColor="@color/color_548FEB"/>
     <corners android:radius="@dimen/dp10" />
 </shape>

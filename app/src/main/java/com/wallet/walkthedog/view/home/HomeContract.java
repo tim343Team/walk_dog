@@ -16,11 +16,15 @@ public class HomeContract {
 
         void getFail(Integer code, String toastMessage);
 
-        void getMyDogSuccess(List<DogInfoDao> data);
-
+        void getCurrentDogInfo(DogInfoDao dogInfoDao);
     }
 
     interface HomePresenter extends Contract.BasePresenter {
-        void getUserDog();
+        void getDogInfo(String dogId);
+
+        void getUseDog(String dogId);
+
+        void getWalkTheDogFriend(String dogId);
+
     }
 }

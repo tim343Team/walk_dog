@@ -53,4 +53,22 @@ public class DataRepository implements DataSource {
         if (isLocal) mLocalDataSource.getUserDog(dataCallback);
         else mRemoteDataSource.getUserDog(dataCallback);
     }
+
+    @Override
+    public void getDogInfo(String dogId, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getDogInfo(dogId,dataCallback);
+        else mRemoteDataSource.getDogInfo(dogId,dataCallback);
+    }
+
+    @Override
+    public void getUseDog(String dogId, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getUseDog(dogId,dataCallback);
+        else mRemoteDataSource.getUseDog(dogId,dataCallback);
+    }
+
+    @Override
+    public void getWalkTheDogFriend(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getWalkTheDogFriend(dataCallback);
+        else mRemoteDataSource.getWalkTheDogFriend(dataCallback);
+    }
 }

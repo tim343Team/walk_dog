@@ -3,6 +3,7 @@ package com.wallet.walkthedog.view.select_dog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,8 +17,12 @@ import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.UserCache;
+import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.email.EmailPresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +117,26 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
         adapter = new MyDogsAdapter(R.layout.adapter_my_dog, data, SharedPrefsHelper.getInstance().getDogId());
         adapter.bindToRecyclerView(recyclerView);
         adapter.setEnableLoadMore(false);
+        adapter.setCallback(new MyDogsAdapter.OperateCallback() {
+            @Override
+            public void callback(DogInfoDao dao, int selectPosition, int oldSelectPosition) {
+                adapter.notifyItemChanged(selectPosition);
+                adapter.notifyItemChanged(oldSelectPosition);
+                //选择成功弹窗
+                NormalDialog dialog = NormalDialog.newInstance(R.string.choose_select, R.mipmap.icon_normal);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+                //更新主页
+                EventBus.getDefault().post(new UpdateHomeData());
+            }
+        });
+        adapter.setFeedCallback(new MyDogsAdapter.FeedCallback() {
+            @Override
+            public void callback(DogInfoDao dao) {
+                //TODO feed
+            }
+        });
     }
 
     private void initRecyclerViewRent() {

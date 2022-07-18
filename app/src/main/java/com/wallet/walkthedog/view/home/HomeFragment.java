@@ -12,9 +12,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.HomePropsAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
+import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
@@ -29,12 +34,18 @@ import com.wallet.walkthedog.dialog.NoticeDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.TrainDogDialog;
 import com.wallet.walkthedog.dialog.TrainListDialog;
+import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.invite.InviteActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
 import com.wallet.walkthedog.view.select_dog.SelectDogActivity;
+import com.wallet.walkthedog.view.select_dog.SelectPresenter;
 import com.wallet.walkthedog.view.walk.WalkActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,15 +98,15 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     private HomeContract.HomePresenter presenter;
     private int progressAll = 0;
     private HomePropsAdapter adapter;
-    private List<PropDao> data = new ArrayList<>();
+    private DogInfoDao mDefultDogInfo;
 
     @OnClick(R.id.ll_add_dog)
     void addDoag() {
         SelectDogActivity.actionStart(getActivity());
 //        String token=SharedPrefsHelper.getInstance().getToken();
 //        //TODO 切换
-//        viewNullDog.setVisibility(View.GONE);
-//        viewDog.setVisibility(View.VISIBLE);
+        viewNullDog.setVisibility(View.GONE);
+        viewDog.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.img_invate)
@@ -156,7 +167,10 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.img_identity)
     void startIdentity() {
-        IdentityDialog dialog = IdentityDialog.newInstance();
+        if(mDefultDogInfo==null){
+            return;
+        }
+        IdentityDialog dialog = IdentityDialog.newInstance(mDefultDogInfo);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
@@ -182,9 +196,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             WalkActivity.actionStart(getmActivity());
         }
 
-        //TODO 测试进度条
-        progressAll = progressBg.getWidth();
-        setProgress(0.88);
 //        String outMessage = String.format(String.valueOf(R.string.text_push_notification_message), "4.23 km/h");
 
     }
@@ -217,11 +228,12 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     protected void init() {
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        presenter = new HomePresenter(Injection.provideTasksRepository(getmActivity()), this);//初始化presenter
 //        getActivity().getWindow().getDecorView().getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 //            @Override
 //            public boolean onPreDraw() {
@@ -265,7 +277,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     protected void loadData() {
-
+        updateData();
     }
 
     @Override
@@ -278,25 +290,72 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(UpdateHomeData event) {
+        isNeedLoad = true;
+        //TODO 刷新主页
+        updateData();
+    }
+
+    void updateData() {
+        presenter.getDogInfo(SharedPrefsHelper.getInstance().getDogId());
+    }
+
+    void updateUI() {
+        if (mDefultDogInfo == null) {
+            return;
+        }
+        if (mDefultDogInfo.getSex() == 0) {
+            imgGender.setBackgroundResource(R.mipmap.icon_male);
+        } else {
+            imgGender.setBackgroundResource(R.mipmap.icon_female);
+        }
+        if(mDefultDogInfo.getStarvation()==1){
+            txtState.setText(R.string.full_of_hunger);
+        }else {
+            txtState.setText(R.string.full_of_energy);
+            txtDogLevel2.setText("LEVEL " + mDefultDogInfo.getLevel());
+            txtDogLevel.setText("LV. " + mDefultDogInfo.getLevel());
+            txtSpeed.setText( String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm()+""));
+            txtNumber.setText( String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount()+""));
+            txtTrip.setText( String.format(getString(R.string.time_totle), mDefultDogInfo.getWalkTheDogTime()+""));
+            txtRegion.setText( String.format(getString(R.string.number_today), mDefultDogInfo.getDayLimit()+"/2"));
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_null_dog)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+            Glide.with(getmActivity()).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
+            setProgress(progressBg,progressBar,progressTxt,mDefultDogInfo.getRateOfProgress()/100.00);
+        }
+    }
+
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
         super.onMultiWindowModeChanged(isInMultiWindowMode);
     }
 
     //设置进度条
-    private void setProgress(double percentage) {
-        int progress = (int) (progressAll * percentage);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) progressBar.getLayoutParams();
-        params.width = progress;
-        progressBar.setLayoutParams(params);
-        RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) progressTxt.getLayoutParams();
-        if (percentage < 0.2) {
-            params2.leftMargin = 0;
-        } else {
-            params2.leftMargin = (int) (progress - progressAll * 0.18);
-        }
-        progressTxt.setLayoutParams(params2);
-        progressTxt.setText(percentage * 100 + "%");
+    private void setProgress(View progressBg,View progressBar, TextView progressTxt, double percentage) {
+        progressBg.post(new Runnable() {
+            @Override
+            public void run() {
+                int progressAll =  progressBg.getWidth();
+                int progress = (int) (progressAll * percentage);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) progressBar.getLayoutParams();
+                params.width = progress;
+                progressBar.setLayoutParams(params);
+                RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) progressTxt.getLayoutParams();
+                if (percentage < 0.2) {
+                    params2.leftMargin = 0;
+                }else if(percentage >0.9){
+                    params2.leftMargin = (int) (progress - progressAll * 0.4);
+                } else {
+                    params2.leftMargin = (int) (progress - progressAll * 0.18);
+                }
+                progressTxt.setLayoutParams(params2);
+                progressTxt.setText(percentage * 100 + "%");
+            }
+        });
     }
 
     private void showFeeding() {
@@ -345,12 +404,14 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     @Override
-    public void getMyDogSuccess(List<DogInfoDao> data) {
-
+    public void getCurrentDogInfo(DogInfoDao dogInfoDao) {
+        mDefultDogInfo = dogInfoDao;
+        updateUI();
     }
+
 
     @Override
     public void setPresenter(HomeContract.HomePresenter presenter) {
-        this.presenter=presenter;
+        this.presenter = presenter;
     }
 }
