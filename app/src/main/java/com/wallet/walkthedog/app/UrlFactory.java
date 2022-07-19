@@ -18,7 +18,7 @@ public class UrlFactory {
 
     //邮箱登录
     public static String getEmailLoginUrl() {
-        return host + "/user/login.json";
+        return host + "/user/emailCheckCode.json";
     }
 
     //密碼登录

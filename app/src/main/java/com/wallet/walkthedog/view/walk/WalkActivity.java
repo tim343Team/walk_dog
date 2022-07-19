@@ -67,6 +67,8 @@ public class WalkActivity extends BaseActivity {
     TextView txtStatus;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+    @BindView(R.id.ll_gps)
+    View llGPS;
 
     public static final int LOCATION_CODE = 1000;
     public static final int OPEN_GPS_CODE = 1001;
@@ -91,6 +93,7 @@ public class WalkActivity extends BaseActivity {
             unbindService(serviceConnection);
             isWalking = false;
             txtStatus.setText(R.string.walk_start);
+            llGPS.setVisibility(View.INVISIBLE);
             stopWalkTime();
         } else {
             //开始遛狗
@@ -98,6 +101,7 @@ public class WalkActivity extends BaseActivity {
                 Log.e("GPS-Info", "申请权限");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                         LOCATION_CODE);//自定义的code 随便填一个数
+                llGPS.setVisibility(View.VISIBLE);
             } else {
                 // 用户以授权定位信息
                 Intent intentBind = new Intent(WalkActivity.this, GpsService.class);
@@ -166,9 +170,11 @@ public class WalkActivity extends BaseActivity {
     public void GetGpsSatelite(GpsSateliteEvent message) {
         if (message.getConnSatellite() == 0) {
             txtGpsStatus.setText(R.string.gps_week);
+            imgGpsStatus.setBackgroundResource(R.mipmap.icon_gps_weak);
             gpsEnable = true;
         } else {
             txtGpsStatus.setText(R.string.gps);
+            imgGpsStatus.setBackgroundResource(R.mipmap.icon_gps_well);
             gpsEnable = false;
         }
 //        txtSpeed.setText("showSatelliteList.size:" + message.getShowSatellite() + "\n" + "connSatelliteList.size:" + message.getConnSatellite());

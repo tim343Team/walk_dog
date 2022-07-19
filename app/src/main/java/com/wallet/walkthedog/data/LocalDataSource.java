@@ -32,6 +32,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void emailCheckCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void emailRegister(EmailRegisterRequest request, DataCallback dataCallback) {
 
     }

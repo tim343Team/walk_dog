@@ -31,6 +31,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void emailCheckCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.emailCheckCode(request,dataCallback);
+        else mRemoteDataSource.emailCheckCode(request,dataCallback);
+    }
+
+    @Override
     public void emailRegister(EmailRegisterRequest request, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.emailRegister(request,dataCallback);
         else mRemoteDataSource.emailRegister(request,dataCallback);

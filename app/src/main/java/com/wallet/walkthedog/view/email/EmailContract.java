@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.email;
 
+import com.wallet.walkthedog.dao.EmailLoginDao;
 import com.wallet.walkthedog.dao.SendMailboxCodeDao;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 
@@ -12,10 +13,14 @@ public class EmailContract {
 
         void getSuccessCodeData(String dao,String email);
 
+        void getSuccessMobileLogin(EmailLoginDao dao);
+
     }
 
     interface EmailPresenter extends Contract.BasePresenter {
 
         void sendMailboxCode(SendMailboxCodeRequest request);
+
+        void emailCheckCode(SendMailboxCodeRequest request);
     }
 }

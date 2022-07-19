@@ -15,6 +15,8 @@ public interface DataSource {
 
     void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback);
 
+    void emailCheckCode(SendMailboxCodeRequest request, DataCallback dataCallback);
+
     void emailRegister(EmailRegisterRequest request, DataCallback dataCallback);
 
     void emailLogin(EmailLoginRequest request, DataCallback dataCallback);

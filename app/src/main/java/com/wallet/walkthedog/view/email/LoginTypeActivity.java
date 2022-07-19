@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.dao.EmailLoginDao;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.untils.ToastUtils;
@@ -70,6 +71,11 @@ public class LoginTypeActivity extends BaseActivity implements EmailContract.Ema
         ToastUtils.shortToast(LoginTypeActivity.this,R.string.mailbox_send_succeed);
         SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_LOGIN);
         finish();
+    }
+
+    @Override
+    public void getSuccessMobileLogin(EmailLoginDao dao) {
+
     }
 
     @Override
