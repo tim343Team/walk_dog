@@ -2,6 +2,7 @@ package com.wallet.walkthedog.net;
 
 
 import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
@@ -12,7 +13,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public abstract class AbsWalkDogCallBack<T> implements okhttp3.Callback {
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     final public void onFailure(@NonNull Call call, @NonNull IOException e) {
