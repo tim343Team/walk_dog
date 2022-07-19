@@ -281,4 +281,9 @@
     <string name="verification_code">Verification Code</string>
     <string name="email_code_limit">The password is 6- digit pure letters, or letters + numbers</string>
 
+    <string name="check_email_success">邮箱验证成功</string>
+    <string name="please_enter_email_code" >请输入邮箱验证码</string>
+    <string name="please_enter_email" >请输入正确邮箱地址</string>
+
+    <string name="update_email_success">更新邮箱成功</string>
 </resources>

@@ -72,17 +72,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView76">
 
                 <TextView
-                    android:id="@+id/textView77"
+                    android:id="@+id/tv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#4D67C1"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     tools:text="Wa****ef@gmail.com" />
 
 
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/editText_0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,17 +112,17 @@
                 android:layout_marginTop="15dp"
                 android:background="@mipmap/bg_input"
                 android:hint="@string/enter_verification_code"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:maxLines="1"
                 android:padding="13dp"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView80"
+                app:layout_constraintEnd_toStartOf="@+id/tv_send"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView78" />
 
             <com.wallet.walkthedog.custom_view.card.ShadowTextView
-                android:id="@+id/textView80"
+                android:id="@+id/tv_send"
                 style="@style/def_while_shadow_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -153,6 +154,7 @@
         android:layout_weight="1" />
 
     <com.wallet.walkthedog.custom_view.card.ShadowTextView
+        android:id="@+id/tv_submit"
         style="@style/defshadow_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

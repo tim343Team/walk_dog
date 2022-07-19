@@ -16,6 +16,14 @@ public class UrlFactory {
         return host + "/user/emailRegister.json";
     }
 
+    public static String getCheckEmailUrl(){
+        return host + "/userInfo/checkEmail";
+    }
+
+    public static String getUpdateEmailUrl(){
+        return host + "/userInfo/updateEmail";
+    }
+
     //邮箱登录
     public static String getEmailLoginUrl() {
         return host + "/user/login.json";
