@@ -227,19 +227,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
             closeLoginView();
         }else {
             String type = dao.getType();
-            if (type.equals("-2")) {
-                //邀请码无效
-                NormalDialog dialog = NormalDialog.newInstance(R.string.match_invited_error, R.mipmap.icon_normal_no, R.color.color_E12828);
-                dialog.setTheme(R.style.PaddingScreen);
-                dialog.setGravity(Gravity.CENTER);
-                dialog.show(getSupportFragmentManager(), "edit");
-            }else if(type.equals("1")){
-                //已注册
-                NormalDialog dialog = NormalDialog.newInstance(R.string.match_mailbox_error, R.mipmap.icon_normal_no, R.color.color_E12828);
-                dialog.setTheme(R.style.PaddingScreen);
-                dialog.setGravity(Gravity.CENTER);
-                dialog.show(getSupportFragmentManager(), "edit");
-            }else {
+            if(type==null){
                 //保存密碼
                 //設置登陸狀態
                 //保存用户信息
@@ -255,6 +243,18 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
                 UserDao.insert(this, cv);
                 HomeActivity.actionStart(SettingPassWordActivity.this);
                 closeLoginView();
+            }else if (type.equals("-2")) {
+                //邀请码无效
+                NormalDialog dialog = NormalDialog.newInstance(R.string.match_invited_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+            }else if(type.equals("1")){
+                //已注册
+                NormalDialog dialog = NormalDialog.newInstance(R.string.match_mailbox_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
             }
         }
     }
