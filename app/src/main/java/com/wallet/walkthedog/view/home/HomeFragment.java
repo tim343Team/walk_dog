@@ -60,6 +60,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     View viewNullDog;
     @BindView(R.id.ll_have_dog)
     View viewDog;
+    @BindView(R.id.ll_dog_center)
+    RelativeLayout viewBg;
     @BindView(R.id.txt_dog_name)
     TextView txtDogName;
     @BindView(R.id.img_gender)
@@ -104,9 +106,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     void addDoag() {
         SelectDogActivity.actionStart(getActivity());
 //        String token=SharedPrefsHelper.getInstance().getToken();
-//        //TODO 切换
-        viewNullDog.setVisibility(View.GONE);
-        viewDog.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.img_invate)
@@ -303,8 +302,12 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     void updateUI() {
         if (mDefultDogInfo == null) {
+            viewNullDog.setVisibility(View.VISIBLE);
+            viewDog.setVisibility(View.GONE);
             return;
         }
+        viewNullDog.setVisibility(View.GONE);
+        viewDog.setVisibility(View.VISIBLE);
         if (mDefultDogInfo.getSex() == 0) {
             imgGender.setBackgroundResource(R.mipmap.icon_male);
         } else {
@@ -312,21 +315,23 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         }
         if(mDefultDogInfo.getStarvation()==1){
             txtState.setText(R.string.full_of_hunger);
+            viewBg.setBackgroundResource(R.mipmap.bg_home_hungry);
         }else {
             txtState.setText(R.string.full_of_energy);
-            txtDogLevel2.setText("LEVEL " + mDefultDogInfo.getLevel());
-            txtDogLevel.setText("LV. " + mDefultDogInfo.getLevel());
-            txtSpeed.setText( String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm()+""));
-            txtNumber.setText( String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount()+""));
-            txtTrip.setText( String.format(getString(R.string.time_totle), mDefultDogInfo.getWalkTheDogTime()+""));
-            txtRegion.setText( String.format(getString(R.string.number_today), mDefultDogInfo.getDayLimit()+"/2"));
-            RequestOptions options = new RequestOptions()
-                    .centerCrop()
-                    .placeholder(R.mipmap.icon_null_dog)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
-            Glide.with(getmActivity()).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
-            setProgress(progressBg,progressBar,progressTxt,mDefultDogInfo.getRateOfProgress()/100.00);
+            viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
         }
+        txtDogLevel2.setText("LEVEL " + mDefultDogInfo.getLevel());
+        txtDogLevel.setText("LV. " + mDefultDogInfo.getLevel());
+        txtSpeed.setText( String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm()+""));
+        txtNumber.setText( String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount()+""));
+        txtTrip.setText( String.format(getString(R.string.time_totle), mDefultDogInfo.getWalkTheDogTime()+""));
+        txtRegion.setText( String.format(getString(R.string.number_today), mDefultDogInfo.getDayLimit()+"/2"));
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.icon_null_dog)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+        Glide.with(getmActivity()).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
+        setProgress(progressBg,progressBar,progressTxt,mDefultDogInfo.getRateOfProgress()/100.00);
     }
 
     @Override
@@ -348,7 +353,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 if (percentage < 0.2) {
                     params2.leftMargin = 0;
                 }else if(percentage >0.9){
-                    params2.leftMargin = (int) (progress - progressAll * 0.4);
+                    params2.leftMargin = (int) (progress - progressAll * 0.3);
                 } else {
                     params2.leftMargin = (int) (progress - progressAll * 0.18);
                 }
