@@ -39,8 +39,7 @@
                 android:layout_width="@dimen/dimen_132"
                 android:layout_height="@dimen/dimen_132"
                 android:layout_marginTop="@dimen/dimen_41"
-                android:layout_marginBottom="@dimen/dimen_31"
-                android:background="@mipmap/icon_null_dog" />
+                android:layout_marginBottom="@dimen/dimen_31" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -68,7 +68,7 @@
                     android:id="@+id/ll_null_dog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <RelativeLayout
                         android:id="@+id/ll_null_dog_center"
@@ -157,7 +157,7 @@
                     android:id="@+id/ll_have_dog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:id="@+id/ll_dog_center"
@@ -253,7 +253,7 @@
                             android:id="@+id/img_dog"
                             android:layout_width="@dimen/dimen_186"
                             android:layout_height="@dimen/dimen_186"
-                            android:layout_centerInParent="true"/>
+                            android:layout_centerInParent="true" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

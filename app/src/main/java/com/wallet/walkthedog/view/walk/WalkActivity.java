@@ -143,6 +143,15 @@ public class WalkActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        super.onDestroy();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsLocation(GpsLocationEvent location) {
         if (gpsEnable) {
@@ -150,12 +159,12 @@ public class WalkActivity extends BaseActivity {
         } else {
             txtSpeed.setText("0.0");
         }
-//        txtSpeed2.setText("Latitude:" + location.getLatitude() + "\n" + "Longitude:" + location.getLongitude() + "\n" + "Speed:" + location.getSpeed());
+        txtSpeed2.setText("Latitude:" + location.getLatitude() + "\n" + "Longitude:" + location.getLongitude() + "\n" + "Speed:" + location.getSpeed());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsSatelite(GpsSateliteEvent message) {
-        if (message.getConnSatellite() < 3) {
+        if (message.getConnSatellite() == 0) {
             txtGpsStatus.setText(R.string.gps_week);
             gpsEnable = true;
         } else {
