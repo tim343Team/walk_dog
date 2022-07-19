@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.email;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +14,17 @@ import android.widget.TextView;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.custom_view.PasswordView;
+import com.wallet.walkthedog.dao.EmailLoginDao;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.data.Constant;
+import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.home.HomeActivity;
+import com.wallet.walkthedog.view.login.CreateActivity;
 import com.wallet.walkthedog.view.login.ImportActivity;
+import com.wallet.walkthedog.view.login.LoginActivity;
 import com.wallet.walkthedog.view.login.SettingPassWordActivity;
 
 import butterknife.BindView;
@@ -94,9 +99,9 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
                     //判断郵箱验证码是否正确
                     if(code.equals(content)){
                         if(type.equals(Constant.LOGIN_MAIL_LOGIN)){
-                            //登錄
-                            //TODO 調用驗證碼登錄
-                            ToastUtils.shortToast("暫無驗證碼登錄接口");
+                            //調用驗證碼登錄
+                            SendMailboxCodeRequest request=new SendMailboxCodeRequest(email,content);
+                            presenter.emailCheckCode(request);
                         }else if(type.equals(Constant.LOGIN_MAIL_REGISTER)){
                             //註冊
                             SettingPassWordActivity.actionStart(SettingMobileCodeActivity.this, type,email,code);
@@ -168,7 +173,7 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        ToastUtils.shortToast(this,R.string.mailbox_send_error);
+        ToastUtils.shortToast(toastMessage);
     }
 
     @Override
@@ -179,7 +184,42 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
     }
 
     @Override
+    public void getSuccessMobileLogin(EmailLoginDao dao) {
+        SharedPrefsHelper.getInstance().saveToken(dao.getUserToken());
+        UserDao.delete(this,null,null);
+        ContentValues cv = new ContentValues();
+        cv.put("username", dao.getUserName());
+        cv.put("avatar", "");
+        cv.put("email", email);
+        cv.put("uid", dao.getId());
+        cv.put("fuid", "");
+        cv.put("mobile", "");
+        UserDao.insert(this, cv);
+        HomeActivity.actionStart(this);
+        closeLoginView();
+    }
+
+    @Override
     public void setPresenter(EmailContract.EmailPresenter presenter) {
         this.presenter=presenter;
+    }
+
+    void closeLoginView(){
+        if (ImportActivity.instance != null) {
+            ImportActivity.instance.finish();
+        }
+        if (LoginActivity.instance != null) {
+            LoginActivity.instance.finish();
+        }
+        if (CreateActivity.instance != null) {
+            CreateActivity.instance.finish();
+        }
+        if (SettingMobileCodeActivity.instance != null) {
+            SettingMobileCodeActivity.instance.finish();
+        }
+        if (EmailActivity.instance != null) {
+            EmailActivity.instance.finish();
+        }
+        finish();
     }
 }
