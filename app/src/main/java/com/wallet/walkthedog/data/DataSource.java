@@ -21,5 +21,13 @@ public interface DataSource {
 
     void passwordLogin(EmailLoginRequest request, DataCallback dataCallback);
 
+    void getUserDog(DataCallback dataCallback);
+
+    void getDogInfo(String dogId,DataCallback dataCallback);
+
+    void getUseDog(String dogId,DataCallback dataCallback);
+
+    void getWalkTheDogFriend(DataCallback dataCallback);
+
 
 }

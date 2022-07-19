@@ -209,25 +209,12 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
 
     @Override
     public void getSuccess(EmailLoginDao dao, String password) {
-        String type = dao.getType();
-        if (type.equals("-2")) {
-            //邀请码无效
-            NormalDialog dialog = NormalDialog.newInstance(R.string.match_invited_error, R.mipmap.icon_normal_no, R.color.color_E12828);
-            dialog.setTheme(R.style.PaddingScreen);
-            dialog.setGravity(Gravity.CENTER);
-            dialog.show(getSupportFragmentManager(), "edit");
-        }else if(type.equals("1")){
-            //已注册
-            NormalDialog dialog = NormalDialog.newInstance(R.string.match_mailbox_error, R.mipmap.icon_normal_no, R.color.color_E12828);
-            dialog.setTheme(R.style.PaddingScreen);
-            dialog.setGravity(Gravity.CENTER);
-            dialog.show(getSupportFragmentManager(), "edit");
-        }else {
-            //保存密碼
-            //設置登陸狀態
+        if(type.equals(Constant.LOGIN_MAIL_LOGIN)){
+            //登录不校验type
             //保存用户信息
             SharedPrefsHelper.getInstance().saveSignPassword(password);
-            SharedPrefsHelper.getInstance().saveToken(dao.getUserToken());
+            SharedPrefsHelper.getInstance().saveToken(dao.getToken());
+            UserDao.delete(this,null,null);
             ContentValues cv = new ContentValues();
             cv.put("username", dao.getUserName());
             cv.put("avatar", "");
@@ -238,6 +225,37 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
             UserDao.insert(this, cv);
             HomeActivity.actionStart(SettingPassWordActivity.this);
             closeLoginView();
+        }else {
+            String type = dao.getType();
+            if (type.equals("-2")) {
+                //邀请码无效
+                NormalDialog dialog = NormalDialog.newInstance(R.string.match_invited_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+            }else if(type.equals("1")){
+                //已注册
+                NormalDialog dialog = NormalDialog.newInstance(R.string.match_mailbox_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+            }else {
+                //保存密碼
+                //設置登陸狀態
+                //保存用户信息
+                SharedPrefsHelper.getInstance().saveSignPassword(password);
+                SharedPrefsHelper.getInstance().saveToken(dao.getUserToken());
+                ContentValues cv = new ContentValues();
+                cv.put("username", dao.getUserName());
+                cv.put("avatar", "");
+                cv.put("email", email);
+                cv.put("uid", dao.getId());
+                cv.put("fuid", "");
+                cv.put("mobile", "");
+                UserDao.insert(this, cv);
+                HomeActivity.actionStart(SettingPassWordActivity.this);
+                closeLoginView();
+            }
         }
     }
 

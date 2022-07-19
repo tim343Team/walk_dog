@@ -78,7 +78,7 @@ public class GpsUtils {
         // 参数3，位置变化最小距离：当位置距离变化超过此值时，将更新位置信息
         // 参数4，监听
         // 备注：参数2和3，如果参数3不为0，则以参数3为准；参数3为0，则通过时间来定时更新；两者为0，则随时刷新
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myLocationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, myLocationListener);
         // 监听GPS状态，主要是捕获到的各个卫星的状态
         locationManager.addGpsStatusListener(gpsStatusListener);
     }

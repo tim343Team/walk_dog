@@ -2,11 +2,13 @@ package com.wallet.walkthedog.data;
 
 import com.google.gson.reflect.TypeToken;
 import com.wallet.walkthedog.app.UrlFactory;
+import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
 import com.wallet.walkthedog.dao.SendMailboxCodeDao;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
+import com.wallet.walkthedog.sp.SharedPrefsHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -140,6 +142,109 @@ public class RemoteDataSource implements DataSource {
                             if (object.optInt("code") == 0) {
                                 EmailLoginDao obj = gson.fromJson(object.getJSONObject("data").toString(), EmailLoginDao.class);
                                 dataCallback.onDataLoaded(obj);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getUserDog(DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getUserDogUrl() + "?pageNo=1&pageSize=50")
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("获取我的狗狗:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("获取我的狗狗：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                List<DogInfoDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("records").toString(), new TypeToken<List<DogInfoDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getDogInfo(String dogId, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getDogInfoUrl() + "?dogId=" + dogId)
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("根据id获取狗狗详情:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("根据id获取狗狗详情：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                DogInfoDao obj = gson.fromJson(object.getJSONObject("data").toString(), DogInfoDao.class);
+                                dataCallback.onDataLoaded(obj);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getUseDog(String dogId, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getWalkTheDogFriend(DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getWalkTheDogFriendUrl())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("获取一起遛狗的好友:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("获取一起遛狗的好友：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                List<DogInfoDao> objs = gson.fromJson(object.getJSONArray("data").toString(), new TypeToken<List<DogInfoDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

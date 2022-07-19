@@ -22,8 +22,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_toEndOf="@id/img_back">
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical">
 
             <TextView
                 style="@style/TextTitle"
@@ -44,7 +44,8 @@
                 android:gravity="center"
                 android:layout_centerInParent="true"
                 android:textColor="@color/color_ADAEB3"
-                android:text="@string/rental_dog" />
+                android:text="@string/rental_dog"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -60,7 +61,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_rent"
