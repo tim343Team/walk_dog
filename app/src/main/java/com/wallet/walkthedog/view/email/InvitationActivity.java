@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.dao.EmailLoginDao;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.untils.ToastUtils;
@@ -128,6 +129,11 @@ public class InvitationActivity extends BaseActivity  implements EmailContract.E
         ToastUtils.shortToast(this,R.string.mailbox_send_succeed);
         SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_REGISTER);
         finish();
+    }
+
+    @Override
+    public void getSuccessMobileLogin(EmailLoginDao dao) {
+
     }
 
     @Override
