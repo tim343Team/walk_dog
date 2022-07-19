@@ -165,6 +165,7 @@
         <activity android:name=".view.mine.LanguageSetActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.SecuritySetActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.PassWordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.MailBoxActivity" android:screenOrientation="portrait"/>
 
         <service android:name=".service.GpsService"/>
 
