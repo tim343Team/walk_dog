@@ -6,24 +6,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
-import com.wallet.walkthedog.MainActivity;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
-import com.wallet.walkthedog.net.SimpleCallBack;
+import com.wallet.walkthedog.net.GsonWalkDogCallBack;
+import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.login.LoginActivity;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Request;
-import okhttp3.Response;
 import tim.com.libnetwork.base.BaseActivity;
-import tim.com.libnetwork.network.okhttp.StringCallBack;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 
 public class MailBoxActivity extends BaseActivity {
@@ -86,12 +77,12 @@ public class MailBoxActivity extends BaseActivity {
 
     }
 
-    private void onCheckEmail(int p) {
+    private void onCheckEmail() {
         tv_email.setVisibility(View.GONE);
         editText_0.setVisibility(View.VISIBLE);
         editText_0.setText("");
         editText.setText("");
-        ToastUtils.shortToast(p);
+        ToastUtils.shortToast(R.string.check_email_success);
     }
 
     private void onUpdateEmail() {
@@ -111,10 +102,10 @@ public class MailBoxActivity extends BaseActivity {
                 .addParams("checkCode", code)
                 .build()
                 .getCall()
-                .enqueue(new SimpleCallBack<Object>() {
+                .enqueue(new GsonWalkDogCallBack<RemoteData<Object>>() {
                     @Override
-                    protected void onSuccess(Object o) {
-                        onCheckEmail(R.string.check_email_success);
+                    protected void onRes(RemoteData<Object> testRemoteData)  {
+                        onCheckEmail();
                     }
                 });
     }
@@ -127,10 +118,10 @@ public class MailBoxActivity extends BaseActivity {
                 .addParams("email", email)
                 .build()
                 .getCall()
-                .enqueue(new SimpleCallBack<Object>() {
+                .enqueue(new GsonWalkDogCallBack<RemoteData<Object>>() {
                     @Override
-                    protected void onSuccess(Object o) {
-                        onUpdateEmail();
+                    protected void onRes(RemoteData<Object> testRemoteData) {
+                       onUpdateEmail();
                     }
                 });
     }

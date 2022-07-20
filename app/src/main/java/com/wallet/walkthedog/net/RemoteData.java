@@ -14,6 +14,13 @@ public class RemoteData<T> {
         return data;
     }
 
+    public T getNotNullData() {
+        if (data == null) {
+            throw new NullPointerException("data is null");
+        }
+        return data;
+    }
+
     public void setData(@Nullable T data) {
         this.data = data;
     }

@@ -34,7 +34,11 @@ public abstract class AbsWalkDogCallBack<T> implements okhttp3.Callback {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                onRes(t);
+                try {
+                    onRes(t);
+                }catch (Exception e){
+                    onFail(converException(e));
+                }
             }
         });
     }
@@ -60,9 +64,9 @@ public abstract class AbsWalkDogCallBack<T> implements okhttp3.Callback {
         }
     }
 
-    abstract T conver(String string);
+    abstract T conver(String string) throws Exception;
 
-    abstract void onFail(Exception e);
+    protected abstract void onFail(Exception e);
 
-    abstract void onRes(T t);
+    protected abstract void onRes(T t) throws Exception;
 }
