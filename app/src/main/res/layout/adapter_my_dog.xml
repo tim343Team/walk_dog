@@ -27,8 +27,7 @@
                 android:layout_width="@dimen/dimen_82"
                 android:layout_height="@dimen/dimen_82"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dimen_16"
-                android:background="@mipmap/icon_null_dog" />
+                android:layout_marginTop="@dimen/dimen_16" />
 
             <TextView
                 android:id="@+id/txt_dog_name"

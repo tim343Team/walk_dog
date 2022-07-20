@@ -3,6 +3,7 @@ package com.wallet.walkthedog.data;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
+import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 
 public interface DataSource {
 
@@ -30,6 +31,10 @@ public interface DataSource {
     void getUseDog(String dogId,DataCallback dataCallback);
 
     void getWalkTheDogFriend(DataCallback dataCallback);
+
+    void startWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
+
+    void stopWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
 
 
 }

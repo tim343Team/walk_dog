@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.WalkDogAdapter;
+import com.wallet.walkthedog.bus_event.GpsConnectTImeEvent;
 import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
 import com.wallet.walkthedog.dao.EquipmentDao;
@@ -38,6 +40,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +50,8 @@ import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.utils.DateTimeUtil;
 
 public class WalkActivity extends BaseActivity {
+    @BindView(R.id.img_back)
+    ImageView imgBack;
     @BindView(R.id.img_dog)
     ImageView imgDog;
     @BindView(R.id.txt_speed)
@@ -72,14 +77,27 @@ public class WalkActivity extends BaseActivity {
 
     public static final int LOCATION_CODE = 1000;
     public static final int OPEN_GPS_CODE = 1001;
-    private GpsService gpsService;
+    private Intent gpsService;
     private WalkDogAdapter adapter;
     private List<EquipmentDao> data = new ArrayList<>();
     private boolean isWalking = false;
     private WalkNoticeDialog dialog;
     private boolean gpsEnable = false;
-    private CountDownTimer timer;
+    private int speedErrorCount = 0;//记录不匹配速度的次数，达到三次后弹窗提示
     private long walkTime = 0;
+    private Handler mHandler = new Handler();
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            //在这里执行定时需要的操作
+            try {
+                mHandler.postDelayed(this, 10000);
+            } catch (Exception e) {
+                mHandler.postDelayed(this, 10000);
+            }
+        }
+    };
 
     @OnClick(R.id.img_back)
     void back() {
@@ -90,11 +108,9 @@ public class WalkActivity extends BaseActivity {
     void switchButton() {
         if (isWalking) {
             //停止遛狗
-            unbindService(serviceConnection);
-            isWalking = false;
-            txtStatus.setText(R.string.walk_start);
-            llGPS.setVisibility(View.INVISIBLE);
-            stopWalkTime();
+            stopService(gpsService);
+//            unbindService(serviceConnection);
+            switchButton(false);
         } else {
             //开始遛狗
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -104,11 +120,16 @@ public class WalkActivity extends BaseActivity {
                 llGPS.setVisibility(View.VISIBLE);
             } else {
                 // 用户以授权定位信息
-                Intent intentBind = new Intent(WalkActivity.this, GpsService.class);
-                bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
-                isWalking = true;
-                txtStatus.setText(R.string.walk_stop);
-                saveWalkTime();
+                gpsService = new Intent(getApplicationContext(), GpsService.class);
+                // 开启服务
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    //适配8.0机制
+                    startForegroundService(gpsService);
+                } else {
+                    startService(gpsService);
+                }
+//                bindService(gpsService, serviceConnection, Context.BIND_AUTO_CREATE);
+                switchButton(true);
             }
         }
         //TODO 测试倒计时
@@ -144,40 +165,75 @@ public class WalkActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-
+        mHandler.postDelayed(runnable, 1000);
     }
 
     @Override
     protected void onDestroy() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
         super.onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        if (isWalking) {
+            return;
+        }
+        super.finish();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsLocation(GpsLocationEvent location) {
         if (gpsEnable) {
-            txtSpeed.setText(location.getSpeed());
+            BigDecimal bigDecimal = new BigDecimal(location.getSpeed());
+            double speend = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+            txtSpeed.setText(String.valueOf(speend));
+            if (speend < 3.0) {
+                //速度慢了
+                speedErrorCount = speedErrorCount + 1;
+                if (speedErrorCount > 3)
+                    showWarning("1", String.valueOf(speend));
+            } else if (speend > 6.0) {
+                //速度快了
+                speedErrorCount = speedErrorCount + 1;
+                if (speedErrorCount > 3)
+                    showWarning("2", String.valueOf(speend));
+            } else {
+                speedErrorCount = 0;
+            }
         } else {
             txtSpeed.setText("0.0");
         }
-        txtSpeed2.setText("Latitude:" + location.getLatitude() + "\n" + "Longitude:" + location.getLongitude() + "\n" + "Speed:" + location.getSpeed());
+        txtSpeed2.setText("gpsEnable:"+gpsEnable+"Latitude:" + location.getLatitude() + "\n" + "Longitude:" + location.getLongitude() + "\n" + "Speed:" + location.getSpeed());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsSatelite(GpsSateliteEvent message) {
+        if(txtGpsStatus==null){
+            return;
+        }
+
         if (message.getConnSatellite() == 0) {
             txtGpsStatus.setText(R.string.gps_week);
             imgGpsStatus.setBackgroundResource(R.mipmap.icon_gps_weak);
-            gpsEnable = true;
+            txtSpeed.setText("0.0");
+            gpsEnable = false;
+            txtSpeed2.setText("设置gpsEnable为:"+gpsEnable);
+
         } else {
             txtGpsStatus.setText(R.string.gps);
             imgGpsStatus.setBackgroundResource(R.mipmap.icon_gps_well);
-            gpsEnable = false;
+            gpsEnable = true;
+            txtSpeed2.setText("设置gpsEnable为:"+gpsEnable);
         }
 //        txtSpeed.setText("showSatelliteList.size:" + message.getShowSatellite() + "\n" + "connSatelliteList.size:" + message.getConnSatellite());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void GetGpsConnectTime(GpsConnectTImeEvent message) {
+        if (txtTime == null) {
+            return;
+        }
+        txtTime.setText(DateTimeUtil.second2Minute(message.getSeconed()));
     }
 
     void initRv() {
@@ -202,6 +258,23 @@ public class WalkActivity extends BaseActivity {
         adapter.setEnableLoadMore(false);
     }
 
+    void switchButton(boolean b) {
+        isWalking = b;
+        if (isWalking) {
+            //开始遛狗
+            txtStatus.setText(R.string.walk_stop);
+            imgStatus.setBackgroundResource(R.mipmap.icon_walking);
+            llGPS.setVisibility(View.VISIBLE);
+            imgBack.setVisibility(View.INVISIBLE);
+        } else {
+            //停止遛狗
+            txtStatus.setText(R.string.walk_start);
+            imgStatus.setBackgroundResource(R.mipmap.icon_walk_stop);
+            llGPS.setVisibility(View.INVISIBLE);
+            imgBack.setVisibility(View.VISIBLE);
+        }
+    }
+
     void showWarning(String type, String speed) {
         if (!(dialog == null || !dialog.isShown())) {
             dialog.dismiss();
@@ -218,45 +291,17 @@ public class WalkActivity extends BaseActivity {
         });
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.e(getClass().getName(), "onServiceConnected");
-            gpsService = ((GpsService.LocalBinder) service).getService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.e(getClass().getName(), "onServiceDisconnected");
-            gpsService = null;
-        }
-    };
-
-    private void stopWalkTime() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-    }
-
-    private void saveWalkTime() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-        timer = new CountDownTimer(Long.MAX_VALUE, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                walkTime = walkTime + 1;
-                txtTime.setText(walkTime + "");
-            }
-
-            @Override
-            public void onFinish() {
-                timer.cancel();
-                timer = null;
-            }
-        };
-        timer.start();
-    }
+//    private ServiceConnection serviceConnection = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            Log.e(getClass().getName(), "onServiceConnected");
+//            gpsService = ((GpsService.LocalBinder) service).getService();
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            Log.e(getClass().getName(), "onServiceDisconnected");
+//            gpsService = null;
+//        }
+//    };
 }

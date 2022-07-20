@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <!--标题-->
@@ -93,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dp25"
-                        android:text="82:29"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen_14"
                         android:textStyle="bold" />
@@ -130,7 +131,7 @@
                     android:layout_marginTop="@dimen/dimen_22"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:visibility="visible">
+                    android:visibility="invisible">
 
                     <ImageView
                         android:id="@+id/img_gps_status"
@@ -183,14 +184,15 @@
                     android:id="@+id/ll_status"
                     android:layout_width="@dimen/dimen_73"
                     android:layout_height="@dimen/dimen_73"
-                    android:background="@drawable/button_gradual_round">
+                    android:visibility="visible"
+                    android:background="@drawable/walk_gradual_round">
 
                     <ImageView
                         android:id="@+id/img_status"
-                        android:layout_width="@dimen/dimen_28"
-                        android:layout_height="@dimen/dimen_28"
+                        android:layout_width="@dimen/dimen_32"
+                        android:layout_height="@dimen/dimen_32"
                         android:layout_centerInParent="true"
-                        android:background="@mipmap/icon_walking" />
+                        android:background="@mipmap/icon_walk_stop" />
 
                 </RelativeLayout>
 
@@ -202,6 +204,7 @@
                     android:text="@string/walk_start"
                     android:textColor="@color/text_767676"
                     android:textSize="@dimen/dp12" />
+
 
             </LinearLayout>
 

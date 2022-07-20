@@ -41,7 +41,7 @@ public class HomeActivity1 extends BaseActivity {
     @OnClick(R.id.open_gps)
     void openGpsService() {
         if (isBind) {
-            unbindService(serviceConnection);
+//            unbindService(serviceConnection);
             isBind = false;
             textOpenGps.setText("打开GPS");
         } else {
@@ -58,10 +58,10 @@ public class HomeActivity1 extends BaseActivity {
                         LOCATION_CODE);//自定义的code 随便填一个数
             } else {
                 // 用户以授权定位信息
-                Intent intentBind = new Intent(HomeActivity1.this, GpsService.class);
-                bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
-                isBind = true;
-                textOpenGps.setText("关闭GPS");
+//                Intent intentBind = new Intent(HomeActivity1.this, GpsService.class);
+//                bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
+//                isBind = true;
+//                textOpenGps.setText("关闭GPS");
             }
         }
     }
@@ -114,10 +114,10 @@ public class HomeActivity1 extends BaseActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 权限被用户同意。
                     // 执形我们想要的操作
-                    Intent intentBind = new Intent(HomeActivity1.this, GpsService.class);
-                    bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
-                    isBind = true;
-                    textOpenGps.setText("关闭GPS");
+//                    Intent intentBind = new Intent(HomeActivity1.this, GpsService.class);
+//                    bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
+//                    isBind = true;
+//                    textOpenGps.setText("关闭GPS");
                 } else {
                     Log.e("GPS-Info", "未授权定位权限");
                     // 用户授权定位信息
@@ -127,10 +127,10 @@ public class HomeActivity1 extends BaseActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 权限被用户同意。
                     // 执形我们想要的操作
-                    Intent intentBind = new Intent(HomeActivity1.this, GpsService.class);
-                    bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
-                    isBind = true;
-                    textOpenGps.setText("关闭GPS");
+//                    Intent intentBind = new Intent(HomeActivity1.this, GpsService.class);
+//                    bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
+//                    isBind = true;
+//                    textOpenGps.setText("关闭GPS");
                 } else {
                     Log.e("GPS-Info", "未授权定位权限");
                     // 用户授权定位信息
@@ -139,17 +139,17 @@ public class HomeActivity1 extends BaseActivity {
         }
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.e(getClass().getName(), "onServiceConnected");
-            gpsService = ((GpsService.LocalBinder) service).getService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.e(getClass().getName(), "onServiceDisconnected");
-            gpsService = null;
-        }
-    };
+//    private ServiceConnection serviceConnection = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            Log.e(getClass().getName(), "onServiceConnected");
+//            gpsService = ((GpsService.LocalBinder) service).getService();
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            Log.e(getClass().getName(), "onServiceDisconnected");
+//            gpsService = null;
+//        }
+//    };
 }

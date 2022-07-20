@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
+import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 
 public class LocalDataSource implements DataSource {
     private static LocalDataSource INSTANCE;
@@ -70,4 +71,15 @@ public class LocalDataSource implements DataSource {
     public void getWalkTheDogFriend(DataCallback dataCallback) {
 
     }
+
+    @Override
+    public void startWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void stopWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
+
+    }
+
 }

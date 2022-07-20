@@ -175,6 +175,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:layout_marginTop="@dimen/dimen_16"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
@@ -243,7 +244,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="OxOKJDJ….SOK7"
                                     android:textColor="@color/white"
-                                    android:textSize="@dimen/dp15" />
+                                    android:textSize="@dimen/dp15"
+                                    android:visibility="gone"/>
 
                             </LinearLayout>
 
