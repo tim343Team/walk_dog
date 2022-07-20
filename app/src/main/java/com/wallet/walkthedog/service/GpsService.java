@@ -25,30 +25,19 @@ import com.wallet.walkthedog.view.home.HomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GpsService extends Service {
     //声明IBinder接口的一个接口变量mBinder
     private static int foregroundId = 110;
     private Notification notification;
-//    public final IBinder mBinder = new LocalBinder();
+    private Timer timer = null;
+
+    //    public final IBinder mBinder = new LocalBinder();
     private NotificationManager mNM;
     private GpsUtils gpsUtils;
     private long timeSecond;
-
-    private Handler mHandler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            //在这里执行定时需要的操作
-            try {
-                timeSecond = timeSecond + 1;
-                Log.e(getClass().getName(), timeSecond + "s");
-                EventBus.getDefault().post(new GpsConnectTImeEvent(timeSecond));
-                mHandler.postDelayed(this, 1000);
-            } catch (Exception e) {
-                mHandler.postDelayed(this, 1000);
-            }
-        }
-    };
 
     //LocalBinder是继承Binder的一个内部类
 //    public class LocalBinder extends Binder {
@@ -62,7 +51,15 @@ public class GpsService extends Service {
     public void onCreate() {
         Log.e(getClass().getName(), "onCreate");
         timeSecond = 0;
-        mHandler.postDelayed(runnable, 1000);
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                timeSecond = timeSecond + 1;
+                EventBus.getDefault().post(new GpsConnectTImeEvent(timeSecond));
+                Log.e(getClass().getName(), timeSecond + "s");
+            }
+        }, 1000, 1000);
     }
 
     @Override
@@ -104,6 +101,10 @@ public class GpsService extends Service {
         Log.e(getClass().getName(), "onDestroy");
         if (gpsUtils != null) {
             gpsUtils.stopLocation();
+        }
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
         }
     }
 
