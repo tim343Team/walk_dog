@@ -3,6 +3,7 @@ package com.wallet.walkthedog.data;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
+import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 
 public class DataRepository implements DataSource {
     private static DataRepository INSTANCE = null;
@@ -77,4 +78,17 @@ public class DataRepository implements DataSource {
         if (isLocal) mLocalDataSource.getWalkTheDogFriend(dataCallback);
         else mRemoteDataSource.getWalkTheDogFriend(dataCallback);
     }
+
+    @Override
+    public void startWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.startWalkDog(request,dataCallback);
+        else mRemoteDataSource.startWalkDog(request,dataCallback);
+    }
+
+    @Override
+    public void stopWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.stopWalkDog(request,dataCallback);
+        else mRemoteDataSource.stopWalkDog(request,dataCallback);
+    }
+
 }

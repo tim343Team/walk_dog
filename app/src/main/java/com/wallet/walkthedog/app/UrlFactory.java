@@ -48,4 +48,14 @@ public class UrlFactory {
     public static String getWalkTheDogFriendUrl() {
         return host + "/index/getWalkTheDogFriend";
     }
+
+    //开始遛狗
+    public static String getStartWalkUrl() {
+        return host + "/index/startWalkTheDog";
+    }
+
+    //停止遛狗
+    public static String getStopWalkUrl() {
+        return host + "/index/endWalkTheDog";
+    }
 }

@@ -108,7 +108,7 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
                 if (percentage < 0.2) {
                     params2.leftMargin = 0;
                 }else if(percentage >0.9){
-                    params2.leftMargin = (int) (progress - progressAll * 0.3);
+                    params2.leftMargin = (int) (progress - progressAll * 0.4);
                 } else {
                     params2.leftMargin = (int) (progress - progressAll * 0.18);
                 }

@@ -134,7 +134,7 @@ public class GpsUtils {
             GpsLocationEvent gpsSateliteEvent=new GpsLocationEvent();
             gpsSateliteEvent.setLatitude(location.getLatitude());
             gpsSateliteEvent.setLongitude(location.getLongitude());
-            gpsSateliteEvent.setSpeed( (location.getSpeed() * 3.6) + "km/h");
+            gpsSateliteEvent.setSpeed(String.valueOf((location.getSpeed() * 3.6)));
             EventBus.getDefault().post(gpsSateliteEvent);
 //            infoTextView.setText("Latitude:" + location.getLatitude() + "\n" + "Longitude:" + location.getLongitude() + "\n" + "Speed:" + (location.getSpeed() * 3.6) + "km/h");
 //            getGpsStatus(textView);

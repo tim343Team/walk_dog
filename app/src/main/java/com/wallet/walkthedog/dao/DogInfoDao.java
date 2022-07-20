@@ -16,7 +16,7 @@ public class DogInfoDao implements Serializable {
 
     private int sex;
 
-    private int level;
+    private double level;
 
     private int type;
 
@@ -106,11 +106,11 @@ public class DogInfoDao implements Serializable {
         this.sex = sex;
     }
 
-    public int getLevel() {
+    public double getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(double level) {
         this.level = level;
     }
 
