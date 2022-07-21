@@ -24,6 +24,7 @@ import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
+import com.wallet.walkthedog.dialog.DayLimitDialog;
 import com.wallet.walkthedog.dialog.FeedingDialog;
 import com.wallet.walkthedog.dialog.HungryDialog;
 import com.wallet.walkthedog.dialog.IdentityDialog;
@@ -97,6 +98,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     private HomeContract.HomePresenter presenter;
     private int progressAll = 0;
+    private String totalFood = "0";
     private HomePropsAdapter adapter;
     private DogInfoDao mDefultDogInfo;
 
@@ -113,6 +115,9 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.img_more)
     void startMore() {
+        if (mDefultDogInfo == null) {
+            return;
+        }
         MoreOperationDialog dialog = MoreOperationDialog.newInstance();
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
@@ -121,6 +126,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             @Override
             public void callback() {
                 //餵食
+                //查询喂食消耗
                 showFeeding();
                 dialog.dismiss();
             }
@@ -190,11 +196,16 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             });
         } else {
             //正常狀態
-            WalkActivity.actionStart(getmActivity());
+            //判断遛狗次数
+            if (mDefultDogInfo.getDayLimit() < 3) {
+                WalkActivity.actionStart(getmActivity());
+            } else {
+                DayLimitDialog dialog = DayLimitDialog.newInstance(getResources().getString(R.string.walk_number), getResources().getString(R.string.walk_notice_4));
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getFragmentManager(), "edit");
+            }
         }
-
-//        String outMessage = String.format(String.valueOf(R.string.text_push_notification_message), "4.23 km/h");
-
     }
 
     @OnClick({R.id.img_equipment_1, R.id.img_equipment_2, R.id.img_equipment_3})
@@ -334,7 +345,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         Glide.with(getmActivity()).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
         setProgress(progressBg, progressBar, progressTxt, mDefultDogInfo.getRateOfProgress() / 100.00);
         //道具
-        for(int i=0;i<mDefultDogInfo.getPropDatas().size();i++){
+        for (int i = 0; i < mDefultDogInfo.getPropDatas().size(); i++) {
             RequestOptions optionsEq = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.icon_bell)
@@ -373,43 +384,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     private void showFeeding() {
-        FeedingDialog dialog = FeedingDialog.newInstance();
-        dialog.setTheme(R.style.PaddingScreen);
-        dialog.setGravity(Gravity.CENTER);
-        dialog.show(getFragmentManager(), "edit");
-        dialog.setFeedCallback(new FeedingDialog.OperateFeedCallback() {
-            @Override
-            public void callback() {
-                //TODO 調用餵食接口
-                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance();
-                buyDialog.setTheme(R.style.PaddingScreen);
-                buyDialog.setGravity(Gravity.CENTER);
-                buyDialog.show(getFragmentManager(), "edit");
-                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
-                    @Override
-                    public void callback() {
-                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
-                        passwordDialog.setTheme(R.style.PaddingScreen);
-                        passwordDialog.setGravity(Gravity.CENTER);
-                        passwordDialog.show(getFragmentManager(), "edit");
-                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
-                            @Override
-                            public void callback() {
-                                passwordDialog.dismiss();
-                                buyDialog.dismiss();
-                            }
-                        });
-                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
-                            @Override
-                            public void callback() {
-                                ToastUtils.shortToast("错误");
-                            }
-                        });
-                    }
-                });
-                dialog.dismiss();
-            }
-        });
+        presenter.getFeedDog(mDefultDogInfo.getId());
     }
 
     @Override
@@ -420,7 +395,75 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void getCurrentDogInfo(DogInfoDao dogInfoDao) {
         mDefultDogInfo = dogInfoDao;
+        presenter.getWallet("2");//获取狗粮总数
         updateUI();
+    }
+
+    @Override
+    public void getFeedDogInfo(String data) {
+        //喂食弹唱
+        FeedingDialog dialog = FeedingDialog.newInstance(mDefultDogInfo, data, totalFood);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getFragmentManager(), "edit");
+        dialog.setFeedCallback(new FeedingDialog.OperateFeedCallback() {
+            @Override
+            public void callback() {
+                //調用餵食接口
+                presenter.feedDog(mDefultDogInfo.getId());
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void getWalletInfo(String data, String type) {
+        if (type.equals("1")) {
+
+        } else if (type.equals("2")) {
+            totalFood = data;
+        }
+    }
+
+    @Override
+    public void feedSuccessful(String data) {
+        //喂食成功,更新数据
+        updateData();
+    }
+
+    @Override
+    public void feedFail(Integer code, String toastMessage) {
+        //喂食失败
+        ToastUtils.shortToast(toastMessage);
+        if (code == 1) {
+            //TODO 新增是否购买页面
+            BuyFoodDialog buyDialog = BuyFoodDialog.newInstance();
+            buyDialog.setTheme(R.style.PaddingScreen);
+            buyDialog.setGravity(Gravity.CENTER);
+            buyDialog.show(getFragmentManager(), "edit");
+            buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+                @Override
+                public void callback() {
+                    PasswordDialog passwordDialog = PasswordDialog.newInstance();
+                    passwordDialog.setTheme(R.style.PaddingScreen);
+                    passwordDialog.setGravity(Gravity.CENTER);
+                    passwordDialog.show(getFragmentManager(), "edit");
+                    passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+                        @Override
+                        public void callback() {
+                            passwordDialog.dismiss();
+                            buyDialog.dismiss();
+                        }
+                    });
+                    passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+                        @Override
+                        public void callback() {
+                            ToastUtils.shortToast("错误");
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @Override

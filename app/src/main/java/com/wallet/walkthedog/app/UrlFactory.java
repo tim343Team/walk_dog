@@ -73,4 +73,20 @@ public class UrlFactory {
     public static String getusePropUrl() {
         return host + "/prop/useProp";
     }
+
+    //查询喂食消耗
+    public static String getFeedDogUrl() {
+        return host + "/dog/getFeedDog";
+    }
+
+    //喂食
+    public static String feedDogUrl() {
+        return host + "/dog/feedDog";
+    }
+
+    //获取钱包余额
+    public static String getWalletUrl() {
+        return host + "/wallet/getWallet";
+    }
+
 }

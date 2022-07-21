@@ -75,7 +75,7 @@ public class IdentityDialog extends BaseDialogFragment {
         txtName.setText(mDefultDogInfo.getName());
         txtLevel.setText(mDefultDogInfo.getLevel()+"");
         txtWeight.setText(mDefultDogInfo.getWeight()+"Kg");
-        txtMucle.setText("確認肌肉值字段");
+        txtMucle.setText(mDefultDogInfo.getDecimalDog()+"Kg");
         txtPerspmality.setText("????有這個值嗎");
         txtId.setText(mDefultDogInfo.getId());
         RequestOptions options = new RequestOptions()

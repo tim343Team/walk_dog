@@ -60,6 +60,8 @@ public class DogInfoDao implements Serializable {
 
     private int starvation;//1饥饿 2正常
 
+    private List<PropDao> propDaos;
+
     private List<PropDao> PropDatas=new ArrayList<>();
 
     public String getId() {
@@ -288,5 +290,13 @@ public class DogInfoDao implements Serializable {
 
     public void addPropDatas(List<PropDao> propDatas) {
         PropDatas.addAll(propDatas);
+    }
+
+    public List<PropDao> getPropDaos() {
+        return propDaos;
+    }
+
+    public void setPropDaos(List<PropDao> propDaos) {
+        this.propDaos = propDaos;
     }
 }

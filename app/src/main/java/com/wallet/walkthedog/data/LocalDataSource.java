@@ -69,6 +69,21 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void getFeedDog(String dogId, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void feedDog(String dogId, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getWallet(String type, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void getWalkTheDogFriend(DataCallback dataCallback) {
 
     }

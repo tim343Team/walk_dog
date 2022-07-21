@@ -17,6 +17,14 @@ public class HomeContract {
         void getFail(Integer code, String toastMessage);
 
         void getCurrentDogInfo(DogInfoDao dogInfoDao);
+
+        void getFeedDogInfo(String data);
+
+        void getWalletInfo(String data,String type);
+
+        void feedSuccessful(String data);
+
+        void feedFail(Integer code, String toastMessage);
     }
 
     interface HomePresenter extends Contract.BasePresenter {
@@ -25,6 +33,12 @@ public class HomeContract {
         void getUseDog(String dogId);
 
         void getWalkTheDogFriend(String dogId);
+
+        void getFeedDog(String dogId);//查询喂食消耗
+
+        void getWallet(String type);//获取钱包余额 1是代币 2狗粮
+
+        void feedDog(String dogId);//喂食
 
     }
 }

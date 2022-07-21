@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/dimen_30"
+        android:paddingStart="@dimen/dimen_15"
+        android:paddingEnd="@dimen/dimen_15"
         android:gravity="center_horizontal"
         android:background="@drawable/circular_white"
         android:orientation="vertical">
@@ -33,13 +35,26 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/img_dog"
-                android:layout_width="@dimen/dimen_112"
-                android:layout_height="@dimen/dimen_112"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_41"
-                android:layout_marginBottom="@dimen/dimen_31"
-                android:background="@mipmap/icon_null_dog" />
+                android:layout_marginBottom="@dimen/dimen_31">
+
+                <ImageView
+                    android:id="@+id/img_dog"
+                    android:layout_width="@dimen/dimen_112"
+                    android:layout_height="@dimen/dimen_112"
+                    android:background="@mipmap/icon_null_dog" />
+
+                <ImageView
+                    android:layout_width="65.75dp"
+                    android:layout_height="36.28dp"
+                    android:layout_centerInParent="true"
+                    android:background="@mipmap/icon_feeding" />
+            </RelativeLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

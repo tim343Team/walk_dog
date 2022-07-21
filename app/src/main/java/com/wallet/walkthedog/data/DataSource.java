@@ -31,6 +31,12 @@ public interface DataSource {
 
     void getUseDog(String dogId,DataCallback dataCallback);
 
+    void getFeedDog(String dogId,DataCallback dataCallback);
+
+    void feedDog(String dogId,DataCallback dataCallback);
+
+    void getWallet(String type,DataCallback dataCallback);
+
     void getWalkTheDogFriend(DataCallback dataCallback);
 
     void startWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
