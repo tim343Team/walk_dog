@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
+import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 
@@ -79,6 +80,21 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void stopWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getUserProp(int pageNo, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getRemoveProp(OpreationPropRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getAddProp(OpreationPropRequest request, DataCallback dataCallback) {
 
     }
 

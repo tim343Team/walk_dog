@@ -29,11 +29,11 @@
             android:textSize="@dimen/dp14"/>
 
         <ImageView
+            android:id="@+id/img_prop"
             android:layout_width="@dimen/dimen_80"
             android:layout_height="@dimen/dimen_80"
             android:layout_marginTop="13dp"
-            android:layout_marginBottom="@dimen/dimen_13"
-            android:background="@mipmap/icon_bell"/>
+            android:layout_marginBottom="@dimen/dimen_13"/>
 
         <TextView
             android:id="@+id/txt_id"

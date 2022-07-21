@@ -22,6 +22,7 @@ import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
 import com.wallet.walkthedog.dialog.FeedingDialog;
 import com.wallet.walkthedog.dialog.HungryDialog;
@@ -51,6 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseTransFragment;
 
@@ -76,12 +78,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     TextView txtStatus;//？？
     @BindView(R.id.img_dog)
     ImageView imgDog;
-    @BindView(R.id.img_equipment_1)
-    ImageView imgEquipment1;
-    @BindView(R.id.img_equipment_2)
-    ImageView imgEquipment2;
-    @BindView(R.id.img_equipment_3)
-    ImageView imgEquipment3;
+    @BindViews({R.id.img_equipment_1, R.id.img_equipment_2, R.id.img_equipment_3})
+    ImageView[] imgEquipments;
     @BindView(R.id.progress_bg)
     ImageView progressBg;
     @BindView(R.id.progress_bar)
@@ -166,7 +164,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.img_identity)
     void startIdentity() {
-        if(mDefultDogInfo==null){
+        if (mDefultDogInfo == null) {
             return;
         }
         IdentityDialog dialog = IdentityDialog.newInstance(mDefultDogInfo);
@@ -211,7 +209,10 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 //            default:
 //                break;
 //        }
-        ChoicePropsActivity.actionStart(getmActivity());
+        if (mDefultDogInfo == null) {
+            return;
+        }
+        ChoicePropsActivity.actionStart(getmActivity(), mDefultDogInfo.getId());
     }
 
 
@@ -313,25 +314,33 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         } else {
             imgGender.setBackgroundResource(R.mipmap.icon_female);
         }
-        if(mDefultDogInfo.getStarvation()==1){
+        if (mDefultDogInfo.getStarvation() == 1) {
             txtState.setText(R.string.full_of_hunger);
             viewBg.setBackgroundResource(R.mipmap.bg_home_hungry);
-        }else {
+        } else {
             txtState.setText(R.string.full_of_energy);
             viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
         }
         txtDogLevel2.setText("LEVEL " + mDefultDogInfo.getLevel());
         txtDogLevel.setText("LV. " + mDefultDogInfo.getLevel());
-        txtSpeed.setText( String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm()+""));
-        txtNumber.setText( String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount()+""));
-        txtTrip.setText( String.format(getString(R.string.time_totle), mDefultDogInfo.getWalkTheDogTime()+""));
-        txtRegion.setText( String.format(getString(R.string.number_today), mDefultDogInfo.getDayLimit()+"/2"));
+        txtSpeed.setText(String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm() + ""));
+        txtNumber.setText(String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount() + ""));
+        txtTrip.setText(String.format(getString(R.string.time_totle), mDefultDogInfo.getWalkTheDogTime() + ""));
+        txtRegion.setText(String.format(getString(R.string.number_today), mDefultDogInfo.getDayLimit() + "/2"));
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_null_dog)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(getmActivity()).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
-        setProgress(progressBg,progressBar,progressTxt,mDefultDogInfo.getRateOfProgress()/100.00);
+        setProgress(progressBg, progressBar, progressTxt, mDefultDogInfo.getRateOfProgress() / 100.00);
+        //道具
+        for(int i=0;i<mDefultDogInfo.getPropDatas().size();i++){
+            RequestOptions optionsEq = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_bell)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+            Glide.with(getmActivity()).load(mDefultDogInfo.getPropDatas().get(i).getImg()).apply(optionsEq).into(imgEquipments[0]);
+        }
     }
 
     @Override
@@ -340,11 +349,11 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     //设置进度条
-    private void setProgress(View progressBg,View progressBar, TextView progressTxt, double percentage) {
+    private void setProgress(View progressBg, View progressBar, TextView progressTxt, double percentage) {
         progressBg.post(new Runnable() {
             @Override
             public void run() {
-                int progressAll =  progressBg.getWidth();
+                int progressAll = progressBg.getWidth();
                 int progress = (int) (progressAll * percentage);
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) progressBar.getLayoutParams();
                 params.width = progress;
@@ -352,7 +361,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) progressTxt.getLayoutParams();
                 if (percentage < 0.2) {
                     params2.leftMargin = 0;
-                }else if(percentage >0.9){
+                } else if (percentage > 0.9) {
                     params2.leftMargin = (int) (progress - progressAll * 0.3);
                 } else {
                     params2.leftMargin = (int) (progress - progressAll * 0.18);
@@ -413,7 +422,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         mDefultDogInfo = dogInfoDao;
         updateUI();
     }
-
 
     @Override
     public void setPresenter(HomeContract.HomePresenter presenter) {

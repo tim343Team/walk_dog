@@ -58,4 +58,19 @@ public class UrlFactory {
     public static String getStopWalkUrl() {
         return host + "/index/endWalkTheDog";
     }
+
+    //获取我的道具
+    public static String getUserPropUrl() {
+        return host + "/prop/getUserProp";
+    }
+
+    //移除使用中的道具
+    public static String getremovePropUrl() {
+        return host + "/prop/removeProp";
+    }
+
+    //装备道具
+    public static String getusePropUrl() {
+        return host + "/prop/useProp";
+    }
 }

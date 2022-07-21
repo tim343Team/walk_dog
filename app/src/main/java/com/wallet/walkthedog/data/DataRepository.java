@@ -2,6 +2,7 @@ package com.wallet.walkthedog.data;
 
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
+import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 
@@ -89,6 +90,24 @@ public class DataRepository implements DataSource {
     public void stopWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.stopWalkDog(request,dataCallback);
         else mRemoteDataSource.stopWalkDog(request,dataCallback);
+    }
+
+    @Override
+    public void getUserProp(int pageNo, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getUserProp(pageNo,dataCallback);
+        else mRemoteDataSource.getUserProp(pageNo,dataCallback);
+    }
+
+    @Override
+    public void getRemoveProp(OpreationPropRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getRemoveProp(request,dataCallback);
+        else mRemoteDataSource.getRemoveProp(request,dataCallback);
+    }
+
+    @Override
+    public void getAddProp(OpreationPropRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getAddProp(request,dataCallback);
+        else mRemoteDataSource.getAddProp(request,dataCallback);
     }
 
 }

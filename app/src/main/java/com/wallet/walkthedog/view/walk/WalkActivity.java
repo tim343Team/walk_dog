@@ -7,16 +7,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +37,8 @@ import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NoticeDialog;
 import com.wallet.walkthedog.dialog.WalkNoticeDialog;
 import com.wallet.walkthedog.service.GpsService;
+import com.wallet.walkthedog.untils.AutoUtils;
+import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.home.HomeActivity1;
 import com.wallet.walkthedog.view.login.CreateActivity;
 
@@ -151,6 +158,7 @@ public class WalkActivity extends BaseActivity {
     protected void initViews(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         initRv();
+        checkPermission();
     }
 
     @Override
@@ -258,6 +266,16 @@ public class WalkActivity extends BaseActivity {
         adapter.setEnableLoadMore(false);
     }
 
+    void checkPermission(){
+        if(!isIgnoringBatteryOptimizations(this)){
+            ToastUtils.shortToast("没有白名单权限");
+            requestIgnoreBatteryOptimizations(this);
+        }else {
+            ToastUtils.shortToast("有权限");
+        }
+        AutoUtils.openAutoStart(this);
+    }
+
     void switchButton(boolean b) {
         isWalking = b;
         if (isWalking) {
@@ -291,17 +309,36 @@ public class WalkActivity extends BaseActivity {
         });
     }
 
-//    private ServiceConnection serviceConnection = new ServiceConnection() {
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            Log.e(getClass().getName(), "onServiceConnected");
-//            gpsService = ((GpsService.LocalBinder) service).getService();
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//            Log.e(getClass().getName(), "onServiceDisconnected");
-//            gpsService = null;
-//        }
-//    };
+    /**
+     * 判断我们的应用是否在白名单中
+     *
+     * @param context
+     * @return
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static boolean isIgnoringBatteryOptimizations(Context context) {
+        boolean isIgnoring = false;
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if (powerManager != null) {
+            isIgnoring = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
+        }
+        return isIgnoring;
+    }
+
+    /**
+     * 申请加入白名单
+     *
+     * @param context
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void requestIgnoreBatteryOptimizations(Context context) {
+        try {
+            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + context.getPackageName()));
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

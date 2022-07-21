@@ -30,7 +30,7 @@ import java.util.TimerTask;
 
 public class GpsService extends Service {
     //声明IBinder接口的一个接口变量mBinder
-    private static int foregroundId = 110;
+    private int notifyId;
     private Notification notification;
     private Timer timer = null;
 
@@ -51,6 +51,39 @@ public class GpsService extends Service {
     public void onCreate() {
         Log.e(getClass().getName(), "onCreate");
         timeSecond = 0;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e(getClass().getName(), "onStartCommand");
+        //启动通知栏提示
+        String CHANNEL_ONE_ID = "com.walkdog.cn";
+        String CHANNEL_ONE_NAME = "Channel One";
+        NotificationChannel notificationChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notifyId = (int) System.currentTimeMillis();
+            notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
+                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setShowBadge(true);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(notificationChannel);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            notification = new Notification.Builder(this).setChannelId(CHANNEL_ONE_ID)
+                    .setTicker("Nature")
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(getResources().getString(R.string.notification_title))
+                    .setContentText("提示内容")
+                    .setContentIntent(pendingIntent)
+                    .getNotification();
+            startForeground(notifyId, notification);
+        }
+        //开始定位服务
+        gpsUtils = new GpsUtils(this);
+        gpsUtils.startLocation();
+
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -60,39 +93,6 @@ public class GpsService extends Service {
                 Log.e(getClass().getName(), timeSecond + "s");
             }
         }, 1000, 1000);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e(getClass().getName(), "onStartCommand");
-        //启动通知栏提示
-        String CHANNEL_ONE_ID = "com.primedu.cn";
-        String CHANNEL_ONE_NAME = "Channel One";
-        NotificationChannel notificationChannel = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
-                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.RED);
-            notificationChannel.setShowBadge(true);
-            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            manager.createNotificationChannel(notificationChannel);
-        }
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        notification = new Notification.Builder(this).setChannelId(CHANNEL_ONE_ID)
-                .setTicker("Nature")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(getResources().getString(R.string.notification_title))
-                .setContentText("提示内容")
-                .setContentIntent(pendingIntent)
-                .getNotification();
-        notification.flags |= Notification.FLAG_NO_CLEAR;
-        startForeground(1, notification);
-        //开始定位服务
-        gpsUtils = new GpsUtils(this);
-        gpsUtils.startLocation();
-//        fillCodeView(Long.MAX_VALUE);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -106,11 +106,15 @@ public class GpsService extends Service {
             timer.cancel();
             timer = null;
         }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            stopForeground(notifyId);
+        }
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        Log.e(getClass().getName(), "onBind");
         return null;
     }
 

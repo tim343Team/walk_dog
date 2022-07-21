@@ -4,9 +4,11 @@ import com.google.gson.reflect.TypeToken;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
+import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.SendMailboxCodeDao;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
+import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
@@ -240,6 +242,9 @@ public class RemoteDataSource implements DataSource {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
                                 DogInfoDao obj = gson.fromJson(object.getJSONObject("data").toString(), DogInfoDao.class);
+//                                List<PropDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("propList").toString(), new TypeToken<List<PropDao>>() {
+//                                }.getType());
+//                                obj.setPropDatas(objs);
                                 dataCallback.onDataLoaded(obj);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
@@ -291,12 +296,12 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void startWalkDog(SwitchWalkRequest request,DataCallback dataCallback) {
+    public void startWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
         WonderfulOkhttpUtils.get().url(UrlFactory.getStartWalkUrl())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-                .addParams("dogId",request.getDogId())
-                .addParams("lan",request.getLan())
-                .addParams("lon",request.getLon())
+                .addParams("dogId", request.getDogId())
+                .addParams("lan", request.getLan())
+                .addParams("lon", request.getLon())
                 .build()
                 .execute(new StringCallBack() {
                     @Override
@@ -327,12 +332,12 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void stopWalkDog(SwitchWalkRequest request,DataCallback dataCallback) {
+    public void stopWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
         WonderfulOkhttpUtils.get().url(UrlFactory.getStopWalkUrl())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-                .addParams("dogId",request.getDogId())
-                .addParams("lan",request.getLan())
-                .addParams("lon",request.getLon())
+                .addParams("dogId", request.getDogId())
+                .addParams("lan", request.getLan())
+                .addParams("lon", request.getLon())
                 .build()
                 .execute(new StringCallBack() {
                     @Override
@@ -351,6 +356,101 @@ public class RemoteDataSource implements DataSource {
                                 List<DogInfoDao> objs = gson.fromJson(object.getJSONArray("data").toString(), new TypeToken<List<DogInfoDao>>() {
                                 }.getType());
                                 dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getUserProp(int pageNo, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getUserPropUrl() + "?pageNo=" + pageNo + "&pageSize=20")
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("获取我的道具:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("获取我的道具：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                List<PropDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("records").toString(), new TypeToken<List<PropDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getRemoveProp(OpreationPropRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getremovePropUrl() + "?propId=" + request.getPropId() + "&dogId=" + request.getDogId())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("移除使用中的道具:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("移除使用中的道具：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getAddProp(OpreationPropRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getusePropUrl() + "?propId=" + request.getPropId() + "&dogId=" + request.getDogId())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("装备道具:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("装备道具：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

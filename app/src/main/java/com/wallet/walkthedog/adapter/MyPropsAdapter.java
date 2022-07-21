@@ -1,10 +1,14 @@
 package com.wallet.walkthedog.adapter;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
@@ -24,7 +28,14 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, PropDao item) {
-        if (item.isSelect()) {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.icon_bell)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+        Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_prop));
+        helper.setText(R.id.txt_name,item.getName());
+        helper.setText(R.id.txt_id,item.getId());
+        if (item.getType()==1) {
             helper.setText(R.id.txt_choice, R.string.deselect);
             helper.setTextColor(R.id.txt_name,mContext.getColor(R.color.white));
             helper.setTextColor(R.id.txt_id,mContext.getColor(R.color.white));

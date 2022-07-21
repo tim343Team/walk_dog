@@ -2,6 +2,7 @@ package com.wallet.walkthedog.data;
 
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
+import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 
@@ -35,6 +36,12 @@ public interface DataSource {
     void startWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
 
     void stopWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
+
+    void getUserProp(int pageNo,DataCallback dataCallback);
+
+    void getRemoveProp(OpreationPropRequest request, DataCallback dataCallback);
+
+    void getAddProp(OpreationPropRequest request,DataCallback dataCallback);
 
 
 }

@@ -1,6 +1,8 @@
 package com.wallet.walkthedog.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DogInfoDao implements Serializable {
 
@@ -57,6 +59,8 @@ public class DogInfoDao implements Serializable {
     private int rateOfProgress;
 
     private int starvation;//1饥饿 2正常
+
+    private List<PropDao> PropDatas=new ArrayList<>();
 
     public String getId() {
         return id;
@@ -272,5 +276,17 @@ public class DogInfoDao implements Serializable {
 
     public void setStarvation(int starvation) {
         this.starvation = starvation;
+    }
+
+    public List<PropDao> getPropDatas() {
+        return PropDatas;
+    }
+
+    public void setPropDatas(List<PropDao> propDatas) {
+        PropDatas = propDatas;
+    }
+
+    public void addPropDatas(List<PropDao> propDatas) {
+        PropDatas.addAll(propDatas);
     }
 }

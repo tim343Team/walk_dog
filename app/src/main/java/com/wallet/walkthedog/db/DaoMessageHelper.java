@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * @version 1.0 2020/5/21
  */
 public class DaoMessageHelper extends SQLiteOpenHelper {
-    public static final int SCHEMA_VERSION = 1;
+    public static final int SCHEMA_VERSION = 2;
     public static final String DB_NAME = "message.db";
 
     private DaoMessageHelper(Context context) {
@@ -41,9 +41,11 @@ public class DaoMessageHelper extends SQLiteOpenHelper {
 
     public static void createAllTables(SQLiteDatabase db) {
         UserDao.createTable(db);
+        PropDao.createTable(db);
     }
 
     public static void dropAllTables(SQLiteDatabase db) {
         UserDao.dropTable(db);
+        PropDao.dropTable(db);
     }
 }
