@@ -7,4 +7,10 @@ public class Constant {
     public static final String LOGIN_CREATE_MNE = "2";
     public static final String LOGIN_MAIL_LOGIN = "3";
     public static final String LOGIN_MAIL_REGISTER = "4";
+
+    //装备类型
+    //11:普通道具 12：狗粮 13:宝箱
+    public static final String PROP_NORMAL = "11";
+    public static final String PROP_FOOD = "12";
+    public static final String PROP_BOX = "13";
 }

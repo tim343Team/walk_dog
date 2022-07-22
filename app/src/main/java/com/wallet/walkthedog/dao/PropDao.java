@@ -1,9 +1,11 @@
 package com.wallet.walkthedog.dao;
 
-public class PropDao {
+import java.io.Serializable;
+
+public class PropDao implements Serializable {
     private String id;
 
-    private int nftTypeCatagoryId;
+    private int nftTypeCatagoryId;//6,7,8:狗糧  10：箱子
 
     private String name;
 

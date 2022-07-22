@@ -104,12 +104,27 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void getDogProp(String dogId,int pageNo, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void getRemoveProp(OpreationPropRequest request, DataCallback dataCallback) {
 
     }
 
     @Override
     public void getAddProp(OpreationPropRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getPropDetailInfo(OpreationPropRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void useDogFood(OpreationPropRequest request, DataCallback dataCallback) {
 
     }
 

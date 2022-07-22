@@ -44,8 +44,7 @@
                 <ImageView
                     android:id="@+id/img_dog"
                     android:layout_width="@dimen/dimen_112"
-                    android:layout_height="@dimen/dimen_112"
-                    android:background="@mipmap/icon_null_dog" />
+                    android:layout_height="@dimen/dimen_112" />
 
                 <ImageView
                     android:layout_width="65.75dp"

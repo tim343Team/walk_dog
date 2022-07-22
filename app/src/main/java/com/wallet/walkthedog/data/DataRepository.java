@@ -117,6 +117,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void getDogProp(String dogId,int pageNo, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getDogProp(dogId,pageNo,dataCallback);
+        else mRemoteDataSource.getDogProp(dogId,pageNo,dataCallback);
+    }
+
+    @Override
     public void getRemoveProp(OpreationPropRequest request, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getRemoveProp(request,dataCallback);
         else mRemoteDataSource.getRemoveProp(request,dataCallback);
@@ -126,6 +132,18 @@ public class DataRepository implements DataSource {
     public void getAddProp(OpreationPropRequest request, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getAddProp(request,dataCallback);
         else mRemoteDataSource.getAddProp(request,dataCallback);
+    }
+
+    @Override
+    public void getPropDetailInfo(OpreationPropRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getPropDetailInfo(request,dataCallback);
+        else mRemoteDataSource.getPropDetailInfo(request,dataCallback);
+    }
+
+    @Override
+    public void useDogFood(OpreationPropRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.useDogFood(request,dataCallback);
+        else mRemoteDataSource.useDogFood(request,dataCallback);
     }
 
 }

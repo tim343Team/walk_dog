@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.data.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,41 +29,73 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, PropDao item) {
+        boolean isOpen = true;
+        String type;
+        int nftTypeCatagoryId = item.getNftTypeCatagoryId();
+
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_bell)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_prop));
-        helper.setText(R.id.txt_name,item.getName());
-        helper.setText(R.id.txt_id,item.getId());
-        if (item.getType()==1) {
-            helper.setText(R.id.txt_choice, R.string.deselect);
-            helper.setTextColor(R.id.txt_name,mContext.getColor(R.color.white));
-            helper.setTextColor(R.id.txt_id,mContext.getColor(R.color.white));
-            helper.getView(R.id.root_view).setBackgroundResource(R.drawable.bg_gradual_select);
+        helper.setText(R.id.txt_name, item.getName());
+        helper.setText(R.id.txt_id, item.getId());
+        if (nftTypeCatagoryId == 6 || nftTypeCatagoryId == 7 || nftTypeCatagoryId == 8) {
+            type= Constant.PROP_FOOD;
+            helper.setText(R.id.txt_choice, R.string.open);
+            helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemOpen.click(helper.getLayoutPosition(),0);
+                }
+            });
+        } else if(nftTypeCatagoryId == 10){
+            type= Constant.PROP_BOX;
+            helper.setText(R.id.txt_choice, R.string.open);
+            helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemOpen.click(helper.getLayoutPosition(),1);
+                }
+            });
         } else {
-            helper.setText(R.id.txt_choice, R.string.select);
-            helper.setTextColor(R.id.txt_name,mContext.getColor(R.color.color_4D67C1));
-            helper.setTextColor(R.id.txt_id,mContext.getColor(R.color.color_4D67C1));
-            helper.getView(R.id.root_view).setBackgroundResource(R.drawable.rectangle_white);
+            type= Constant.PROP_NORMAL;
+            if (item.getType() == 1) {
+                helper.setText(R.id.txt_choice, R.string.deselect);
+                helper.setTextColor(R.id.txt_name, mContext.getColor(R.color.white));
+                helper.setTextColor(R.id.txt_id, mContext.getColor(R.color.white));
+                helper.getView(R.id.root_view).setBackgroundResource(R.drawable.bg_gradual_select);
+            } else {
+                helper.setText(R.id.txt_choice, R.string.select);
+                helper.setTextColor(R.id.txt_name, mContext.getColor(R.color.color_4D67C1));
+                helper.setTextColor(R.id.txt_id, mContext.getColor(R.color.color_4D67C1));
+                helper.getView(R.id.root_view).setBackgroundResource(R.drawable.rectangle_white);
+            }
+            helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemClick.click(helper.getLayoutPosition());
+                }
+            });
         }
-        helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
+        helper.getView(R.id.root_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClick.click(helper.getLayoutPosition());
+                rootClick.click(helper.getLayoutPosition(),type);
             }
         });
+
     }
 
     public int getSelectCount() {
         return selectDao.size();
     }
 
-    public void addSelect(PropDao dao){
+    public void addSelect(PropDao dao) {
         selectDao.add(dao);
     }
 
-    public void removeSelect(PropDao dao){
+    public void removeSelect(PropDao dao) {
         selectDao.remove(dao);
     }
 
@@ -74,5 +107,25 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
 
     public interface OnclickListenerItem {
         void click(int position);
+    }
+
+    OnOpenListenerItem itemOpen;
+
+    public void OnclickListenerItem(OnOpenListenerItem itemOpen) {
+        this.itemOpen = itemOpen;
+    }
+
+    public interface OnOpenListenerItem {
+        void click(int position,int type);//0:狗糧 1：箱子
+    }
+
+    OnclickListenerRoot rootClick;
+
+    public void OnclickListenerRoot(OnclickListenerRoot rootClick) {
+        this.rootClick = rootClick;
+    }
+
+    public interface OnclickListenerRoot {
+        void click(int position,String type);
     }
 }

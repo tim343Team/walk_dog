@@ -27,6 +27,15 @@ public class NormalDialog extends BaseDialogFragment {
         return fragment;
     }
 
+    public static NormalDialog newInstance(String messageString, int resImgid) {
+        NormalDialog fragment = new NormalDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("messageString", messageString);
+        bundle.putInt("img", resImgid);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     public static NormalDialog newInstance(int resMessageId, int resImgId, int resColorId) {
         NormalDialog fragment = new NormalDialog();
         Bundle bundle = new Bundle();
@@ -55,11 +64,16 @@ public class NormalDialog extends BaseDialogFragment {
     @Override
     protected void initView() {
         Bundle bundle = getArguments();
-        int message = bundle.getInt("message");
+        int message = bundle.getInt("message", 0);
         int img = bundle.getInt("img");
         int color = bundle.getInt("color", 0);
+        String messageString = bundle.getString("messageString");
         imgNotice.setBackgroundResource(img);
-        txtNotice.setText(getResources().getString(message));
+        if (message != 0) {
+            txtNotice.setText(getResources().getString(message));
+        }else {
+            txtNotice.setText(messageString);
+        }
         if (color != 0) {
             txtNotice.setTextColor(ContextCompat.getColor(getContext(), color));
         }

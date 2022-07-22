@@ -158,6 +158,12 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".view.props.PropDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".view.mail.transaction.TransactionPropActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"

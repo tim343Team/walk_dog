@@ -110,13 +110,13 @@ public class HomePresenter implements HomeContract.HomePresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-//                view.getWalletInfo((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+                view.feedSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override
             public void onDataNotAvailable(Integer code, String toastMessage) {
                 view.hideLoadingPopup();
-                view.getFail(code, toastMessage);
+                view.feedFail(code, toastMessage);
             }
         });
     }

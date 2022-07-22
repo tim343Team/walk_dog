@@ -64,6 +64,11 @@ public class UrlFactory {
         return host + "/prop/getUserProp";
     }
 
+    //获取我的道具
+    public static String getDogPropUrl() {
+        return host + "/dog/getDogProp";
+    }
+
     //移除使用中的道具
     public static String getremovePropUrl() {
         return host + "/prop/removeProp";
@@ -72,6 +77,16 @@ public class UrlFactory {
     //装备道具
     public static String getusePropUrl() {
         return host + "/prop/useProp";
+    }
+
+    //根据id获取道具详情
+    public static String getPropInfoUrl() {
+        return host + "/prop/getPropInfo";
+    }
+
+    //使用狗粮
+    public static String useDogFoodUrl() {
+        return host + "/prop/useDogFood";
     }
 
     //查询喂食消耗

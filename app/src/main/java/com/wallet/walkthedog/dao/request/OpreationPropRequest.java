@@ -4,6 +4,10 @@ public class OpreationPropRequest {
     private String propId;
     private String dogId;
 
+    public OpreationPropRequest(String propId) {
+        this.propId = propId;
+    }
+
     public OpreationPropRequest(String propId, String dogId) {
         this.propId = propId;
         this.dogId = dogId;

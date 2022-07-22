@@ -109,6 +109,9 @@
     <string name="id_">編號:</string>
     <string name="dog_walk_time_">遛狗時間:</string>
     <string name="charm_value_">魅力值:</string>
+    <string name="time_">時間:</string>
+    <string name="get_a_dog_">獲得的狗狗:</string>
+    <string name="dog_owner">狗狗主人:</string>
     <string name="identity_information">身份信息</string>
     <string name="male">公</string>
     <string name="female">母</string>
@@ -140,13 +143,17 @@
     <string name="buy_to_food">購買狗糧</string>
     <string name="buy">購買</string>
     <string name="pay">支付</string>
+    <string name="lack_food">食物不足</string>
     <string name="gain_weight">獲得體重</string>
     <string name="balance_">餘額：</string>
-    <string name="food_info_1">Combat Hunger</string>
-    <string name="food_info_2">Full of energy</string>
+    <string name="weight2_">重量：</string>
+    <string name="unite_price_">單價：</string>
+    <string name="food_info_1">對抗飢餓</string>
+    <string name="food_info_2">補充精力</string>
     <!--选择狗狗-->
     <string name="my_dog">我的狗狗</string>
     <string name="rental_dog">租賃的狗狗</string>
+    <string name="open">打開</string>
     <string name="select">選擇</string>
     <string name="deselect">取消選擇</string>
     <string name="choose_select">選擇成功</string>
@@ -166,6 +173,11 @@
     <string name="my_props">我的道具</string>
     <string name="cancle_props">道具已滿，請取消已有道具</string>
     <string name="conguratulations">恭喜</string>
+    <string name="input_prop_success">%s已经放入道具</string>
+    <string name="input_prop_fail">垃圾已经丢弃</string>
+    <string name="price_s">價格：%s</string>
+    <string name="possible_access_">有機會獲得：</string>
+    <string name="fight_hunger_">抵抗飢餓：充滿幹勁</string>
     <!--邀請遛狗-->
     <string name="invite_dog">邀請遛狗</string>
     <string name="invite_empty">你沒有好友\b去添加好友吧</string>
@@ -248,7 +260,7 @@
     <string name="rubbish">Rubbish</string>
     <string name="well_known_area">Well known area</string>
     <string name="treasure_chest">Treasure chest</string>
-    <string name="dog_food">Dog Food</string>
+    <string name="dog_food">狗糧</string>
     <string name="other">Other</string>
     <string name="times">Times</string>
     <string name="dog_walking_time">Dog walking time</string>

@@ -60,9 +60,7 @@ public class DogInfoDao implements Serializable {
 
     private int starvation;//1饥饿 2正常
 
-    private List<PropDao> propDaos;
-
-    private List<PropDao> PropDatas=new ArrayList<>();
+    private List<PropDao> propList=new ArrayList<>();
 
     public String getId() {
         return id;
@@ -280,23 +278,11 @@ public class DogInfoDao implements Serializable {
         this.starvation = starvation;
     }
 
-    public List<PropDao> getPropDatas() {
-        return PropDatas;
+    public List<PropDao> getPropList() {
+        return propList;
     }
 
-    public void setPropDatas(List<PropDao> propDatas) {
-        PropDatas = propDatas;
-    }
-
-    public void addPropDatas(List<PropDao> propDatas) {
-        PropDatas.addAll(propDatas);
-    }
-
-    public List<PropDao> getPropDaos() {
-        return propDaos;
-    }
-
-    public void setPropDaos(List<PropDao> propDaos) {
-        this.propDaos = propDaos;
+    public void setPropList(List<PropDao> propList) {
+        this.propList = propList;
     }
 }

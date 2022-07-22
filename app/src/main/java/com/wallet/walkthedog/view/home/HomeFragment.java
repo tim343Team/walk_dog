@@ -26,6 +26,7 @@ import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
 import com.wallet.walkthedog.dialog.DayLimitDialog;
 import com.wallet.walkthedog.dialog.FeedingDialog;
+import com.wallet.walkthedog.dialog.FeedofRemindDialog;
 import com.wallet.walkthedog.dialog.HungryDialog;
 import com.wallet.walkthedog.dialog.IdentityDialog;
 import com.wallet.walkthedog.dialog.InvitedDialog;
@@ -99,6 +100,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     private HomeContract.HomePresenter presenter;
     private int progressAll = 0;
     private String totalFood = "0";
+    private String totalProperty = "0";
     private HomePropsAdapter adapter;
     private DogInfoDao mDefultDogInfo;
 
@@ -345,12 +347,20 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         Glide.with(getmActivity()).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
         setProgress(progressBg, progressBar, progressTxt, mDefultDogInfo.getRateOfProgress() / 100.00);
         //道具
-        for (int i = 0; i < mDefultDogInfo.getPropDatas().size(); i++) {
+        for(ImageView imageView:imgEquipments){
+            RequestOptions optionsEq = new RequestOptions()
+                    .centerCrop();
+            Glide.with(getmActivity()).load(R.mipmap.icon_add_equipment).apply(optionsEq).into(imageView);
+        }
+        for (int i = 0; i < mDefultDogInfo.getPropList().size(); i++) {
+            if (mDefultDogInfo.getPropList().get(i).getId() == null) {
+                continue;
+            }
             RequestOptions optionsEq = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.icon_bell)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
-            Glide.with(getmActivity()).load(mDefultDogInfo.getPropDatas().get(i).getImg()).apply(optionsEq).into(imgEquipments[0]);
+            Glide.with(getmActivity()).load(mDefultDogInfo.getPropList().get(i).getImg()).apply(optionsEq).into(imgEquipments[i]);
         }
     }
 
@@ -395,6 +405,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void getCurrentDogInfo(DogInfoDao dogInfoDao) {
         mDefultDogInfo = dogInfoDao;
+        presenter.getWallet("1");//获取代币总数
         presenter.getWallet("2");//获取狗粮总数
         updateUI();
     }
@@ -419,7 +430,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void getWalletInfo(String data, String type) {
         if (type.equals("1")) {
-
+            totalProperty = data;
         } else if (type.equals("2")) {
             totalFood = data;
         }
@@ -434,33 +445,43 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void feedFail(Integer code, String toastMessage) {
         //喂食失败
-        ToastUtils.shortToast(toastMessage);
         if (code == 1) {
-            //TODO 新增是否购买页面
-            BuyFoodDialog buyDialog = BuyFoodDialog.newInstance();
-            buyDialog.setTheme(R.style.PaddingScreen);
-            buyDialog.setGravity(Gravity.CENTER);
-            buyDialog.show(getFragmentManager(), "edit");
-            buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+            //新增是否购买页面
+            FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
+            dialog.setTheme(R.style.PaddingScreen);
+            dialog.setGravity(Gravity.BOTTOM);
+            dialog.show(getFragmentManager(), "edit");
+            dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
+
                 @Override
                 public void callback() {
-                    PasswordDialog passwordDialog = PasswordDialog.newInstance();
-                    passwordDialog.setTheme(R.style.PaddingScreen);
-                    passwordDialog.setGravity(Gravity.CENTER);
-                    passwordDialog.show(getFragmentManager(), "edit");
-                    passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+                    BuyFoodDialog buyDialog = BuyFoodDialog.newInstance();
+                    buyDialog.setTheme(R.style.PaddingScreen);
+                    buyDialog.setGravity(Gravity.CENTER);
+                    buyDialog.show(getFragmentManager(), "edit");
+                    buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
                         @Override
                         public void callback() {
-                            passwordDialog.dismiss();
-                            buyDialog.dismiss();
+                            PasswordDialog passwordDialog = PasswordDialog.newInstance();
+                            passwordDialog.setTheme(R.style.PaddingScreen);
+                            passwordDialog.setGravity(Gravity.CENTER);
+                            passwordDialog.show(getFragmentManager(), "edit");
+                            passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+                                @Override
+                                public void callback() {
+                                    passwordDialog.dismiss();
+                                    buyDialog.dismiss();
+                                }
+                            });
+                            passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+                                @Override
+                                public void callback() {
+                                    ToastUtils.shortToast("错误");
+                                }
+                            });
                         }
                     });
-                    passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
-                        @Override
-                        public void callback() {
-                            ToastUtils.shortToast("错误");
-                        }
-                    });
+                    dialog.dismiss();
                 }
             });
         }

@@ -17,10 +17,12 @@ import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.view.email.EmailPresenter;
 import com.wallet.walkthedog.view.home.HomeActivity;
@@ -84,7 +86,7 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
 
     @Override
     protected void loadData() {
-        presenter.getUserProp(pageNo);
+        presenter.getDogProp(dogId,pageNo);
     }
 
     @Override
@@ -103,12 +105,6 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     }
 
     private void initRecyclerView() {
-        //TODO 測試數據
-//        for (int i = 0; i < 10; i++) {
-//            PropDao propDao = new PropDao();
-//            propDao.setId(i+"0");
-//            data.add(propDao);
-//        }
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
         adapter = new MyPropsAdapter(R.layout.adapter_my_props, data);
@@ -120,6 +116,12 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
             }
         }, recyclerView);
         adapter.setEnableLoadMore(false);
+        adapter.OnclickListenerRoot(new MyPropsAdapter.OnclickListenerRoot() {
+            @Override
+            public void click(int position,String type) {
+                PropDetailActivity.actionStart(ChoicePropsActivity.this,data.get(position).getId(),type);
+            }
+        });
         adapter.OnclickListenerItem(new MyPropsAdapter.OnclickListenerItem() {
             @Override
             public void click(int position) {
@@ -144,13 +146,25 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
                 }
             }
         });
+        adapter.OnclickListenerItem(new MyPropsAdapter.OnOpenListenerItem() {
+            @Override
+            public void click(int position, int type) {
+                if(type==0){
+                    //打開狗粮接口
+                    presenter.useDogFood(new OpreationPropRequest(data.get(position).getId()));
+                }else if(type==1){
+                    //TODO 打開寶箱接口
+
+                }
+            }
+        });
     }
 
     private void loadMore() {
         pageNo = pageNo + 1;
         adapter.setEnableLoadMore(false);
 //        refreshLayout.setEnabled(false);
-        presenter.getUserProp(pageNo);
+        presenter.getDogProp(dogId,pageNo);
     }
 
     @Override
@@ -210,6 +224,30 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
 //        cv.put("dogId", dogId);
 //        com.wallet.walkthedog.db.PropDao.insert(ChoicePropsActivity.this, cv);
         isChange = true;
+    }
+
+    @Override
+    public void getPropDetailSuccess(PropDetailDao data) {
+
+    }
+
+    @Override
+    public void useDogFoodSuccess(String data) {
+        //TODO 打開狗糧
+        OpenindDialog openindDialog=OpenindDialog.newInstance();
+        openindDialog.setTheme(R.style.PaddingScreen);
+        openindDialog.setGravity(Gravity.CENTER);
+        openindDialog.show(getSupportFragmentManager(), "edit");
+        openindDialog.setCallback(new OpenindDialog.OperateCallback() {
+            @Override
+            public void callback() {
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success),  "TODO 测试数据"), R.mipmap.icon_normal);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+                openindDialog.dismiss();
+            }
+        });
     }
 
     @Override

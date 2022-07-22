@@ -45,9 +45,15 @@ public interface DataSource {
 
     void getUserProp(int pageNo,DataCallback dataCallback);
 
+    void getDogProp(String dogId,int pageNo,DataCallback dataCallback);
+
     void getRemoveProp(OpreationPropRequest request, DataCallback dataCallback);
 
     void getAddProp(OpreationPropRequest request,DataCallback dataCallback);
+
+    void getPropDetailInfo(OpreationPropRequest request,DataCallback dataCallback);
+
+    void useDogFood(OpreationPropRequest request,DataCallback dataCallback);
 
 
 }
