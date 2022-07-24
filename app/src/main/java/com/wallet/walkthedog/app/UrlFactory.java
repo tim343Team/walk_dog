@@ -44,6 +44,19 @@ public class UrlFactory {
         return host + "/dog/getUserDog";
     }
 
+    //训练记录
+    public static String getTrainingPage(){
+        return host + "/userInfo/getTrainingPage";
+    }
+    //遛狗总记录
+    public static String getWalkDogLogCount() {
+        return host + "/userInfo/getWalkDogLogCount";
+    }
+    //遛狗详细记录
+    public static String getWalkDogLog() {
+        return host + "/userInfo/getWalkDogLog";
+    }
+
     //获取一起遛狗的好友
     public static String getWalkTheDogFriendUrl() {
         return host + "/index/getWalkTheDogFriend";
