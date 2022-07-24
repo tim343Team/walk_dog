@@ -323,7 +323,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     void updateUI() {
-        mDefultDogInfo.setStarvation(2);//TODO 測試飢餓狀態
+        mDefultDogInfo.setStarvation(1);//TODO 測試飢餓狀態
         if (mDefultDogInfo == null) {
             viewNullDog.setVisibility(View.VISIBLE);
             viewDog.setVisibility(View.GONE);
