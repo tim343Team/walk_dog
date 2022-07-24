@@ -135,4 +135,9 @@ public class UrlFactory {
         return host + "/friend/FriendList";
     }
 
+    //发送好友邀请
+    public static String sendFriendInvitedUrl() {
+        return host + "/friend/sendFriendInvited";
+    }
+
 }

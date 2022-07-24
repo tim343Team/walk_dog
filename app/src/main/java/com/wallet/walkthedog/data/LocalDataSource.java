@@ -144,4 +144,9 @@ public class LocalDataSource implements DataSource {
 
     }
 
+    @Override
+    public void friendEmail(String friendEmail, DataCallback dataCallback) {
+
+    }
+
 }

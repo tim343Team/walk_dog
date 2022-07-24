@@ -18,7 +18,7 @@
         <RelativeLayout
             android:id="@+id/ll_dog"
             android:layout_width="@dimen/dimen_140"
-            android:layout_height="@dimen/dimen_140"
+            android:layout_height="@dimen/dimen_169"
             android:background="@drawable/bg_gradual_dde4ff">
 
             <ImageView
@@ -26,8 +26,7 @@
                 android:layout_width="@dimen/dimen_82"
                 android:layout_height="@dimen/dimen_82"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dimen_16"
-                android:background="@mipmap/icon_null_dog" />
+                android:layout_marginTop="@dimen/dimen_30" />
 
             <TextView
                 android:id="@+id/txt_dog_name"
@@ -110,8 +109,8 @@
 
                 <TextView
                     android:id="@+id/txt_status"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="172dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Full of energy"
                     android:textColor="@color/color_18C432"
@@ -157,10 +156,22 @@
                 android:layout_height="@dimen/dimen_20"
                 android:background="@drawable/line_dash_cccccc" />
 
+            <TextView
+                android:id="@+id/txt_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/color_707070"
+                android:textSize="14dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_5"
+                android:layout_marginTop="@dimen/dimen_10"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 

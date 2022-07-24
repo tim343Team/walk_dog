@@ -26,13 +26,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.WalkDogAdapter;
 import com.wallet.walkthedog.bus_event.GpsConnectTImeEvent;
 import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
+import com.wallet.walkthedog.bus_event.GpsStopEvent;
+import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EquipmentDao;
+import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NoticeDialog;
 import com.wallet.walkthedog.dialog.WalkNoticeDialog;
@@ -52,6 +58,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.utils.DateTimeUtil;
@@ -77,6 +84,8 @@ public class WalkActivity extends BaseActivity {
     ImageView imgStatus;
     @BindView(R.id.txt_status)
     TextView txtStatus;
+    @BindViews({R.id.img_equipment_1, R.id.img_equipment_2, R.id.img_equipment_3})
+    ImageView[] imgEquipments;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
     @BindView(R.id.ll_gps)
@@ -84,6 +93,7 @@ public class WalkActivity extends BaseActivity {
 
     public static final int LOCATION_CODE = 1000;
     public static final int OPEN_GPS_CODE = 1001;
+    private DogInfoDao mDefultDogInfo;
     private Intent gpsService;
     private WalkDogAdapter adapter;
     private List<EquipmentDao> data = new ArrayList<>();
@@ -116,7 +126,6 @@ public class WalkActivity extends BaseActivity {
         if (isWalking) {
             //停止遛狗
             stopService(gpsService);
-//            unbindService(serviceConnection);
             switchButton(false);
         } else {
             //开始遛狗
@@ -124,7 +133,6 @@ public class WalkActivity extends BaseActivity {
                 Log.e("GPS-Info", "申请权限");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                         LOCATION_CODE);//自定义的code 随便填一个数
-                llGPS.setVisibility(View.VISIBLE);
             } else {
                 // 用户以授权定位信息
                 gpsService = new Intent(getApplicationContext(), GpsService.class);
@@ -135,17 +143,13 @@ public class WalkActivity extends BaseActivity {
                 } else {
                     startService(gpsService);
                 }
-//                bindService(gpsService, serviceConnection, Context.BIND_AUTO_CREATE);
-                switchButton(true);
             }
         }
-        //TODO 测试倒计时
-//        showWarning("2","1.11");
-//        showWarning("1","12.5");
     }
 
-    public static void actionStart(Activity activity) {
+    public static void actionStart(Activity activity, DogInfoDao mDefultDogInfo) {
         Intent intent = new Intent(activity, WalkActivity.class);
+        intent.putExtra("mDefultDogInfo", mDefultDogInfo);
         activity.startActivity(intent);
     }
 
@@ -157,6 +161,8 @@ public class WalkActivity extends BaseActivity {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
+        mDefultDogInfo = (DogInfoDao) getIntent().getSerializableExtra("mDefultDogInfo");
+        initEquipment();
         initRv();
         checkPermission();
     }
@@ -195,29 +201,29 @@ public class WalkActivity extends BaseActivity {
             BigDecimal bigDecimal = new BigDecimal(location.getSpeed());
             double speend = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
             txtSpeed.setText(String.valueOf(speend));
-            if (speend < 3.0) {
-                //速度慢了
-                speedErrorCount = speedErrorCount + 1;
-                if (speedErrorCount > 3)
-                    showWarning("1", String.valueOf(speend));
-            } else if (speend > 6.0) {
-                //速度快了
-                speedErrorCount = speedErrorCount + 1;
-                if (speedErrorCount > 3)
-                    showWarning("2", String.valueOf(speend));
-            } else {
-                speedErrorCount = 0;
+            txtSpeed2.setText(location.getSpeedStatus());
+            if(location.getSpeedStatus().equals("1")){
+                //彈出彈窗
+                showWarning("1", String.valueOf(speend));
+            }else if(location.getSpeedStatus().equals("2")){
+                //彈出彈窗
+                showWarning("2", String.valueOf(speend));
+            }else if(location.getSpeedStatus().equals("0")){
+                //关闭彈窗
+                stopWarning();
             }
         } else {
             txtSpeed.setText("0.0");
         }
-        txtSpeed2.setText("gpsEnable:"+gpsEnable+"Latitude:" + location.getLatitude() + "\n" + "Longitude:" + location.getLongitude() + "\n" + "Speed:" + location.getSpeed());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsSatelite(GpsSateliteEvent message) {
-        if(txtGpsStatus==null){
+        if (txtGpsStatus == null) {
             return;
+        }
+        if (!isWalking) {
+            switchButton(true);
         }
 
         if (message.getConnSatellite() == 0) {
@@ -225,15 +231,11 @@ public class WalkActivity extends BaseActivity {
             imgGpsStatus.setBackgroundResource(R.mipmap.icon_gps_weak);
             txtSpeed.setText("0.0");
             gpsEnable = false;
-            txtSpeed2.setText("设置gpsEnable为:"+gpsEnable);
-
         } else {
             txtGpsStatus.setText(R.string.gps);
             imgGpsStatus.setBackgroundResource(R.mipmap.icon_gps_well);
             gpsEnable = true;
-            txtSpeed2.setText("设置gpsEnable为:"+gpsEnable);
         }
-//        txtSpeed.setText("showSatelliteList.size:" + message.getShowSatellite() + "\n" + "connSatelliteList.size:" + message.getConnSatellite());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -242,6 +244,36 @@ public class WalkActivity extends BaseActivity {
             return;
         }
         txtTime.setText(DateTimeUtil.second2Minute(message.getSeconed()));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void GetGpsStop(GpsStopEvent location) {
+        if(gpsService==null){
+            return;
+        }
+        stopService(gpsService);
+        switchButton(false);
+    }
+
+    void initEquipment(){
+        if(mDefultDogInfo.getPropList()==null){
+            return;
+        }
+        for(int i=0;i<mDefultDogInfo.getPropList().size();i++){
+            if(i>2){
+                break;
+            }
+            if (mDefultDogInfo.getPropList().get(i).getId() == null) {
+                continue;
+            }
+            imgEquipments[i].setVisibility(View.VISIBLE);
+            RequestOptions optionsEq = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_bell)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+            Glide.with(this).load(mDefultDogInfo.getPropList().get(i).getImg()).apply(optionsEq).into(imgEquipments[i]);
+
+        }
     }
 
     void initRv() {
@@ -266,14 +298,11 @@ public class WalkActivity extends BaseActivity {
         adapter.setEnableLoadMore(false);
     }
 
-    void checkPermission(){
-        if(!isIgnoringBatteryOptimizations(this)){
-            ToastUtils.shortToast("没有白名单权限");
+    void checkPermission() {
+        if (!isIgnoringBatteryOptimizations(this)) {
             requestIgnoreBatteryOptimizations(this);
-        }else {
-            ToastUtils.shortToast("有权限");
         }
-        AutoUtils.openAutoStart(this);
+//        AutoUtils.openAutoStart(this);
     }
 
     void switchButton(boolean b) {
@@ -294,8 +323,8 @@ public class WalkActivity extends BaseActivity {
     }
 
     void showWarning(String type, String speed) {
-        if (!(dialog == null || !dialog.isShown())) {
-            dialog.dismiss();
+        if(dialog!=null && dialog.isShown()){
+            return;
         }
         dialog = WalkNoticeDialog.newInstance(type, speed);
         dialog.setTheme(R.style.PaddingScreen);
@@ -307,6 +336,12 @@ public class WalkActivity extends BaseActivity {
                 dialog.dismiss();
             }
         });
+    }
+
+    void stopWarning(){
+        if(dialog!=null && dialog.isShown()){
+            dialog.dismiss();
+        }
     }
 
     /**
