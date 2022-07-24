@@ -23,6 +23,18 @@ public class UrlFactory {
     public static String getUpdateEmailUrl(){
         return host + "/userInfo/updateEmail";
     }
+    //训练记录
+    public static String getTrainingPage(){
+        return host + "/userInfo/getTrainingPage";
+    }
+    //遛狗总记录
+    public static String getWalkDogLogCount() {
+        return host + "/userInfo/getWalkDogLogCount";
+    }
+    //遛狗详细记录
+    public static String getWalkDogLog() {
+        return host + "/userInfo/getWalkDogLog";
+    }
 
     //邮箱登录
     public static String getEmailLoginUrl() {
