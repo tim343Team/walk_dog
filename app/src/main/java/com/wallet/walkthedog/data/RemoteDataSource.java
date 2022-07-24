@@ -717,7 +717,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void getFriendList(int pageNo, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.trainDogUrl()+"?dogId=" + request.getDogId() + "&trainId=" + request.getTrainId())
+        WonderfulOkhttpUtils.get().url(UrlFactory.trainDogUrl()+"?pageNo=" + pageNo + "&pageSize=20")
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
