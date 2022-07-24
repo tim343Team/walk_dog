@@ -165,4 +165,10 @@ public class DataRepository implements DataSource {
         else mRemoteDataSource.getFriendList(pageNo,dataCallback);
     }
 
+    @Override
+    public void friendEmail(String friendEmail, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.friendEmail(friendEmail,dataCallback);
+        else mRemoteDataSource.friendEmail(friendEmail,dataCallback);
+    }
+
 }

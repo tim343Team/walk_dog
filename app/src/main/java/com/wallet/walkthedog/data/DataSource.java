@@ -62,4 +62,6 @@ public interface DataSource {
 
     void getFriendList(int pageNo,DataCallback dataCallback);
 
+    void friendEmail(String friendEmail,DataCallback dataCallback);
+
 }

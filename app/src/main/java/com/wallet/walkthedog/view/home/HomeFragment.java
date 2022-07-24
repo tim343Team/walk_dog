@@ -208,7 +208,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             //正常狀態
             //判断遛狗次数
             if (mDefultDogInfo.getDayLimit() < 3) {
-                WalkActivity.actionStart(getmActivity());
+                WalkActivity.actionStart(getmActivity(),mDefultDogInfo);
             } else {
                 DayLimitDialog dialog = DayLimitDialog.newInstance(getResources().getString(R.string.walk_number), getResources().getString(R.string.walk_notice_4));
                 dialog.setTheme(R.style.PaddingScreen);
@@ -323,7 +323,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     void updateUI() {
-        mDefultDogInfo.setStarvation(1);//TODO 測試飢餓狀態
+        mDefultDogInfo.setStarvation(2);//TODO 測試飢餓狀態
         if (mDefultDogInfo == null) {
             viewNullDog.setVisibility(View.VISIBLE);
             viewDog.setVisibility(View.GONE);

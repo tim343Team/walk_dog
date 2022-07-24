@@ -15,14 +15,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 
+import com.wallet.walkthedog.bus_event.GpsConnectTImeEvent;
 import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
+import com.wallet.walkthedog.bus_event.GpsStopEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -31,12 +34,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GpsUtils {
 
     private Context context;
     private LocationManager locationManager;
     private static final String TAG = "GPS-Info";
+    private int speedErrorCount = 0;//记录不匹配速度的次数，达到五次后提示
+    private String speedNormal = "0";
+    private long timeSecond = 0;
+    private CountDownTimer timer;
 
     public GpsUtils(Context context) {
         this.context = context;
@@ -127,14 +136,35 @@ public class GpsUtils {
         @Override
         public void onLocationChanged(Location location) {
             //定位时调用
+            if ((location.getSpeed() * 3.6) < 3.0) {
+                //速度慢了
+                speedErrorCount = speedErrorCount + 1;
+                if (speedErrorCount > 5) {
+                    speedNormal = "1";
+                    startCount();
+                }
+            } else if ((location.getSpeed() * 3.6) > 6.0) {
+                //速度快了
+                speedErrorCount = speedErrorCount + 1;
+                if (speedErrorCount > 5) {
+                    speedNormal = "2";
+                    startCount();
+                }
+            } else {
+                speedErrorCount = 0;
+                speedNormal = "0";
+                stopCount();
+            }
             Log.e(TAG, "onLocationChanged");
             Log.e(TAG, String.valueOf(location.getLatitude()));
             Log.e(TAG, String.valueOf(location.getLongitude()));
             Log.e(TAG, (location.getSpeed() * 3.6) + "km/h");
-            GpsLocationEvent gpsSateliteEvent=new GpsLocationEvent();
+            Log.e(TAG, speedNormal + "status");
+            GpsLocationEvent gpsSateliteEvent = new GpsLocationEvent();
             gpsSateliteEvent.setLatitude(location.getLatitude());
             gpsSateliteEvent.setLongitude(location.getLongitude());
             gpsSateliteEvent.setSpeed(String.valueOf((location.getSpeed() * 3.6)));
+            gpsSateliteEvent.setSpeedStatus(speedNormal);
             EventBus.getDefault().post(gpsSateliteEvent);
 //            infoTextView.setText("Latitude:" + location.getLatitude() + "\n" + "Longitude:" + location.getLongitude() + "\n" + "Speed:" + (location.getSpeed() * 3.6) + "km/h");
 //            getGpsStatus(textView);
@@ -273,7 +303,7 @@ public class GpsUtils {
                     }
                     Log.d(TAG,
                             "gpsStatusListener: showSatelliteList.size() = " + showSatelliteList.size());
-                    GpsSateliteEvent gpsSateliteEvent=new GpsSateliteEvent();
+                    GpsSateliteEvent gpsSateliteEvent = new GpsSateliteEvent();
                     gpsSateliteEvent.setShowSatellite(showSatelliteList.size());
                     gpsSateliteEvent.setConnSatellite(connSatelliteList.size());
                     EventBus.getDefault().post(gpsSateliteEvent);
@@ -292,6 +322,33 @@ public class GpsUtils {
         }
     };
 
+    void stopCount() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    void startCount() {
+        if (timer != null) {
+            return;
+        }
+        timer = new CountDownTimer(10 * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                //關閉service
+                //關閉遛狗頁面遛狗
+                Log.e(TAG, "stop_event: ");
+                EventBus.getDefault().post(new GpsStopEvent());
+            }
+        };
+        timer.start();
+    }
 //    private void updateSpeedByLocation(Location location) {
 //        int tempSpeed = (int) (location.getSpeed() * 3.6); // m/s --> Km/h
 //        int adasSpeed = tempSpeed;

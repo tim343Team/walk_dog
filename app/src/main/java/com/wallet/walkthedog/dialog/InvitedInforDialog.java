@@ -5,12 +5,13 @@ import android.view.View;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.FriendInfoDao;
 
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseDialogFragment;
 
 public class InvitedInforDialog extends BaseDialogFragment {
-    private DogInfoDao dogInfoDao;
+    private FriendInfoDao dogInfoDao;
 
     @OnClick(R.id.img_more)
     void more(){
@@ -22,7 +23,7 @@ public class InvitedInforDialog extends BaseDialogFragment {
         callback.callback();
     }
 
-    public static InvitedInforDialog newInstance(DogInfoDao dogInfoDao) {
+    public static InvitedInforDialog newInstance(FriendInfoDao dogInfoDao) {
         InvitedInforDialog fragment = new InvitedInforDialog();
         Bundle bundle = new Bundle();
         bundle.putSerializable("dao",dogInfoDao);
@@ -48,7 +49,7 @@ public class InvitedInforDialog extends BaseDialogFragment {
     @Override
     protected void initView() {
         Bundle bundle = getArguments();
-        dogInfoDao= (DogInfoDao) bundle.getSerializable("dao");
+        dogInfoDao= (FriendInfoDao) bundle.getSerializable("dao");
     }
 
     @Override

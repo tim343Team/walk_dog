@@ -4,6 +4,7 @@ public class GpsLocationEvent {
     private double latitude;
     private double longitude;
     private String Speed;
+    private String speedStatus;//0正常 1慢 2快
 
     public double getLatitude() {
         return latitude;
@@ -27,5 +28,13 @@ public class GpsLocationEvent {
 
     public void setSpeed(String speed) {
         Speed = speed;
+    }
+
+    public String getSpeedStatus() {
+        return speedStatus;
+    }
+
+    public void setSpeedStatus(String speedStatus) {
+        this.speedStatus = speedStatus;
     }
 }

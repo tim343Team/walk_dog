@@ -20,10 +20,14 @@ import androidx.annotation.Nullable;
 import com.wallet.walkthedog.MainActivity;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.bus_event.GpsConnectTImeEvent;
+import com.wallet.walkthedog.bus_event.GpsLocationEvent;
+import com.wallet.walkthedog.bus_event.GpsStopEvent;
 import com.wallet.walkthedog.untils.GpsUtils;
 import com.wallet.walkthedog.view.home.HomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,6 +54,7 @@ public class GpsService extends Service {
     @Override
     public void onCreate() {
         Log.e(getClass().getName(), "onCreate");
+        EventBus.getDefault().register(this);
         timeSecond = 0;
     }
 
@@ -116,6 +121,12 @@ public class GpsService extends Service {
     public IBinder onBind(Intent intent) {
         Log.e(getClass().getName(), "onBind");
         return null;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void GetGpsStop(GpsStopEvent location) {
+        Log.e(getClass().getName(), "stopSelf");
+        stopSelf();
     }
 
 //    @Override

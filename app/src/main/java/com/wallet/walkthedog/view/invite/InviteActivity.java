@@ -17,11 +17,15 @@ import com.wallet.walkthedog.adapter.InviteDogAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dialog.AddFriendDialog;
+import com.wallet.walkthedog.dialog.BuyOrRentDogDialog;
 import com.wallet.walkthedog.dialog.HungryDialog;
 import com.wallet.walkthedog.dialog.InviteMoreDialog;
 import com.wallet.walkthedog.dialog.InvitedInforDialog;
 import com.wallet.walkthedog.dialog.NicknameDialog;
+import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.email.EmailPresenter;
 import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
@@ -40,13 +44,24 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
     RecyclerView recyclerView;
 
     private InviteDogAdapter adapter;
-    private List<DogInfoDao> data = new ArrayList<>();
+    private List<FriendInfoDao> data = new ArrayList<>();
     private InviteContract.InvitePresenter presenter;
-    private int pageNo;
+    private int pageNo=1;
 
-    @OnClick(R.id.root_empty)
+    @OnClick({R.id.root_empty,R.id.img_add})
     void invitedFriends(){
-
+        AddFriendDialog dialog = AddFriendDialog.newInstance();
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        dialog.setCallback(new AddFriendDialog.OperateCallback() {
+            @Override
+            public void callback(String email) {
+                //添加朋友接口
+                presenter.sendFriendInvited(email);
+                dialog.dismiss();
+            }
+        });
     }
 
     @OnClick(R.id.img_back)
@@ -86,6 +101,7 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
     }
 
     private void initRecyclerView() {
+
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         adapter = new InviteDogAdapter(R.layout.adapter_invite_dog, data);
@@ -93,7 +109,7 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
         adapter.setEnableLoadMore(false);
         adapter.setCallback(new InviteDogAdapter.OperateCallback() {
             @Override
-            public void callback(DogInfoDao dao) {
+            public void callback(FriendInfoDao dao) {
                 InvitedInforDialog dialog = InvitedInforDialog.newInstance(dao);
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
@@ -144,6 +160,38 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
     @Override
     public void getFail(Integer code, String toastMessage) {
 
+    }
+
+    @Override
+    public void getFriendpSuccess(List<FriendInfoDao> obj) {
+        adapter.setEnableLoadMore(true);
+        rootEmpty.setVisibility(View.GONE);
+        if (pageNo == 1) {
+            data.clear();
+            if (obj.size() == 0) {
+                rootEmpty.setVisibility(View.VISIBLE);
+                adapter.loadMoreEnd();
+            } else {
+                this.data.addAll(obj);
+            }
+        } else {
+            if (obj.size() != 0) {
+                this.data.addAll(obj);
+            } else {
+                adapter.loadMoreEnd();
+            }
+        }
+//        //TODO 測試數據
+//        for (int i = 0; i < 10; i++) {
+//            FriendInfoDao dogInfoDao = new FriendInfoDao();
+//            data.add(dogInfoDao);
+//        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void sendFriendInvitedSuccess(String data) {
+        ToastUtils.shortToast(data);
     }
 
     @Override

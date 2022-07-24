@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.invite;
 
+import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
@@ -14,11 +15,17 @@ public class InviteContract {
 
         void getFail(Integer code, String toastMessage);
 
+        void getFriendpSuccess(List<FriendInfoDao> data);
+
+        void sendFriendInvitedSuccess(String data);
+
 
     }
 
     interface InvitePresenter extends Contract.BasePresenter {
         void getFriendList(int pageNo);
+
+        void sendFriendInvited(String friendEmail);
 
     }
 

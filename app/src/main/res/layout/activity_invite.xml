@@ -33,7 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:background="@mipmap/icon_add"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
     </RelativeLayout>
 

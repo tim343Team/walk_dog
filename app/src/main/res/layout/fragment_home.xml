@@ -157,7 +157,7 @@
                     android:id="@+id/ll_have_dog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:id="@+id/ll_dog_center"
@@ -245,7 +245,7 @@
                                     android:text="OxOKJDJ….SOK7"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/dp15"
-                                    android:visibility="gone"/>
+                                    android:visibility="gone" />
 
                             </LinearLayout>
 

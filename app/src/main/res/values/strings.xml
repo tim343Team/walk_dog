@@ -180,7 +180,7 @@
     <string name="fight_hunger_">抵抗飢餓：充滿幹勁</string>
     <!--邀請遛狗-->
     <string name="invite_dog">邀請遛狗</string>
-    <string name="invite_empty">你沒有好友\b去添加好友吧</string>
+    <string name="invite_empty">你沒有好友\n去添加好友吧</string>
     <string name="invitation">邀請</string>
     <string name="full_of_energy">精力充沛</string>
     <string name="full_of_hunger">飢餓</string>
@@ -214,6 +214,10 @@
     <!--升級-->
     <string name="congratulation_upgrade">恭喜升級</string>
     <string name="congratulation_upgrade_info">恭喜您，您的狗狗達到%s了</string>
+    <!--朋友-->
+    <string name="add_friend_title">添加朋友</string>
+    <string name="add_friend_email">輸入朋友郵箱</string>
+
     <!--租赁狗狗-->
     <string name="lease_time">租賃時間</string>
     <string name="available_rental_time">可租用%s天</string>
