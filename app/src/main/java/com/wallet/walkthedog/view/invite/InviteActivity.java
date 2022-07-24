@@ -15,12 +15,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.InviteDogAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
+import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dialog.HungryDialog;
 import com.wallet.walkthedog.dialog.InviteMoreDialog;
 import com.wallet.walkthedog.dialog.InvitedInforDialog;
 import com.wallet.walkthedog.dialog.NicknameDialog;
+import com.wallet.walkthedog.view.email.EmailPresenter;
 import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
 
@@ -31,7 +33,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
-public class InviteActivity extends BaseActivity {
+public class InviteActivity extends BaseActivity implements InviteContract.InviteView{
     @BindView(R.id.root_empty)
     View rootEmpty;
     @BindView(R.id.recyclerview)
@@ -39,6 +41,8 @@ public class InviteActivity extends BaseActivity {
 
     private InviteDogAdapter adapter;
     private List<DogInfoDao> data = new ArrayList<>();
+    private InviteContract.InvitePresenter presenter;
+    private int pageNo;
 
     @OnClick(R.id.root_empty)
     void invitedFriends(){
@@ -62,6 +66,7 @@ public class InviteActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        presenter = new InvitePresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         initRecyclerView();
     }
 
@@ -77,7 +82,7 @@ public class InviteActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-
+        presenter.getFriendList(pageNo);
     }
 
     private void initRecyclerView() {
@@ -134,5 +139,15 @@ public class InviteActivity extends BaseActivity {
                 InviteDetailActivity.actionStart(InviteActivity.this,"");
             }
         });
+    }
+
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+
+    }
+
+    @Override
+    public void setPresenter(InviteContract.InvitePresenter presenter) {
+        this.presenter=presenter;
     }
 }

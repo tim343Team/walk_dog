@@ -717,24 +717,26 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void getFriendList(int pageNo, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.trainDogUrl()+"?pageNo=" + pageNo + "&pageSize=20")
+        WonderfulOkhttpUtils.get().url(UrlFactory.getFriendListUrl()+"?pageNo=" + pageNo + "&pageSize=20")
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
                     @Override
                     public void onError(Request request, Exception e) {
                         super.onError(request, e);
-                        WonderfulLogUtils.logi("训练狗狗:", e.getMessage());
+                        WonderfulLogUtils.logi("好友列表:", e.getMessage());
                         dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
                     }
 
                     @Override
                     public void onResponse(String response) {
-                        WonderfulLogUtils.logi("训练狗狗：", response.toString());
+                        WonderfulLogUtils.logi("好友列表：", response.toString());
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
-                                dataCallback.onDataLoaded(object.optString("data"));
+                                List<PropDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("records").toString(), new TypeToken<List<PropDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }
