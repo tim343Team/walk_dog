@@ -70,7 +70,6 @@ public class MineFragment extends BaseTransFragment {
         rootView.findViewById(R.id.ll_train_record).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //训练记录
                 Intent intent = new Intent(requireContext(),TrainRecordActivity.class);
                 startActivity(intent);
             }

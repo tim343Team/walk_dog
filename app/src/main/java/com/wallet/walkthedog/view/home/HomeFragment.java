@@ -22,6 +22,7 @@ import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.request.TrainRequest;
 import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
 import com.wallet.walkthedog.dialog.DayLimitDialog;
@@ -107,7 +108,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @OnClick(R.id.ll_add_dog)
     void addDoag() {
         SelectDogActivity.actionStart(getActivity());
-//        String token=SharedPrefsHelper.getInstance().getToken();
     }
 
     @OnClick(R.id.img_invate)
@@ -144,6 +144,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         dialog.setTrainCallback(new MoreOperationDialog.OperateTrainCallback() {
             @Override
             public void callback() {
+                //TODO 获取训练列表
+                presenter.getAllTrain();
                 //訓練狗狗
                 TrainListDialog trainDialog = TrainListDialog.newInstance();
                 trainDialog.setTheme(R.style.PaddingScreen);
@@ -152,6 +154,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 trainDialog.setCallback(new TrainListDialog.OperateCallback() {
                     @Override
                     public void callback(int status) {
+                        //TODO 获取训练详情
+                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(),""));
                         TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(status);
                         trainDogDialog.setTheme(R.style.PaddingScreen);
                         trainDogDialog.setGravity(Gravity.CENTER);

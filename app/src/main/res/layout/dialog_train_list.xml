@@ -33,6 +33,11 @@
                 android:textSize="@dimen/dimen_23"
                 android:textStyle="bold" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_360"/>
+
             <com.wallet.walkthedog.custom_view.card.ShadowTextView
                 android:id="@+id/txt_sit"
                 style="@style/defshadow_style"

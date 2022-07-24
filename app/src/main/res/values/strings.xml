@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">WalkTheDog</string>
     <string name="confirm">確定</string>
     <string name="cancle">取消</string>
@@ -77,7 +77,7 @@
     <string name="speed">速度: %s</string>
     <string name="number">次數: %s</string>
     <string name="number_today">今日次數: %s</string>
-    <string name="number_totle" formatted="false">總次數: %s</string>
+    <string name="number_totle">總次數: %s</string>
     <string name="trip">里程: %s</string>
     <string name="trip_totle">總里程: %s</string>
     <string name="time_totle">總時間: %s</string>
@@ -193,7 +193,7 @@
     <string name="invitation_error_3">您來晚了，好友已經遛狗完了</string>
     <string name="invitation_error_4">您拒絕了好友的邀請</string>
     <string name="invitation_together">一起遛狗吧</string>
-    <string name="invitation_together_2" formatted="false" >%s的狗狗%s\n邀請你和他一起遛狗</string>
+    <string name="invitation_together_2">%s的狗狗%s\n邀請你和他一起遛狗</string>
     <string name="invitation_together_3">和Ta狗狗一起散步</string>
     <string name="invitation_together_4">一起遛狗可以增加獲得尋寶的成功幾率哦</string>
     <string name="accept">接受</string>
@@ -204,10 +204,10 @@
     <string name="cancle_remove">取消邀請</string>
     <string name="stop_invited">好友停止提醒</string>
     <string name="treasure_together">一起尋寶收穫的物品</string>
-    <string name="treasure_together_2" tools:ignore="MissingTranslation">%s的狗狗%s\n已經停止遛狗</string>
+    <string name="treasure_together_2">%s的狗狗%s\n已經停止遛狗</string>
     <!--移除好友-->
     <string name="remove_friend">移除好友</string>
-    <string name="remove_friend_notice" formatted="false">確認從好友中移除%s的狗狗%s嗎?</string>
+    <string name="remove_friend_notice">確認從好友中移除%s的狗狗%s嗎?</string>
     <string name="remove_friend_notice_2">和Ta一起遛狗</string>
     <string name="remove_friend_notice_3">移除後，還可以在個人中心的好友列表查看歷史記錄</string>
     <string name="remove_friend_success">移除成功</string>
@@ -300,6 +300,4 @@
     <string name="please_enter_email" >请输入正确邮箱地址</string>
 
     <string name="update_email_success">更新邮箱成功</string>
-    <string name="training_record">Training Record</string>
-    <string name="number_of_dog_walking_friends">Number of dog walking friends</string>
 </resources>
