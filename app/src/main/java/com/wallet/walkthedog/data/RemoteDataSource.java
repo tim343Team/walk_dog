@@ -12,6 +12,7 @@ import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
+import com.wallet.walkthedog.dao.request.TrainRequest;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 
 import org.json.JSONException;
@@ -641,6 +642,101 @@ public class RemoteDataSource implements DataSource {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
                                 dataCallback.onDataLoaded(object.optString("data"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getAllTrain(DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getAllTrainUrl())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("获取所有训练项目:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("获取所有训练项目：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("data"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void trainDog(TrainRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.trainDogUrl()+"?dogId=" + request.getDogId() + "&trainId=" + request.getTrainId())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("训练狗狗:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("训练狗狗：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("data"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getFriendList(int pageNo, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getFriendListUrl()+"?pageNo=" + pageNo + "&pageSize=20")
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("好友列表:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("好友列表：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                List<PropDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("records").toString(), new TypeToken<List<PropDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

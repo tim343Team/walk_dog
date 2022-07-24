@@ -22,6 +22,7 @@ import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.request.TrainRequest;
 import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
 import com.wallet.walkthedog.dialog.DayLimitDialog;
@@ -78,6 +79,10 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     TextView txtState;//体力状态
     @BindView(R.id.txt_status)
     TextView txtStatus;//？？
+    @BindView(R.id.ll_walk_dog)
+    View viewWalkDog;//狗狗状态按钮
+    @BindView(R.id.txt_walk_dog)
+    TextView txtWalkDog;//狗狗状态描述
     @BindView(R.id.img_dog)
     ImageView imgDog;
     @BindViews({R.id.img_equipment_1, R.id.img_equipment_2, R.id.img_equipment_3})
@@ -107,7 +112,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @OnClick(R.id.ll_add_dog)
     void addDoag() {
         SelectDogActivity.actionStart(getActivity());
-//        String token=SharedPrefsHelper.getInstance().getToken();
     }
 
     @OnClick(R.id.img_invate)
@@ -144,6 +148,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         dialog.setTrainCallback(new MoreOperationDialog.OperateTrainCallback() {
             @Override
             public void callback() {
+                //TODO 获取训练列表
+                presenter.getAllTrain();
                 //訓練狗狗
                 TrainListDialog trainDialog = TrainListDialog.newInstance();
                 trainDialog.setTheme(R.style.PaddingScreen);
@@ -152,6 +158,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 trainDialog.setCallback(new TrainListDialog.OperateCallback() {
                     @Override
                     public void callback(int status) {
+                        //TODO 获取训练详情
+                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(),""));
                         TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(status);
                         trainDogDialog.setTheme(R.style.PaddingScreen);
                         trainDogDialog.setGravity(Gravity.CENTER);
@@ -183,7 +191,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.ll_walk_dog)
     void startWalking() {
-        if (false) {
+        if (mDefultDogInfo.getStarvation()==1) {
             //飢餓狀態
             HungryDialog dialog2 = HungryDialog.newInstance();
             dialog2.setTheme(R.style.PaddingScreen);
@@ -306,7 +314,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateData(UpdateHomeData event) {
         isNeedLoad = true;
-        //TODO 刷新主页
+        //刷新主页
         updateData();
     }
 
@@ -315,6 +323,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     void updateUI() {
+        mDefultDogInfo.setStarvation(1);//TODO 測試飢餓狀態
         if (mDefultDogInfo == null) {
             viewNullDog.setVisibility(View.VISIBLE);
             viewDog.setVisibility(View.GONE);
@@ -327,11 +336,20 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         } else {
             imgGender.setBackgroundResource(R.mipmap.icon_female);
         }
-        if (mDefultDogInfo.getStarvation() == 1) {
-            txtState.setText(R.string.full_of_hunger);
-            viewBg.setBackgroundResource(R.mipmap.bg_home_hungry);
-        } else {
+        if (mDefultDogInfo.getStarvation() == 2) {
             txtState.setText(R.string.full_of_energy);
+            txtState.setTextColor(getResources().getColor(R.color.white));
+            viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
+            viewWalkDog.setBackgroundResource(R.drawable.walk_gradual_round);
+            txtWalkDog.setText(R.string.walking);
+        } else if(mDefultDogInfo.getStarvation() == 1){
+            txtState.setText(R.string.full_of_hunger);
+            txtState.setTextColor(getResources().getColor(R.color.color_ffbe0d));
+            viewBg.setBackgroundResource(R.mipmap.bg_home_hungry);
+            viewWalkDog.setBackgroundResource(R.drawable.hungry_gradual_round);
+            txtWalkDog.setText(R.string.feeding);
+        }else{
+            txtState.setText("状态字段返回错误为："+mDefultDogInfo.getStarvation());
             viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
         }
         txtDogLevel2.setText("LEVEL " + mDefultDogInfo.getLevel());
@@ -455,7 +473,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
                 @Override
                 public void callback() {
-                    BuyFoodDialog buyDialog = BuyFoodDialog.newInstance();
+                    BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty);
                     buyDialog.setTheme(R.style.PaddingScreen);
                     buyDialog.setGravity(Gravity.CENTER);
                     buyDialog.show(getFragmentManager(), "edit");

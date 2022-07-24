@@ -5,6 +5,7 @@ import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
+import com.wallet.walkthedog.dao.request.TrainRequest;
 
 public interface DataSource {
 
@@ -55,5 +56,10 @@ public interface DataSource {
 
     void useDogFood(OpreationPropRequest request,DataCallback dataCallback);
 
+    void getAllTrain(DataCallback dataCallback);
+
+    void trainDog(TrainRequest request,DataCallback dataCallback);
+
+    void getFriendList(int pageNo,DataCallback dataCallback);
 
 }

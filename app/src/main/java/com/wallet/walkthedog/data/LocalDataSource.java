@@ -11,6 +11,7 @@ import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
+import com.wallet.walkthedog.dao.request.TrainRequest;
 
 public class LocalDataSource implements DataSource {
     private static LocalDataSource INSTANCE;
@@ -125,6 +126,21 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void useDogFood(OpreationPropRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getAllTrain(DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void trainDog(TrainRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getFriendList(int pageNo, DataCallback dataCallback) {
 
     }
 

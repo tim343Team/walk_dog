@@ -5,6 +5,7 @@ import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
+import com.wallet.walkthedog.dao.request.TrainRequest;
 
 public class DataRepository implements DataSource {
     private static DataRepository INSTANCE = null;
@@ -144,6 +145,24 @@ public class DataRepository implements DataSource {
     public void useDogFood(OpreationPropRequest request, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.useDogFood(request,dataCallback);
         else mRemoteDataSource.useDogFood(request,dataCallback);
+    }
+
+    @Override
+    public void getAllTrain(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getAllTrain(dataCallback);
+        else mRemoteDataSource.getAllTrain(dataCallback);
+    }
+
+    @Override
+    public void trainDog(TrainRequest request,DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.trainDog(request,dataCallback);
+        else mRemoteDataSource.trainDog(request,dataCallback);
+    }
+
+    @Override
+    public void getFriendList(int pageNo, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getFriendList(pageNo,dataCallback);
+        else mRemoteDataSource.getFriendList(pageNo,dataCallback);
     }
 
 }

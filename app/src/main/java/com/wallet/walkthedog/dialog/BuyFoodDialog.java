@@ -22,9 +22,12 @@ public class BuyFoodDialog extends BaseDialogFragment {
     TextView txtWeight;
     @BindView(R.id.txt_level)
     TextView txtPrice;
+    @BindView(R.id.txt_balance)
+    TextView txtBalance;
 
     private int amount = 0;
     private double price = 6.5;
+    private String balance;
 
     @OnClick(R.id.img_adding)
     void addAmount() {
@@ -51,9 +54,10 @@ public class BuyFoodDialog extends BaseDialogFragment {
         callback.callback();
     }
 
-    public static BuyFoodDialog newInstance() {
+    public static BuyFoodDialog newInstance(String property) {
         BuyFoodDialog fragment = new BuyFoodDialog();
         Bundle bundle = new Bundle();
+        bundle.putString("balance",property);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -75,7 +79,11 @@ public class BuyFoodDialog extends BaseDialogFragment {
 
     @Override
     protected void initView() {
+        Bundle bundle = getArguments();
+        assert bundle != null;
+        balance = bundle.getString("balance");
         editAmount.setText(String.valueOf(amount));
+        txtBalance.setText(getResources().getString(R.string.balance_)+balance);
     }
 
     @Override

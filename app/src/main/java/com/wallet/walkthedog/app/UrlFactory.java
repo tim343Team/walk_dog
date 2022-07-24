@@ -60,6 +60,19 @@ public class UrlFactory {
         return host + "/dog/getUserDog";
     }
 
+    //训练记录
+    public static String getTrainingPage(){
+        return host + "/userInfo/getTrainingPage";
+    }
+    //遛狗总记录
+    public static String getWalkDogLogCount() {
+        return host + "/userInfo/getWalkDogLogCount";
+    }
+    //遛狗详细记录
+    public static String getWalkDogLog() {
+        return host + "/userInfo/getWalkDogLog";
+    }
+
     //获取一起遛狗的好友
     public static String getWalkTheDogFriendUrl() {
         return host + "/index/getWalkTheDogFriend";
@@ -118,6 +131,21 @@ public class UrlFactory {
     //获取钱包余额
     public static String getWalletUrl() {
         return host + "/wallet/getWallet";
+    }
+
+    //获取所有训练项目
+    public static String getAllTrainUrl() {
+        return host + "/trainDog/getAllTrain";
+    }
+
+    //训练狗狗
+    public static String trainDogUrl() {
+        return host + "/trainDog/trainDog";
+    }
+
+    //好友列表
+    public static String getFriendListUrl() {
+        return host + "/friend/FriendList";
     }
 
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.wallet.walkthedog.custom_view.card.ShadowTextView
+        android:id="@+id/txt_train"
+        style="@style/defshadow_style"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_marginStart="@dimen/dimen_30"
+        android:layout_marginEnd="@dimen/dimen_30"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textStyle="bold"
+        android:textSize="@dimen/dimen_14"
+        android:text="@string/sit_down"
+        android:textColor="#FFF"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

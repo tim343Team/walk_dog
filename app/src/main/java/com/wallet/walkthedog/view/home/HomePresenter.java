@@ -1,6 +1,7 @@
 package com.wallet.walkthedog.view.home;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.request.TrainRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.email.EmailContract;
 
@@ -117,6 +118,42 @@ public class HomePresenter implements HomeContract.HomePresenter{
             public void onDataNotAvailable(Integer code, String toastMessage) {
                 view.hideLoadingPopup();
                 view.feedFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getAllTrain() {
+        view.displayLoadingPopup();
+        dataRepository.getAllTrain(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+//                view.feedSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void trainDog(TrainRequest request) {
+        view.displayLoadingPopup();
+        dataRepository.trainDog(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+//                view.feedSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
             }
         });
     }

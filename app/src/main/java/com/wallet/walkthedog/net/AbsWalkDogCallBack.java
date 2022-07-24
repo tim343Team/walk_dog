@@ -52,7 +52,7 @@ public abstract class AbsWalkDogCallBack<T> implements okhttp3.Callback {
     @Override
     final public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         ResponseBody body = response.body();
-        if (body == null || !response.isSuccessful()) {
+        if (body == null) {
             fail(converException(new Exception("net err")));
             return;
         }
