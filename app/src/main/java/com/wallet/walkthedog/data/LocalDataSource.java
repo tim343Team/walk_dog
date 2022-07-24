@@ -139,4 +139,9 @@ public class LocalDataSource implements DataSource {
 
     }
 
+    @Override
+    public void getFriendList(int pageNo, DataCallback dataCallback) {
+
+    }
+
 }

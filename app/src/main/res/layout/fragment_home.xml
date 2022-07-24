@@ -157,7 +157,7 @@
                     android:id="@+id/ll_have_dog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <RelativeLayout
                         android:id="@+id/ll_dog_center"
@@ -359,6 +359,7 @@
                         </RelativeLayout>
 
                         <TextView
+                            android:id="@+id/txt_walk_dog"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp10"

@@ -81,11 +81,6 @@ public class InviteActivity extends BaseActivity {
     }
 
     private void initRecyclerView() {
-        //TODO 測試數據
-        for (int i = 0; i < 10; i++) {
-            DogInfoDao dogInfoDao = new DogInfoDao();
-            data.add(dogInfoDao);
-        }
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         adapter = new InviteDogAdapter(R.layout.adapter_invite_dog, data);

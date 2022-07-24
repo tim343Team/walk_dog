@@ -159,4 +159,10 @@ public class DataRepository implements DataSource {
         else mRemoteDataSource.trainDog(request,dataCallback);
     }
 
+    @Override
+    public void getFriendList(int pageNo, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getFriendList(pageNo,dataCallback);
+        else mRemoteDataSource.getFriendList(pageNo,dataCallback);
+    }
+
 }

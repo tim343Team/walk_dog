@@ -114,4 +114,9 @@ public class UrlFactory {
         return host + "/trainDog/trainDog";
     }
 
+    //好友列表
+    public static String getFriendListUrl() {
+        return host + "/friend/FriendList";
+    }
+
 }

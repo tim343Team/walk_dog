@@ -60,4 +60,6 @@ public interface DataSource {
 
     void trainDog(TrainRequest request,DataCallback dataCallback);
 
+    void getFriendList(int pageNo,DataCallback dataCallback);
+
 }
