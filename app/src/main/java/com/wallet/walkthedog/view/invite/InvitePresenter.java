@@ -24,7 +24,7 @@ public class InvitePresenter  implements InviteContract.InvitePresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-                view.getPropSuccess((List<PropDao>) obj);
+//                view.getPropSuccess((List<PropDao>) obj);
             }
 
             @Override
