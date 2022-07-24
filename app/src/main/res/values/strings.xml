@@ -302,4 +302,5 @@
     <string name="update_email_success">更新邮箱成功</string>
     <string name="training_record">Training Record</string>
     <string name="number_of_dog_walking_friends">Number of dog walking friends</string>
+    <string name="invite_to_walk_the_dog">Invite to walk the dog</string>
 </resources>

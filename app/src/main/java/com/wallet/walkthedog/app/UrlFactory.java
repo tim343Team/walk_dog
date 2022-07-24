@@ -35,6 +35,10 @@ public class UrlFactory {
     public static String getWalkDogLog() {
         return host + "/userInfo/getWalkDogLog";
     }
+    //
+    public static String getTogetherPage(){
+        return host + "/userInfo/getTogetherPage";
+    }
 
     //邮箱登录
     public static String getEmailLoginUrl() {

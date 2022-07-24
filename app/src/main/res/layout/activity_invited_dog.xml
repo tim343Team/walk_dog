@@ -27,9 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/modify_avatar" />
+            android:text="@string/invite_to_walk_the_dog" />
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/img_add"
             android:layout_width="@dimen/dimen_30"
             android:layout_height="@dimen/dimen_30"
@@ -79,6 +80,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
@@ -86,10 +88,12 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.0"
         tools:itemCount="5"
-        tools:listitem="@layout/item_invite_info"/>
-<!--    tools:listitem="@layout/item_invite_frinds"-->
+        tools:listitem="@layout/item_invite_info" />
+    <!--    tools:listitem="@layout/item_invite_frinds"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

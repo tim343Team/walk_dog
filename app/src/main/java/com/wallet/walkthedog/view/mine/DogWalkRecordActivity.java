@@ -94,7 +94,7 @@ public class DogWalkRecordActivity extends BaseActivity {
         if (selectPosition == 0) {
             getWalkDogLogCount();
         } else {
-
+            getWalkDogLog();
         }
     }
 
