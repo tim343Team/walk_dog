@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.data;
 
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
@@ -44,6 +45,8 @@ public interface DataSource {
 
     void getWallet(String type,DataCallback dataCallback);
 
+    void buyDog(BuyRequest request, DataCallback dataCallback);
+
     void getWalkTheDogFriend(DataCallback dataCallback);
 
     void startWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
@@ -67,6 +70,8 @@ public interface DataSource {
     void trainDog(TrainRequest request,DataCallback dataCallback);
 
     void upDogLevel(String dogId,DataCallback dataCallback);
+
+    void getShopDogFood(DataCallback dataCallback);
 
     void getFriendList(int pageNo,DataCallback dataCallback);
 

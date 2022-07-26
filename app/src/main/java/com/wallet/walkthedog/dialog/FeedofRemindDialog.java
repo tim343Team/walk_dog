@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.dao.DogFoodDao;
+import com.wallet.walkthedog.dao.DogInfoDao;
 
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseDialogFragment;
 
 public class FeedofRemindDialog extends BaseDialogFragment {
+    private DogFoodDao data;
 
     @OnClick(R.id.txt_cancle)
     void back(){
@@ -43,7 +46,7 @@ public class FeedofRemindDialog extends BaseDialogFragment {
 
     @Override
     protected void initView() {
-
+        Bundle bundle = getArguments();
     }
 
     @Override

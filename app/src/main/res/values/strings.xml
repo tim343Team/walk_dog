@@ -104,6 +104,7 @@
     <string name="mine">我的</string>
     <!--身份id卡-->
     <string name="name_">姓名:</string>
+    <string name="name">名稱</string>
     <string name="gender_">性別:</string>
     <string name="level_">等級:</string>
     <string name="weight_">體重:</string>
@@ -150,7 +151,9 @@
     <string name="gain_weight">獲得體重</string>
     <string name="balance_">餘額：</string>
     <string name="weight2_">重量：</string>
+    <string name="weight2">重量</string>
     <string name="unite_price_">單價：</string>
+    <string name="unite_price">單價</string>
     <string name="food_info_1">對抗飢餓</string>
     <string name="food_info_2">補充精力</string>
     <!--选择狗狗-->

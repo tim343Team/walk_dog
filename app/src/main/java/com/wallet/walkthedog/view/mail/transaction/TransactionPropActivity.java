@@ -26,7 +26,7 @@ public class TransactionPropActivity extends BaseActivity {
         passwordDialog.show(getSupportFragmentManager(), "edit");
         passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
             @Override
-            public void callback() {
+            public void callback(String password) {
                 passwordDialog.dismiss();
             }
         });

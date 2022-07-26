@@ -63,16 +63,17 @@ public class PasswordDialog extends BaseDialogFragment {
             public void afterTextChanged(Editable editable) {
                 String content = editable.toString();
                 if (content.length() == 6) {
-                    String signPassword = SharedPrefsHelper.getInstance().getSignPassword();
-                    if(signPassword.equals(content)){
-                        //密码正确
-                        callback.callback();
-                    }else {
-                        //密码错误
-                        callbackError.callback();
-                        passwordView.setText("");
-                        ToastUtils.shortToast(R.string.password_error);
-                    }
+                    callback.callback(content);
+//                    String signPassword = SharedPrefsHelper.getInstance().getSignPassword();
+//                    if(signPassword.equals(content)){
+//                        //密码正确
+//                        callback.callback();
+//                    }else {
+//                        //密码错误
+//                        callbackError.callback();
+//                        passwordView.setText("");
+//                        ToastUtils.shortToast(R.string.password_error);
+//                    }
                 }
             }
         });
@@ -95,7 +96,7 @@ public class PasswordDialog extends BaseDialogFragment {
     }
 
     public interface OperateCallback {
-        void callback();
+        void callback(String password);
     }
 
     private OperateErrorCallback callbackError;

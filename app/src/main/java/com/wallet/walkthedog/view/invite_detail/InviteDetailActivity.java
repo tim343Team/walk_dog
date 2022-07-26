@@ -72,7 +72,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
                 passwordDialog.show(getSupportFragmentManager(), "edit");
                 passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
                     @Override
-                    public void callback() {
+                    public void callback(String password) {
                         //删除好友
                         presenter.delFriend(new FriendRequest(friendInfoDao.getFriendMemberId()+""));
                         dialog.dismiss();

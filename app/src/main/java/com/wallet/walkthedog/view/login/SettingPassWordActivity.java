@@ -136,12 +136,12 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
                     }
                     if (status == 0) {
                         password = content;
-                        status = 1;
                         if(type.equals(Constant.LOGIN_MAIL_LOGIN)){
                             //调用登录接口
                             EmailLoginRequest request=new EmailLoginRequest(email,password);
                             presenter.passwordLogin(request,password);
                         }else if(type.equals(Constant.LOGIN_MAIL_REGISTER)){
+                            status = 1;
                             passwordView.setText("");
                             txtTitle.setText(getResources().getString(R.string.enter_your_password));
                         }

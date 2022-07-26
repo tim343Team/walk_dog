@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.dao.DogFoodDao;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,8 +26,9 @@ public class BuyFoodDialog extends BaseDialogFragment {
     @BindView(R.id.txt_balance)
     TextView txtBalance;
 
+    private DogFoodDao data;
     private int amount = 0;
-    private double price = 6.5;
+    private double price = 0;
     private String balance;
 
     @OnClick(R.id.img_adding)
@@ -54,10 +56,11 @@ public class BuyFoodDialog extends BaseDialogFragment {
         callback.callback();
     }
 
-    public static BuyFoodDialog newInstance(String property) {
+    public static BuyFoodDialog newInstance(String property, DogFoodDao data) {
         BuyFoodDialog fragment = new BuyFoodDialog();
         Bundle bundle = new Bundle();
         bundle.putString("balance",property);
+        bundle.putSerializable("data",data);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -82,8 +85,12 @@ public class BuyFoodDialog extends BaseDialogFragment {
         Bundle bundle = getArguments();
         assert bundle != null;
         balance = bundle.getString("balance");
+        data = (DogFoodDao) bundle.getSerializable("data");
         editAmount.setText(String.valueOf(amount));
         txtBalance.setText(getResources().getString(R.string.balance_)+balance);
+        txtWeight.setText(String.valueOf(data.getWeight()));
+        txtPrice.setText(String.valueOf(data.getPrice()));
+        price=data.getPrice();
     }
 
     @Override

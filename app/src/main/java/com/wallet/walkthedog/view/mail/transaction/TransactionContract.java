@@ -1,6 +1,7 @@
 package com.wallet.walkthedog.view.mail.transaction;
 
 import com.wallet.walkthedog.dao.DogMailDao;
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.view.mail.MailContract;
 
@@ -15,9 +16,13 @@ public class TransactionContract {
 
         void getWalletInfo(String data,String type);
 
+        void bugDogSuccess(String data);
+
     }
 
     interface TransactionPresenter extends Contract.BasePresenter {
         void getWallet(String type);//获取钱包余额 1是代币 2狗粮
+
+        void buyDog(BuyRequest request);//获取钱包余额 1是代币 2狗粮
     }
 }

@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.home;
 
+import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
 import com.wallet.walkthedog.dao.TrainDao;
@@ -34,6 +35,8 @@ public class HomeContract {
 
         void updateSuccessful(String data);
 
+        void getShopDogFoodSuccessful(DogFoodDao data);
+
     }
 
     interface HomePresenter extends Contract.BasePresenter {
@@ -54,5 +57,7 @@ public class HomeContract {
         void trainDog(TrainRequest request);//训练狗狗
 
         void upDogLevel(String dogId);//升级
+
+        void getShopDogFood();// 获取商城售卖狗粮详情
     }
 }

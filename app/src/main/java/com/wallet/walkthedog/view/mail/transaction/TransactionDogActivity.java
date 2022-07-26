@@ -14,10 +14,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
 import com.wallet.walkthedog.dao.DogMailDao;
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dialog.BuyOrRentDogDialog;
+import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
-import com.wallet.walkthedog.view.email.EmailPresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -59,6 +63,8 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
     private int status = 0;//0：購買 1：取消售賣
     private String totalProperty = "0";
     private DogMailDao dogMailDao;
+    private BuyOrRentDogDialog dialog;
+    private PasswordDialog passwordDialog;
     private TransactionContract.TransactionPresenter presenter;
 
     @OnClick(R.id.img_back)
@@ -69,22 +75,22 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
     @OnClick(R.id.txt_operation)
     void operation() {
         if (status == 0) {
-            BuyOrRentDogDialog dialog = BuyOrRentDogDialog.newInstance(dogMailDao,totalProperty,1);
+            dialog = BuyOrRentDogDialog.newInstance(dogMailDao,totalProperty,1);
             dialog.setTheme(R.style.PaddingScreen);
             dialog.setGravity(Gravity.CENTER);
             dialog.show(getSupportFragmentManager(), "edit");
             dialog.setCallback(new BuyOrRentDogDialog.OperateCallback() {
                 @Override
                 public void callback() {
-                    PasswordDialog passwordDialog = PasswordDialog.newInstance();
+                    passwordDialog = PasswordDialog.newInstance();
                     passwordDialog.setTheme(R.style.PaddingScreen);
                     passwordDialog.setGravity(Gravity.CENTER);
                     passwordDialog.show(getSupportFragmentManager(), "edit");
                     passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
                         @Override
-                        public void callback() {
-                            passwordDialog.dismiss();
-                            dialog.dismiss();
+                        public void callback(String password) {
+                            //购买狗狗接口
+                            presenter.buyDog(new BuyRequest(dogMailDao.getId(),password));
                         }
                     });
                     passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
@@ -184,7 +190,10 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-
+        NormalDialog normalDialog = NormalDialog.newInstance(R.string.password_error, R.mipmap.icon_normal_no,R.color.color_E12828);
+        normalDialog.setTheme(R.style.PaddingScreen);
+        normalDialog.setGravity(Gravity.CENTER);
+        normalDialog.show(getSupportFragmentManager(), "edit");
     }
 
     @Override
@@ -192,6 +201,18 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
         if (type.equals("1")) {
             totalProperty = data;
         }
+    }
+
+    @Override
+    public void bugDogSuccess(String data) {
+        passwordDialog.dismiss();
+        dialog.dismiss();
+        NormalDialog normalDialog = NormalDialog.newInstance(R.string.buy_success, R.mipmap.icon_normal);
+        normalDialog.setTheme(R.style.PaddingScreen);
+        normalDialog.setGravity(Gravity.CENTER);
+        normalDialog.show(getSupportFragmentManager(), "edit");
+        //刷新列表
+        EventBus.getDefault().post(new UpdateMailDogEvent());
     }
 
     @Override

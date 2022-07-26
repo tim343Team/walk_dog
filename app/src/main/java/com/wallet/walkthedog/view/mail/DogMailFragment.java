@@ -11,12 +11,18 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.DogMailAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.service.WalkPresenter;
 import com.wallet.walkthedog.view.mail.transaction.TransactionDogActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +64,7 @@ public class DogMailFragment extends BaseLazyFragment implements MailContract.Ma
 
     @Override
     protected void init() {
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -141,6 +147,13 @@ public class DogMailFragment extends BaseLazyFragment implements MailContract.Ma
             }
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(UpdateMailDogEvent event) {
+        pageNo=1;
+        //刷新
+        presenter.getDogList(new MailRequest(),pageNo);
     }
 
     @Override

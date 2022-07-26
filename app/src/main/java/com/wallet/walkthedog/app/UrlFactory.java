@@ -130,6 +130,11 @@ public class UrlFactory {
         return host + "/wallet/getWallet";
     }
 
+    //购买狗狗
+    public static String buyDogUrl() {
+        return host + "/shopping/buyDog";
+    }
+
     //获取所有训练项目
     public static String getAllTrainUrl() {
         return host + "/trainDog/getAllTrain";
@@ -143,6 +148,11 @@ public class UrlFactory {
     //升级
     public static String upDogLevelUrl() {
         return host + "/dog/upDogLevel";
+    }
+
+    //获取商城售卖狗粮详情
+    public static String getShopDogFoodUrl() {
+        return host + "/userInfo/getShopDogFood";
     }
 
     //好友列表

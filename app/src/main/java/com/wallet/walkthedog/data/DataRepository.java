@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.data;
 
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
@@ -108,6 +109,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void buyDog(BuyRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.buyDog(request, dataCallback);
+        else mRemoteDataSource.buyDog(request, dataCallback);
+    }
+
+    @Override
     public void getWalkTheDogFriend(DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getWalkTheDogFriend(dataCallback);
         else mRemoteDataSource.getWalkTheDogFriend(dataCallback);
@@ -177,6 +184,12 @@ public class DataRepository implements DataSource {
     public void upDogLevel(String dogId, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.upDogLevel(dogId, dataCallback);
         else mRemoteDataSource.upDogLevel(dogId, dataCallback);
+    }
+
+    @Override
+    public void getShopDogFood(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getShopDogFood( dataCallback);
+        else mRemoteDataSource.getShopDogFood( dataCallback);
     }
 
     @Override

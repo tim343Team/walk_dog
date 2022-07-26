@@ -20,6 +20,7 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.HomePropsAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.TrainDao;
@@ -493,7 +494,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 trainDogDialog.setCallback(new TrainDogDialog.OperateCallback() {
                     @Override
                     public void callback(int trainId) {
-                        //TODO 获取训练详情
+                        //获取训练详情
                         presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(),trainId+""));
                         trainDogDialog.dismiss();
                     }
@@ -515,44 +516,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         //喂食失败
         if (code == 1) {
             //TODO 缺少接口
-            //新增是否购买页面
-            FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
-            dialog.setTheme(R.style.PaddingScreen);
-            dialog.setGravity(Gravity.BOTTOM);
-            dialog.show(getFragmentManager(), "edit");
-            dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
-
-                @Override
-                public void callback() {
-                    BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty);
-                    buyDialog.setTheme(R.style.PaddingScreen);
-                    buyDialog.setGravity(Gravity.CENTER);
-                    buyDialog.show(getFragmentManager(), "edit");
-                    buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
-                        @Override
-                        public void callback() {
-                            PasswordDialog passwordDialog = PasswordDialog.newInstance();
-                            passwordDialog.setTheme(R.style.PaddingScreen);
-                            passwordDialog.setGravity(Gravity.CENTER);
-                            passwordDialog.show(getFragmentManager(), "edit");
-                            passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
-                                @Override
-                                public void callback() {
-                                    passwordDialog.dismiss();
-                                    buyDialog.dismiss();
-                                }
-                            });
-                            passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
-                                @Override
-                                public void callback() {
-                                    ToastUtils.shortToast("错误");
-                                }
-                            });
-                        }
-                    });
-                    dialog.dismiss();
-                }
-            });
+            presenter.getShopDogFood();
         }
     }
 
@@ -571,6 +535,50 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
         updateData();
+    }
+
+    @Override
+    public void getShopDogFoodSuccessful(DogFoodDao data) {
+        //新增是否购买页面
+        FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.BOTTOM);
+        dialog.show(getFragmentManager(), "edit");
+        dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
+
+            @Override
+            public void callback() {
+                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty,data);
+                buyDialog.setTheme(R.style.PaddingScreen);
+                buyDialog.setGravity(Gravity.CENTER);
+                buyDialog.show(getFragmentManager(), "edit");
+                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+                    @Override
+                    public void callback() {
+                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
+                        passwordDialog.setTheme(R.style.PaddingScreen);
+                        passwordDialog.setGravity(Gravity.CENTER);
+                        passwordDialog.show(getFragmentManager(), "edit");
+                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+                            @Override
+                            public void callback(String password) {
+                                //TODO 購買狗糧
+                                ToastUtils.shortToast("暫無接口");
+                                passwordDialog.dismiss();
+                                buyDialog.dismiss();
+                            }
+                        });
+                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+                            @Override
+                            public void callback() {
+                                ToastUtils.shortToast("错误");
+                            }
+                        });
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override

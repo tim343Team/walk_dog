@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
@@ -97,6 +98,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void buyDog(BuyRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void getWalkTheDogFriend(DataCallback dataCallback) {
 
     }
@@ -153,6 +159,11 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void upDogLevel(String dogId, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getShopDogFood(DataCallback dataCallback) {
 
     }
 
