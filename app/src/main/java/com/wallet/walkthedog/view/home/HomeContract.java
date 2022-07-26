@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.home;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
+import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
@@ -23,9 +24,16 @@ public class HomeContract {
 
         void getWalletInfo(String data,String type);
 
+        void trainListSuccessful(List<TrainDao> data);
+
         void feedSuccessful(String data);
 
         void feedFail(Integer code, String toastMessage);
+
+        void trainSuccessful(String data);
+
+        void updateSuccessful(String data);
+
     }
 
     interface HomePresenter extends Contract.BasePresenter {
@@ -44,5 +52,7 @@ public class HomeContract {
         void getAllTrain();//获取所有训练项目
 
         void trainDog(TrainRequest request);//训练狗狗
+
+        void upDogLevel(String dogId);//升级
     }
 }

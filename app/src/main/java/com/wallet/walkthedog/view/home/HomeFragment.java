@@ -22,6 +22,7 @@ import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.TrainRequest;
 import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
@@ -36,8 +37,11 @@ import com.wallet.walkthedog.dialog.MoreOperationDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NoticeDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
+import com.wallet.walkthedog.dialog.SettingInviteDialog;
 import com.wallet.walkthedog.dialog.TrainDogDialog;
 import com.wallet.walkthedog.dialog.TrainListDialog;
+import com.wallet.walkthedog.dialog.UpgradeDialog;
+import com.wallet.walkthedog.dialog.UpgradeDialog_ViewBinding;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
@@ -52,12 +56,14 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseTransFragment;
+import tim.com.libnetwork.view.PickTimeView;
 
 public class HomeFragment extends BaseTransFragment implements HomeContract.HomeView {
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -81,6 +87,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     TextView txtStatus;//？？
     @BindView(R.id.ll_walk_dog)
     View viewWalkDog;//狗狗状态按钮
+    @BindView(R.id.img_walk_dog)
+    ImageView imgWalkDog;//狗狗状态按钮图标
     @BindView(R.id.txt_walk_dog)
     TextView txtWalkDog;//狗狗状态描述
     @BindView(R.id.img_dog)
@@ -111,6 +119,30 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.ll_add_dog)
     void addDoag() {
+        //TODO
+//        SettingInviteDialog dialog = SettingInviteDialog.newInstance();
+//        dialog.setTheme(R.style.PaddingScreen);
+//        dialog.setGravity(Gravity.BOTTOM);
+//        dialog.show(getFragmentManager(), "edit");
+//        dialog.setCallback(new SettingInviteDialog.OperateCallback() {
+//            @Override
+//            public void callback() {
+//                PickTimeView timeView = new PickTimeView(getmActivity());
+//                timeView.setStartTime(1970, 1, 1, 0, 0, 0);
+//                timeView.setEndtTimeMillis();
+//                timeView.setTitle("生日");
+//                timeView.showTimePickerView();
+//                timeView.setOnTimeSelectListener(new PickTimeView.OnTimeSelect() {
+//                    @Override
+//                    public void onSelect(Date date) {
+////                DateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
+////                DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+////                tvBirthday.setText(df.format(date));
+////                bean.setBirthday(df2.format(date));
+//                    }
+//                });
+//            }
+//        });
         SelectDogActivity.actionStart(getActivity());
     }
 
@@ -148,32 +180,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         dialog.setTrainCallback(new MoreOperationDialog.OperateTrainCallback() {
             @Override
             public void callback() {
-                //TODO 获取训练列表
+                //获取训练列表
                 presenter.getAllTrain();
-                //訓練狗狗
-                TrainListDialog trainDialog = TrainListDialog.newInstance();
-                trainDialog.setTheme(R.style.PaddingScreen);
-                trainDialog.setGravity(Gravity.CENTER);
-                trainDialog.show(getFragmentManager(), "edit");
-                trainDialog.setCallback(new TrainListDialog.OperateCallback() {
-                    @Override
-                    public void callback(int status) {
-                        //TODO 获取训练详情
-                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(),""));
-                        TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(status);
-                        trainDogDialog.setTheme(R.style.PaddingScreen);
-                        trainDogDialog.setGravity(Gravity.CENTER);
-                        trainDogDialog.show(getFragmentManager(), "edit");
-                        trainDogDialog.setCallback(new TrainDogDialog.OperateCallback() {
-                            @Override
-                            public void callback() {
-                                trainDogDialog.dismiss();
-                            }
-                        });
-                        trainDialog.dismiss();
-                    }
-                });
-                dialog.dismiss();
             }
         });
     }
@@ -206,15 +214,21 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             });
         } else {
             //正常狀態
-            //判断遛狗次数
-            if (mDefultDogInfo.getDayLimit() < 3) {
-                WalkActivity.actionStart(getmActivity(),mDefultDogInfo);
-            } else {
-                DayLimitDialog dialog = DayLimitDialog.newInstance(getResources().getString(R.string.walk_number), getResources().getString(R.string.walk_notice_4));
-                dialog.setTheme(R.style.PaddingScreen);
-                dialog.setGravity(Gravity.CENTER);
-                dialog.show(getFragmentManager(), "edit");
+            if(mDefultDogInfo.getRateOfProgress()==100){
+                //升级
+                presenter.upDogLevel(mDefultDogInfo.getId());
+            }else {
+                //判断遛狗次数
+                if (mDefultDogInfo.getDayLimit() < 2) {
+                    WalkActivity.actionStart(getmActivity(),mDefultDogInfo);
+                } else {
+                    DayLimitDialog dialog = DayLimitDialog.newInstance(getResources().getString(R.string.walk_number), getResources().getString(R.string.walk_notice_4));
+                    dialog.setTheme(R.style.PaddingScreen);
+                    dialog.setGravity(Gravity.CENTER);
+                    dialog.show(getFragmentManager(), "edit");
+                }
             }
+
         }
     }
 
@@ -323,7 +337,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     void updateUI() {
-        mDefultDogInfo.setStarvation(2);//TODO 測試飢餓狀態
+//        mDefultDogInfo.setStarvation(1);//TODO 測試飢餓狀態
         if (mDefultDogInfo == null) {
             viewNullDog.setVisibility(View.VISIBLE);
             viewDog.setVisibility(View.GONE);
@@ -342,12 +356,19 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
             viewWalkDog.setBackgroundResource(R.drawable.walk_gradual_round);
             txtWalkDog.setText(R.string.walking);
+            if(mDefultDogInfo.getRateOfProgress()==100){
+                //升级
+                imgWalkDog.setBackgroundResource(R.mipmap.icon_update);
+            }else {
+                imgWalkDog.setBackgroundResource(R.mipmap.icon_walking);
+            }
         } else if(mDefultDogInfo.getStarvation() == 1){
             txtState.setText(R.string.full_of_hunger);
             txtState.setTextColor(getResources().getColor(R.color.color_ffbe0d));
             viewBg.setBackgroundResource(R.mipmap.bg_home_hungry);
             viewWalkDog.setBackgroundResource(R.drawable.hungry_gradual_round);
             txtWalkDog.setText(R.string.feeding);
+            imgWalkDog.setBackgroundResource(R.mipmap.icon_feeding);//图标变形
         }else{
             txtState.setText("状态字段返回错误为："+mDefultDogInfo.getStarvation());
             viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
@@ -417,7 +438,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-
+        ToastUtils.shortToast(toastMessage);
     }
 
     @Override
@@ -455,8 +476,37 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     @Override
+    public void trainListSuccessful(List<TrainDao> data) {
+        //訓練狗狗
+        TrainListDialog trainDialog = TrainListDialog.newInstance();
+        trainDialog.setTheme(R.style.PaddingScreen);
+        trainDialog.setGravity(Gravity.CENTER);
+        trainDialog.show(getFragmentManager(), "edit");
+        trainDialog.setData(data);
+        trainDialog.setCallback(new TrainListDialog.OperateCallback() {
+            @Override
+            public void callback(TrainDao item) {
+                TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item,totalFood);
+                trainDogDialog.setTheme(R.style.PaddingScreen);
+                trainDogDialog.setGravity(Gravity.CENTER);
+                trainDogDialog.show(getFragmentManager(), "edit");
+                trainDogDialog.setCallback(new TrainDogDialog.OperateCallback() {
+                    @Override
+                    public void callback(int trainId) {
+                        //TODO 获取训练详情
+                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(),trainId+""));
+                        trainDogDialog.dismiss();
+                    }
+                });
+                trainDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
     public void feedSuccessful(String data) {
         //喂食成功,更新数据
+        ToastUtils.shortToast(data);
         updateData();
     }
 
@@ -464,6 +514,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     public void feedFail(Integer code, String toastMessage) {
         //喂食失败
         if (code == 1) {
+            //TODO 缺少接口
             //新增是否购买页面
             FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
             dialog.setTheme(R.style.PaddingScreen);
@@ -503,6 +554,23 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 }
             });
         }
+    }
+
+    @Override
+    public void trainSuccessful(String data) {
+        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getFragmentManager(), "edit");
+    }
+
+    @Override
+    public void updateSuccessful(String data) {
+        UpgradeDialog dialog = UpgradeDialog.newInstance();
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getFragmentManager(), "edit");
+        updateData();
     }
 
     @Override

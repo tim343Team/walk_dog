@@ -23,9 +23,10 @@ public class TrainListAdapter extends BaseQuickAdapter<TrainDao, BaseViewHolder>
         helper.getView(R.id.txt_train).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClick.click(helper.getLayoutPosition());
+                itemClick.click(item);
             }
         });
+        helper.setText(R.id.txt_train,item.getName());
     }
 
     OnclickListenerItem itemClick;
@@ -35,7 +36,7 @@ public class TrainListAdapter extends BaseQuickAdapter<TrainDao, BaseViewHolder>
     }
 
     public interface OnclickListenerItem {
-        void click(int position);
+        void click(TrainDao item);
 
     }
 }

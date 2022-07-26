@@ -15,23 +15,6 @@ public class WalkPresenter implements WalkContract.WalkPresenter{
     }
 
     @Override
-    public void startWalkDog(SwitchWalkRequest request) {
-        view.displayLoadingPopup();//显示loading
-        dataRepository.startWalkDog(request,new DataSource.DataCallback() {
-            @Override
-            public void onDataLoaded(Object obj) {
-                view.hideLoadingPopup();
-            }
-
-            @Override
-            public void onDataNotAvailable(Integer code, String toastMessage) {
-                view.hideLoadingPopup();
-                view.getFail(code, toastMessage);
-            }
-        });
-    }
-
-    @Override
     public void stopWalkDog(SwitchWalkRequest request) {
         dataRepository.stopWalkDog(request,new DataSource.DataCallback() {
             @Override

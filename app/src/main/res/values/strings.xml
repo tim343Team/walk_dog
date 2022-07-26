@@ -4,12 +4,15 @@
     <string name="cancle">取消</string>
     <string name="back">返回</string>
     <string name="successful">成功</string>
+    <string name="operation_successful">操作成功</string>
     <string name="enter">確認</string>
     <string name="password_error">密碼錯誤，請重新輸入</string>
     <string name="loading_notice">Please wait a moment…</string>
     <string name="english">英文</string>
     <string name="japanese">日文</string>
     <string name="chinese">中文</string>
+    <string name="kg">Kg</string>
+    <string name="g">%sg</string>
     <string name="login_tip_1">首先創建或者導入一個\賬號.通過12個助記詞掌管和回復您\n的資產,12個助記詞一旦丟失，您的資產將無法\n找回</string>
     <string name="login_tip_2">
         >不要輕易卸載\n>不要清除應用數據\n>正確抄寫12個助記詞\n>秘密保管助記詞
@@ -92,7 +95,7 @@
     <string name="low_price">低價格</string>
     <string name="high_price">高價格</string>
     <string name="select_variety">選擇品種</string>
-    <string name="fee_">手續費:</string>
+    <string name="fee_">手續費：</string>
     <string name="cancle_sale">取消售賣</string>
     <string name="buy_success">購買成功</string>
     <!--租赁-->
@@ -205,6 +208,12 @@
     <string name="stop_invited">好友停止提醒</string>
     <string name="treasure_together">一起尋寶收穫的物品</string>
     <string name="treasure_together_2" tools:ignore="MissingTranslation">%s的狗狗%s\n已經停止遛狗</string>
+    <string name="invite_setting_title">設置遛狗時間</string>
+    <string name="start_time">開始時間</string>
+    <string name="end_time">結束時間</string>
+    <string name="end_time_hint">請選擇結束時間</string>
+    <string name="start_time_hint">請選擇開始時間</string>
+    <string name="select_time">选择时间</string>
     <!--移除好友-->
     <string name="remove_friend">移除好友</string>
     <string name="remove_friend_notice" formatted="false">確認從好友中移除%s的狗狗%s嗎?</string>

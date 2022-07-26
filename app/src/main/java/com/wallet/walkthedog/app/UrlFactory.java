@@ -60,6 +60,16 @@ public class UrlFactory {
         return host + "/dog/getUserDog";
     }
 
+    //使用狗狗
+    public static String useDogUrl() {
+        return host + "/dog/useDog";
+    }
+
+    //移除使用中的狗狗
+    public static String removeDogUrl() {
+        return host + "/dog/removeDog";
+    }
+
     //获取一起遛狗的好友
     public static String getWalkTheDogFriendUrl() {
         return host + "/index/getWalkTheDogFriend";
@@ -130,6 +140,11 @@ public class UrlFactory {
         return host + "/trainDog/trainDog";
     }
 
+    //升级
+    public static String upDogLevelUrl() {
+        return host + "/dog/upDogLevel";
+    }
+
     //好友列表
     public static String getFriendListUrl() {
         return host + "/friend/FriendList";
@@ -138,6 +153,31 @@ public class UrlFactory {
     //发送好友邀请
     public static String sendFriendInvitedUrl() {
         return host + "/friend/sendFriendInvited";
+    }
+
+    //好友狗狗详情
+    public static String friendDogDetailUrl() {
+        return host + "/friend/friendDogDetail";
+    }
+
+    //设置好友备注
+    public static String setNoteUrl() {
+        return host + "/friend/setNote";
+    }
+
+    //移除好友
+    public static String delFriendUrl() {
+        return host + "/friend/delFriend";
+    }
+
+    //狗狗商城列表
+    public static String dogListUrl() {
+        return host + "/shopping/dogList";
+    }
+
+    //道具商城列表
+    public static String propListUrl() {
+        return host + "/shopping/propList";
     }
 
 }

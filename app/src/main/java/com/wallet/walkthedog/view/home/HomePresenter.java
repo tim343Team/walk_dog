@@ -1,6 +1,7 @@
 package com.wallet.walkthedog.view.home;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.TrainRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.email.EmailContract;
@@ -106,7 +107,6 @@ public class HomePresenter implements HomeContract.HomePresenter{
 
     @Override
     public void feedDog(String dogId) {
-        view.displayLoadingPopup();
         dataRepository.feedDog(dogId,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
@@ -129,7 +129,7 @@ public class HomePresenter implements HomeContract.HomePresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-//                view.feedSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+                view.trainListSuccessful((List<TrainDao>) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override
@@ -142,12 +142,28 @@ public class HomePresenter implements HomeContract.HomePresenter{
 
     @Override
     public void trainDog(TrainRequest request) {
-        view.displayLoadingPopup();
         dataRepository.trainDog(request,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-//                view.feedSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+                view.trainSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void upDogLevel(String dogId) {
+        dataRepository.upDogLevel(dogId,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.updateSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override

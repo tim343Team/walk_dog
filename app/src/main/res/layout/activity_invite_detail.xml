@@ -71,7 +71,7 @@
 
                             <ImageView
                                 android:id="@+id/img_gender"
-                                android:layout_width="@dimen/dimen_11"
+                                android:layout_width="@dimen/dimen_19"
                                 android:layout_height="@dimen/dimen_19"
                                 android:background="@mipmap/icon_female" />
 
@@ -364,32 +364,18 @@
                     android:gravity="end"
                     android:text="@string/remove"/>
 
-                <com.wallet.walkthedog.custom_view.ShadowContainer
-                    android:id="@+id/group_create"
-                    app:containerCornerRadius="@dimen/corner_radius"
-                    app:containerDeltaLength="@dimen/delta_length"
-                    app:containerShadowColor="@color/color_t_548FEB"
-                    app:containerShadowRadius="@dimen/shadow_radius"
-                    app:deltaX="@dimen/delta_x"
-                    app:deltaY="@dimen/delta_y"
-                    android:layout_marginStart="-20dp"
-                    android:layout_marginEnd="-20dp"
-                    android:layout_width="wrap_content"
+                <com.wallet.walkthedog.custom_view.card.ShadowTextView
+                    android:id="@+id/view_bottom"
+                    style="@style/defshadow_style"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/transparent">
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/invitation"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/txt_cancle"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_43"
-                        android:layout_gravity="center"
-                        android:background="@drawable/button_gradual_background"
-                        android:gravity="center"
-                        android:text="@string/invitation"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimen_14" />
-
-                </com.wallet.walkthedog.custom_view.ShadowContainer>
             </LinearLayout>
 
 

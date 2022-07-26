@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
-public class SelectDogActivity extends BaseActivity implements SelectContract.SelectView{
+public class SelectDogActivity extends BaseActivity implements SelectContract.SelectView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
     @BindView(R.id.recyclerview_rent)
@@ -54,7 +54,7 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
         finish();
     }
 
-    @OnClick({R.id.txt_rent_dog,R.id.txt_my_dog})
+    @OnClick({R.id.txt_rent_dog, R.id.txt_my_dog})
     void choiceRentDog(View v) {
         switch (v.getId()) {
             case R.id.txt_rent_dog:
@@ -122,13 +122,8 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
             public void callback(DogInfoDao dao, int selectPosition, int oldSelectPosition) {
                 adapter.notifyItemChanged(selectPosition);
                 adapter.notifyItemChanged(oldSelectPosition);
-                //选择成功弹窗
-                NormalDialog dialog = NormalDialog.newInstance(R.string.choose_select, R.mipmap.icon_normal);
-                dialog.setTheme(R.style.PaddingScreen);
-                dialog.setGravity(Gravity.CENTER);
-                dialog.show(getSupportFragmentManager(), "edit");
-                //更新主页
-                EventBus.getDefault().post(new UpdateHomeData());
+                //选择使用
+                presenter.useDog(dao.getId());
             }
         });
         adapter.setFeedCallback(new MyDogsAdapter.FeedCallback() {
@@ -154,14 +149,29 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
 
     @Override
     public void getMyDogSuccess(List<DogInfoDao> dogInfoDaos) {
-        if(dogInfoDaos.size()>0){
+        if (dogInfoDaos.size() > 0) {
             data.addAll(dogInfoDaos);
             adapter.notifyDataSetChanged();
         }
     }
 
     @Override
+    public void useDogSuccess(String data, String currentDogId) {
+        if (!SharedPrefsHelper.getInstance().getDogId().isEmpty()) {
+            presenter.removeDog(SharedPrefsHelper.getInstance().getDogId());
+        }
+        //选择成功弹窗
+        SharedPrefsHelper.getInstance().saveDogId(currentDogId);
+        NormalDialog dialog = NormalDialog.newInstance(R.string.choose_select, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        //更新主页
+        EventBus.getDefault().post(new UpdateHomeData());
+    }
+
+    @Override
     public void setPresenter(SelectContract.SelectPresenter presenter) {
-        this.presenter=presenter;
+        this.presenter = presenter;
     }
 }

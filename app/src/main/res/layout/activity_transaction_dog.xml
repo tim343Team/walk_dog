@@ -22,6 +22,7 @@
 
         <TextView
             style="@style/TextTitle"
+            android:id="@+id/txt_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -56,8 +57,7 @@
                 android:id="@+id/img_dog"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:layout_centerInParent="true"
-                android:background="@mipmap/icon_dog_demo" />
+                android:layout_centerInParent="true" />
         </RelativeLayout>
 
     </RelativeLayout>
@@ -72,7 +72,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -80,7 +80,8 @@
             <TextView
                 android:id="@+id/txt_level_2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:layout_marginEnd="@dimen/dimen_4"
                 android:text="LEVEL 1　"
                 android:textColor="@color/text_767676"
@@ -90,7 +91,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:id="@+id/progress_bg"
@@ -132,7 +134,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:background="@drawable/line_dash_black" />
 
         <LinearLayout
@@ -305,12 +307,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:background="@drawable/line_dash_black" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen_30"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
@@ -319,6 +321,7 @@
                 android:layout_width="@dimen/dimen_0"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -343,7 +346,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
+                android:gravity="end | center_vertical"
                 android:orientation="horizontal">
 
                 <TextView

@@ -15,10 +15,16 @@ public class SelectContract {
 
         void getMyDogSuccess(List<DogInfoDao> data);
 
+        void useDogSuccess(String data,String dogId);
+
     }
 
     interface SelectPresenter extends Contract.BasePresenter {
         void getUserDog();
+
+        void useDog(String dogId);
+
+        void removeDog(String dogId);
 
     }
 }

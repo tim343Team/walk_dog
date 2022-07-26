@@ -352,6 +352,7 @@
                             android:background="@drawable/walk_gradual_round">
 
                             <ImageView
+                                android:id="@+id/img_walk_dog"
                                 android:layout_width="@dimen/dimen_48"
                                 android:layout_height="@dimen/dimen_48"
                                 android:layout_centerInParent="true"

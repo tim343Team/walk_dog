@@ -5,6 +5,12 @@ public class SwitchWalkRequest {
     private String lan;
     private String lon;
 
+    public SwitchWalkRequest(String dogId, String lan, String lon) {
+        this.dogId = dogId;
+        this.lan = lan;
+        this.lon = lon;
+    }
+
     public String getDogId() {
         return dogId;
     }

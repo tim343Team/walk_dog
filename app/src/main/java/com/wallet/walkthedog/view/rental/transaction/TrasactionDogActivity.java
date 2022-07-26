@@ -33,32 +33,32 @@ public class TrasactionDogActivity extends BaseActivity {
     @OnClick(R.id.txt_operation)
     void operation() {
         if (status == 0) {
-            BuyOrRentDogDialog dialog = BuyOrRentDogDialog.newInstance(2);
-            dialog.setTheme(R.style.PaddingScreen);
-            dialog.setGravity(Gravity.CENTER);
-            dialog.show(getSupportFragmentManager(), "edit");
-            dialog.setCallback(new BuyOrRentDogDialog.OperateCallback() {
-                @Override
-                public void callback() {
-                    PasswordDialog passwordDialog = PasswordDialog.newInstance();
-                    passwordDialog.setTheme(R.style.PaddingScreen);
-                    passwordDialog.setGravity(Gravity.CENTER);
-                    passwordDialog.show(getSupportFragmentManager(), "edit");
-                    passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
-                        @Override
-                        public void callback() {
-                            passwordDialog.dismiss();
-                            dialog.dismiss();
-                        }
-                    });
-                    passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
-                        @Override
-                        public void callback() {
-
-                        }
-                    });
-                }
-            });
+//            BuyOrRentDogDialog dialog = BuyOrRentDogDialog.newInstance(2);
+//            dialog.setTheme(R.style.PaddingScreen);
+//            dialog.setGravity(Gravity.CENTER);
+//            dialog.show(getSupportFragmentManager(), "edit");
+//            dialog.setCallback(new BuyOrRentDogDialog.OperateCallback() {
+//                @Override
+//                public void callback() {
+//                    PasswordDialog passwordDialog = PasswordDialog.newInstance();
+//                    passwordDialog.setTheme(R.style.PaddingScreen);
+//                    passwordDialog.setGravity(Gravity.CENTER);
+//                    passwordDialog.show(getSupportFragmentManager(), "edit");
+//                    passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+//                        @Override
+//                        public void callback() {
+//                            passwordDialog.dismiss();
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+//                        @Override
+//                        public void callback() {
+//
+//                        }
+//                    });
+//                }
+//            });
         } else if (status == 1) {
 
         }

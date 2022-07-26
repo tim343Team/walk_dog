@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -45,8 +45,7 @@
                     android:layout_width="@dimen/dimen_100"
                     android:layout_height="@dimen/dimen_100"
                     android:layout_marginTop="@dimen/dimen_41"
-                    android:layout_marginBottom="@dimen/dimen_31"
-                    android:background="@mipmap/icon_dog_demo" />
+                    android:layout_marginBottom="@dimen/dimen_31" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,7 +88,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/dimen_2"
                                 android:gravity="center_horizontal"
-                                android:text="Beagle" />
+                                android:text="" />
 
                         </LinearLayout>
 
@@ -117,7 +116,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/dimen_2"
                                 android:gravity="center_horizontal"
-                                android:text="xxxxx" />
+                                android:text="" />
 
                         </LinearLayout>
 
@@ -153,7 +152,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/dimen_2"
                                 android:gravity="center_horizontal"
-                                android:text="xxxx" />
+                                android:text="" />
 
                         </LinearLayout>
 
@@ -181,7 +180,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/dimen_2"
                                 android:gravity="center_horizontal"
-                                android:text="xxxx" />
+                                android:text="" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -216,7 +215,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/dimen_2"
                                 android:gravity="center_horizontal"
-                                android:text="xxxx" />
+                                android:text="" />
 
                         </LinearLayout>
 
@@ -244,7 +243,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/dimen_2"
                                 android:gravity="center_horizontal"
-                                android:text="xxxx" />
+                                android:text="" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -259,7 +258,7 @@
                         android:layout_marginTop="@dimen/dimen_16"
                         android:layout_marginBottom="@dimen/dimen_16"
                         android:gravity="center_horizontal"
-                        android:text="xxxxx" />
+                        android:text="" />
 
                 </LinearLayout>
 
@@ -283,7 +282,7 @@
                     android:textSize="@dimen/dp14" />
 
                 <TextView
-                    android:id="@+id/txt_surplus"
+                    android:id="@+id/txt_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -323,33 +322,61 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_25"
                 android:layout_marginTop="@dimen/dp15"
                 android:layout_marginEnd="@dimen/dimen_25"
-                android:gravity="end"
-                android:text="@string/fee_"
-                android:textColor="@color/color_848484"
-                android:textSize="@dimen/dp10" />
+                android:gravity="end">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fee_"
+                    android:textColor="@color/color_848484"
+                    android:textSize="@dimen/dp10" />
+
+                <TextView
+                    android:id="@+id/txt_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_848484"
+                    android:textSize="@dimen/dp10" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_25"
                 android:layout_marginTop="@dimen/dp5"
                 android:layout_marginEnd="@dimen/dimen_25"
-                android:gravity="end"
-                android:text="@string/balance_"
-                android:textColor="@color/color_848484"
-                android:textSize="@dimen/dp12" />
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/balance_"
+                    android:textColor="@color/color_848484"
+                    android:textSize="@dimen/dp12" />
+
+                <TextView
+                    android:id="@+id/txt_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/color_848484"
+                    android:textSize="@dimen/dp12" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_50"
-                android:layout_marginTop="@dimen/dimen_20"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/dimen_20"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -357,27 +384,27 @@
                     android:id="@+id/txt_refuse"
                     android:layout_width="0dp"
                     android:layout_height="43dp"
+                    android:layout_marginEnd="@dimen/dp14"
                     android:layout_weight="1"
                     android:background="@drawable/rectangle_white"
-                    android:layout_marginEnd="@dimen/dp14"
                     android:elevation="@dimen/dimen_2"
+                    android:gravity="center"
                     android:text="@string/cancle"
                     android:textColor="@color/color_485EA8"
-                    android:textSize="@dimen/dp14"
-                    android:gravity="center"/>
+                    android:textSize="@dimen/dp14" />
 
                 <TextView
                     android:id="@+id/txt_accept"
                     android:layout_width="0dp"
                     android:layout_height="43dp"
+                    android:layout_marginStart="@dimen/dp14"
                     android:layout_weight="1"
                     android:background="@drawable/button_gradual_background"
-                    android:layout_marginStart="@dimen/dp14"
                     android:elevation="@dimen/dimen_2"
+                    android:gravity="center"
                     android:text="@string/buy"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp14"
-                    android:gravity="center"/>
+                    android:textSize="@dimen/dp14" />
             </LinearLayout>
 
         </LinearLayout>

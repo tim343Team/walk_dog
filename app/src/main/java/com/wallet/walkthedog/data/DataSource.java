@@ -2,7 +2,9 @@ package com.wallet.walkthedog.data;
 
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
+import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
+import com.wallet.walkthedog.dao.request.FriendRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.dao.request.TrainRequest;
@@ -27,6 +29,10 @@ public interface DataSource {
     void passwordLogin(EmailLoginRequest request, DataCallback dataCallback);
 
     void getUserDog(DataCallback dataCallback);
+
+    void useDog(String dogId,DataCallback dataCallback);
+
+    void removeDog(String dogId,DataCallback dataCallback);
 
     void getDogInfo(String dogId,DataCallback dataCallback);
 
@@ -60,8 +66,20 @@ public interface DataSource {
 
     void trainDog(TrainRequest request,DataCallback dataCallback);
 
+    void upDogLevel(String dogId,DataCallback dataCallback);
+
     void getFriendList(int pageNo,DataCallback dataCallback);
 
     void friendEmail(String friendEmail,DataCallback dataCallback);
+
+    void getFriendDogDetail(String id,DataCallback dataCallback);
+
+    void setNote(FriendRequest request, DataCallback dataCallback);
+
+    void delFriend(FriendRequest request, DataCallback dataCallback);
+
+    void getDogList(MailRequest request, int pageNo, DataCallback dataCallback);
+
+    void getPropList(MailRequest request, int pageNo, DataCallback dataCallback);
 
 }

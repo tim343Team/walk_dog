@@ -18,6 +18,7 @@ public class UpgradeDialog extends BaseDialogFragment {
     void enter(){
         dismiss();
     }
+
     public static UpgradeDialog newInstance() {
         UpgradeDialog fragment = new UpgradeDialog();
         Bundle bundle = new Bundle();

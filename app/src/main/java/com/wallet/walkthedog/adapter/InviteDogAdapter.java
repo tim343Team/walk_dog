@@ -35,30 +35,31 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
         });
 
         ImageView imgGender = (ImageView) helper.getView(R.id.img_gender);
-        if (item.getSex() == 0) {
-            imgGender.setBackgroundResource(R.mipmap.icon_black_male);
-        } else {
-            imgGender.setBackgroundResource(R.mipmap.icon_black_female);
-        }
         helper.setText(R.id.txt_dog_name,item.getNftName());
-        helper.setText(R.id.txt_rent_name,item.getName());
+        helper.setText(R.id.txt_rent_name,item.getDogName());
         helper.setText(R.id.txt_level,"Lv." + item.getLevel());
         helper.setText(R.id.txt_time, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
         helper.setText(R.id.txt_trip, DateTimeUtil.second2Time(item.getWalkTheDogTime()));//总次数
         helper.setText(R.id.txt_id, item.getId()+"");//总次数
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.icon_null_dog)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+        Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_dog));
+        if (item.getSex() == 0) {
+            Glide.with(mContext).load(R.mipmap.icon_black_male).apply(options).into(imgGender);
+        } else {
+            Glide.with(mContext).load(R.mipmap.icon_black_female).apply(options).into(imgGender);
+        }
         //TODO 缺少
-//        RequestOptions options = new RequestOptions()
-//                .centerCrop()
-//                .placeholder(R.mipmap.icon_null_dog)
-//                .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
-//        Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_dog));
 //        helper.setText(R.id.txt_number, item.getDayLimit() + "/2");
         //精力状态
-//        if(item.getStarvation()==1){
-//            helper.setText(R.id.txt_status,R.string.full_of_hunger);
-//        }else {
-//            helper.setText(R.id.txt_status,R.string.full_of_energy);
-//        }
+        if(item.getStarvation()==1){
+            helper.setText(R.id.txt_status,R.string.full_of_hunger);
+        }else {
+            helper.setText(R.id.txt_status,R.string.full_of_energy);
+        }
     }
 
     private OperateCallback callback;

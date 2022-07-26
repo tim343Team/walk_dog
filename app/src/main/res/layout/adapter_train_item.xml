@@ -8,15 +8,15 @@
         style="@style/defshadow_style"
         android:layout_width="255dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_centerInParent="true"
         android:layout_marginStart="@dimen/dimen_30"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_marginEnd="@dimen/dimen_30"
         android:gravity="center"
         android:padding="8dp"
-        android:textStyle="bold"
-        android:textSize="@dimen/dimen_14"
         android:text="@string/sit_down"
         android:textColor="#FFF"
-        android:layout_centerInParent="true"/>
+        android:textSize="@dimen/dimen_14"
+        android:textStyle="bold" />
 
 </RelativeLayout>

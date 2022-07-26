@@ -8,7 +8,9 @@ import androidx.annotation.NonNull;
 
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
+import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
+import com.wallet.walkthedog.dao.request.FriendRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.dao.request.TrainRequest;
@@ -56,6 +58,16 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void getUserDog(DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void useDog(String dogId, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void removeDog(String dogId, DataCallback dataCallback) {
 
     }
 
@@ -140,12 +152,42 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void upDogLevel(String dogId, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void getFriendList(int pageNo, DataCallback dataCallback) {
 
     }
 
     @Override
     public void friendEmail(String friendEmail, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getFriendDogDetail(String id, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void setNote(FriendRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void delFriend(FriendRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getDogList(MailRequest request, int pageNo, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getPropList(MailRequest request, int pageNo, DataCallback dataCallback) {
 
     }
 

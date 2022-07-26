@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.custom_view.PasswordView;
+import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 

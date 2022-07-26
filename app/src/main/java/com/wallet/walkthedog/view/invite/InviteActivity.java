@@ -16,6 +16,8 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.InviteDogAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.bus_event.GpsLocationEvent;
+import com.wallet.walkthedog.bus_event.UpdateFriendEvent;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
@@ -25,10 +27,15 @@ import com.wallet.walkthedog.dialog.HungryDialog;
 import com.wallet.walkthedog.dialog.InviteMoreDialog;
 import com.wallet.walkthedog.dialog.InvitedInforDialog;
 import com.wallet.walkthedog.dialog.NicknameDialog;
+import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.email.EmailPresenter;
 import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +89,7 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
     @Override
     protected void initViews(Bundle savedInstanceState) {
         presenter = new InvitePresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
+        EventBus.getDefault().register(this);
         initRecyclerView();
     }
 
@@ -152,14 +160,14 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                InviteDetailActivity.actionStart(InviteActivity.this,"");
+                InviteDetailActivity.actionStart(InviteActivity.this,data.get(position));
             }
         });
     }
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-
+        ToastUtils.shortToast(toastMessage);
     }
 
     @Override
@@ -181,21 +189,28 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
                 adapter.loadMoreEnd();
             }
         }
-//        //TODO 測試數據
-//        for (int i = 0; i < 10; i++) {
-//            FriendInfoDao dogInfoDao = new FriendInfoDao();
-//            data.add(dogInfoDao);
-//        }
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void sendFriendInvitedSuccess(String data) {
-        ToastUtils.shortToast(data);
+        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        //刷新
+        pageNo=1;
+        presenter.getFriendList(pageNo);
     }
 
     @Override
     public void setPresenter(InviteContract.InvitePresenter presenter) {
         this.presenter=presenter;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshData(UpdateFriendEvent location) {
+        pageNo=1;
+        presenter.getFriendList(pageNo);
     }
 }

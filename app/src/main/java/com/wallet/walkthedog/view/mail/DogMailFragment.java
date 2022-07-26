@@ -10,9 +10,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.DogMailAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
+import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.service.WalkPresenter;
 import com.wallet.walkthedog.view.mail.transaction.TransactionDogActivity;
 
 import java.util.ArrayList;
@@ -22,21 +25,22 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseLazyFragment;
 
-public class DogMailFragment  extends BaseLazyFragment {
+public class DogMailFragment extends BaseLazyFragment implements MailContract.MailView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    private int page = 1;
+    private int pageNo = 1;
     private DogMailAdapter adapter;
     private List<DogMailDao> data = new ArrayList<>();
+    private MailContract.MailPresenter presenter;
 
     @OnClick(R.id.ll_price)
-    void selectPrice(){
+    void selectPrice() {
 
     }
 
     @OnClick(R.id.ll_variety)
-    void selectVariety(){
+    void selectVariety() {
 
     }
 
@@ -46,6 +50,7 @@ public class DogMailFragment  extends BaseLazyFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_dog_mail;
@@ -58,6 +63,7 @@ public class DogMailFragment  extends BaseLazyFragment {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        presenter = new MailPresenter(Injection.provideTasksRepository(getmActivity()), this);//初始化presenter
         initRecyclerView();
     }
 
@@ -73,7 +79,7 @@ public class DogMailFragment  extends BaseLazyFragment {
 
     @Override
     protected void loadData() {
-
+        presenter.getDogList(new MailRequest(),pageNo);
     }
 
     @Override
@@ -87,12 +93,7 @@ public class DogMailFragment  extends BaseLazyFragment {
     }
 
     private void initRecyclerView() {
-        //TODO 測試數據
-        for (int i = 0; i < 10; i++) {
-            DogMailDao propDao = new DogMailDao();
-            data.add(propDao);
-        }
-        GridLayoutManager manager=new GridLayoutManager(getmActivity(),2);
+        GridLayoutManager manager = new GridLayoutManager(getmActivity(), 2);
         recyclerView.setLayoutManager(manager);
         adapter = new DogMailAdapter(R.layout.adapter_dog_mail, data);
         adapter.bindToRecyclerView(recyclerView);
@@ -105,14 +106,45 @@ public class DogMailFragment  extends BaseLazyFragment {
         adapter.OnclickListenerItem(new DogMailAdapter.OnclickListenerItem() {
             @Override
             public void click(DogMailDao item) {
-                TransactionDogActivity.actionStart(getActivity());
+                TransactionDogActivity.actionStart(getActivity(),item);
             }
         });
         adapter.setEnableLoadMore(false);
     }
 
     private void loadMore() {
-        page = page + 1;
+        pageNo = pageNo + 1;
+        adapter.setEnableLoadMore(false);
+        presenter.getDogList(new MailRequest(),pageNo);
     }
 
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+
+    }
+
+    @Override
+    public void getDogListSuccess(List<DogMailDao> obj) {
+        adapter.setEnableLoadMore(true);
+        if (pageNo == 1) {
+            data.clear();
+            if (obj.size() == 0) {
+                adapter.loadMoreEnd();
+            } else {
+                this.data.addAll(obj);
+            }
+        } else {
+            if (obj.size() != 0) {
+                this.data.addAll(obj);
+            } else {
+                adapter.loadMoreEnd();
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setPresenter(MailContract.MailPresenter presenter) {
+        this.presenter = presenter;
+    }
 }

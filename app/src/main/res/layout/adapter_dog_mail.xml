@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/dimen_5"
-                android:text="Beagle"
+                android:text=""
                 android:textColor="@color/color_4D67C1"
                 android:textSize="@dimen/dp14"
                 android:textStyle="bold" />
@@ -49,11 +49,11 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/img_dog"
             android:layout_width="@dimen/dimen_83"
             android:layout_height="@dimen/dimen_83"
             android:layout_marginTop="13dp"
-            android:layout_marginBottom="@dimen/dimen_20"
-            android:background="@mipmap/icon_dog_demo" />
+            android:layout_marginBottom="@dimen/dimen_20" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -25,31 +25,8 @@ public class TrainListDialog extends BaseDialogFragment {
     private TrainListAdapter adapter;
     private List<TrainDao> data=new ArrayList<>();
 
-    @OnClick({R.id.txt_sit, R.id.txt_lay, R.id.txt_come, R.id.txt_leave, R.id.txt_name, R.id.txt_walk, R.id.txt_back})
-    void train(View v) {
-        switch (v.getId()) {
-            case R.id.txt_sit:
-                callback.callback(0);
-                break;
-            case R.id.txt_lay:
-                callback.callback(1);
-                break;
-            case R.id.txt_come:
-                callback.callback(2);
-                break;
-            case R.id.txt_leave:
-                callback.callback(3);
-                break;
-            case R.id.txt_name:
-                callback.callback(4);
-                break;
-            case R.id.txt_walk:
-                callback.callback(5);
-                break;
-            case R.id.txt_back:
-                callback.callback(6);
-                break;
-        }
+    public void setData(List<TrainDao> data) {
+        this.data = data;
     }
 
     @OnClick(R.id.back)
@@ -95,18 +72,14 @@ public class TrainListDialog extends BaseDialogFragment {
     }
 
     void initRv() {
-        //TODO 测试数据
-        for (int i = 0; i < 8; i++) {
-            data.add(new TrainDao());
-        }
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         adapter = new TrainListAdapter(R.layout.adapter_train_item, data);
         adapter.bindToRecyclerView(recyclerView);
         adapter.OnclickListenerItem(new TrainListAdapter.OnclickListenerItem() {
             @Override
-            public void click(int position) {
-                callback.callback(5);
+            public void click(TrainDao item) {
+                callback.callback(item);
             }
         });
     }
@@ -118,6 +91,6 @@ public class TrainListDialog extends BaseDialogFragment {
     }
 
     public interface OperateCallback {
-        void callback(int status);
+        void callback(TrainDao ited);
     }
 }

@@ -32,6 +32,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.WalkDogAdapter;
+import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.GpsConnectTImeEvent;
 import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
@@ -39,6 +40,7 @@ import com.wallet.walkthedog.bus_event.GpsStopEvent;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EquipmentDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NoticeDialog;
 import com.wallet.walkthedog.dialog.WalkNoticeDialog;
@@ -63,7 +65,7 @@ import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.utils.DateTimeUtil;
 
-public class WalkActivity extends BaseActivity {
+public class WalkActivity extends BaseActivity implements WalkContract.WalkView {
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.img_dog)
@@ -93,8 +95,11 @@ public class WalkActivity extends BaseActivity {
 
     public static final int LOCATION_CODE = 1000;
     public static final int OPEN_GPS_CODE = 1001;
+    private WalkContract.WalkPresenter presenter;
     private DogInfoDao mDefultDogInfo;
     private Intent gpsService;
+    private double lan;//维度
+    private double lon;//经度
     private WalkDogAdapter adapter;
     private List<EquipmentDao> data = new ArrayList<>();
     private boolean isWalking = false;
@@ -107,8 +112,9 @@ public class WalkActivity extends BaseActivity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            //在这里执行定时需要的操作
+            //TODO 定时检查是否获取有新道具
             try {
+                ToastUtils.shortToast("WalkActivity：" + "定时器");
                 mHandler.postDelayed(this, 10000);
             } catch (Exception e) {
                 mHandler.postDelayed(this, 10000);
@@ -127,6 +133,8 @@ public class WalkActivity extends BaseActivity {
             //停止遛狗
             stopService(gpsService);
             switchButton(false);
+            //停止遛狗接口
+            presenter.stopWalkDog(new SwitchWalkRequest(mDefultDogInfo.getId(), String.valueOf(lan), String.valueOf(lon)));
         } else {
             //开始遛狗
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -136,6 +144,7 @@ public class WalkActivity extends BaseActivity {
             } else {
                 // 用户以授权定位信息
                 gpsService = new Intent(getApplicationContext(), GpsService.class);
+                gpsService.putExtra("dogId", mDefultDogInfo.getId());
                 // 开启服务
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     //适配8.0机制
@@ -160,6 +169,7 @@ public class WalkActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        presenter = new WalkPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         EventBus.getDefault().register(this);
         mDefultDogInfo = (DogInfoDao) getIntent().getSerializableExtra("mDefultDogInfo");
         initEquipment();
@@ -184,6 +194,7 @@ public class WalkActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        mHandler.removeCallbacks(runnable);
         super.onDestroy();
     }
 
@@ -198,17 +209,19 @@ public class WalkActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsLocation(GpsLocationEvent location) {
         if (gpsEnable) {
+            lon = location.getLongitude();
+            lan = location.getLatitude();
             BigDecimal bigDecimal = new BigDecimal(location.getSpeed());
             double speend = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
             txtSpeed.setText(String.valueOf(speend));
             txtSpeed2.setText(location.getSpeedStatus());
-            if(location.getSpeedStatus().equals("1")){
+            if (location.getSpeedStatus().equals("1")) {
                 //彈出彈窗
                 showWarning("1", String.valueOf(speend));
-            }else if(location.getSpeedStatus().equals("2")){
+            } else if (location.getSpeedStatus().equals("2")) {
                 //彈出彈窗
                 showWarning("2", String.valueOf(speend));
-            }else if(location.getSpeedStatus().equals("0")){
+            } else if (location.getSpeedStatus().equals("0")) {
                 //关闭彈窗
                 stopWarning();
             }
@@ -248,19 +261,19 @@ public class WalkActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsStop(GpsStopEvent location) {
-        if(gpsService==null){
+        if (gpsService == null) {
             return;
         }
         stopService(gpsService);
         switchButton(false);
     }
 
-    void initEquipment(){
-        if(mDefultDogInfo.getPropList()==null){
+    void initEquipment() {
+        if (mDefultDogInfo.getPropList() == null) {
             return;
         }
-        for(int i=0;i<mDefultDogInfo.getPropList().size();i++){
-            if(i>2){
+        for (int i = 0; i < mDefultDogInfo.getPropList().size(); i++) {
+            if (i > 2) {
                 break;
             }
             if (mDefultDogInfo.getPropList().get(i).getId() == null) {
@@ -323,7 +336,7 @@ public class WalkActivity extends BaseActivity {
     }
 
     void showWarning(String type, String speed) {
-        if(dialog!=null && dialog.isShown()){
+        if (dialog != null && dialog.isShown()) {
             return;
         }
         dialog = WalkNoticeDialog.newInstance(type, speed);
@@ -338,8 +351,8 @@ public class WalkActivity extends BaseActivity {
         });
     }
 
-    void stopWarning(){
-        if(dialog!=null && dialog.isShown()){
+    void stopWarning() {
+        if (dialog != null && dialog.isShown()) {
             dialog.dismiss();
         }
     }
@@ -376,4 +389,18 @@ public class WalkActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+        ToastUtils.shortToast(toastMessage);
+    }
+
+    @Override
+    public void stopSuccess(String message) {
+
+    }
+
+    @Override
+    public void setPresenter(WalkContract.WalkPresenter presenter) {
+        this.presenter = presenter;
+    }
 }

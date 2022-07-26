@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -18,6 +19,7 @@ import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EquipmentDao;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tim.com.libnetwork.utils.DateTimeUtil;
@@ -41,11 +43,6 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
         helper.setText(R.id.txt_dog_name, item.getName());
         helper.setText(R.id.txt_level, "Lv." + item.getLevel());
         ImageView imgGender = (ImageView) helper.getView(R.id.img_gender);
-        if (item.getSex() == 0) {
-            imgGender.setBackgroundResource(R.mipmap.icon_black_male);
-        } else {
-            imgGender.setBackgroundResource(R.mipmap.icon_black_female);
-        }
         //升级栏目
         setProgress(helper,item.getRateOfProgress()/100.00);
         helper.setText(R.id.txt_number, item.getDayLimit() + "/2");
@@ -59,16 +56,32 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
             txtSelect.setBackgroundResource(R.drawable.rectangle_white);
             rootView.setBackgroundResource(R.mipmap.bg_item_select);
             selectPosition = helper.getAdapterPosition();
+            setTextColor(helper,R.color.white);
+            helper.getView(R.id.txt_line).setBackgroundResource(R.drawable.rectangle_white);
+            if (item.getSex() == 0) {
+                Glide.with(mContext).load(R.mipmap.icon_white_male).apply(options).into(imgGender);
+            } else {
+                Glide.with(mContext).load(R.mipmap.icon_white_female).apply(options).into(imgGender);
+            }
         } else {
             txtSelect.setText(R.string.select);
             txtSelect.setTextColor(mContext.getResources().getColor(R.color.white));
             txtSelect.setBackgroundResource(R.drawable.button_gradual_background);
             rootView.setBackgroundResource(R.drawable.rectangle_white);
+            setTextColor(helper,R.color.color_707070);
+            helper.getView(R.id.txt_line).setBackgroundResource(R.drawable.rectangle_707070);
+            if (item.getSex() == 0) {
+                Glide.with(mContext).load(R.mipmap.icon_black_male).apply(options).into(imgGender);
+            } else {
+                Glide.with(mContext).load(R.mipmap.icon_black_female).apply(options).into(imgGender);
+            }
         }
         //精力状态
         if(item.getStarvation()==1){
+            ((TextView)helper.getView(R.id.txt_status)).setTextColor(ContextCompat.getColor(mContext, R.color.color_ffbe0d));
             helper.setText(R.id.txt_status,R.string.full_of_hunger);
         }else {
+            ((TextView)helper.getView(R.id.txt_status)).setTextColor(ContextCompat.getColor(mContext, R.color.color_18C432));
             helper.setText(R.id.txt_status,R.string.full_of_energy);
         }
         helper.getView(R.id.txt_select).setOnClickListener(new View.OnClickListener() {
@@ -78,7 +91,6 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
                     return;
                 } else {
                     currentDogId = item.getId();
-                    SharedPrefsHelper.getInstance().saveDogId(currentDogId);
                     callback.callback(item, helper.getAdapterPosition(), selectPosition);
                 }
             }
@@ -116,6 +128,17 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
                 progressTxt.setText(percentage * 100 + "%");
             }
         });
+    }
+
+    private void setTextColor(BaseViewHolder helper,int color){
+        List<Integer> textIdList=new ArrayList<>();
+        textIdList.add(R.id.txt_level);
+        textIdList.add(R.id.txt_number);
+        textIdList.add(R.id.txt_time);
+        textIdList.add(R.id.txt_trip);
+        for(Integer viewId:textIdList){
+            ((TextView)helper.getView(viewId)).setTextColor(ContextCompat.getColor(mContext, color));
+        }
     }
 
     private OperateCallback callback;

@@ -12,11 +12,11 @@ public class WalkContract {
 
         void getFail(Integer code, String toastMessage);
 
+        void stopSuccess(String message);
+
     }
 
     interface WalkPresenter extends Contract.BasePresenter {
-
-        void startWalkDog(SwitchWalkRequest request);
 
         void stopWalkDog(SwitchWalkRequest request);
     }

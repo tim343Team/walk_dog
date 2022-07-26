@@ -110,10 +110,9 @@
 
                 <ImageView
                     android:id="@+id/img_gender"
-                    android:layout_width="6dp"
+                    android:layout_width="10dp"
                     android:layout_height="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@mipmap/icon_black_female" />
+                    android:layout_gravity="center_vertical" />
 
             </LinearLayout>
 

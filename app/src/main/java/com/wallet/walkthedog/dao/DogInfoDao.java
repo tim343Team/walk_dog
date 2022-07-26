@@ -62,6 +62,9 @@ public class DogInfoDao implements Serializable {
 
     private List<PropDao> propList=new ArrayList<>();
 
+    //一起遛狗信息
+    private String nftName;
+
     public String getId() {
         return id;
     }
