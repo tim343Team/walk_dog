@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.untils;
 
+import java.math.BigDecimal;
 import java.util.Locale;
 
 public class Utils {
@@ -17,10 +18,29 @@ public class Utils {
     }
 
     public static String getFormat(double arg,String format){
-        return String.format(Locale.getDefault(),format,arg);
+        try {
+           return String.format(Locale.getDefault(),format,arg);
+        }catch (Exception e){
+            return "";
+        }
     }
 
-    public static String kmFormat(double arg){
-        return getFormat(arg,"%.2dkm");
+    /**
+     *
+     * @param arg double
+     * @return eg 2.1km
+     */
+    public static String getKmFormat(double arg){
+        return getFormat(arg,"%.2fkm");
     }
+
+    /**
+     *
+     * @param arg double
+     * @return 1.11
+     */
+    public static String getScale2(double arg){
+        return getFormat(arg,"%.2f");
+    }
+
 }

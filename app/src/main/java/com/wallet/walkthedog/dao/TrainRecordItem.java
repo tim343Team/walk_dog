@@ -26,7 +26,7 @@ public class TrainRecordItem {
 	private int id;
 
 	@SerializedName("addMuscle")
-	private int addMuscle;
+	private float addMuscle;
 
 	@SerializedName("dogNumberChain")
 	private String dogNumberChain;
@@ -39,6 +39,10 @@ public class TrainRecordItem {
 
 	@SerializedName("status")
 	private int status;
+
+	@SerializedName("consume")
+	private float consume;
+
 
 	public void setDogId(int dogId){
 		this.dogId = dogId;
@@ -96,11 +100,11 @@ public class TrainRecordItem {
 		return id;
 	}
 
-	public void setAddMuscle(int addMuscle){
+	public void setAddMuscle(float addMuscle){
 		this.addMuscle = addMuscle;
 	}
 
-	public int getAddMuscle(){
+	public float getAddMuscle(){
 		return addMuscle;
 	}
 
@@ -134,5 +138,13 @@ public class TrainRecordItem {
 
 	public int getStatus(){
 		return status;
+	}
+
+	public float getConsume() {
+		return consume;
+	}
+
+	public void setConsume(float consume) {
+		this.consume = consume;
 	}
 }

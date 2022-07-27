@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
@@ -14,6 +15,7 @@ import com.wallet.walkthedog.dao.TrainRecordDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.Utils;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +39,14 @@ public class TrainRecordActivity extends BaseActivity {
         RecyclerView recyclerview = findViewById(R.id.recyclerview);
 
         adapter = new TrainRecordAdapter();
-
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                pageNo++;
+                getTrainRecord();
+            }
+        }, recyclerview);
         recyclerview.setAdapter(adapter);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -52,8 +61,12 @@ public class TrainRecordActivity extends BaseActivity {
 
     }
 
+    private int pageNo = 1;
+    private int pageSize = 50;
+
     @Override
     protected void loadData() {
+        pageNo = 1;
         getTrainRecord();
     }
 
@@ -61,16 +74,22 @@ public class TrainRecordActivity extends BaseActivity {
     private void onSuccess(TrainRecordDao data) {
         List<TrainRecordItem> records = data.getRecords();
         adapter.addData(records);
+        adapter.loadMoreComplete();
+        if (records.size() < pageSize) {
+            adapter.loadMoreEnd();
+        }
     }
 
     private void onFail() {
-
+        adapter.loadMoreFail();
     }
 
 
     private void getTrainRecord() {
         WonderfulOkhttpUtils.get().url(UrlFactory.getTrainingPage())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .addParams("pageNo", String.valueOf(pageNo))
+                .addParams("pageSize", String.valueOf(pageSize))
                 .build()
                 .getCall()
                 .enqueue(new GsonWalkDogCallBack<RemoteData<TrainRecordDao>>() {
@@ -92,7 +111,7 @@ public class TrainRecordActivity extends BaseActivity {
     static class TrainRecordAdapter extends BaseQuickAdapter<TrainRecordItem, BaseViewHolder> {
 
         public TrainRecordAdapter() {
-            super(R.layout.item_train_record, Collections.emptyList());
+            super(R.layout.item_train_record);
         }
 
         @Override
@@ -100,8 +119,8 @@ public class TrainRecordActivity extends BaseActivity {
             helper.setText(R.id.tv_dog_species, item.getDogTypeName());
             helper.setText(R.id.tv_number, item.getDogNumberChain());
             helper.setText(R.id.tv_times, String.valueOf(item.getCount()));
-            helper.setText(R.id.tv_food, item.getDogNumberChain());//TODO
-            helper.setText(R.id.tv_muscle, item.getDogNumberChain());
+            helper.setText(R.id.tv_food, Utils.getScale2(item.getConsume()));
+            helper.setText(R.id.tv_muscle, Utils.getScale2(item.getAddMuscle()));
             helper.setText(R.id.tv_create_time, item.getCreateTime());
         }
     }

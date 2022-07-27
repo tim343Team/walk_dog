@@ -159,6 +159,7 @@ public class DogWalkRecordActivity extends BaseActivity {
 
     private void onSuccessGetWalkDogLog(DogWalkRecordDao totalWalkDao) {
         walkRecordAdapter.addData(totalWalkDao.getRecords());
+        walkRecordAdapter.loadMoreComplete();
         if (totalWalkDao.getRecords().size() < 50) {
             walkRecordAdapter.loadMoreEnd();
         }
