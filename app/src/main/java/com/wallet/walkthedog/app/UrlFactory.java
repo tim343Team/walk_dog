@@ -40,6 +40,10 @@ public class UrlFactory {
         return host + "/userInfo/getTogetherPage";
     }
 
+    public static String getFriendList(){
+        return host + "/friend/FriendList";
+    }
+
     //邮箱登录
     public static String getEmailLoginUrl() {
         return host + "/user/emailCheckCode.json";

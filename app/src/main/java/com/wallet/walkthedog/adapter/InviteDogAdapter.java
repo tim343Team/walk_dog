@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.adapter;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -47,7 +48,7 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
                 .placeholder(R.mipmap.icon_null_dog)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_dog));
-        if (item.getSex() == 0) {
+        if (item.getSex() == 1) {
             Glide.with(mContext).load(R.mipmap.icon_black_male).apply(options).into(imgGender);
         } else {
             Glide.with(mContext).load(R.mipmap.icon_black_female).apply(options).into(imgGender);
@@ -56,8 +57,10 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
 //        helper.setText(R.id.txt_number, item.getDayLimit() + "/2");
         //精力状态
         if(item.getStarvation()==1){
+            helper.setTextColor(R.id.txt_status,Color.parseColor("#E51616"));
             helper.setText(R.id.txt_status,R.string.full_of_hunger);
         }else {
+            helper.setTextColor(R.id.txt_status, Color.parseColor("#30B226"));
             helper.setText(R.id.txt_status,R.string.full_of_energy);
         }
     }

@@ -11,24 +11,26 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textView52"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
-            android:text="TextView"
+            android:textColor="#4D67C1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="TextView" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:src="@mipmap/icon_null_dog"
+            android:id="@+id/iv_dog_pic"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/textView52"
-            app:layout_constraintStart_toStartOf="@+id/textView52"
-            app:layout_constraintTop_toBottomOf="@+id/textView52"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintEnd_toEndOf="@+id/tv_name"
+            app:layout_constraintStart_toStartOf="@+id/tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+            />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -36,13 +38,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="21dp"
             android:layout_marginTop="18dp"
-            app:layout_constraintEnd_toStartOf="@+id/textView53"
+            app:layout_constraintEnd_toStartOf="@+id/iv_lv"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_dog_pic" />
 
         <TextView
-            android:id="@+id/textView53"
+            android:id="@+id/iv_lv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
@@ -55,7 +57,7 @@
             app:layout_constraintTop_toTopOf="@+id/seekBar" />
 
         <TextView
-            android:id="@+id/textView54"
+            android:id="@+id/iv_name1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
@@ -65,42 +67,42 @@
             app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
         <TextView
-            android:id="@+id/textView55"
+            android:id="@+id/tv_times"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="TextView"
-            app:layout_constraintEnd_toStartOf="@+id/textView56"
+            app:layout_constraintEnd_toStartOf="@+id/tv_all_time"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView54" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_name1" />
 
         <TextView
-            android:id="@+id/textView56"
+            android:id="@+id/tv_all_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView55"
-            app:layout_constraintTop_toTopOf="@+id/textView55" />
+            app:layout_constraintStart_toEndOf="@+id/tv_times"
+            app:layout_constraintTop_toTopOf="@+id/tv_times" />
 
         <TextView
-            android:id="@+id/textView57"
+            android:id="@+id/txt_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="TextView"
-            app:layout_constraintStart_toStartOf="@+id/textView55"
-            app:layout_constraintTop_toBottomOf="@+id/textView55" />
+            app:layout_constraintStart_toStartOf="@+id/tv_times"
+            app:layout_constraintTop_toBottomOf="@+id/tv_times" />
 
         <TextView
             android:id="@+id/textView58"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/textView56"
-            app:layout_constraintTop_toTopOf="@+id/textView57" />
+            app:layout_constraintEnd_toEndOf="@+id/tv_all_time"
+            app:layout_constraintTop_toTopOf="@+id/txt_status" />
 
         <com.wallet.walkthedog.custom_view.card.ShadowTextView
             android:id="@+id/textView59"
@@ -118,7 +120,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView57" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_status" />
+
+        <ImageView
+            android:layout_marginStart="5dp"
+            android:id="@+id/iv_p"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+            app:layout_constraintStart_toEndOf="@+id/tv_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_name"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>

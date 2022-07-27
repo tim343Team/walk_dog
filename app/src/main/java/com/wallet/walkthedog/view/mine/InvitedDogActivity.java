@@ -3,23 +3,30 @@ package com.wallet.walkthedog.view.mine;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.custom_view.card.ShadowDrawable;
+import com.wallet.walkthedog.dao.FriendInfoDao;
+import com.wallet.walkthedog.dao.FriendInfoListDao;
 import com.wallet.walkthedog.dao.InviteInfoDao;
 import com.wallet.walkthedog.dao.InviteInfoItem;
 import com.wallet.walkthedog.dao.TotalWalkDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.Utils;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,12 +35,17 @@ import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 import tim.com.libnetwork.utils.ScreenUtils;
 
+/**
+ * 好友列表及邀请记录
+ */
 public class InvitedDogActivity extends BaseActivity {
     private int selectPosition = 0;
     private TextView tvfriends;
     private TextView tvInviteOthers;
     private TextView tvBeInvited;
     private RecyclerView recyclerview;
+
+    private FrindListAdapter adapter0;
     private InviteAdapter adapter1;
     private InviteAdapter adapter2;
 
@@ -49,7 +61,6 @@ public class InvitedDogActivity extends BaseActivity {
         tvfriends = findViewById(R.id.tv_friends);
         tvInviteOthers = findViewById(R.id.tv_invite_others);
         tvBeInvited = findViewById(R.id.tv_be_invited);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         tvfriends.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,23 +92,33 @@ public class InvitedDogActivity extends BaseActivity {
         });
         onSelect();
     }
-
+    LinearLayoutManager linearLayoutManager;
+    GridLayoutManager gridLayoutManager;
     private void onSelect() {
+        if (linearLayoutManager == null) {
+            linearLayoutManager = new LinearLayoutManager(this);
+            gridLayoutManager = new GridLayoutManager(this, 2);
+        }
         if (selectPosition == 0) {
             selectTextView(tvfriends, tvInviteOthers, tvBeInvited);
-
-
+            if (adapter0 == null){
+                adapter0 = new FrindListAdapter();
+            }
+            recyclerview.setLayoutManager(gridLayoutManager);
+            recyclerview.setAdapter(adapter0);
         } else if (selectPosition == 1) {
             selectTextView(tvInviteOthers, tvfriends, tvBeInvited);
             if (adapter1 == null) {
                 adapter1 = new InviteAdapter(false);
             }
+            recyclerview.setLayoutManager(linearLayoutManager);
             recyclerview.setAdapter(adapter1);
         } else {
             selectTextView(tvBeInvited, tvfriends, tvInviteOthers);
             if (adapter2 == null) {
                 adapter2 = new InviteAdapter(true);
             }
+            recyclerview.setLayoutManager(linearLayoutManager);
             recyclerview.setAdapter(adapter2);
         }
 
@@ -124,13 +145,18 @@ public class InvitedDogActivity extends BaseActivity {
     }
 
     private void requestData() {
-        if (selectPosition == 1) {
+        if (selectPosition == 0) {
+            if (adapter0.getData().isEmpty()){
+                getFriendList();
+            }
+        } else if (selectPosition == 1) {
             getTogetherPage(0);
         } else if (selectPosition == 2) {
             getTogetherPage(1);
         }
 
     }
+
 
     @Override
     protected void obtainData() {
@@ -147,10 +173,27 @@ public class InvitedDogActivity extends BaseActivity {
 
     }
 
+    private void onSuccessGetFriendList(FriendInfoListDao notNullData) {
+        adapter0.setNewData(notNullData.getRecords());
+    }
+
+    private void getFriendList() {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getFriendList())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<FriendInfoListDao>>() {
+                    @Override
+                    protected void onRes(RemoteData<FriendInfoListDao> testRemoteData) {
+                        onSuccessGetFriendList(testRemoteData.getNotNullData());
+                    }
+
+                });
+    }
 
     private void getTogetherPage(int type) {
         WonderfulOkhttpUtils.get().url(UrlFactory.getTogetherPage())
-                .addParams("type",String.valueOf(type))
+                .addParams("type", String.valueOf(type))
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -180,7 +223,7 @@ public class InvitedDogActivity extends BaseActivity {
         private final boolean showAction;
 
         public InviteAdapter(boolean showAction) {
-            super(R.layout.item_invite_info, Collections.emptyList());
+            super(R.layout.item_invite_info);
             this.showAction = showAction;
         }
 
@@ -196,6 +239,44 @@ public class InvitedDogActivity extends BaseActivity {
                 helper.setGone(R.id.tv_accept, true);
             } else {
                 //根据状态来
+            }
+        }
+    }
+
+
+    static class FrindListAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHolder> {
+
+        public FrindListAdapter() {
+            super(R.layout.item_invite_frinds);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, FriendInfoDao item) {
+            helper.setText(R.id.tv_name, item.getDogName());
+            ImageView iv = helper.getView(R.id.iv_p);
+            iv.setColorFilter(Color.parseColor("#4D67C1"));
+            if (item.getSex() == 1) {
+                helper.setImageResource(R.id.iv_p, R.mipmap.icon_black_male);
+            } else {
+                helper.setImageResource(R.id.iv_p, R.mipmap.icon_black_female);
+            }
+            Glide.with(helper.itemView.getContext())
+                    .load(item.getImg())
+                    .apply(RequestOptions.placeholderOf(R.mipmap.icon_null_dog))
+                    .into((ImageView) helper.getView(R.id.iv_dog_pic));
+
+            helper.setText(R.id.iv_lv, Utils.getFormat((int)(item.getLevel()),"LV.%d"));
+
+            helper.setText(R.id.iv_name1,item.getName());
+            helper.setText(R.id.tv_times,String.format(mContext.getString(R.string._time), item.getWalkTheDogCount()+""));
+            helper.setText(R.id.tv_all_time,Utils.getTime(item.getWalkTheDogTime()));
+
+            if(item.getStarvation()==1){
+                helper.setTextColor(R.id.txt_status,Color.parseColor("#E51616"));
+                helper.setText(R.id.txt_status,R.string.full_of_hunger);
+            }else {
+                helper.setTextColor(R.id.txt_status,Color.parseColor("#30B226"));
+                helper.setText(R.id.txt_status,R.string.full_of_energy);
             }
         }
     }
