@@ -20,16 +20,16 @@ public class TotalWalkDao{
 	private int friendProp;
 
 	@SerializedName("walkTheDogTime")
-	private String walkTheDogTime;
+	private long walkTheDogTime;
 
 	@SerializedName("box")
 	private int box;
 
 	@SerializedName("popularityArea")
-	private int popularityArea;
+	private double popularityArea;
 
 	@SerializedName("friendKm")
-	private int friendKm;
+	private double friendKm;
 
 	@SerializedName("friendDogFood")
 	private int friendDogFood;
@@ -38,7 +38,7 @@ public class TotalWalkDao{
 	private int friendRubbish;
 
 	@SerializedName("unknownArea")
-	private int unknownArea;
+	private double unknownArea;
 
 	@SerializedName("friendWalkDogCount")
 	private int friendWalkDogCount;
@@ -53,7 +53,7 @@ public class TotalWalkDao{
 	private int dogFood;
 
 	@SerializedName("middlArea")
-	private int middlArea;
+	private double middlArea;
 
 	@SerializedName("walkTheDogKm")
 	private String walkTheDogKm;
@@ -98,11 +98,11 @@ public class TotalWalkDao{
 		return friendProp;
 	}
 
-	public void setWalkTheDogTime(String walkTheDogTime){
+	public void setWalkTheDogTime(long walkTheDogTime){
 		this.walkTheDogTime = walkTheDogTime;
 	}
 
-	public String getWalkTheDogTime(){
+	public long getWalkTheDogTime(){
 		return walkTheDogTime;
 	}
 
@@ -114,19 +114,19 @@ public class TotalWalkDao{
 		return box;
 	}
 
-	public void setPopularityArea(int popularityArea){
+	public void setPopularityArea(double popularityArea){
 		this.popularityArea = popularityArea;
 	}
 
-	public int getPopularityArea(){
+	public double getPopularityArea(){
 		return popularityArea;
 	}
 
-	public void setFriendKm(int friendKm){
+	public void setFriendKm(double friendKm){
 		this.friendKm = friendKm;
 	}
 
-	public int getFriendKm(){
+	public double getFriendKm(){
 		return friendKm;
 	}
 
@@ -146,11 +146,11 @@ public class TotalWalkDao{
 		return friendRubbish;
 	}
 
-	public void setUnknownArea(int unknownArea){
+	public void setUnknownArea(double unknownArea){
 		this.unknownArea = unknownArea;
 	}
 
-	public int getUnknownArea(){
+	public double getUnknownArea(){
 		return unknownArea;
 	}
 
@@ -186,11 +186,11 @@ public class TotalWalkDao{
 		return dogFood;
 	}
 
-	public void setMiddlArea(int middlArea){
+	public void setMiddlArea(double middlArea){
 		this.middlArea = middlArea;
 	}
 
-	public int getMiddlArea(){
+	public double getMiddlArea(){
 		return middlArea;
 	}
 

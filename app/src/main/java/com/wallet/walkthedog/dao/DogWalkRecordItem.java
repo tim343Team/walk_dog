@@ -29,7 +29,7 @@ public class DogWalkRecordItem {
 	private int box;
 
 	@SerializedName("popularityArea")
-	private String popularityArea;
+	private double popularityArea;
 
 	@SerializedName("friendKm")
 	private double friendKm;
@@ -50,7 +50,7 @@ public class DogWalkRecordItem {
 	private String dogNumberChain;
 
 	@SerializedName("middlArea")
-	private String middlArea;
+	private double middlArea;
 
 	@SerializedName("memberId")
 	private int memberId;
@@ -80,13 +80,13 @@ public class DogWalkRecordItem {
 	private String createTime;
 
 	@SerializedName("unknownArea")
-	private String unknownArea;
+	private double unknownArea;
 
 	@SerializedName("friendDogTypeName")
 	private String friendDogTypeName;
 
 	@SerializedName("friendDogId")
-	private int friendDogId;
+	private String friendDogId;
 
 	@SerializedName("friendDogLevel")
 	private int friendDogLevel;
@@ -96,6 +96,9 @@ public class DogWalkRecordItem {
 
 	@SerializedName("dogTypeName")
 	private String dogTypeName;
+
+	@SerializedName("time")
+	private long time;
 
 	public void setFriendTime(int friendTime){
 		this.friendTime = friendTime;
@@ -161,11 +164,11 @@ public class DogWalkRecordItem {
 		return box;
 	}
 
-	public void setPopularityArea(String popularityArea){
+	public void setPopularityArea(double popularityArea){
 		this.popularityArea = popularityArea;
 	}
 
-	public String getPopularityArea(){
+	public double getPopularityArea(){
 		return popularityArea;
 	}
 
@@ -217,11 +220,11 @@ public class DogWalkRecordItem {
 		return dogNumberChain;
 	}
 
-	public void setMiddlArea(String middlArea){
+	public void setMiddlArea(double middlArea){
 		this.middlArea = middlArea;
 	}
 
-	public String getMiddlArea(){
+	public double getMiddlArea(){
 		return middlArea;
 	}
 
@@ -297,11 +300,11 @@ public class DogWalkRecordItem {
 		return createTime;
 	}
 
-	public void setUnknownArea(String unknownArea){
+	public void setUnknownArea(double unknownArea){
 		this.unknownArea = unknownArea;
 	}
 
-	public String getUnknownArea(){
+	public double getUnknownArea(){
 		return unknownArea;
 	}
 
@@ -313,11 +316,11 @@ public class DogWalkRecordItem {
 		return friendDogTypeName;
 	}
 
-	public void setFriendDogId(int friendDogId){
+	public void setFriendDogId(String friendDogId){
 		this.friendDogId = friendDogId;
 	}
 
-	public int getFriendDogId(){
+	public String getFriendDogId(){
 		return friendDogId;
 	}
 
@@ -343,5 +346,13 @@ public class DogWalkRecordItem {
 
 	public String getDogTypeName(){
 		return dogTypeName;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
+	}
+
+	public long getTime() {
+		return time;
 	}
 }

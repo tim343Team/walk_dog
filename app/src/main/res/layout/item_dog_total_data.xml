@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
@@ -269,14 +269,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/number_of_dog_walking_friends"
+                android:text="@string/times_of_dog_walking_friends"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/textView74"
+                app:layout_constraintStart_toStartOf="@+id/tv_friends_times"
                 app:layout_constraintTop_toBottomOf="@+id/tv_frends_numbers" />
 
             <TextView
-                android:id="@+id/textView74"
+                android:id="@+id/tv_friends_times"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -294,7 +294,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/tv_frends_time"
-                app:layout_constraintTop_toBottomOf="@+id/textView74" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_friends_times" />
 
             <TextView
                 android:id="@+id/textView77"
