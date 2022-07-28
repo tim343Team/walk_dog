@@ -36,6 +36,7 @@ import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.GpsConnectTImeEvent;
 import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
+import com.wallet.walkthedog.bus_event.GpsStartEvent;
 import com.wallet.walkthedog.bus_event.GpsStopEvent;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EquipmentDao;
@@ -103,6 +104,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     private WalkDogAdapter adapter;
     private List<EquipmentDao> data = new ArrayList<>();
     private boolean isWalking = false;
+    private boolean isServicesWalking = false;
     private WalkNoticeDialog dialog;
     private boolean gpsEnable = false;
     private int speedErrorCount = 0;//记录不匹配速度的次数，达到三次后弹窗提示
@@ -115,9 +117,9 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
             //TODO 定时检查是否获取有新道具
             try {
                 ToastUtils.shortToast("WalkActivity：" + "定时器");
-                mHandler.postDelayed(this, 10000);
+                mHandler.postDelayed(this, 20000);
             } catch (Exception e) {
-                mHandler.postDelayed(this, 10000);
+                mHandler.postDelayed(this, 20000);
             }
         }
     };
@@ -134,7 +136,8 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
             stopService(gpsService);
             switchButton(false);
             //停止遛狗接口
-            presenter.stopWalkDog(new SwitchWalkRequest(mDefultDogInfo.getId(), String.valueOf(lan), String.valueOf(lon)));
+            if (isServicesWalking)
+                presenter.stopWalkDog(new SwitchWalkRequest(mDefultDogInfo.getId(), String.valueOf(lan), String.valueOf(lon)));
         } else {
             //开始遛狗
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -152,6 +155,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
                 } else {
                     startService(gpsService);
                 }
+                switchButton(true);
             }
         }
     }
@@ -206,6 +210,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         super.finish();
     }
 
+    //gps 定位实时经纬度
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsLocation(GpsLocationEvent location) {
         if (gpsEnable) {
@@ -230,15 +235,12 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         }
     }
 
+    //gps卫星状态
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsSatelite(GpsSateliteEvent message) {
         if (txtGpsStatus == null) {
             return;
         }
-        if (!isWalking) {
-            switchButton(true);
-        }
-
         if (message.getConnSatellite() == 0) {
             txtGpsStatus.setText(R.string.gps_week);
             imgGpsStatus.setBackgroundResource(R.mipmap.icon_gps_weak);
@@ -251,6 +253,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         }
     }
 
+    //遛狗时间
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsConnectTime(GpsConnectTImeEvent message) {
         if (txtTime == null) {
@@ -259,6 +262,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         txtTime.setText(DateTimeUtil.second2Minute(message.getSeconed()));
     }
 
+    //遛狗停止
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsStop(GpsStopEvent location) {
         if (gpsService == null) {
@@ -266,6 +270,12 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         }
         stopService(gpsService);
         switchButton(false);
+    }
+
+    //gps状态正常遛狗真正开始
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void GetGpsStart(GpsStartEvent location) {
+        isServicesWalking = true;
     }
 
     void initEquipment() {
@@ -323,13 +333,13 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         if (isWalking) {
             //开始遛狗
             txtStatus.setText(R.string.walk_stop);
-            imgStatus.setBackgroundResource(R.mipmap.icon_walking);
+            imgStatus.setBackgroundResource(R.mipmap.icon_walk_stop);
             llGPS.setVisibility(View.VISIBLE);
             imgBack.setVisibility(View.INVISIBLE);
         } else {
             //停止遛狗
             txtStatus.setText(R.string.walk_start);
-            imgStatus.setBackgroundResource(R.mipmap.icon_walk_stop);
+            imgStatus.setBackgroundResource(R.mipmap.icon_walking);
             llGPS.setVisibility(View.INVISIBLE);
             imgBack.setVisibility(View.VISIBLE);
         }

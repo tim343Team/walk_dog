@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.service;
 
+import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 
 import tim.com.libnetwork.base.Contract;
@@ -11,6 +12,10 @@ public class WalkContract {
 
         void stopSuccess(String message);
 
+        void startSuccess(String message);
+
+        void coordSuccess(CoordDao data);
+
     }
 
     interface WalkPresenter extends Contract.BasePresenter {
@@ -18,5 +23,7 @@ public class WalkContract {
         void startWalkDog(SwitchWalkRequest request);
 
         void stopWalkDog(SwitchWalkRequest request);
+
+        void addCoord(SwitchWalkRequest request);
     }
 }

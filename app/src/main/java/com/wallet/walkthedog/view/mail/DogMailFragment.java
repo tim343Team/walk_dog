@@ -14,7 +14,10 @@ import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.PropMailDao;
 import com.wallet.walkthedog.dao.request.MailRequest;
+import com.wallet.walkthedog.db.UserDao;
+import com.wallet.walkthedog.db.dao.UserCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.service.WalkPresenter;
@@ -99,9 +102,14 @@ public class DogMailFragment extends BaseLazyFragment implements MailContract.Ma
     }
 
     private void initRecyclerView() {
+        String uid = "0";
+        List<UserCache> userCaches = UserDao.query(getActivity(), null, null);
+        if (userCaches.size() > 0) {
+            uid = userCaches.get(0).getUid();
+        }
         GridLayoutManager manager = new GridLayoutManager(getmActivity(), 2);
         recyclerView.setLayoutManager(manager);
-        adapter = new DogMailAdapter(R.layout.adapter_dog_mail, data);
+        adapter = new DogMailAdapter(R.layout.adapter_dog_mail, data,uid);
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -147,6 +155,11 @@ public class DogMailFragment extends BaseLazyFragment implements MailContract.Ma
             }
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getPropListSuccess(List<PropMailDao> data) {
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

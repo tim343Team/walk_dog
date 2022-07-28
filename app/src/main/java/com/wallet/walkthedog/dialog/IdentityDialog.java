@@ -68,11 +68,11 @@ public class IdentityDialog extends BaseDialogFragment {
         Bundle bundle = getArguments();
         mDefultDogInfo = (DogInfoDao) bundle.getSerializable("mDefultDogInfo");
         if (mDefultDogInfo.getSex() == 0) {
-            txtGender.setText(R.string.male);
-        } else {
             txtGender.setText(R.string.female);
+        } else {
+            txtGender.setText(R.string.male);
         }
-        txtName.setText(mDefultDogInfo.getName());
+        txtName.setText(mDefultDogInfo.getName().isEmpty()?mDefultDogInfo.getDogName():mDefultDogInfo.getName());
         txtLevel.setText(mDefultDogInfo.getLevel()+"");
         txtWeight.setText(mDefultDogInfo.getWeight()+"Kg");
         txtMucle.setText(mDefultDogInfo.getDecimalDog()+"Kg");

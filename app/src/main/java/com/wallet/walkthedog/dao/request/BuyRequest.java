@@ -4,6 +4,10 @@ public class BuyRequest {
     private String id;
     private String password;
 
+    public BuyRequest(String id) {
+        this.id = id;
+    }
+
     public BuyRequest(String id, String password) {
         this.id = id;
         this.password = password;

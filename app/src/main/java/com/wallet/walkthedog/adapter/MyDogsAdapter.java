@@ -59,9 +59,9 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
             setTextColor(helper,R.color.white);
             helper.getView(R.id.txt_line).setBackgroundResource(R.drawable.rectangle_white);
             if (item.getSex() == 0) {
-                Glide.with(mContext).load(R.mipmap.icon_white_male).apply(options).into(imgGender);
-            } else {
                 Glide.with(mContext).load(R.mipmap.icon_white_female).apply(options).into(imgGender);
+            } else {
+                Glide.with(mContext).load(R.mipmap.icon_white_male).apply(options).into(imgGender);
             }
         } else {
             txtSelect.setText(R.string.select);
@@ -71,9 +71,9 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
             setTextColor(helper,R.color.color_707070);
             helper.getView(R.id.txt_line).setBackgroundResource(R.drawable.rectangle_707070);
             if (item.getSex() == 0) {
-                Glide.with(mContext).load(R.mipmap.icon_black_male).apply(options).into(imgGender);
-            } else {
                 Glide.with(mContext).load(R.mipmap.icon_black_female).apply(options).into(imgGender);
+            } else {
+                Glide.with(mContext).load(R.mipmap.icon_black_male).apply(options).into(imgGender);
             }
         }
         //精力状态

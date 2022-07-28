@@ -20,10 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DogMailAdapter extends BaseQuickAdapter<DogMailDao, BaseViewHolder> {
-    private List<DogMailDao> selectDao = new ArrayList<>();
+    private String uid;
 
-    public DogMailAdapter(int layoutResId, @Nullable List<DogMailDao> data) {
+    public DogMailAdapter(int layoutResId, @Nullable List<DogMailDao> data, String uid) {
         super(layoutResId, data);
+        this.uid = uid;
     }
 
     @Override
@@ -50,6 +51,11 @@ public class DogMailAdapter extends BaseQuickAdapter<DogMailDao, BaseViewHolder>
         helper.setText(R.id.txt_level, "Lv." + item.getLevel());
         helper.setText(R.id.txt_name,item.getName());
         helper.setText(R.id.txt_price,String.valueOf(item.getPrice()));
+        if(item.getMemberId().equals(uid)){
+            helper.setText(R.id.txt_cancle,R.string.cancle_buy);
+        }else {
+            helper.setText(R.id.txt_cancle,R.string.buy);
+        }
     }
 
     //设置进度条

@@ -65,6 +65,22 @@ public class DogInfoDao implements Serializable {
     //一起遛狗信息
     private String nftName;
 
+    private String friendMemberId;
+
+    private String friendListId;
+
+    private String friendName;
+
+    private String friendNickName;
+
+    private String friendWalkTheDogKm;
+
+    private String friendWalkTheDogCount;
+
+    private String friendWalkTheDogTime;
+
+    private String dogName;
+
     public String getId() {
         return id;
     }
@@ -287,5 +303,77 @@ public class DogInfoDao implements Serializable {
 
     public void setPropList(List<PropDao> propList) {
         this.propList = propList;
+    }
+
+    public String getNftName() {
+        return nftName;
+    }
+
+    public void setNftName(String nftName) {
+        this.nftName = nftName;
+    }
+
+    public String getFriendMemberId() {
+        return friendMemberId;
+    }
+
+    public void setFriendMemberId(String friendMemberId) {
+        this.friendMemberId = friendMemberId;
+    }
+
+    public String getFriendListId() {
+        return friendListId;
+    }
+
+    public void setFriendListId(String friendListId) {
+        this.friendListId = friendListId;
+    }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public void setFriendName(String friendName) {
+        this.friendName = friendName;
+    }
+
+    public String getFriendNickName() {
+        return friendNickName;
+    }
+
+    public void setFriendNickName(String friendNickName) {
+        this.friendNickName = friendNickName;
+    }
+
+    public String getDogName() {
+        return dogName;
+    }
+
+    public void setDogName(String dogName) {
+        this.dogName = dogName;
+    }
+
+    public String getFriendWalkTheDogKm() {
+        return friendWalkTheDogKm;
+    }
+
+    public void setFriendWalkTheDogKm(String friendWalkTheDogKm) {
+        this.friendWalkTheDogKm = friendWalkTheDogKm;
+    }
+
+    public String getFriendWalkTheDogCount() {
+        return friendWalkTheDogCount;
+    }
+
+    public void setFriendWalkTheDogCount(String friendWalkTheDogCount) {
+        this.friendWalkTheDogCount = friendWalkTheDogCount;
+    }
+
+    public String getFriendWalkTheDogTime() {
+        return friendWalkTheDogTime;
+    }
+
+    public void setFriendWalkTheDogTime(String friendWalkTheDogTime) {
+        this.friendWalkTheDogTime = friendWalkTheDogTime;
     }
 }

@@ -47,13 +47,21 @@ public interface DataSource {
 
     void buyDog(BuyRequest request, DataCallback dataCallback);
 
+    void buyProp(BuyRequest request, DataCallback dataCallback);
+
+    void cancelSellDog(BuyRequest request, DataCallback dataCallback);
+
+    void cancelSellProp(BuyRequest request, DataCallback dataCallback);
+
     void getWalkTheDogFriend(DataCallback dataCallback);
 
     void startWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
 
     void stopWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
 
-    void getUserProp(int pageNo,DataCallback dataCallback);
+    void addCoord(SwitchWalkRequest request,DataCallback dataCallback);
+
+    void getUserProp(int type,int pageNo,DataCallback dataCallback);
 
     void getDogProp(String dogId,int pageNo,DataCallback dataCallback);
 

@@ -17,11 +17,15 @@ import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.request.BuyRequest;
+import com.wallet.walkthedog.db.UserDao;
+import com.wallet.walkthedog.db.dao.UserCache;
 import com.wallet.walkthedog.dialog.BuyOrRentDogDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,6 +65,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
     TextView txtPrice;
 
     private int status = 0;//0：購買 1：取消售賣
+    private String uid = "0";
     private String totalProperty = "0";
     private DogMailDao dogMailDao;
     private BuyOrRentDogDialog dialog;
@@ -102,7 +107,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
                 }
             });
         } else if (status == 1) {
-
+            presenter.cancelSellDog(new BuyRequest(dogMailDao.getId()));
         }
     }
 
@@ -124,15 +129,19 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
         if (dogMailDao == null) {
             return;
         }
+        List<UserCache> userCaches = UserDao.query(this, null, null);
+        if (userCaches.size() > 0) {
+            uid = userCaches.get(0).getUid();
+        }
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_null_dog)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(this).load(dogMailDao.getImg()).apply(options).into(imgDog);
         if (dogMailDao.getSex() == 0) {
-            txtGender.setText(R.string.male);
-        } else {
             txtGender.setText(R.string.female);
+        } else {
+            txtGender.setText(R.string.male);
         }
         txtTitle.setText(dogMailDao.getName());
         txtLevel.setText("LEVEL " + dogMailDao.getLevel());
@@ -144,6 +153,13 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
         setProgress(progressBg, progressBar, progressTxt, dogMailDao.getRateOfProgress() / 100.00);
         txtFee.setText("缺少字段");
         txtCharacter.setText("缺少字段");
+        if (dogMailDao.getMemberId().equals(uid)) {
+            status = 1;
+            txtPeration.setText(R.string.cancle_buy);
+        } else {
+            status = 0;
+            txtPeration.setText(R.string.buy);
+        }
         presenter.getWallet("1");
     }
 
@@ -204,7 +220,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
     }
 
     @Override
-    public void bugDogSuccess(String data) {
+    public void bugSuccess(String data) {
         passwordDialog.dismiss();
         dialog.dismiss();
         NormalDialog normalDialog = NormalDialog.newInstance(R.string.buy_success, R.mipmap.icon_normal);
@@ -213,6 +229,18 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
         normalDialog.show(getSupportFragmentManager(), "edit");
         //刷新列表
         EventBus.getDefault().post(new UpdateMailDogEvent());
+        finish();
+    }
+
+    @Override
+    public void cancelSellSuccess(String data) {
+        NormalDialog normalDialog = NormalDialog.newInstance(R.string.cancle_sale, R.mipmap.icon_normal);
+        normalDialog.setTheme(R.style.PaddingScreen);
+        normalDialog.setGravity(Gravity.CENTER);
+        normalDialog.show(getSupportFragmentManager(), "edit");
+        //刷新列表
+        EventBus.getDefault().post(new UpdateMailDogEvent());
+        finish();
     }
 
     @Override

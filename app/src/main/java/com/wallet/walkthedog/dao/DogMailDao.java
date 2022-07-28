@@ -35,7 +35,7 @@ public class DogMailDao implements Serializable {
 
     private String feedTime;
 
-    private int memberId;
+    private String memberId;
 
     private String createTime;
 
@@ -191,11 +191,11 @@ public class DogMailDao implements Serializable {
         this.feedTime = feedTime;
     }
 
-    public int getMemberId() {
+    public String getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(int memberId) {
+    public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
 

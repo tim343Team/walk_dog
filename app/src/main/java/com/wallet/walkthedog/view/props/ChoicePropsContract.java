@@ -28,7 +28,6 @@ public class ChoicePropsContract {
     }
 
     interface ChoicePropsPresenter extends Contract.BasePresenter {
-        void getUserProp(int pageNo);
 
         void getDogProp(String dogId,int pageNo);
 

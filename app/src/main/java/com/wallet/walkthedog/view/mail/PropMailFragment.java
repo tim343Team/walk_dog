@@ -9,9 +9,19 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.DogMailAdapter;
 import com.wallet.walkthedog.adapter.PropMailAdapter;
+import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.bus_event.UpdateMaiPropEvent;
+import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
+import com.wallet.walkthedog.dao.request.MailRequest;
+import com.wallet.walkthedog.db.UserDao;
+import com.wallet.walkthedog.db.dao.UserCache;
 import com.wallet.walkthedog.view.mail.transaction.TransactionPropActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,21 +30,22 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseLazyFragment;
 
-public class PropMailFragment  extends BaseLazyFragment {
+public class PropMailFragment extends BaseLazyFragment implements MailContract.MailView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    private int page = 1;
+    private int pageNo = 1;
+    private MailContract.MailPresenter presenter;
     private PropMailAdapter adapter;
     private List<PropMailDao> data = new ArrayList<>();
 
     @OnClick(R.id.ll_price)
-    void selectPrice(){
+    void selectPrice() {
 
     }
 
     @OnClick(R.id.ll_variety)
-    void selectVariety(){
+    void selectVariety() {
 
     }
 
@@ -52,11 +63,12 @@ public class PropMailFragment  extends BaseLazyFragment {
 
     @Override
     protected void init() {
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        presenter = new MailPresenter(Injection.provideTasksRepository(getmActivity()), this);//初始化presenter
         initRecyclerView();
     }
 
@@ -72,7 +84,7 @@ public class PropMailFragment  extends BaseLazyFragment {
 
     @Override
     protected void loadData() {
-
+        presenter.getPropList(new MailRequest(), pageNo);
     }
 
     @Override
@@ -86,14 +98,14 @@ public class PropMailFragment  extends BaseLazyFragment {
     }
 
     private void initRecyclerView() {
-        //TODO 測試數據
-        for (int i = 0; i < 10; i++) {
-            PropMailDao propDao = new PropMailDao();
-            data.add(propDao);
+        String uid = "0";
+        List<UserCache> userCaches = UserDao.query(getActivity(), null, null);
+        if (userCaches.size() > 0) {
+            uid = userCaches.get(0).getUid();
         }
-        GridLayoutManager manager=new GridLayoutManager(getmActivity(),2);
+        GridLayoutManager manager = new GridLayoutManager(getmActivity(), 2);
         recyclerView.setLayoutManager(manager);
-        adapter = new PropMailAdapter(R.layout.adapter_prop_mail, data);
+        adapter = new PropMailAdapter(R.layout.adapter_prop_mail, data,uid);
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -104,13 +116,57 @@ public class PropMailFragment  extends BaseLazyFragment {
         adapter.OnclickListenerItem(new PropMailAdapter.OnclickListenerItem() {
             @Override
             public void click(PropMailDao item) {
-                TransactionPropActivity.actionStart(getActivity());
+                TransactionPropActivity.actionStart(getActivity(), item);
             }
         });
         adapter.setEnableLoadMore(false);
     }
 
     private void loadMore() {
-        page = page + 1;
+        pageNo = pageNo + 1;
+        adapter.setEnableLoadMore(false);
+        presenter.getPropList(new MailRequest(), pageNo);
+    }
+
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+
+    }
+
+    @Override
+    public void getDogListSuccess(List<DogMailDao> data) {
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(UpdateMaiPropEvent event) {
+        pageNo = 1;
+        //刷新
+        presenter.getPropList(new MailRequest(), pageNo);
+    }
+
+    @Override
+    public void getPropListSuccess(List<PropMailDao> obj) {
+        adapter.setEnableLoadMore(true);
+        if (pageNo == 1) {
+            data.clear();
+            if (obj.size() == 0) {
+                adapter.loadMoreEnd();
+            } else {
+                this.data.addAll(obj);
+            }
+        } else {
+            if (obj.size() != 0) {
+                this.data.addAll(obj);
+            } else {
+                adapter.loadMoreEnd();
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setPresenter(MailContract.MailPresenter presenter) {
+        this.presenter = presenter;
     }
 }

@@ -17,10 +17,12 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-<!--    关闭省电权限-->
+    <!--    关闭省电权限-->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-feature android:name="android.permission.camera"/>
-    <uses-feature android:name="android.hardware.autofocus"/>
+
+    <uses-feature android:name="android.permission.camera" />
+    <uses-feature android:name="android.hardware.autofocus" />
+
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
@@ -28,10 +30,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".MainActivity"
@@ -47,142 +49,173 @@
             android:name=".view.login.LoginActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.email.InvitationActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.email.EmailActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.email.LoginTypeActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.email.SettingMobileCodeActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.login.ImportActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.login.SettingPassWordActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.login.CreateActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.login.VerificationActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.home.HomeActivity1"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.home.HomeActivity"
             android:configChanges="orientation|screenSize"
-            android:launchMode="singleTask"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
 
         <activity
             android:name=".view.walk.WalkActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.select_dog.SelectDogActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.props.ChoicePropsActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.invite.InviteActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.rental.transaction.TrasactionDogActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.invite_detail.InviteDetailActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.mail.transaction.TransactionDogActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.props.PropDetailActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.mail.transaction.TransactionPropActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.AvatarActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.MyAssetActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.CollectionActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.TransferActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.DogWalkRecordActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.InvitedDogActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.TrainRecordActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.LanguageSetActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.SecuritySetActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.PassWordActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.MailBoxActivity" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.AvatarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.MyAssetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.CollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.TransferActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.DogWalkRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.InvitedDogActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.TrainRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.LanguageSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.SecuritySetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.PassWordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.mine.MailBoxActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".view.mine.AboutActivity" />
 
-        <service android:name=".service.GpsService"/>
+        <activity
+            android:name=".view.props.MyPropsActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.GpsService"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
 
     </application>
 

@@ -82,9 +82,9 @@ public class FeedingDialog extends BaseDialogFragment {
         txtConsumption.setText(feedDog+"g");
         txtSurplus.setText(totalFood+"g");
         if (mDefultDogInfo.getSex() == 0) {
-            txtGender.setText(R.string.male);
-        } else {
             txtGender.setText(R.string.female);
+        } else {
+            txtGender.setText(R.string.male);
         }
         txtName.setText(mDefultDogInfo.getName());
         txtLevel.setText(mDefultDogInfo.getLevel()+"");

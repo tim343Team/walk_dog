@@ -54,9 +54,10 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
         finish();
     }
 
-    public static void actionStart(Activity activity, String dogId) {
+    public static void actionStart(Activity activity, String dogId,int count) {
         Intent intent = new Intent(activity, ChoicePropsActivity.class);
         intent.putExtra("dogId", dogId);
+        intent.putExtra("count", count);
         activity.startActivity(intent);
     }
 
@@ -129,8 +130,8 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
                     //移除装备
                     PropDao dao = data.get(position);
                     presenter.getRemoveProp(new OpreationPropRequest(dao.getId(),dogId),position);
-
                 } else {
+                    //TODO 装备个数这里有bug，后续修改
                     if (adapter.getSelectCount() > 2) {
                         //提示
                         NormalDialog dialog = NormalDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);

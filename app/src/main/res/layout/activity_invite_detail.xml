@@ -128,8 +128,7 @@
                     android:layout_width="@dimen/dimen_186"
                     android:layout_height="@dimen/dimen_186"
                     android:layout_below="@+id/ll_header"
-                    android:layout_centerHorizontal="true"
-                    android:background="@mipmap/icon_null_dog" />
+                    android:layout_centerHorizontal="true"/>
 
                 <LinearLayout
                     android:id="@+id/ll_equipment"
@@ -277,7 +276,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/aggregate"
+                        android:text="@string/aggregate_"
                         android:textStyle="bold" />
 
                     <TextView
@@ -287,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="53 Times" />
+                        android:text="" />
 
                 </LinearLayout>
 
@@ -303,7 +302,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="0H0M"
+                        android:text=""
                         android:textStyle="bold" />
 
                     <TextView
@@ -330,7 +329,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="start"
-                        android:text="0 Times"
+                        android:text=""
                         android:textStyle="bold" />
 
                     <TextView
@@ -340,16 +339,16 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="0H0M" />
+                        android:text="" />
 
                     <TextView
-                        android:id="@+id/txt_walk_count"
+                        android:id="@+id/txt_walk_t"
                         style="@style/TextStyle1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="0/2"
+                        android:text=""
                         android:textColor="@color/color_4D67C1" />
 
                 </LinearLayout>
