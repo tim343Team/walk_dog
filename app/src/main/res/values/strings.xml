@@ -331,5 +331,8 @@
     <string name="wait_friend_accept">待对方接受</string>
     <string name="add_friend">添加好友</string>
     <string name="add_history">添加记录</string>
-    <string name="add_success" />
+    <string name="add_success" >success</string>
+    <string name="persion_name_dog_format" >%s \'s dog</string>
+    <string name="to_be_comfirmed" >to be comfirmed</string>
+
 </resources>

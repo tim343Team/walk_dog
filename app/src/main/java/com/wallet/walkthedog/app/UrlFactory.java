@@ -37,7 +37,11 @@ public class UrlFactory {
     }
     //
     public static String getTogetherPage(){
-        return host + "/userInfo/getTogetherPage";
+        return host + "/together/getTogetherPage";
+    }
+
+    public static String getIdeaTogether(){
+        return host + "/together/ideaTogether";
     }
 
     public static String getFriendList(){

@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,8 +24,6 @@ import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.FriendInfoListDao;
 import com.wallet.walkthedog.dao.InviteFriendDao;
 import com.wallet.walkthedog.dao.InviteFriendItem;
-import com.wallet.walkthedog.dao.InviteInfoDao;
-import com.wallet.walkthedog.dao.InviteInfoItem;
 import com.wallet.walkthedog.data.DataRepository;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.dialog.AddFriendDialog;
@@ -230,7 +227,7 @@ public class FriendListActivity extends BaseActivity {
 
     private void onSuccessGetFriendList(FriendInfoListDao notNullData) {
         adapter0.setNewData(notNullData.getRecords());
-        if (notNullData.getRecords().isEmpty()) {
+        if (notNullData.getRecords().isEmpty() && selectPosition == 0) {
             emptyView.setVisibility(View.VISIBLE);
         }
     }

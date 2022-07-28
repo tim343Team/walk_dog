@@ -51,14 +51,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llTitle">
 
-        <TextView
-            android:id="@+id/tv_friends"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="7dp"
-            android:text="@string/friends_list" />
 
         <TextView
             android:id="@+id/tv_invite_others"

@@ -3,33 +3,21 @@ package com.wallet.walkthedog.view.mine;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.custom_view.card.ShadowDrawable;
-import com.wallet.walkthedog.dao.FriendInfoDao;
-import com.wallet.walkthedog.dao.FriendInfoListDao;
-import com.wallet.walkthedog.dao.InviteInfoDao;
-import com.wallet.walkthedog.dao.InviteInfoItem;
-import com.wallet.walkthedog.dao.TotalWalkDao;
+import com.wallet.walkthedog.dao.InviteFriendTheDogDao;
+import com.wallet.walkthedog.dao.InviteFriendTheDogItem;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
-import com.wallet.walkthedog.untils.Utils;
-
-import java.util.Collections;
-import java.util.List;
 
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
@@ -40,15 +28,15 @@ import tim.com.libnetwork.utils.ScreenUtils;
  */
 public class InvitedDogActivity extends BaseActivity {
     private int selectPosition = 0;
-    private TextView tvfriends;
     private TextView tvInviteOthers;
     private TextView tvBeInvited;
     private RecyclerView recyclerview;
-
-    private FrindListAdapter adapter0;
+    private InviteAdapter adapter0;
     private InviteAdapter adapter1;
-    private InviteAdapter adapter2;
 
+    private RequestData data0 = new RequestData();
+
+    private RequestData data1 = new RequestData();
 
     @Override
     protected int getActivityLayoutId() {
@@ -57,12 +45,16 @@ public class InvitedDogActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        data0.type = 1;
+        data1.type = 2;
+
+
         recyclerview = findViewById(R.id.recyclerview);
-        tvfriends = findViewById(R.id.tv_friends);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
         tvInviteOthers = findViewById(R.id.tv_invite_others);
         tvBeInvited = findViewById(R.id.tv_be_invited);
 
-        tvfriends.setOnClickListener(new View.OnClickListener() {
+        tvInviteOthers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (selectPosition != 0) {
@@ -71,8 +63,7 @@ public class InvitedDogActivity extends BaseActivity {
                 }
             }
         });
-
-        tvInviteOthers.setOnClickListener(new View.OnClickListener() {
+        tvBeInvited.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (selectPosition != 1) {
@@ -81,52 +72,57 @@ public class InvitedDogActivity extends BaseActivity {
                 }
             }
         });
-        tvBeInvited.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectPosition != 2) {
-                    selectPosition = 2;
-                    onSelect();
-                }
-            }
-        });
         onSelect();
     }
-    LinearLayoutManager linearLayoutManager;
-    GridLayoutManager gridLayoutManager;
+
     private void onSelect() {
-        if (linearLayoutManager == null) {
-            linearLayoutManager = new LinearLayoutManager(this);
-            gridLayoutManager = new GridLayoutManager(this, 2);
-        }
         if (selectPosition == 0) {
-            selectTextView(tvfriends, tvInviteOthers, tvBeInvited);
-            if (adapter0 == null){
-                adapter0 = new FrindListAdapter();
+            selectTextView(tvInviteOthers, tvBeInvited);
+            if (adapter0 == null) {
+                adapter0 = new InviteAdapter(false);
+                adapter0.setEnableLoadMore(true);
+                adapter0.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                    @Override
+                    public void onLoadMoreRequested() {
+                        getTogetherPage(data0);
+                    }
+                }, recyclerview);
             }
-            recyclerview.setLayoutManager(gridLayoutManager);
             recyclerview.setAdapter(adapter0);
         } else if (selectPosition == 1) {
-            selectTextView(tvInviteOthers, tvfriends, tvBeInvited);
+            selectTextView(tvBeInvited, tvInviteOthers);
             if (adapter1 == null) {
-                adapter1 = new InviteAdapter(false);
+                adapter1 = new InviteAdapter(true);
+                adapter1.setEnableLoadMore(true);
+                setListenner();
+                adapter0.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                    @Override
+                    public void onLoadMoreRequested() {
+                        getTogetherPage(data1);
+                    }
+                }, recyclerview);
             }
-            recyclerview.setLayoutManager(linearLayoutManager);
             recyclerview.setAdapter(adapter1);
-        } else {
-            selectTextView(tvBeInvited, tvfriends, tvInviteOthers);
-            if (adapter2 == null) {
-                adapter2 = new InviteAdapter(true);
-            }
-            recyclerview.setLayoutManager(linearLayoutManager);
-            recyclerview.setAdapter(adapter2);
         }
-
-
         requestData();
     }
 
-    private void selectTextView(TextView select, TextView unselect, TextView unSelect1) {
+    private void setListenner() {
+        adapter1.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.tv_refuse) {
+                    ideaTogether(3);
+                } else if (view.getId() == R.id.tv_accept){
+                    ideaTogether(1);
+                }
+            }
+        });
+    }
+
+
+
+    private void selectTextView(TextView select, TextView unselect) {
         new ShadowDrawable.ShadowBuilder()
                 .setStartColor(Color.parseColor("#56758BD4"))
                 .setEndColor(Color.parseColor("#10E6E8EF"))
@@ -140,19 +136,20 @@ public class InvitedDogActivity extends BaseActivity {
         unselect.setBackground(null);
         unselect.setTextColor(Color.parseColor("#ADAEB3"));
 
-        unSelect1.setBackground(null);
-        unSelect1.setTextColor(Color.parseColor("#ADAEB3"));
     }
 
     private void requestData() {
         if (selectPosition == 0) {
-            if (adapter0.getData().isEmpty()){
-                getFriendList();
+            if (adapter0.getData().isEmpty()) {
+                data0.pageNo = 1;
+                getTogetherPage(data0);
             }
         } else if (selectPosition == 1) {
-            getTogetherPage(0);
-        } else if (selectPosition == 2) {
-            getTogetherPage(1);
+            if (adapter1.getData().isEmpty()) {
+                data1.pageNo = 1;
+                getTogetherPage(data1);
+            }
+
         }
 
     }
@@ -173,52 +170,90 @@ public class InvitedDogActivity extends BaseActivity {
 
     }
 
-    private void onSuccessGetFriendList(FriendInfoListDao notNullData) {
-        adapter0.setNewData(notNullData.getRecords());
+    private static class RequestData {
+        int pageNo = 1;
+        int pageSize = 50;
+        int type = 1;
     }
 
-    private void getFriendList() {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getFriendList())
+    private void ideaTogether(int state) {
+        displayLoadingPopup();
+        WonderfulOkhttpUtils.get().url(UrlFactory.getIdeaTogether())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .addParams("state", String.valueOf(state))
                 .build()
                 .getCall()
-                .enqueue(new GsonWalkDogCallBack<RemoteData<FriendInfoListDao>>() {
+                .enqueue(new GsonWalkDogCallBack<RemoteData<Object>>() {
                     @Override
-                    protected void onRes(RemoteData<FriendInfoListDao> testRemoteData) {
-                        onSuccessGetFriendList(testRemoteData.getNotNullData());
-                    }
-
-                });
-    }
-
-    private void getTogetherPage(int type) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getTogetherPage())
-                .addParams("type", String.valueOf(type))
-                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-                .build()
-                .getCall()
-                .enqueue(new GsonWalkDogCallBack<RemoteData<InviteInfoDao>>() {
-                    @Override
-                    protected void onRes(RemoteData<InviteInfoDao> testRemoteData) {
-                        onSuccessGetTogetherPage(testRemoteData.getNotNullData());
+                    protected void onRes(RemoteData<Object> testRemoteData) {
+                        onSuccessIdeaTogether();
+                        hideLoadingPopup();
                     }
 
                     @Override
                     protected void onFail(Exception e) {
                         super.onFail(e);
+                        hideLoadingPopup();
                     }
                 });
     }
 
-    private void onSuccessGetTogetherPage(InviteInfoDao dao) {
 
+
+    private void getTogetherPage(RequestData data) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getTogetherPage())
+                .addParams("type", String.valueOf(data.type))
+                .addParams("pageNo", String.valueOf(data.pageNo))
+                .addParams("pageSize", String.valueOf(data.pageSize))
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<InviteFriendTheDogDao>>() {
+                    @Override
+                    protected void onRes(RemoteData<InviteFriendTheDogDao> testRemoteData) {
+                        onSuccessGetTogetherPage(data, testRemoteData.getNotNullData());
+                    }
+
+                    @Override
+                    protected void onFail(Exception e) {
+                        super.onFail(e);
+                        onFailGetTogetherPage(data);
+                    }
+                });
+    }
+
+    private void onSuccessIdeaTogether() {
+        data1.pageNo = 1;
+        getTogetherPage(data1);
+    }
+
+    private void onFailGetTogetherPage(RequestData data) {
+        if (data.type == 1) {
+            adapter0.loadMoreFail();
+        } else {
+            adapter1.loadMoreFail();
+        }
+    }
+
+    private void onSuccessGetTogetherPage(RequestData data, InviteFriendTheDogDao dao) {
+        data.pageNo += 1;
+        if (data.type == 1) {
+            adapter0.loadMoreComplete();
+            if (dao.getRecords().size() < data.pageSize) {
+                adapter0.loadMoreEnd();
+            }
+            adapter0.addData(dao.getRecords());
+        } else {
+            adapter1.loadMoreComplete();
+            if (dao.getRecords().size() < data.pageSize) {
+                adapter1.loadMoreEnd();
+            }
+            adapter1.addData(dao.getRecords());
+        }
     }
 
 
-    //class FriendsListAdapter extends BaseQuickAdapter<>
-
-
-    static class InviteAdapter extends BaseQuickAdapter<InviteInfoItem, BaseViewHolder> {
+    static class InviteAdapter extends BaseQuickAdapter<InviteFriendTheDogItem, BaseViewHolder> {
 
         private final boolean showAction;
 
@@ -227,57 +262,47 @@ public class InvitedDogActivity extends BaseActivity {
             this.showAction = showAction;
         }
 
+        @Override
+        protected BaseViewHolder createBaseViewHolder(View view) {
+            BaseViewHolder baseViewHolder = super.createBaseViewHolder(view);
+            baseViewHolder.addOnClickListener(R.id.tv_refuse);
+            baseViewHolder.addOnClickListener(R.id.tv_accept);
+            return baseViewHolder;
+        }
+
 
         @Override
-        protected void convert(BaseViewHolder helper, InviteInfoItem item) {
-            helper.setText(R.id.tv_dog_name, item.getFriendName());
-            helper.setText(R.id.tv_state, item.getStatus());
-            helper.setText(R.id.tv_time, item.getCreateTime());
+        protected void convert(BaseViewHolder helper, InviteFriendTheDogItem item) {
+            helper.setText(R.id.tv_dog_name, helper.itemView.getContext().getString(R.string.persion_name_dog_format, item.getFriendName()));
 
-            if (showAction) {
+            //1已同意 2等待同意 3已拒绝 4自动拒绝 5发起人取消
+            boolean visible = false;
+            int status = item.getStatus();
+            if (status == 1) {
+                helper.setText(R.id.tv_state, R.string.accept);
+            } else if (status == 2) {
+                if (showAction) {
+                    visible = true;
+                    helper.setText(R.id.tv_state, R.string.to_be_comfirmed);
+                } else {
+                    helper.setText(R.id.tv_state, R.string.to_be_comfirmed);
+                }
+            } else if (status == 3 || status == 4) {
+                helper.setText(R.id.tv_state, R.string.refuse);
+            } else if (status == 5) {
+                helper.setText(R.id.tv_state, R.string.cancle);
+
+            }
+            if (visible){
                 helper.setGone(R.id.tv_refuse, true);
                 helper.setGone(R.id.tv_accept, true);
-            } else {
-                //根据状态来
-            }
-        }
-    }
-
-
-    static class FrindListAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHolder> {
-
-        public FrindListAdapter() {
-            super(R.layout.item_invite_frinds);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, FriendInfoDao item) {
-            helper.setText(R.id.tv_name, item.getDogName());
-            ImageView iv = helper.getView(R.id.iv_p);
-            iv.setColorFilter(Color.parseColor("#4D67C1"));
-            if (item.getSex() == 1) {
-                helper.setImageResource(R.id.iv_p, R.mipmap.icon_black_male);
-            } else {
-                helper.setImageResource(R.id.iv_p, R.mipmap.icon_black_female);
-            }
-            Glide.with(helper.itemView.getContext())
-                    .load(item.getImg())
-                    .apply(RequestOptions.placeholderOf(R.mipmap.icon_null_dog))
-                    .into((ImageView) helper.getView(R.id.iv_dog_pic));
-
-            helper.setText(R.id.iv_lv, Utils.getFormat("LV.%d",(int)(item.getLevel())));
-
-            helper.setText(R.id.iv_name1,item.getName());
-            helper.setText(R.id.tv_times,String.format(mContext.getString(R.string._time), item.getWalkTheDogCount()+""));
-            helper.setText(R.id.tv_all_time,Utils.getTime(item.getWalkTheDogTime()));
-
-            if(item.getStarvation()==1){
-                helper.setTextColor(R.id.txt_status,Color.parseColor("#E51616"));
-                helper.setText(R.id.txt_status,R.string.full_of_hunger);
             }else {
-                helper.setTextColor(R.id.txt_status,Color.parseColor("#30B226"));
-                helper.setText(R.id.txt_status,R.string.full_of_energy);
+                helper.setGone(R.id.tv_refuse, false);
+                helper.setGone(R.id.tv_accept, false);
             }
+
+            helper.setText(R.id.tv_time, item.getCreateTime());
         }
     }
+
 }
