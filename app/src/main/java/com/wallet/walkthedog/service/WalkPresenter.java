@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.service;
 
+import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.data.DataSource;
 
@@ -20,6 +21,7 @@ public class WalkPresenter implements WalkContract.WalkPresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
+                view.startSuccess((String) obj);
             }
 
             @Override
@@ -37,6 +39,23 @@ public class WalkPresenter implements WalkContract.WalkPresenter{
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
                 view.stopSuccess((String) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void addCoord(SwitchWalkRequest request) {
+        dataRepository.addCoord(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.coordSuccess((CoordDao) obj);
             }
 
             @Override

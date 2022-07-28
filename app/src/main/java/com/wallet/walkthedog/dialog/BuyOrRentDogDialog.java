@@ -103,9 +103,9 @@ public class BuyOrRentDogDialog extends BaseDialogFragment {
         }
 
         if (dogMailDao.getSex() == 0) {
-            txtGender.setText(R.string.male);
-        } else {
             txtGender.setText(R.string.female);
+        } else {
+            txtGender.setText(R.string.male);
         }
         txtName.setText(dogMailDao.getName());
         txtLevel.setText(dogMailDao.getLevel()+"");

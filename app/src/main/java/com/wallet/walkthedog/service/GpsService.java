@@ -23,9 +23,12 @@ import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.GpsConnectTImeEvent;
 import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
+import com.wallet.walkthedog.bus_event.GpsStartEvent;
 import com.wallet.walkthedog.bus_event.GpsStopEvent;
+import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.untils.GpsUtils;
+import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.home.HomeActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsPresenter;
 
@@ -45,18 +48,31 @@ public class GpsService extends Service implements WalkContract.WalkView {
     private NotificationManager mNM;
     private GpsUtils gpsUtils;
     private long timeSecond;
+    private String noticeMessage="";
     private String dogId;
     private boolean gpsEnable = false;
     private boolean isFirst = true;
     private double lan;//维度
     private double lon;//经度
-    //LocalBinder是继承Binder的一个内部类
-//    public class LocalBinder extends Binder {
-//
-//        public GpsService getService() {
-//            return GpsService.this;
-//        }
-//    }
+
+    private Handler mHandler = new Handler();
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            //上报定时器
+            try {
+                ToastUtils.shortToast("GpsService：" + "定时器");
+                Log.e("定时器:" , "定时器");
+                if(gpsEnable){
+                    presenter.addCoord(new SwitchWalkRequest(dogId,String.valueOf(lan),String.valueOf(lon)));
+                }
+                mHandler.postDelayed(this, 5000);
+            } catch (Exception e) {
+                mHandler.postDelayed(this, 5000);
+            }
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -64,6 +80,7 @@ public class GpsService extends Service implements WalkContract.WalkView {
         isFirst = true;
         presenter = new WalkPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         EventBus.getDefault().register(this);
+        mHandler.postDelayed(runnable, 1000);
         timeSecond = 0;
     }
 
@@ -91,7 +108,7 @@ public class GpsService extends Service implements WalkContract.WalkView {
                     .setTicker("Nature")
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(getResources().getString(R.string.notification_title))
-                    .setContentText("提示内容")
+                    .setContentText(noticeMessage)
                     .setContentIntent(pendingIntent)
                     .getNotification();
             startForeground(notifyId, notification);
@@ -115,6 +132,7 @@ public class GpsService extends Service implements WalkContract.WalkView {
     @Override
     public void onDestroy() {
         Log.e(getClass().getName(), "onDestroy");
+        mHandler.removeCallbacks(runnable);
         if (gpsUtils != null) {
             gpsUtils.stopLocation();
         }
@@ -142,6 +160,7 @@ public class GpsService extends Service implements WalkContract.WalkView {
             if (isFirst) {
                 isFirst = false;
                 //开始遛狗
+                noticeMessage=getResources().getString(R.string.walk_start);
                 presenter.startWalkDog(new SwitchWalkRequest(dogId,String.valueOf(lan),String.valueOf(lon)));
             }
             //TODO 发送数据
@@ -173,6 +192,17 @@ public class GpsService extends Service implements WalkContract.WalkView {
     public void stopSuccess(String message) {
         //关闭service
         stopSelf();
+    }
+
+    @Override
+    public void startSuccess(String message) {
+        //通知activity开始遛狗
+        EventBus.getDefault().post(new GpsStartEvent());
+    }
+
+    @Override
+    public void coordSuccess(CoordDao data) {
+        //TODO 如果有道具
     }
 
     @Override

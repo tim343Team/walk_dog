@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.mail;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.DogMailDao;
+import com.wallet.walkthedog.dao.PropMailDao;
 import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.view.home.HomeContract;
@@ -17,7 +18,7 @@ public class MailContract {
 
         void getDogListSuccess(List<DogMailDao> data);
 
-
+        void getPropListSuccess(List<PropMailDao> data);
     }
 
     interface MailPresenter extends Contract.BasePresenter {

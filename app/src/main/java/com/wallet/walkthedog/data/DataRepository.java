@@ -115,6 +115,24 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void buyProp(BuyRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.buyProp(request, dataCallback);
+        else mRemoteDataSource.buyProp(request, dataCallback);
+    }
+
+    @Override
+    public void cancelSellDog(BuyRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.cancelSellDog(request, dataCallback);
+        else mRemoteDataSource.cancelSellDog(request, dataCallback);
+    }
+
+    @Override
+    public void cancelSellProp(BuyRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.cancelSellProp(request, dataCallback);
+        else mRemoteDataSource.cancelSellProp(request, dataCallback);
+    }
+
+    @Override
     public void getWalkTheDogFriend(DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getWalkTheDogFriend(dataCallback);
         else mRemoteDataSource.getWalkTheDogFriend(dataCallback);
@@ -133,9 +151,15 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public void getUserProp(int pageNo, DataCallback dataCallback) {
-        if (isLocal) mLocalDataSource.getUserProp(pageNo, dataCallback);
-        else mRemoteDataSource.getUserProp(pageNo, dataCallback);
+    public void addCoord(SwitchWalkRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.addCoord(request, dataCallback);
+        else mRemoteDataSource.addCoord(request, dataCallback);
+    }
+
+    @Override
+    public void getUserProp(int type,int pageNo, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getUserProp(type,pageNo, dataCallback);
+        else mRemoteDataSource.getUserProp(type,pageNo, dataCallback);
     }
 
     @Override

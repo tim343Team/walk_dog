@@ -48,10 +48,10 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
                 .placeholder(R.mipmap.icon_null_dog)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_dog));
-        if (item.getSex() == 1) {
-            Glide.with(mContext).load(R.mipmap.icon_black_male).apply(options).into(imgGender);
-        } else {
+        if (item.getSex() == 0) {
             Glide.with(mContext).load(R.mipmap.icon_black_female).apply(options).into(imgGender);
+        } else {
+            Glide.with(mContext).load(R.mipmap.icon_black_male).apply(options).into(imgGender);
         }
         //TODO 缺少
 //        helper.setText(R.id.txt_number, item.getDayLimit() + "/2");

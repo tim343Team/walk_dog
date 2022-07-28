@@ -103,6 +103,21 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void buyProp(BuyRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void cancelSellDog(BuyRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void cancelSellProp(BuyRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void getWalkTheDogFriend(DataCallback dataCallback) {
 
     }
@@ -118,7 +133,12 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public void getUserProp(int pageNo, DataCallback dataCallback) {
+    public void addCoord(SwitchWalkRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getUserProp(int type,int pageNo, DataCallback dataCallback) {
 
     }
 

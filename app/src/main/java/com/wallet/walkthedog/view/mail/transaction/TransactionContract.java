@@ -16,13 +16,21 @@ public class TransactionContract {
 
         void getWalletInfo(String data,String type);
 
-        void bugDogSuccess(String data);
+        void bugSuccess(String data);
+
+        void cancelSellSuccess(String data);
 
     }
 
     interface TransactionPresenter extends Contract.BasePresenter {
         void getWallet(String type);//获取钱包余额 1是代币 2狗粮
 
-        void buyDog(BuyRequest request);//获取钱包余额 1是代币 2狗粮
+        void buyDog(BuyRequest request);//买狗
+
+        void buyProp(BuyRequest request);//买道具
+
+        void cancelSellDog(BuyRequest request);//取消售卖狗狗
+
+        void cancelSellProp(BuyRequest request);//取消售卖道具
     }
 }

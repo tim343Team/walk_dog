@@ -103,6 +103,11 @@ public class UrlFactory {
         return host + "/index/endWalkTheDog";
     }
 
+    //遛狗坐标传入
+    public static String addCoordUrl() {
+        return host + "/index/addCoord";
+    }
+
     //获取我的道具
     public static String getUserPropUrl() {
         return host + "/prop/getUserProp";
@@ -151,6 +156,21 @@ public class UrlFactory {
     //购买狗狗
     public static String buyDogUrl() {
         return host + "/shopping/buyDog";
+    }
+
+    //购买道具
+    public static String buyPropUrl() {
+        return host + "/shopping/buyProp";
+    }
+
+    //取消售卖狗狗
+    public static String cancelSellDogUrl() {
+        return host + "/shopping/cancelSellDog";
+    }
+
+    //取消售卖道具
+    public static String cancelSellPropUrl() {
+        return host + "/shopping/cancelSellProp";
     }
 
     //获取所有训练项目

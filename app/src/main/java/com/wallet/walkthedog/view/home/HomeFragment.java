@@ -42,7 +42,6 @@ import com.wallet.walkthedog.dialog.SettingInviteDialog;
 import com.wallet.walkthedog.dialog.TrainDogDialog;
 import com.wallet.walkthedog.dialog.TrainListDialog;
 import com.wallet.walkthedog.dialog.UpgradeDialog;
-import com.wallet.walkthedog.dialog.UpgradeDialog_ViewBinding;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
@@ -200,7 +199,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.ll_walk_dog)
     void startWalking() {
-        if (mDefultDogInfo.getStarvation()==1) {
+        if (mDefultDogInfo.getStarvation() == 1) {
             //飢餓狀態
             HungryDialog dialog2 = HungryDialog.newInstance();
             dialog2.setTheme(R.style.PaddingScreen);
@@ -215,19 +214,21 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             });
         } else {
             //正常狀態
-            if(mDefultDogInfo.getRateOfProgress()==100){
+            if (mDefultDogInfo.getRateOfProgress() == 100) {
                 //升级
                 presenter.upDogLevel(mDefultDogInfo.getId());
-            }else {
+            } else {
+                //TODO
+                WalkActivity.actionStart(getmActivity(), mDefultDogInfo);
                 //判断遛狗次数
-                if (mDefultDogInfo.getDayLimit() < 2) {
-                    WalkActivity.actionStart(getmActivity(),mDefultDogInfo);
-                } else {
-                    DayLimitDialog dialog = DayLimitDialog.newInstance(getResources().getString(R.string.walk_number), getResources().getString(R.string.walk_notice_4));
-                    dialog.setTheme(R.style.PaddingScreen);
-                    dialog.setGravity(Gravity.CENTER);
-                    dialog.show(getFragmentManager(), "edit");
-                }
+//                if (mDefultDogInfo.getDayLimit() < 2) {
+//                    WalkActivity.actionStart(getmActivity(), mDefultDogInfo);
+//                } else {
+//                    DayLimitDialog dialog = DayLimitDialog.newInstance(getResources().getString(R.string.walk_number), getResources().getString(R.string.walk_notice_4));
+//                    dialog.setTheme(R.style.PaddingScreen);
+//                    dialog.setGravity(Gravity.CENTER);
+//                    dialog.show(getFragmentManager(), "edit");
+//                }
             }
 
         }
@@ -248,7 +249,15 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         if (mDefultDogInfo == null) {
             return;
         }
-        ChoicePropsActivity.actionStart(getmActivity(), mDefultDogInfo.getId());
+        int count = 0;
+        for (PropDao propDao : mDefultDogInfo.getPropList()) {
+            if (propDao == null) {
+                return;
+            }
+            count = count + 1;
+        }
+
+        ChoicePropsActivity.actionStart(getmActivity(), mDefultDogInfo.getId(),count );
     }
 
 
@@ -339,6 +348,9 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     void updateUI() {
 //        mDefultDogInfo.setStarvation(1);//TODO 測試飢餓狀態
+        if (viewNullDog == null) {
+            return;
+        }
         if (mDefultDogInfo == null) {
             viewNullDog.setVisibility(View.VISIBLE);
             viewDog.setVisibility(View.GONE);
@@ -347,9 +359,9 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         viewNullDog.setVisibility(View.GONE);
         viewDog.setVisibility(View.VISIBLE);
         if (mDefultDogInfo.getSex() == 0) {
-            imgGender.setBackgroundResource(R.mipmap.icon_male);
-        } else {
             imgGender.setBackgroundResource(R.mipmap.icon_female);
+        } else {
+            imgGender.setBackgroundResource(R.mipmap.icon_male);
         }
         if (mDefultDogInfo.getStarvation() == 2) {
             txtState.setText(R.string.full_of_energy);
@@ -357,26 +369,26 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
             viewWalkDog.setBackgroundResource(R.drawable.walk_gradual_round);
             txtWalkDog.setText(R.string.walking);
-            if(mDefultDogInfo.getRateOfProgress()==100){
+            if (mDefultDogInfo.getRateOfProgress() == 100) {
                 //升级
                 imgWalkDog.setBackgroundResource(R.mipmap.icon_update);
-            }else {
+            } else {
                 imgWalkDog.setBackgroundResource(R.mipmap.icon_walking);
             }
-        } else if(mDefultDogInfo.getStarvation() == 1){
+        } else if (mDefultDogInfo.getStarvation() == 1) {
             txtState.setText(R.string.full_of_hunger);
             txtState.setTextColor(getResources().getColor(R.color.color_ffbe0d));
             viewBg.setBackgroundResource(R.mipmap.bg_home_hungry);
             viewWalkDog.setBackgroundResource(R.drawable.hungry_gradual_round);
             txtWalkDog.setText(R.string.feeding);
             imgWalkDog.setBackgroundResource(R.mipmap.icon_feeding);//图标变形
-        }else{
-            txtState.setText("状态字段返回错误为："+mDefultDogInfo.getStarvation());
+        } else {
+            txtState.setText("状态字段返回错误为：" + mDefultDogInfo.getStarvation());
             viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
         }
         txtDogLevel2.setText("LEVEL " + mDefultDogInfo.getLevel());
         txtDogLevel.setText("LV. " + mDefultDogInfo.getLevel());
-        txtSpeed.setText(String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm() + ""));
+        txtSpeed.setText(String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm() + "Km"));
         txtNumber.setText(String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount() + ""));
         txtTrip.setText(String.format(getString(R.string.time_totle), mDefultDogInfo.getWalkTheDogTime() + ""));
         txtRegion.setText(String.format(getString(R.string.number_today), mDefultDogInfo.getDayLimit() + "/2"));
@@ -387,7 +399,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         Glide.with(getmActivity()).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
         setProgress(progressBg, progressBar, progressTxt, mDefultDogInfo.getRateOfProgress() / 100.00);
         //道具
-        for(ImageView imageView:imgEquipments){
+        for (ImageView imageView : imgEquipments) {
             RequestOptions optionsEq = new RequestOptions()
                     .centerCrop();
             Glide.with(getmActivity()).load(R.mipmap.icon_add_equipment).apply(optionsEq).into(imageView);
@@ -487,7 +499,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         trainDialog.setCallback(new TrainListDialog.OperateCallback() {
             @Override
             public void callback(TrainDao item) {
-                TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item,totalFood);
+                TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item, totalFood);
                 trainDogDialog.setTheme(R.style.PaddingScreen);
                 trainDogDialog.setGravity(Gravity.CENTER);
                 trainDogDialog.show(getFragmentManager(), "edit");
@@ -495,7 +507,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                     @Override
                     public void callback(int trainId) {
                         //获取训练详情
-                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(),trainId+""));
+                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(), trainId + ""));
                         trainDogDialog.dismiss();
                     }
                 });
@@ -548,7 +560,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
             @Override
             public void callback() {
-                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty,data);
+                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
                 buyDialog.setTheme(R.style.PaddingScreen);
                 buyDialog.setGravity(Gravity.CENTER);
                 buyDialog.show(getFragmentManager(), "edit");

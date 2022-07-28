@@ -22,10 +22,11 @@
 
         <TextView
             style="@style/TextTitle"
+            android:id="@+id/txt_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="name" />
+            android:text="" />
 
         <ImageView
             android:id="@+id/img_add"
@@ -56,8 +57,7 @@
                 android:id="@+id/img_prop"
                 android:layout_width="@dimen/dimen_123"
                 android:layout_height="@dimen/dimen_123"
-                android:layout_centerInParent="true"
-                android:background="@mipmap/icon_bell" />
+                android:layout_centerInParent="true"/>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -84,7 +84,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name_"
+                android:text="@string/name1_"
                 android:textColor="@color/color_848484"
                 android:textSize="@dimen/dp14"
                 android:textStyle="bold" />
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_10"
-                android:text="Bell"
+                android:text=""
                 android:textColor="@color/color_848484"
                 android:textSize="@dimen/dp14"
                 android:textStyle="bold" />
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_10"
-                android:text="+3"
+                android:text=""
                 android:textColor="@color/color_848484"
                 android:textSize="@dimen/dp14"
                 android:textStyle="bold" />
@@ -147,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_10"
-                android:text="#00000"
+                android:text=""
                 android:textColor="@color/color_848484"
                 android:textSize="@dimen/dp14"
                 android:textStyle="bold" />

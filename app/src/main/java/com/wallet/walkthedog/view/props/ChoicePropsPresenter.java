@@ -18,23 +18,23 @@ public class ChoicePropsPresenter implements ChoicePropsContract.ChoicePropsPres
         this.view.setPresenter(this);
     }
 
-    @Override
-    public void getUserProp(int pageNo) {
-        view.displayLoadingPopup();//显示loading
-        dataRepository.getUserProp(pageNo,new DataSource.DataCallback() {
-            @Override
-            public void onDataLoaded(Object obj) {
-                view.hideLoadingPopup();
-                view.getPropSuccess((List<PropDao>) obj);
-            }
-
-            @Override
-            public void onDataNotAvailable(Integer code, String toastMessage) {
-                view.hideLoadingPopup();
-                view.getFail(code, toastMessage);
-            }
-        });
-    }
+//    @Override
+//    public void getUserProp(int pageNo) {
+//        view.displayLoadingPopup();//显示loading
+//        dataRepository.getUserProp(pageNo,new DataSource.DataCallback() {
+//            @Override
+//            public void onDataLoaded(Object obj) {
+//                view.hideLoadingPopup();
+//                view.getPropSuccess((List<PropDao>) obj);
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable(Integer code, String toastMessage) {
+//                view.hideLoadingPopup();
+//                view.getFail(code, toastMessage);
+//            }
+//        });
+//    }
 
     @Override
     public void getDogProp(String dogId,int pageNo) {

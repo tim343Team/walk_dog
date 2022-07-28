@@ -37,7 +37,58 @@ public class TransactionPresenter implements  TransactionContract.TransactionPre
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-                view.bugDogSuccess((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+                view.bugSuccess((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void buyProp(BuyRequest request) {
+        dataRepository.buyProp(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.bugSuccess((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void cancelSellDog(BuyRequest request) {
+        dataRepository.cancelSellDog(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.cancelSellSuccess((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void cancelSellProp(BuyRequest request) {
+        dataRepository.cancelSellProp(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.cancelSellSuccess((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override

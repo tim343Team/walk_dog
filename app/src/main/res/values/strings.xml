@@ -105,6 +105,7 @@
     <!--身份id卡-->
     <string name="name_">姓名:</string>
     <string name="name">名稱</string>
+    <string name="name1_">名稱_</string>
     <string name="gender_">性別:</string>
     <string name="level_">等級:</string>
     <string name="weight_">體重:</string>
@@ -146,6 +147,7 @@
     <!--购买食物-->
     <string name="buy_to_food">購買狗糧</string>
     <string name="buy">購買</string>
+    <string name="cancle_buy">取消購買</string>
     <string name="pay">支付</string>
     <string name="lack_food">食物不足</string>
     <string name="gain_weight">獲得體重</string>
@@ -184,6 +186,7 @@
     <string name="price_s">價格：%s</string>
     <string name="possible_access_">有機會獲得：</string>
     <string name="fight_hunger_">抵抗飢餓：充滿幹勁</string>
+    <string name="sell">出售</string>
     <!--邀請遛狗-->
     <string name="invite_dog">邀請遛狗</string>
     <string name="invite_empty">你沒有好友\n去添加好友吧</string>
@@ -191,6 +194,7 @@
     <string name="full_of_energy">精力充沛</string>
     <string name="full_of_hunger">飢餓</string>
     <string name="aggregate">合計</string>
+    <string name="aggregate_">合計:%s</string>
     <string name="walk_together">共同遛狗</string>
     <string name="invitation_sent">邀請已發送</string>
     <string name="invitation_error">已有其它人邀請，發送失敗</string>

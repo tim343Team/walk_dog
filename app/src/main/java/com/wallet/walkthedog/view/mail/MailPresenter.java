@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.mail;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.DogMailDao;
+import com.wallet.walkthedog.dao.PropMailDao;
 import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.home.HomeContract;
@@ -43,6 +44,7 @@ public class MailPresenter implements  MailContract.MailPresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
+                view.getPropListSuccess((List<PropMailDao>) obj);
             }
 
             @Override
