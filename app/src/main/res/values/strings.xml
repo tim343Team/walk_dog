@@ -322,4 +322,10 @@
 
     <string name="invite_to_walk_the_dog">Invite to walk the dog</string>
     <string name="about">About</string>
+    <string name="invite">邀请</string>
+    <string name="wait_accept">待接受</string>
+    <string name="wait_friend_accept">待对方接受</string>
+    <string name="add_friend">添加好友</string>
+    <string name="add_history">添加记录</string>
+    <string name="add_success" />
 </resources>

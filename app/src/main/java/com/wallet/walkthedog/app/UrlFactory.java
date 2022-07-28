@@ -44,6 +44,20 @@ public class UrlFactory {
         return host + "/friend/FriendList";
     }
 
+    //拒绝好友
+    public static String getDeclineTheInvitation(){
+        return host + "/friend/declineTheInvitation";
+    }
+
+    //同意好友
+    public static String getAcceptTheInvitation(){
+        return host + "/friend/acceptTheInvitation";
+    }
+
+    public static String getInviteFriendList(){
+        return host + "/friend/invitedOtherList";
+    }
+
     //邮箱登录
     public static String getEmailLoginUrl() {
         return host + "/user/emailCheckCode.json";

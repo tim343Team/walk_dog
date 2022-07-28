@@ -265,7 +265,7 @@ public class InvitedDogActivity extends BaseActivity {
                     .apply(RequestOptions.placeholderOf(R.mipmap.icon_null_dog))
                     .into((ImageView) helper.getView(R.id.iv_dog_pic));
 
-            helper.setText(R.id.iv_lv, Utils.getFormat((int)(item.getLevel()),"LV.%d"));
+            helper.setText(R.id.iv_lv, Utils.getFormat("LV.%d",(int)(item.getLevel())));
 
             helper.setText(R.id.iv_name1,item.getName());
             helper.setText(R.id.tv_times,String.format(mContext.getString(R.string._time), item.getWalkTheDogCount()+""));

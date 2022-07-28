@@ -97,6 +97,13 @@ public class MineFragment extends BaseTransFragment {
                 startActivity(intent);
             }
         });
+        rootView.findViewById(R.id.ll_invite_friend).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(),FriendListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

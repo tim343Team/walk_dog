@@ -373,6 +373,37 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_36"
+                    android:background="@drawable/line_dash_black" />
+
+                <LinearLayout
+                    android:id="@+id/ll_invite_friend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="66dp"
+                        android:layout_height="17dp"
+                        android:text="@string/add_friend_title"
+                        android:textColor="@color/color_485EA8"
+                        android:textSize="@dimen/dp14" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:background="@mipmap/icon_next_blue" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 

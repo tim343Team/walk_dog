@@ -17,7 +17,7 @@ public class Utils {
         return String.format(Locale.getDefault(),"%02d:%02d",hours,mintes);
     }
 
-    public static String getFormat(double arg,String format){
+    public static String getFormat(String format,Object... arg){
         try {
            return String.format(Locale.getDefault(),format,arg);
         }catch (Exception e){
@@ -31,7 +31,7 @@ public class Utils {
      * @return eg 2.1km
      */
     public static String getKmFormat(double arg){
-        return getFormat(arg,"%.2fkm");
+        return getFormat("%.2fkm",arg);
     }
 
     /**
@@ -40,7 +40,7 @@ public class Utils {
      * @return 1.11
      */
     public static String getScale2(double arg){
-        return getFormat(arg,"%.2f");
+        return getFormat("%.2f",arg);
     }
 
 }

@@ -45,6 +45,9 @@ public class FriendInfoDao implements Serializable {
 
     private int friendWalkTheDogTime;
 
+    private int dayLimit;
+
+
     public int getId() {
         return id;
     }
@@ -203,5 +206,10 @@ public class FriendInfoDao implements Serializable {
 
     public void setFriendWalkTheDogTime(int friendWalkTheDogTime) {
         this.friendWalkTheDogTime = friendWalkTheDogTime;
+    }
+
+
+    public int getDayLimit() {
+        return dayLimit;
     }
 }

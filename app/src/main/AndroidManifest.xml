@@ -180,7 +180,8 @@
         <activity android:name=".view.mine.SecuritySetActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.PassWordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.MailBoxActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.AboutActivity" />
+        <activity android:name=".view.mine.AboutActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.FriendListActivity" android:screenOrientation="portrait"/>
 
         <service android:name=".service.GpsService"/>
 
