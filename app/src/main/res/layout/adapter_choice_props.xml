@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dp5"
+    android:layout_marginEnd="@dimen/dp5"
+    android:layout_marginBottom="@dimen/dimen_10"
+    android:layout_marginTop="@dimen/dp5"
+    android:elevation="@dimen/dimen_5"
+    android:background="@drawable/rectangle_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dimen_18"
+        android:paddingStart="@dimen/dimen_18"
+        android:paddingEnd="@dimen/dimen_18"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bell"
+            android:textColor="@color/color_4D67C1"
+            android:textSize="@dimen/dp14"/>
+
+        <ImageView
+            android:id="@+id/img_prop"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="@dimen/dimen_80"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="@dimen/dimen_13"/>
+
+        <TextView
+            android:id="@+id/txt_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_15"
+            android:text="#00000"
+            android:textColor="@color/color_4D67C1"
+            android:textSize="@dimen/dp14"/>
+
+        <TextView
+            android:id="@+id/txt_choice"
+            android:layout_width="@dimen/dimen_123"
+            android:layout_height="@dimen/dimen_43"
+            android:elevation="@dimen/dimen_3"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:gravity="center"
+            android:background="@drawable/rectangle_white"
+            android:text="@string/select"
+            android:textColor="@color/color_4D67C1"
+            android:textSize="@dimen/dp14"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

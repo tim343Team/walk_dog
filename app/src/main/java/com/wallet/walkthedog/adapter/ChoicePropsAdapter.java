@@ -2,6 +2,7 @@ package com.wallet.walkthedog.adapter;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -11,21 +12,24 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.data.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
+public class ChoicePropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
     private List<PropDao> selectDao = new ArrayList<>();
 
-    public MyPropsAdapter(int layoutResId, @Nullable List<PropDao> data) {
+    public ChoicePropsAdapter(int layoutResId, @Nullable List<PropDao> data) {
         super(layoutResId, data);
     }
 
+
     @Override
     protected void convert(BaseViewHolder helper, PropDao item) {
+        boolean isOpen = true;
         String type;
         int nftTypeCatagoryId = item.getNftTypeCatagoryId();
 
@@ -36,9 +40,8 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_prop));
         helper.setText(R.id.txt_name, item.getName());
         helper.setText(R.id.txt_id, item.getId());
-        helper.setText(R.id.txt_create_time, item.getCreateTime());
-        helper.setText(R.id.txt_equipment_id, String.format(mContext.getString(R.string.equipment_dog_), item.getDecorateDogId() + ""));
         if (nftTypeCatagoryId == 6 || nftTypeCatagoryId == 7 || nftTypeCatagoryId == 8) {
+            //狗粮
             type= Constant.PROP_FOOD;
             helper.setText(R.id.txt_choice, R.string.open);
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
@@ -48,6 +51,7 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
                 }
             });
         } else if(nftTypeCatagoryId == 10){
+            //宝箱
             type= Constant.PROP_BOX;
             helper.setText(R.id.txt_choice, R.string.open);
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
@@ -57,6 +61,7 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
                 }
             });
         } else {
+            //道具
             type= Constant.PROP_NORMAL;
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,16 +78,10 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
         if (item.getType() == 1) {
             helper.setTextColor(R.id.txt_name, mContext.getColor(R.color.white));
             helper.setTextColor(R.id.txt_id, mContext.getColor(R.color.white));
-            helper.setTextColor(R.id.txt_time, mContext.getColor(R.color.white));
-            helper.setTextColor(R.id.txt_create_time, mContext.getColor(R.color.white));
-            helper.setTextColor(R.id.txt_equipment_id, mContext.getColor(R.color.white));
             helper.getView(R.id.root_view).setBackgroundResource(R.drawable.bg_gradual_select);
         } else {
             helper.setTextColor(R.id.txt_name, mContext.getColor(R.color.color_4D67C1));
             helper.setTextColor(R.id.txt_id, mContext.getColor(R.color.color_4D67C1));
-            helper.setTextColor(R.id.txt_time, mContext.getColor(R.color.color_4D67C1));
-            helper.setTextColor(R.id.txt_create_time, mContext.getColor(R.color.color_4D67C1));
-            helper.setTextColor(R.id.txt_equipment_id, mContext.getColor(R.color.color_4D67C1));
             helper.getView(R.id.root_view).setBackgroundResource(R.drawable.rectangle_white);
         }
 
@@ -92,6 +91,19 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
                 rootClick.click(helper.getLayoutPosition(),type);
             }
         });
+
+    }
+
+    public int getSelectCount() {
+        return selectDao.size();
+    }
+
+    public void addSelect(PropDao dao) {
+        selectDao.add(dao);
+    }
+
+    public void removeSelect(PropDao dao) {
+        selectDao.remove(dao);
     }
 
     OnclickListenerItem itemClick;

@@ -138,6 +138,11 @@ public class UrlFactory {
         return host + "/prop/useDogFood";
     }
 
+    //售卖道具
+    public static String sellPropUrl() {
+        return host + "/shopping/sellProp";
+    }
+
     //查询喂食消耗
     public static String getFeedDogUrl() {
         return host + "/dog/getFeedDog";

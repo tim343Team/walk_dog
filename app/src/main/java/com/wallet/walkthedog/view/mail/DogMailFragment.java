@@ -1,7 +1,6 @@
 package com.wallet.walkthedog.view.mail;
 
 import android.os.Bundle;
-import android.view.Gravity;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,18 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.DogMailAdapter;
-import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
 import com.wallet.walkthedog.dao.DogMailDao;
-import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropMailDao;
 import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.UserCache;
-import com.wallet.walkthedog.dialog.NormalDialog;
-import com.wallet.walkthedog.even.UpdateHomeData;
-import com.wallet.walkthedog.service.WalkPresenter;
 import com.wallet.walkthedog.view.mail.transaction.TransactionDogActivity;
 
 import org.greenrobot.eventbus.EventBus;

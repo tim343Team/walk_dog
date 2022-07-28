@@ -1,31 +1,24 @@
 package com.wallet.walkthedog.view.props;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
-import com.wallet.walkthedog.adapter.MyDogsAdapter;
-import com.wallet.walkthedog.adapter.MyPropsAdapter;
+import com.wallet.walkthedog.adapter.ChoicePropsAdapter;
 import com.wallet.walkthedog.app.Injection;
-import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
-import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
-import com.wallet.walkthedog.view.email.EmailPresenter;
-import com.wallet.walkthedog.view.home.HomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -46,7 +39,7 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     private List<PropCache> propCache = new ArrayList<>();
     private boolean isChange = false;
     private int pageNo = 1;
-    private MyPropsAdapter adapter;
+    private ChoicePropsAdapter adapter;
     private List<PropDao> data = new ArrayList<>();
 
     @OnClick(R.id.img_back)
@@ -108,7 +101,7 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     private void initRecyclerView() {
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
-        adapter = new MyPropsAdapter(R.layout.adapter_my_props, data);
+        adapter = new ChoicePropsAdapter(R.layout.adapter_choice_props, data);
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -117,13 +110,14 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
             }
         }, recyclerView);
         adapter.setEnableLoadMore(false);
-        adapter.OnclickListenerRoot(new MyPropsAdapter.OnclickListenerRoot() {
+        adapter.OnclickListenerRoot(new ChoicePropsAdapter.OnclickListenerRoot() {
             @Override
             public void click(int position,String type) {
-                PropDetailActivity.actionStart(ChoicePropsActivity.this,data.get(position).getId(),type);
+                PropDao dao = data.get(position);
+                PropDetailActivity.actionStart(ChoicePropsActivity.this,data.get(position).getId(),type,dao,dogId);
             }
         });
-        adapter.OnclickListenerItem(new MyPropsAdapter.OnclickListenerItem() {
+        adapter.OnclickListenerItem(new ChoicePropsAdapter.OnclickListenerItem() {
             @Override
             public void click(int position) {
                 if (data.get(position).getType()==1) {
@@ -132,22 +126,25 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
                     presenter.getRemoveProp(new OpreationPropRequest(dao.getId(),dogId),position);
                 } else {
                     //TODO 装备个数这里有bug，后续修改
-                    if (adapter.getSelectCount() > 2) {
-                        //提示
-                        NormalDialog dialog = NormalDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
-                        dialog.setTheme(R.style.PaddingScreen);
-                        dialog.setGravity(Gravity.CENTER);
-                        dialog.show(getSupportFragmentManager(), "edit");
-                        return;
-                    } else {
-                        //安装装备
-                        PropDao dao = data.get(position);
-                        presenter.getAddProp(new OpreationPropRequest(dao.getId(),dogId),position);
-                    }
+//                    if (adapter.getSelectCount() > 2) {
+//                        //提示
+//                        NormalDialog dialog = NormalDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
+//                        dialog.setTheme(R.style.PaddingScreen);
+//                        dialog.setGravity(Gravity.CENTER);
+//                        dialog.show(getSupportFragmentManager(), "edit");
+//                        return;
+//                    } else {
+//                        //安装装备
+//                        PropDao dao = data.get(position);
+//                        presenter.getAddProp(new OpreationPropRequest(dao.getId(),dogId),position);
+//                    }
+                    //安装装备
+                    PropDao dao = data.get(position);
+                    presenter.getAddProp(new OpreationPropRequest(dao.getId(),dogId),position);
                 }
             }
         });
-        adapter.OnclickListenerItem(new MyPropsAdapter.OnOpenListenerItem() {
+        adapter.OnclickListenerItem(new ChoicePropsAdapter.OnOpenListenerItem() {
             @Override
             public void click(int position, int type) {
                 if(type==0){
@@ -171,6 +168,15 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     @Override
     public void getFail(Integer code, String toastMessage) {
 
+    }
+
+    @Override
+    public void getAddFail(Integer code, String toastMessage) {
+        //提示
+        NormalDialog dialog = NormalDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
     }
 
     @Override
@@ -249,6 +255,11 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
                 openindDialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void sellProp(String data) {
+
     }
 
     @Override
