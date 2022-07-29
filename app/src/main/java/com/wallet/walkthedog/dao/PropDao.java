@@ -41,6 +41,8 @@ public class PropDao implements Serializable {
 
     private int dogUserId;
 
+    private int decorateDogId;
+
 //    public boolean isSelect() {
 //        return isSelect;
 //    }
@@ -48,6 +50,15 @@ public class PropDao implements Serializable {
 //    public void setSelect(boolean select) {
 //        isSelect = select;
 //    }
+
+
+    public int getDecorateDogId() {
+        return decorateDogId;
+    }
+
+    public void setDecorateDogId(int decorateDogId) {
+        this.decorateDogId = decorateDogId;
+    }
 
     public String getId() {
         return id;

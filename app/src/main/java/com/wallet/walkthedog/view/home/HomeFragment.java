@@ -3,42 +3,30 @@ package com.wallet.walkthedog.view.home;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.HomePropsAdapter;
-import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.TrainRequest;
-import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
-import com.wallet.walkthedog.dialog.DayLimitDialog;
 import com.wallet.walkthedog.dialog.FeedingDialog;
 import com.wallet.walkthedog.dialog.FeedofRemindDialog;
 import com.wallet.walkthedog.dialog.HungryDialog;
 import com.wallet.walkthedog.dialog.IdentityDialog;
-import com.wallet.walkthedog.dialog.InvitedDialog;
 import com.wallet.walkthedog.dialog.InvitedStopDialog;
 import com.wallet.walkthedog.dialog.MoreOperationDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
-import com.wallet.walkthedog.dialog.NoticeDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
-import com.wallet.walkthedog.dialog.SettingInviteDialog;
 import com.wallet.walkthedog.dialog.TrainDogDialog;
 import com.wallet.walkthedog.dialog.TrainListDialog;
 import com.wallet.walkthedog.dialog.UpgradeDialog;
@@ -48,22 +36,18 @@ import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.invite.InviteActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
 import com.wallet.walkthedog.view.select_dog.SelectDogActivity;
-import com.wallet.walkthedog.view.select_dog.SelectPresenter;
 import com.wallet.walkthedog.view.walk.WalkActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseTransFragment;
-import tim.com.libnetwork.view.PickTimeView;
 
 public class HomeFragment extends BaseTransFragment implements HomeContract.HomeView {
     public static final String TAG = HomeFragment.class.getSimpleName();

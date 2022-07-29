@@ -46,6 +46,16 @@ public class NormalDialog extends BaseDialogFragment {
         return fragment;
     }
 
+    public static NormalDialog newInstance(String messageString, int resImgId, int resColorId) {
+        NormalDialog fragment = new NormalDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("messageString", messageString);
+        bundle.putInt("img", resImgId);
+        bundle.putInt("color", resColorId);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.dialog_normal;

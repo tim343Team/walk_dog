@@ -3,6 +3,7 @@ package com.wallet.walkthedog.view.props;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
+import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.view.walk.WalkContract;
 
@@ -15,6 +16,8 @@ public class ChoicePropsContract {
 
         void getFail(Integer code, String toastMessage);
 
+        void getAddFail(Integer code, String toastMessage);
+
         void getPropSuccess(List<PropDao> data);
 
         void getRemovePropSuccess(int dao);
@@ -24,6 +27,8 @@ public class ChoicePropsContract {
         void getPropDetailSuccess(PropDetailDao data);
 
         void useDogFoodSuccess(String data);
+
+        void sellProp(String data);
 
     }
 
@@ -38,5 +43,8 @@ public class ChoicePropsContract {
         void getPropDetailInfo(OpreationPropRequest request);
 
         void useDogFood(OpreationPropRequest request);
+
+        void sellProp(SellRequest request);
+
     }
 }

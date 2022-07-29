@@ -6,32 +6,22 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.InviteDogAdapter;
-import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
-import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.UpdateFriendEvent;
-import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.FriendInfoDao;
-import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dialog.AddFriendDialog;
-import com.wallet.walkthedog.dialog.BuyOrRentDogDialog;
-import com.wallet.walkthedog.dialog.HungryDialog;
 import com.wallet.walkthedog.dialog.InviteMoreDialog;
 import com.wallet.walkthedog.dialog.InvitedInforDialog;
 import com.wallet.walkthedog.dialog.NicknameDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.untils.ToastUtils;
-import com.wallet.walkthedog.view.email.EmailPresenter;
 import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
-import com.wallet.walkthedog.view.props.ChoicePropsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

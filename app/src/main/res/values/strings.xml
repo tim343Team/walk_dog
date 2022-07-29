@@ -115,6 +115,7 @@
     <string name="dog_walk_time_">遛狗時間:</string>
     <string name="charm_value_">魅力值:</string>
     <string name="time_">時間:</string>
+    <string name="time_s">時間: %s</string>
     <string name="get_a_dog_">獲得的狗狗:</string>
     <string name="dog_owner">狗狗主人:</string>
     <string name="identity_information">身份信息</string>
@@ -166,6 +167,7 @@
     <string name="deselect">取消選擇</string>
     <string name="choose_select">選擇成功</string>
     <string name="_time">%s 次</string>
+    <string name="equipment_dog_">裝備狗狗: %s</string>
     <!--訓練狗狗-->
     <string name="training_dog">訓練狗狗</string>
     <string name="sit_down">坐下</string>
@@ -179,7 +181,7 @@
     <string name="insufficient_food">食物不足</string>
     <!--我的道具-->
     <string name="my_props">我的道具</string>
-    <string name="cancle_props">道具已滿，請取消已有道具</string>
+    <string name="cancle_props">已裝備同類型的道具</string>
     <string name="conguratulations">恭喜</string>
     <string name="input_prop_success">%s已经放入道具</string>
     <string name="input_prop_fail">垃圾已经丢弃</string>
@@ -187,6 +189,11 @@
     <string name="possible_access_">有機會獲得：</string>
     <string name="fight_hunger_">抵抗飢餓：充滿幹勁</string>
     <string name="sell">出售</string>
+    <string name="sell_prop">出售裝備</string>
+    <string name="enter_sell_price">請輸入出售價格</string>
+    <string name="sell_price_notice">價格需要大於0</string>
+    <string name="release_prop">解除道具</string>
+    <string name="release_prop_notice">裝備出售時需要解除裝備</string>
     <!--邀請遛狗-->
     <string name="invite_dog">邀請遛狗</string>
     <string name="invite_empty">你沒有好友\n去添加好友吧</string>
