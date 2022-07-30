@@ -47,7 +47,12 @@ public class InvitedDogActivity extends BaseActivity {
     protected void initViews(Bundle savedInstanceState) {
         data0.type = 1;
         data1.type = 2;
-
+        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));

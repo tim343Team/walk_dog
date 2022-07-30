@@ -28,11 +28,13 @@ import com.wallet.walkthedog.data.DataRepository;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.dialog.AddFriendDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.SettingInviteDialog;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
+import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
 
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
@@ -151,6 +153,7 @@ public class FriendListActivity extends BaseActivity {
             selectTextView(tvfriends, tvBeInvited);
             if (adapter0 == null) {
                 adapter0 = new FrindListAdapter();
+                setclickListenner();
             }
             recyclerview.setLayoutManager(gridLayoutManager);
             recyclerview.setAdapter(adapter0);
@@ -168,18 +171,44 @@ public class FriendListActivity extends BaseActivity {
     }
 
     private void setclickListenner() {
-        adapter1.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_accept) {
-                    //同意
-                    accept(adapter1.getData().get(position).getFriendId(), true);
-                } else if (view.getId() == R.id.tv_refuse) {
-                    //拒绝
-                    accept(adapter1.getData().get(position).getFriendId(), false);
+        if (adapter1!=null){
+            adapter1.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    if (view.getId() == R.id.tv_accept) {
+                        //同意
+                        accept(adapter1.getData().get(position).getFriendId(), true);
+                    } else if (view.getId() == R.id.tv_refuse) {
+                        //拒绝
+                        accept(adapter1.getData().get(position).getFriendId(), false);
+                    }
                 }
-            }
-        });
+            });
+        }
+        if (adapter0!=null){
+            adapter0.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    SettingInviteDialog dialog = SettingInviteDialog.newInstance();
+                    dialog.setTheme(R.style.PaddingScreen);
+                    dialog.setGravity(Gravity.BOTTOM);
+                    dialog.show(getSupportFragmentManager(), "edit");
+                    dialog.setCallback(new SettingInviteDialog.OperateCallback() {
+                        @Override
+                        public void callback() {
+
+                        }
+                    });
+                }
+            });
+            adapter0.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    InviteDetailActivity.actionStart(FriendListActivity.this,adapter0.getItem(position));
+                }
+            });
+        }
+
     }
 
 
@@ -340,6 +369,13 @@ public class FriendListActivity extends BaseActivity {
 
         public FrindListAdapter() {
             super(R.layout.item_invite_frinds);
+        }
+
+        @Override
+        protected BaseViewHolder createBaseViewHolder(View view) {
+            BaseViewHolder baseViewHolder = super.createBaseViewHolder(view);
+            baseViewHolder.addOnClickListener(R.id.tv_invite);
+            return baseViewHolder;
         }
 
         @Override

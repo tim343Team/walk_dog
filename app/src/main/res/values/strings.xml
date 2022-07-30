@@ -341,5 +341,7 @@
     <string name="add_success" >success</string>
     <string name="persion_name_dog_format" >%s \'s dog</string>
     <string name="to_be_comfirmed" >to be comfirmed</string>
+    <string name="my_asset">My assets</string>
+    <string name="enter_the_sold_quantity">Enter the sold quantity</string>
 
 </resources>

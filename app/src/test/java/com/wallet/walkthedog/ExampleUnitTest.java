@@ -22,16 +22,7 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
 
 
-        ListTest<RemoteData<String>> test = new ListTest<RemoteData<String>>() {
-
-            @Override
-            void doing(RemoteData<String> stringRemoteData) {
-                //String covert = ListTest.covert(stringRemoteData);
-            }
-        };
-
-        System.out.println("\n");
-        create("");
+        System.out.println(System.currentTimeMillis());
 
     }
 

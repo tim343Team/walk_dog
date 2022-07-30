@@ -105,7 +105,7 @@
             app:layout_constraintTop_toTopOf="@+id/txt_status" />
 
         <com.wallet.walkthedog.custom_view.card.ShadowTextView
-            android:id="@+id/textView59"
+            android:id="@+id/tv_invite"
             style="@style/defshadow_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
