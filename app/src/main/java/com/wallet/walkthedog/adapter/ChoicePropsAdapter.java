@@ -31,7 +31,8 @@ public class ChoicePropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder
     protected void convert(BaseViewHolder helper, PropDao item) {
         boolean isOpen = true;
         String type;
-        int nftTypeCatagoryId = item.getNftTypeCatagoryId();
+//        int nftTypeCatagoryId = item.getNftTypeCatagoryId();
+        int nftTypeCatagoryId = item.getKindType();
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()

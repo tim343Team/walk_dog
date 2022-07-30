@@ -123,7 +123,7 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
             public void click(int position, int type) {
                 if (type == 0) {
                     //打開狗粮接口
-                    presenter.useDogFood(new OpreationPropRequest(data.get(position).getId()));
+                    presenter.useDogFood(new OpreationPropRequest(data.get(position).getId()), position);
                 } else if (type == 1) {
                     //打開寶箱接口
                     presenter.openBox(new OpreationPropRequest(data.get(position).getId()), position);
@@ -188,8 +188,10 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
     }
 
     @Override
-    public void useDogFoodSuccess(String data) {
-        //TODO 打開狗糧
+    public void useDogFoodSuccess(String dao,int position) {
+        //打開狗糧
+        data.remove(position);
+        adapter.notifyItemRemoved(position);
         OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
@@ -197,7 +199,7 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
         openindDialog.setCallback(new OpenindDialog.OperateCallback() {
             @Override
             public void callback(String name) {
-                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), "TODO 测试数据"), R.mipmap.icon_normal);
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), getResources().getString(R.string.dog_food)), R.mipmap.icon_normal);
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
                 dialog.show(getFragmentManager(), "edit");

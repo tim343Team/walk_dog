@@ -24,7 +24,7 @@ public class PropsContract {
 
         void getAddPropSuccess(int dao);
 
-        void useDogFoodSuccess(String data);
+        void useDogFoodSuccess(String data, int position);
 
         void cancelSellSuccess(String data,int position);
 
@@ -39,7 +39,7 @@ public class PropsContract {
 
         void getAddProp(OpreationPropRequest request,int position);
 
-        void useDogFood(OpreationPropRequest request);
+        void useDogFood(OpreationPropRequest request,int position);
 
         void cancelSellProp(BuyRequest request,int position);
 

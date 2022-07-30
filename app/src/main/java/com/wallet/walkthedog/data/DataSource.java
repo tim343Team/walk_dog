@@ -31,7 +31,7 @@ public interface DataSource {
 
     void passwordLogin(EmailLoginRequest request, DataCallback dataCallback);
 
-    void getUserDog(DataCallback dataCallback);
+    void getUserDog(int type,int pageNo,DataCallback dataCallback);
 
     void useDog(String dogId,DataCallback dataCallback);
 
@@ -106,5 +106,7 @@ public interface DataSource {
     void getDogList(MailRequest request, int pageNo, DataCallback dataCallback);
 
     void getPropList(MailRequest request, int pageNo, DataCallback dataCallback);
+
+    void sellDog(SellRequest request,  DataCallback dataCallback);
 
 }

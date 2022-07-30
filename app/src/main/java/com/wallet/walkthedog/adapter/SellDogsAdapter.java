@@ -13,22 +13,21 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.DogMailDao;
-import com.wallet.walkthedog.dao.PropDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DogMailAdapter extends BaseQuickAdapter<DogMailDao, BaseViewHolder> {
-    private String uid;
+import tim.com.libnetwork.utils.DateTimeUtil;
 
-    public DogMailAdapter(int layoutResId, @Nullable List<DogMailDao> data, String uid) {
+public class SellDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> {
+
+    public SellDogsAdapter(int layoutResId, @Nullable List<DogInfoDao> data) {
         super(layoutResId, data);
-        this.uid = uid;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, DogMailDao item) {
+    protected void convert(BaseViewHolder helper, DogInfoDao item) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_null_dog)
@@ -37,7 +36,7 @@ public class DogMailAdapter extends BaseQuickAdapter<DogMailDao, BaseViewHolder>
         helper.getView(R.id.group_create).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClick.click(item);
+                itemClick.click(item,helper.getLayoutPosition());
             }
         });
         if (item.getSex() == 0) {
@@ -51,11 +50,11 @@ public class DogMailAdapter extends BaseQuickAdapter<DogMailDao, BaseViewHolder>
         helper.setText(R.id.txt_level, "Lv." + item.getLevel());
         helper.setText(R.id.txt_name,item.getName());
         helper.setText(R.id.txt_price,String.valueOf(item.getPrice()));
-        if(item.getMemberId().equals(uid)){
-            helper.setText(R.id.txt_cancle,R.string.cancle_buy);
-        }else {
-            helper.setText(R.id.txt_cancle,R.string.buy);
-        }
+        helper.setText(R.id.txt_cancle,R.string.cancle_buy);
+        helper.setText(R.id.txt_count,String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + "") );//遛狗次数
+        helper.setText(R.id.txt_time, DateTimeUtil.second2Time(Long.parseLong(item.getWalkTheDogTime())));//遛狗时间
+        helper.setText(R.id.txt_id,item.getId());//id
+
     }
 
     //设置进度条
@@ -92,6 +91,6 @@ public class DogMailAdapter extends BaseQuickAdapter<DogMailDao, BaseViewHolder>
     }
 
     public interface OnclickListenerItem {
-        void click(DogMailDao item);
+        void click(DogInfoDao item,int position);
     }
 }

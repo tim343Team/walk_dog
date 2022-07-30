@@ -257,4 +257,9 @@ public class UrlFactory {
         return host + "/shopping/propList";
     }
 
+    //售卖狗狗
+    public static String sellDogUrl() {
+        return host + "/shopping/sellDog";
+    }
+
 }

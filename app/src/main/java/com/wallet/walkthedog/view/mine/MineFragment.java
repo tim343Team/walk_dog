@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.dialog.QrDialog;
+import com.wallet.walkthedog.view.dog.MyDogActivity;
 import com.wallet.walkthedog.view.home.HomeFragment;
 import com.wallet.walkthedog.view.props.MyPropsActivity;
 
@@ -45,6 +46,13 @@ public class MineFragment extends BaseTransFragment {
                 QrDialog qrDialog =  QrDialog.newInstance("xxxxx");
                 qrDialog.show(getChildFragmentManager(),"");
 
+            }
+        });
+        rootView.findViewById(R.id.ll_dog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //我的狗狗
+                MyDogActivity.actionStart(getmActivity());
             }
         });
         rootView.findViewById(R.id.ll_prop).setOnClickListener(new View.OnClickListener() {

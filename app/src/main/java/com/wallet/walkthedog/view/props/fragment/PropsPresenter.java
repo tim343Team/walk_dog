@@ -74,13 +74,13 @@ public class PropsPresenter implements PropsContract.PropsPresenter{
     }
 
     @Override
-    public void useDogFood(OpreationPropRequest request) {
+    public void useDogFood(OpreationPropRequest request,int position) {
         view.displayLoadingPopup();//显示loading
         dataRepository.useDogFood(request,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-                view.useDogFoodSuccess((String) obj);
+                view.useDogFoodSuccess((String) obj,position);
             }
 
             @Override

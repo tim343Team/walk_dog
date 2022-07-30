@@ -396,7 +396,6 @@
                                 android:textSize="@dimen/dp15"
                                 android:textStyle="bold" />
 
-
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -424,7 +423,6 @@
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/dp12" />
                             </RelativeLayout>
-
 
                         </LinearLayout>
 

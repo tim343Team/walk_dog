@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.ChoicePropsAdapter;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
@@ -126,19 +127,6 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
                     PropDao dao = data.get(position);
                     presenter.getRemoveProp(new OpreationPropRequest(dao.getId(),dogId),position);
                 } else {
-                    //TODO 装备个数这里有bug，后续修改
-//                    if (adapter.getSelectCount() > 2) {
-//                        //提示
-//                        NormalDialog dialog = NormalDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
-//                        dialog.setTheme(R.style.PaddingScreen);
-//                        dialog.setGravity(Gravity.CENTER);
-//                        dialog.show(getSupportFragmentManager(), "edit");
-//                        return;
-//                    } else {
-//                        //安装装备
-//                        PropDao dao = data.get(position);
-//                        presenter.getAddProp(new OpreationPropRequest(dao.getId(),dogId),position);
-//                    }
                     //安装装备
                     PropDao dao = data.get(position);
                     presenter.getAddProp(new OpreationPropRequest(dao.getId(),dogId),position);
@@ -150,10 +138,10 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
             public void click(int position, int type) {
                 if(type==0){
                     //打開狗粮接口
-                    presenter.useDogFood(new OpreationPropRequest(data.get(position).getId()));
+                    presenter.useDogFood(new OpreationPropRequest(data.get(position).getId()),position);
                 }else if(type==1){
-                    //TODO 打開寶箱接口
-
+                    //打開寶箱接口
+                    presenter.openBox(new OpreationPropRequest(data.get(position).getId()),position);
                 }
             }
         });
@@ -240,8 +228,10 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     }
 
     @Override
-    public void useDogFoodSuccess(String data) {
-        //TODO 打開狗糧
+    public void useDogFoodSuccess(String dao,int position) {
+        //打開狗糧
+        data.remove(position);
+        adapter.notifyItemRemoved(position);
         OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
@@ -249,7 +239,7 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
         openindDialog.setCallback(new OpenindDialog.OperateCallback() {
             @Override
             public void callback(String name) {
-                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success),  "TODO 测试数据"), R.mipmap.icon_normal);
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success),  getResources().getString(R.string.dog_food)), R.mipmap.icon_normal);
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
                 dialog.show(getSupportFragmentManager(), "edit");
@@ -261,6 +251,27 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     @Override
     public void sellProp(String data) {
 
+    }
+
+    @Override
+    public void openBoxSuccess(BoxDao dao,int position) {
+        //打开宝箱成功
+        data.remove(position);
+        adapter.notifyItemRemoved(position);
+        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_NORMAL,dao);
+        openindDialog.setTheme(R.style.PaddingScreen);
+        openindDialog.setGravity(Gravity.CENTER);
+        openindDialog.show(getSupportFragmentManager(), "edit");
+        openindDialog.setCallback(new OpenindDialog.OperateCallback() {
+            @Override
+            public void callback(String name) {
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), name), R.mipmap.icon_normal);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+                openindDialog.dismiss();
+            }
+        });
     }
 
     @Override

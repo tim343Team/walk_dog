@@ -60,7 +60,7 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public void getUserDog(DataCallback dataCallback) {
+    public void getUserDog(int type,int pageNo,DataCallback dataCallback) {
 
     }
 
@@ -246,6 +246,11 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void getPropList(MailRequest request, int pageNo, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void sellDog(SellRequest request, DataCallback dataCallback) {
 
     }
 

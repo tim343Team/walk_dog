@@ -5,7 +5,9 @@ import java.io.Serializable;
 public class PropDao implements Serializable {
     private String id;
 
-    private int nftTypeCatagoryId;//6,7,8:狗糧  10：箱子
+    private int kindType;//1是狗粮 2是箱子 其他是装备
+
+//    private int nftTypeCatagoryId;//6,7,8:狗糧  10：箱子
 
     private String name;
 
@@ -77,13 +79,21 @@ public class PropDao implements Serializable {
         this.id = id;
     }
 
-    public int getNftTypeCatagoryId() {
-        return nftTypeCatagoryId;
+    public int getKindType() {
+        return kindType;
     }
 
-    public void setNftTypeCatagoryId(int nftTypeCatagoryId) {
-        this.nftTypeCatagoryId = nftTypeCatagoryId;
+    public void setKindType(int kindType) {
+        this.kindType = kindType;
     }
+
+    //    public int getNftTypeCatagoryId() {
+//        return nftTypeCatagoryId;
+//    }
+//
+//    public void setNftTypeCatagoryId(int nftTypeCatagoryId) {
+//        this.nftTypeCatagoryId = nftTypeCatagoryId;
+//    }
 
     public String getName() {
         return name;

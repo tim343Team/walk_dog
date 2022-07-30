@@ -20,11 +20,10 @@ public class SelectContract {
     }
 
     interface SelectPresenter extends Contract.BasePresenter {
-        void getUserDog();
+        void getUserDog(int type,int pageNo);
 
         void useDog(String dogId);
 
         void removeDog(String dogId);
-
     }
 }

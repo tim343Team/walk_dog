@@ -27,7 +27,8 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, PropDao item) {
         String type;
-        int nftTypeCatagoryId = item.getNftTypeCatagoryId();
+//        int nftTypeCatagoryId = item.getNftTypeCatagoryId();
+        int nftTypeCatagoryId = item.getKindType();
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
