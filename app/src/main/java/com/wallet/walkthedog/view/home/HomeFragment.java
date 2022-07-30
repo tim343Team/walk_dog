@@ -511,7 +511,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     public void feedFail(Integer code, String toastMessage) {
         //喂食失败
         if (code == 1) {
-            //TODO 缺少接口
+            //获取狗粮数据
             presenter.getShopDogFood();
         }
     }
@@ -550,7 +550,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 buyDialog.show(getFragmentManager(), "edit");
                 buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
                     @Override
-                    public void callback() {
+                    public void callback(int number) {
                         PasswordDialog passwordDialog = PasswordDialog.newInstance();
                         passwordDialog.setTheme(R.style.PaddingScreen);
                         passwordDialog.setGravity(Gravity.CENTER);
@@ -558,8 +558,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                         passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
                             @Override
                             public void callback(String password) {
-                                //TODO 購買狗糧
-                                ToastUtils.shortToast("暫無接口");
+                                //購買狗糧
+                                presenter.buyShopDogFood(data.getId(),number);
                                 passwordDialog.dismiss();
                                 buyDialog.dismiss();
                             }
@@ -575,6 +575,24 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void buyShopDogFoodSuccessful(String data) {
+        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getFragmentManager(), "edit");
+        //更新
+        updateData();
+    }
+
+    @Override
+    public void buyShopDogFoodFail(Integer code, String toastMessage) {
+        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getFragmentManager(), "edit");
     }
 
     @Override

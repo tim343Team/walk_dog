@@ -80,7 +80,7 @@ public class SharedPrefsHelper {
      * 获取当前狗狗id
      */
     public String getDogId() {
-        return sharedPreferences == null ? "" : sharedPreferences.getString(CURRENT_DOG_ID, "");
+        return sharedPreferences == null ? "" : sharedPreferences.getString(CURRENT_DOG_ID, "0");
     }
 
     /**

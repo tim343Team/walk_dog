@@ -1,7 +1,9 @@
 package com.wallet.walkthedog.view.props.fragment;
 
+import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.view.props.ChoicePropsContract;
 
@@ -24,6 +26,10 @@ public class PropsContract {
 
         void useDogFoodSuccess(String data);
 
+        void cancelSellSuccess(String data,int position);
+
+        void openBoxSuccess(BoxDao dao, int position);
+
     }
 
     interface PropsPresenter extends Contract.BasePresenter {
@@ -35,5 +41,8 @@ public class PropsContract {
 
         void useDogFood(OpreationPropRequest request);
 
+        void cancelSellProp(BuyRequest request,int position);
+
+        void openBox(OpreationPropRequest request,int position);
     }
 }

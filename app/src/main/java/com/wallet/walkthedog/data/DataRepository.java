@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.data;
 
+import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
@@ -134,6 +135,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void openBox(OpreationPropRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.openBox(request, dataCallback);
+        else mRemoteDataSource.openBox(request, dataCallback);
+    }
+
+    @Override
     public void getWalkTheDogFriend(DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getWalkTheDogFriend(dataCallback);
         else mRemoteDataSource.getWalkTheDogFriend(dataCallback);
@@ -149,6 +156,18 @@ public class DataRepository implements DataSource {
     public void stopWalkDog(SwitchWalkRequest request, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.stopWalkDog(request, dataCallback);
         else mRemoteDataSource.stopWalkDog(request, dataCallback);
+    }
+
+    @Override
+    public void getAwardPage(AwardRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getAwardPage(request, dataCallback);
+        else mRemoteDataSource.getAwardPage(request, dataCallback);
+    }
+
+    @Override
+    public void getAward(AwardRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getAward(request, dataCallback);
+        else mRemoteDataSource.getAward(request, dataCallback);
     }
 
     @Override
@@ -221,6 +240,12 @@ public class DataRepository implements DataSource {
     public void getShopDogFood(DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getShopDogFood( dataCallback);
         else mRemoteDataSource.getShopDogFood( dataCallback);
+    }
+
+    @Override
+    public void ShopDogFood(int dogFoodId, int number, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.ShopDogFood(dogFoodId,number, dataCallback);
+        else mRemoteDataSource.ShopDogFood(dogFoodId,number, dataCallback);
     }
 
     @Override

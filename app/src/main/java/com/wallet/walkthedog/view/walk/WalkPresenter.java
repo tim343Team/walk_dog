@@ -1,8 +1,12 @@
 package com.wallet.walkthedog.view.walk;
 
+import com.wallet.walkthedog.dao.AwardDao;
+import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.email.EmailContract;
+
+import java.util.List;
 
 public class WalkPresenter implements WalkContract.WalkPresenter{
     private WalkContract.WalkView view;
@@ -26,6 +30,41 @@ public class WalkPresenter implements WalkContract.WalkPresenter{
             public void onDataNotAvailable(Integer code, String toastMessage) {
                 view.hideLoadingPopup();
                 view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getAwardPage(AwardRequest request) {
+        dataRepository.getAwardPage(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getAwardPageSuccess((List<AwardDao>) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getAward(AwardRequest request,int position) {
+        view.displayLoadingPopup();
+        dataRepository.getAward(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getAwardSuccess((String) obj,position);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getAwardFail(code, toastMessage);
             }
         });
     }

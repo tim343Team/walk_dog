@@ -192,4 +192,23 @@ public class HomePresenter implements HomeContract.HomePresenter{
             }
         });
     }
+
+    @Override
+    public void buyShopDogFood(int dogFoodId, int number) {
+        view.displayLoadingPopup();
+        dataRepository.ShopDogFood(dogFoodId,number,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.buyShopDogFoodSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
 }

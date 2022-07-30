@@ -333,7 +333,7 @@ public class GpsUtils {
         if (timer != null) {
             return;
         }
-        timer = new CountDownTimer(3 * 6 * 1000, 1000) {
+        timer = new CountDownTimer(3 * 60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 

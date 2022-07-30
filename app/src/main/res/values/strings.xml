@@ -288,6 +288,7 @@
     <string name="well_known_area">Well known area</string>
     <string name="treasure_chest">Treasure chest</string>
     <string name="dog_food">狗糧</string>
+    <string name="dog_food_s">狗糧*%s</string>
     <string name="other">Other</string>
     <string name="times">Times</string>
     <string name="dog_walking_time">Dog walking time</string>

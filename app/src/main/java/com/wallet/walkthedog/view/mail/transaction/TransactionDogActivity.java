@@ -206,10 +206,10 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog normalDialog = NormalDialog.newInstance(R.string.password_error, R.mipmap.icon_normal_no,R.color.color_E12828);
-        normalDialog.setTheme(R.style.PaddingScreen);
-        normalDialog.setGravity(Gravity.CENTER);
-        normalDialog.show(getSupportFragmentManager(), "edit");
+        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
     }
 
     @Override

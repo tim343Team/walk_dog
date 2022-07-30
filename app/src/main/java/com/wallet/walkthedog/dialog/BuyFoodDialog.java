@@ -29,6 +29,7 @@ public class BuyFoodDialog extends BaseDialogFragment {
     private DogFoodDao data;
     private int amount = 0;
     private double price = 0;
+    private double weight = 0;
     private String balance;
 
     @OnClick(R.id.img_adding)
@@ -39,6 +40,7 @@ public class BuyFoodDialog extends BaseDialogFragment {
         amount = amount + 1;
         editAmount.setText(String.valueOf(amount));
         updatePrice(price * amount);
+        updateWeight(weight * amount);
     }
 
     @OnClick(R.id.img_subtract)
@@ -49,18 +51,19 @@ public class BuyFoodDialog extends BaseDialogFragment {
         amount = amount - 1;
         editAmount.setText(String.valueOf(amount));
         updatePrice(price * amount);
+        updateWeight(weight * amount);
     }
 
     @OnClick(R.id.txt_buy)
     void buyFood() {
-        callback.callback();
+        callback.callback(amount);
     }
 
     public static BuyFoodDialog newInstance(String property, DogFoodDao data) {
         BuyFoodDialog fragment = new BuyFoodDialog();
         Bundle bundle = new Bundle();
-        bundle.putString("balance",property);
-        bundle.putSerializable("data",data);
+        bundle.putString("balance", property);
+        bundle.putSerializable("data", data);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -87,10 +90,11 @@ public class BuyFoodDialog extends BaseDialogFragment {
         balance = bundle.getString("balance");
         data = (DogFoodDao) bundle.getSerializable("data");
         editAmount.setText(String.valueOf(amount));
-        txtBalance.setText(getResources().getString(R.string.balance_)+balance);
+        txtBalance.setText(getResources().getString(R.string.balance_) + balance);
         txtWeight.setText(String.valueOf(data.getWeight()));
         txtPrice.setText(String.valueOf(data.getPrice()));
-        price=data.getPrice();
+        price = data.getPrice();
+        weight = data.getWeight();
     }
 
     @Override
@@ -107,6 +111,10 @@ public class BuyFoodDialog extends BaseDialogFragment {
         txtSurplus.setText(String.valueOf(totalPrice));
     }
 
+    void updateWeight(double totalWeight) {
+        txtConsumption.setText(String.format(getString(R.string.g), String.valueOf(totalWeight)));
+    }
+
     private OperateCallback callback;
 
     public void setCallback(OperateCallback callback) {
@@ -114,6 +122,6 @@ public class BuyFoodDialog extends BaseDialogFragment {
     }
 
     public interface OperateCallback {
-        void callback();
+        void callback(int number);
     }
 }

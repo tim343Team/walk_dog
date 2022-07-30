@@ -142,7 +142,10 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-
+        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
     }
 
     @Override
