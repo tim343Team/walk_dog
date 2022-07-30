@@ -66,7 +66,11 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
             });
             if (item.getType() == 1) {
                 helper.setText(R.id.txt_choice, R.string.deselect);
-            } else {
+            } else if(item.getType() == 2){
+                helper.setText(R.id.txt_choice, R.string.select);
+            }else if(item.getType() == 3){
+                helper.setText(R.id.txt_choice, R.string.cancle_sale);
+            }else {
                 helper.setText(R.id.txt_choice, R.string.select);
             }
         }

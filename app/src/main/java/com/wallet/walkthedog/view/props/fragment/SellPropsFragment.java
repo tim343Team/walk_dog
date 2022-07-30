@@ -11,9 +11,13 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
+import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
+import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.props.PropDetailActivity;
 
@@ -110,7 +114,8 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
         adapter.OnclickListenerItem(new MyPropsAdapter.OnclickListenerItem() {
             @Override
             public void click(int position) {
-                //TODO 移除售賣
+                //移除售賣
+                presenter.cancelSellProp(new BuyRequest(data.get(position).getId()),position);
             }
         });
         adapter.OnclickListenerItem(new MyPropsAdapter.OnOpenListenerItem() {
@@ -120,8 +125,8 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
                     //打開狗粮接口
                     presenter.useDogFood(new OpreationPropRequest(data.get(position).getId()));
                 } else if (type == 1) {
-                    //TODO 打開寶箱接口
-
+                    //打開寶箱接口
+                    presenter.openBox(new OpreationPropRequest(data.get(position).getId()), position);
                 }
             }
         });
@@ -184,7 +189,49 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
 
     @Override
     public void useDogFoodSuccess(String data) {
+        //TODO 打開狗糧
+        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
+        openindDialog.setTheme(R.style.PaddingScreen);
+        openindDialog.setGravity(Gravity.CENTER);
+        openindDialog.show(getFragmentManager(), "edit");
+        openindDialog.setCallback(new OpenindDialog.OperateCallback() {
+            @Override
+            public void callback(String name) {
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), "TODO 测试数据"), R.mipmap.icon_normal);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getFragmentManager(), "edit");
+                openindDialog.dismiss();
+            }
+        });
+    }
 
+    @Override
+    public void cancelSellSuccess(String message, int position) {
+        //取消售卖成功刷新页面
+        data.remove(position);
+        adapter.notifyItemRemoved(position);
+    }
+
+    @Override
+    public void openBoxSuccess(BoxDao dao, int position) {
+        //打开宝箱成功
+        data.remove(position);
+        adapter.notifyItemRemoved(position);
+        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_NORMAL,dao);
+        openindDialog.setTheme(R.style.PaddingScreen);
+        openindDialog.setGravity(Gravity.CENTER);
+        openindDialog.show(getFragmentManager(), "edit");
+        openindDialog.setCallback(new OpenindDialog.OperateCallback() {
+            @Override
+            public void callback(String name) {
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), name), R.mipmap.icon_normal);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getFragmentManager(), "edit");
+                openindDialog.dismiss();
+            }
+        });
     }
 
     @Override

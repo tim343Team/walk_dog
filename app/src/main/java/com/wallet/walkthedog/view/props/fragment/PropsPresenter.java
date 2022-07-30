@@ -1,6 +1,8 @@
 package com.wallet.walkthedog.view.props.fragment;
 
+import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.props.ChoicePropsContract;
@@ -79,6 +81,42 @@ public class PropsPresenter implements PropsContract.PropsPresenter{
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
                 view.useDogFoodSuccess((String) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void cancelSellProp(BuyRequest request,int position) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.cancelSellProp(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.cancelSellSuccess((String) obj,position);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void openBox(OpreationPropRequest request, int position) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.openBox(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.openBoxSuccess((BoxDao) obj,position);
             }
 
             @Override

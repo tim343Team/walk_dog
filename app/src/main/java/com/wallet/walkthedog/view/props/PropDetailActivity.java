@@ -23,6 +23,7 @@ import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.dialog.MoreOperationDialog;
 import com.wallet.walkthedog.dialog.MorePropOperationDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.dialog.SellPropDialog;
 import com.wallet.walkthedog.dialog.SellPropNoticeDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
@@ -121,6 +122,10 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
         if (type.equals(Constant.PROP_BOX)) {
             //TODO 打开宝箱接口
 
+
+
+
+            
         } else if (type.equals(Constant.PROP_FOOD)) {
             //TODO 打开狗粮接口
 
@@ -184,6 +189,10 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
             //装备，取消装备
             if (propDao.getType() == 1) {
                 tvSubmit.setText(R.string.deselect);
+            } else if(propDao.getType() == 2){
+                tvSubmit.setText(R.string.select);
+            }else if(propDao.getType() == 3){
+                tvSubmit.setText(R.string.cancle_sale);
             } else {
                 tvSubmit.setText(R.string.select);
             }
@@ -258,11 +267,27 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
         txtDogId.setText(data.getDogId() + "");
         txtUserId.setText(data.getDogUserId() + "");
         txtIntroduc.setText(data.getDescribeData());
+        //
+        txtWeight.setText(String.format(getString(R.string.g), data.getWeight()));
     }
 
     @Override
     public void useDogFoodSuccess(String data) {
-
+        //TODO 打開狗糧
+        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
+        openindDialog.setTheme(R.style.PaddingScreen);
+        openindDialog.setGravity(Gravity.CENTER);
+        openindDialog.show(getSupportFragmentManager(), "edit");
+        openindDialog.setCallback(new OpenindDialog.OperateCallback() {
+            @Override
+            public void callback(String name) {
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), "TODO 测试数据"), R.mipmap.icon_normal);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+                openindDialog.dismiss();
+            }
+        });
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.wallet.walkthedog.data;
 
 import com.google.gson.reflect.TypeToken;
 import com.wallet.walkthedog.app.UrlFactory;
+import com.wallet.walkthedog.dao.AwardDao;
+import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
@@ -11,7 +13,9 @@ import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
+import com.wallet.walkthedog.dao.StartWalkDao;
 import com.wallet.walkthedog.dao.TrainDao;
+import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
@@ -430,7 +434,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void buyDog(BuyRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.buyDogUrl() + "?id=" + request.getId()+"?password=" +request.getPassword())
+        WonderfulOkhttpUtils.get().url(UrlFactory.buyDogUrl() + "?id=" + request.getId() + "?password=" + request.getPassword())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -461,7 +465,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void buyProp(BuyRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.buyPropUrl() + "?id=" + request.getId()+"?password=" +request.getPassword())
+        WonderfulOkhttpUtils.get().url(UrlFactory.buyPropUrl() + "?id=" + request.getId() + "?password=" + request.getPassword())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -553,6 +557,38 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
+    public void openBox(OpreationPropRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.openBoxUrl() + "?propId=" + request.getPropId())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("开启宝箱:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("开启宝箱:", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                BoxDao obj = gson.fromJson(object.getJSONObject("data").toString(), BoxDao.class);
+                                dataCallback.onDataLoaded(obj);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void getWalkTheDogFriend(DataCallback dataCallback) {
         WonderfulOkhttpUtils.get().url(UrlFactory.getWalkTheDogFriendUrl())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
@@ -607,7 +643,8 @@ public class RemoteDataSource implements DataSource {
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
-                                dataCallback.onDataLoaded(object.optString("message"));
+                                StartWalkDao obj = gson.fromJson(object.getJSONObject("data").toString(), StartWalkDao.class);
+                                dataCallback.onDataLoaded(obj);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }
@@ -654,8 +691,72 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
+    public void getAwardPage(AwardRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getAwardPageUrl() + "?pageNo=1&pageSize=100&logId=" + request.getLogId())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("获取遛狗奖励记录:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("获取遛狗奖励记录：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                List<AwardDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("records").toString(), new TypeToken<List<AwardDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getAward(AwardRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getAwardUrl() + "?awardId=" + request.getAwardId())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("领取遛狗奖励记录:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("领取遛狗奖励记录：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void addCoord(SwitchWalkRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.addCoordUrl()+"?lan="+request.getLan()+"?lon="+request.getLon())
+        WonderfulOkhttpUtils.get().url(UrlFactory.addCoordUrl() + "?lan=" + request.getLan() + "?lon=" + request.getLon())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -686,8 +787,8 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void getUserProp(int type,int pageNo, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getUserPropUrl() + "?pageNo=" + pageNo + "&pageSize=20"+ "&type="+type)
+    public void getUserProp(int type, int pageNo, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getUserPropUrl() + "?pageNo=" + pageNo + "&pageSize=20" + "&type=" + type)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -878,7 +979,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void sellProp(SellRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.sellPropUrl() + "?id=" + request.getId()+"?price=" + request.getPrice())
+        WonderfulOkhttpUtils.get().url(UrlFactory.sellPropUrl() + "?id=" + request.getId() + "?price=" + request.getPrice())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -942,7 +1043,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void trainDog(TrainRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.trainDogUrl()+"?dogId=" + request.getDogId() + "&trainId=" + request.getTrainId())
+        WonderfulOkhttpUtils.get().url(UrlFactory.trainDogUrl() + "?dogId=" + request.getDogId() + "&trainId=" + request.getTrainId())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -973,7 +1074,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void upDogLevel(String dogId, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.upDogLevelUrl()+"?dogId=" + dogId)
+        WonderfulOkhttpUtils.get().url(UrlFactory.upDogLevelUrl() + "?dogId=" + dogId)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1035,8 +1136,39 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
+    public void ShopDogFood(int dogFoodId, int number, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.shopDogFoodUrl() + "?dogFoodId=" + dogFoodId + "&number="+number)
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("购买商城出售的狗粮:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("购买商城出售的狗粮：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void getFriendList(int pageNo, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getFriendListUrl()+"?pageNo=" + pageNo + "&pageSize=20")
+        WonderfulOkhttpUtils.get().url(UrlFactory.getFriendListUrl() + "?pageNo=" + pageNo + "&pageSize=20")
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1069,7 +1201,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void friendEmail(String friendEmail, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.sendFriendInvitedUrl()+"?friendEmail=" + friendEmail )
+        WonderfulOkhttpUtils.get().url(UrlFactory.sendFriendInvitedUrl() + "?friendEmail=" + friendEmail)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1100,7 +1232,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void getFriendDogDetail(String id, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.friendDogDetailUrl()+"?id=" + id )
+        WonderfulOkhttpUtils.get().url(UrlFactory.friendDogDetailUrl() + "?id=" + id)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1132,7 +1264,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void setNote(FriendRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.setNoteUrl()+"?friendListId=" + request.getId() +"&name="+request.getName())
+        WonderfulOkhttpUtils.get().url(UrlFactory.setNoteUrl() + "?friendListId=" + request.getId() + "&name=" + request.getName())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1163,7 +1295,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void delFriend(FriendRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.delFriendUrl()+"?friendMemberId=" + request.getFriendMemberId())
+        WonderfulOkhttpUtils.get().url(UrlFactory.delFriendUrl() + "?friendMemberId=" + request.getFriendMemberId())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1194,7 +1326,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void getDogList(MailRequest request, int pageNo, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.dogListUrl()+"?pageNo=" + pageNo + "&pageSize=20")
+        WonderfulOkhttpUtils.get().url(UrlFactory.dogListUrl() + "?pageNo=" + pageNo + "&pageSize=20")
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1227,7 +1359,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void getPropList(MailRequest request, int pageNo, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.propListUrl()+"?pageNo=" + pageNo + "&pageSize=20")
+        WonderfulOkhttpUtils.get().url(UrlFactory.propListUrl() + "?pageNo=" + pageNo + "&pageSize=20")
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {

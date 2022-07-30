@@ -14,8 +14,10 @@ import com.wallet.walkthedog.adapter.MyDogsAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
+import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
+import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
@@ -136,8 +138,8 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
                     //打開狗粮接口
                     presenter.useDogFood(new OpreationPropRequest(data.get(position).getId()));
                 } else if (type == 1) {
-                    //TODO 打開寶箱接口
-
+                    //打開寶箱接口
+                    presenter.openBox(new OpreationPropRequest(data.get(position).getId()), position);
                 }
             }
         });
@@ -214,14 +216,40 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
     @Override
     public void useDogFoodSuccess(String data) {
         //TODO 打開狗糧
-        OpenindDialog openindDialog = OpenindDialog.newInstance();
+        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
         openindDialog.show(getFragmentManager(), "edit");
         openindDialog.setCallback(new OpenindDialog.OperateCallback() {
             @Override
-            public void callback() {
+            public void callback(String name) {
                 NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), "TODO 测试数据"), R.mipmap.icon_normal);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getFragmentManager(), "edit");
+                openindDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void cancelSellSuccess(String data, int position) {
+
+    }
+
+    @Override
+    public void openBoxSuccess(BoxDao dao, int position) {
+        //打开宝箱成功
+        data.remove(position);
+        adapter.notifyItemRemoved(position);
+        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_NORMAL,dao);
+        openindDialog.setTheme(R.style.PaddingScreen);
+        openindDialog.setGravity(Gravity.CENTER);
+        openindDialog.show(getFragmentManager(), "edit");
+        openindDialog.setCallback(new OpenindDialog.OperateCallback() {
+            @Override
+            public void callback(String name) {
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), name), R.mipmap.icon_normal);
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
                 dialog.show(getFragmentManager(), "edit");

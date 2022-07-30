@@ -15,6 +15,7 @@ import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
+import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
@@ -241,13 +242,13 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     @Override
     public void useDogFoodSuccess(String data) {
         //TODO 打開狗糧
-        OpenindDialog openindDialog=OpenindDialog.newInstance();
+        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
         openindDialog.show(getSupportFragmentManager(), "edit");
         openindDialog.setCallback(new OpenindDialog.OperateCallback() {
             @Override
-            public void callback() {
+            public void callback(String name) {
                 NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success),  "TODO 测试数据"), R.mipmap.icon_normal);
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
