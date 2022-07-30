@@ -80,6 +80,14 @@ public class PasswordDialog extends BaseDialogFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dismissCallback != null) {
+            dismissCallback.call();
+        }
+    }
+
+    @Override
     protected void fillWidget() {
 
     }
@@ -90,6 +98,11 @@ public class PasswordDialog extends BaseDialogFragment {
     }
 
     private OperateCallback callback;
+    private DismissCallback dismissCallback;
+
+    public void setDismissCallback(DismissCallback dismissCallback) {
+        this.dismissCallback = dismissCallback;
+    }
 
     public void setCallback(OperateCallback callback) {
         this.callback = callback;
@@ -97,6 +110,10 @@ public class PasswordDialog extends BaseDialogFragment {
 
     public interface OperateCallback {
         void callback(String password);
+    }
+
+    public interface DismissCallback{
+        void call();
     }
 
     private OperateErrorCallback callbackError;

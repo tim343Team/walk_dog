@@ -45,7 +45,7 @@
         android:id="@+id/shadowFrameLayout2"
         style="@style/defshadow_style"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="50dp"
@@ -70,6 +70,7 @@
                 android:src="@mipmap/ic_mine_food" />
 
             <TextView
+                android:id="@+id/tv_dog_food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -153,6 +154,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"

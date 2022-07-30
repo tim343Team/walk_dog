@@ -35,6 +35,19 @@ public class UrlFactory {
     public static String getWalkDogLog() {
         return host + "/userInfo/getWalkDogLog";
     }
+
+    public static String getWallet() {
+        return host + "/wallet/getWallet";
+    }
+
+    public static String sellDoogFood(){
+        return host + "/userinfo/sellDoogFood";
+    }
+
+    public static String getDogFoodLog(){
+        return host + "/userInfo/getDogFoodLog";
+    }
+
     //
     public static String getTogetherPage(){
         return host + "/together/getTogetherPage";

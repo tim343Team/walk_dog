@@ -191,6 +191,7 @@
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.mine.MineFoodActivity" android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.GpsService"

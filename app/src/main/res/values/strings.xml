@@ -343,5 +343,12 @@
     <string name="to_be_comfirmed" >to be comfirmed</string>
     <string name="my_asset">My assets</string>
     <string name="enter_the_sold_quantity">Enter the sold quantity</string>
+    <string name="food_get" >获得</string>
+    <string name="food_sell">卖出</string>
+    <string name="food_eat">喂食</string>
+    <string name="food_buy">购买</string>
+    <string name="fail">失败</string>
+    <string name="sell_success">出售成功</string>
+    <string name="my_all_dog_food_s">Balance:\t%.2d</string>
 
 </resources>

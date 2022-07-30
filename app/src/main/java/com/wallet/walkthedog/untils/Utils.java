@@ -1,6 +1,8 @@
 package com.wallet.walkthedog.untils;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class Utils {
@@ -41,6 +43,12 @@ public class Utils {
      */
     public static String getScale2(double arg){
         return getFormat("%.2f",arg);
+    }
+
+
+    public static String timeFormat(long date,String format){
+        SimpleDateFormat sdf = new SimpleDateFormat(format,Locale.getDefault());
+        return sdf.format(new Date(date));
     }
 
 }
