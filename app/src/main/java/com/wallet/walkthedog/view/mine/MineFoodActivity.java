@@ -31,7 +31,7 @@ public class MineFoodActivity extends BaseActivity {
     TextView tv_dog_food;
     RecyclerView recyclerview;
     DogFoodListAdapter adapter = new DogFoodListAdapter();
-    String nowTime = Utils.timeFormat(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+    String nowTime = Utils.timeFormat(System.currentTimeMillis() + 3600_000, "yyyy-MM-dd HH:mm:ss");
     private double dogFood = 0.0;
 
     @Override

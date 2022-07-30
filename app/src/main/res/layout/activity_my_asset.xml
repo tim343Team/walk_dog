@@ -68,8 +68,9 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/tv_hint"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
                 android:padding="10dp"
                 android:src="@mipmap/icon_eye_see" />
 
@@ -79,6 +80,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:gravity="center_vertical"
                 android:id="@+id/tv_all_asset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

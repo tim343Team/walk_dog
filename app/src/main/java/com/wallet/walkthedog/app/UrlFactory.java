@@ -48,6 +48,10 @@ public class UrlFactory {
         return host + "/userInfo/getDogFoodCat";
     }
 
+    public static String getTokenLog(){
+        return host + "/userInfo/getTokenLog";
+    }
+
     public static String getDogFoodLog(){
         return host + "/userInfo/getDogFoodLog";
     }

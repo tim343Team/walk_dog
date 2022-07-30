@@ -353,5 +353,13 @@
     <string name="my_all_dog_food_s">Balance:\t%.2f</string>
     <string name="please_select_weight">please select weight</string>
     <string name="please_input_price" >please input price</string>
+    <string name="asset_state_0">待审核</string>
+    <string name="asset_state_4">已审核</string>
+    <string name="asset_type_1">充值</string>
+    <string name="asset_type_2">提现</string>
+    <string name="asset_type_4">遛狗奖励</string>
+    <string name="asset_type_5">售卖</string>
+    <string name="asset_type_6">宝箱获得</string>
+    <string name="asset_type_3">购买</string>
 
 </resources>
