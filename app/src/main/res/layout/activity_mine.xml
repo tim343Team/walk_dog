@@ -118,6 +118,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/tv_asset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen_9"
@@ -153,6 +154,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/tv_dog_food"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen_9"

@@ -8,12 +8,18 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.UrlFactory;
+import com.wallet.walkthedog.dao.UserInfoDao;
+import com.wallet.walkthedog.net.GsonWalkDogCallBack;
+import com.wallet.walkthedog.net.RemoteData;
+import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.mail.MailFragment;
 import com.wallet.walkthedog.view.mine.MineFragment;
 import com.wallet.walkthedog.view.rental.RentalFragment;
 
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseTransFragmentActivity;
+import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 
 public class HomeActivity extends BaseTransFragmentActivity {
     public static HomeActivity instance = null;
@@ -151,7 +157,20 @@ public class HomeActivity extends BaseTransFragmentActivity {
 
     @Override
     protected void loadData() {
+        WonderfulOkhttpUtils.get().url(UrlFactory.userinfo())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<UserInfoDao>>() {
+                    @Override
+                    protected void onRes(RemoteData<UserInfoDao> testRemoteData) {
+                        onSuccessUserInfo(testRemoteData.getNotNullData());
+                    }
+                });
+    }
 
+    private void onSuccessUserInfo(UserInfoDao userinfo) {
+        SharedPrefsHelper.getInstance().saveUserInfo(userinfo);
     }
 
     public void selecte(View v, int page) {
@@ -161,6 +180,11 @@ public class HomeActivity extends BaseTransFragmentActivity {
         llThree.setSelected(false);
         llFour.setSelected(false);
         v.setSelected(true);
+
+        for (int i = 0; i < fragments.size(); i++) {
+            fragments.get(i).onHiddenChanged(true);
+        }
+        fragments.get(page).onHiddenChanged(false);
         showFragment(fragments.get(page));
     }
 }

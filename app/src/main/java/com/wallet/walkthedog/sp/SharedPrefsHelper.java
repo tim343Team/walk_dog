@@ -3,7 +3,11 @@ package com.wallet.walkthedog.sp;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
 import com.wallet.walkthedog.app.RootApplication;
+import com.wallet.walkthedog.dao.UserInfoDao;
 
 public class SharedPrefsHelper {
     private static final String SHARED_PREFS_NAME = "qb";
@@ -14,7 +18,11 @@ public class SharedPrefsHelper {
     private static final String SIGN_PASSWORD = "SIGN_PASSWORD";
     private static final String CURRENT_DOG_ID = "CURRENT_DOG_ID";
 
+    private static final String USERINFO_KEY = "USERINFO_KEY";
+
+
     private static SharedPrefsHelper instance;
+    private static final Gson gson = new Gson();
 
     private SharedPreferences sharedPreferences;
 
@@ -90,5 +98,28 @@ public class SharedPrefsHelper {
         if (sharedPreferences == null) return;
         sharedPreferences.edit().putString(CURRENT_DOG_ID, id).apply();
     }
+
+    @Nullable
+    public UserInfoDao getUserInfo() {
+        String userinfo_key = sharedPreferences.getString(USERINFO_KEY, "");
+        UserInfoDao userInfoDao = null;
+        try {
+            userInfoDao = gson.fromJson(userinfo_key, UserInfoDao.class);
+        } catch (Exception e) {
+
+        }
+        return userInfoDao;
+    }
+
+    public void saveUserInfo(UserInfoDao dao) {
+        if (dao != null) {
+            sharedPreferences.edit().putString(USERINFO_KEY, gson.toJson(dao)).apply();
+        }
+    }
+
+    public SafeGet<UserInfoDao> AsyncGetUserInfo() {
+        return new SafeGet<>(getUserInfo());
+    }
+
 
 }

@@ -44,6 +44,10 @@ public class UrlFactory {
         return host + "/userinfo/sellDoogFood";
     }
 
+    public static String userinfo(){
+        return host +"/userInfo/getUserInfo";
+    }
+
     public static String getDogFoodCat(){
         return host + "/userInfo/getDogFoodCat";
     }
