@@ -1,11 +1,15 @@
 package com.wallet.walkthedog.view.home;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
@@ -13,6 +17,7 @@ import com.wallet.walkthedog.dao.UserInfoDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.view.login.LoginActivity;
 import com.wallet.walkthedog.view.mail.MailFragment;
 import com.wallet.walkthedog.view.mine.MineFragment;
 import com.wallet.walkthedog.view.rental.RentalFragment;
@@ -40,6 +45,14 @@ public class HomeActivity extends BaseTransFragmentActivity {
     private MailFragment twoFragment;
     private RentalFragment threeFragment;
     private MineFragment fourFragment;
+    /*权限请求Code*/
+    private final static int PERMISSION_REQUEST_CODE = 1234;
+    private String[] permissions = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO
+    };
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -152,7 +165,13 @@ public class HomeActivity extends BaseTransFragmentActivity {
 
     @Override
     protected void fillWidget() {
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                checkSelfPermission(permissions[0]) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(permissions[1]) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(permissions[2]) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(permissions[3]) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+        }
     }
 
     @Override
@@ -186,5 +205,25 @@ public class HomeActivity extends BaseTransFragmentActivity {
         }
         fragments.get(page).onHiddenChanged(false);
         showFragment(fragments.get(page));
+    }
+
+    //权限反馈
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                /*PackageManager.PERMISSION_GRANTED  权限被许可*/
+                /*PackageManager.PERMISSION_DENIED  没有权限；拒绝访问*/
+                if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(HomeActivity.this, "无法读取内存卡！", Toast.LENGTH_SHORT).show();
+                } else if (grantResults.length > 0 && grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(HomeActivity.this, "无法读取内存卡！", Toast.LENGTH_SHORT).show();
+                } else if (grantResults.length > 0 && grantResults[2] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(HomeActivity.this, "无法使用相机！", Toast.LENGTH_SHORT).show();
+                } else if (grantResults.length > 0 && grantResults[3] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(HomeActivity.this, "无法录制音频！", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 }
