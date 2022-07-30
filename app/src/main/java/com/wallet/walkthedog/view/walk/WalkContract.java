@@ -1,9 +1,13 @@
 package com.wallet.walkthedog.view.walk;
 
+import com.wallet.walkthedog.dao.AwardDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
+import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.view.email.EmailContract;
+
+import java.util.List;
 
 import tim.com.libnetwork.base.Contract;
 
@@ -12,12 +16,23 @@ public class WalkContract {
 
         void getFail(Integer code, String toastMessage);
 
+        void getAwardFail(Integer code, String toastMessage);
+
         void stopSuccess(String message);
+
+        void getAwardPageSuccess(List<AwardDao> daos);
+
+        void getAwardSuccess(String message,int position);
+
 
     }
 
     interface WalkPresenter extends Contract.BasePresenter {
 
         void stopWalkDog(SwitchWalkRequest request);
+
+        void getAwardPage(AwardRequest request);
+
+        void getAward(AwardRequest request,int position);//领取奖励
     }
 }

@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.data;
 
+import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
@@ -54,11 +55,17 @@ public interface DataSource {
 
     void cancelSellProp(BuyRequest request, DataCallback dataCallback);
 
+    void openBox(OpreationPropRequest request, DataCallback dataCallback);
+
     void getWalkTheDogFriend(DataCallback dataCallback);
 
     void startWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
 
     void stopWalkDog(SwitchWalkRequest request,DataCallback dataCallback);
+
+    void getAwardPage(AwardRequest request, DataCallback dataCallback);
+
+    void getAward(AwardRequest request, DataCallback dataCallback);
 
     void addCoord(SwitchWalkRequest request,DataCallback dataCallback);
 
@@ -83,6 +90,8 @@ public interface DataSource {
     void upDogLevel(String dogId,DataCallback dataCallback);
 
     void getShopDogFood(DataCallback dataCallback);
+
+    void ShopDogFood(int dogFoodId, int number,DataCallback dataCallback);
 
     void getFriendList(int pageNo,DataCallback dataCallback);
 

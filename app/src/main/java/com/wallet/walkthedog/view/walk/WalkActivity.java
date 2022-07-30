@@ -38,9 +38,12 @@ import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
 import com.wallet.walkthedog.bus_event.GpsStartEvent;
 import com.wallet.walkthedog.bus_event.GpsStopEvent;
+import com.wallet.walkthedog.dao.AwardDao;
+import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EquipmentDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NoticeDialog;
@@ -99,12 +102,14 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     private WalkContract.WalkPresenter presenter;
     private DogInfoDao mDefultDogInfo;
     private Intent gpsService;
+    private int logId = 0;//遛狗记录id
     private double lan;//维度
     private double lon;//经度
     private WalkDogAdapter adapter;
-    private List<EquipmentDao> data = new ArrayList<>();
+    private List<AwardDao> data = new ArrayList<>();
     private boolean isWalking = false;
     private boolean isServicesWalking = false;
+    private boolean isUpdateAward = false;
     private WalkNoticeDialog dialog;
     private boolean gpsEnable = false;
     private int speedErrorCount = 0;//记录不匹配速度的次数，达到三次后弹窗提示
@@ -114,12 +119,16 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            //TODO 定时检查是否获取有新道具
+            //定时检查是否获取有新道具
+            ToastUtils.shortToast("WalkActivity：" + "定时器是否获取到道具："+isUpdateAward);
             try {
-                ToastUtils.shortToast("WalkActivity：" + "定时器");
-                mHandler.postDelayed(this, 20000);
+                if (true) {
+//                    presenter.getAwardPage(new AwardRequest(logId,0));
+                    presenter.getAwardPage(new AwardRequest(200,0));
+                }
+                mHandler.postDelayed(this, 15000);
             } catch (Exception e) {
-                mHandler.postDelayed(this, 20000);
+                mHandler.postDelayed(this, 15000);
             }
         }
     };
@@ -275,7 +284,25 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     //gps状态正常遛狗真正开始
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsStart(GpsStartEvent location) {
+        logId = location.getLogId();
         isServicesWalking = true;
+    }
+
+    //gps状态正常遛狗真正开始
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addCoord(CoordDao coordDao) {
+        logId = coordDao.getLogId();
+        if(coordDao.getArea()==1){
+            txtNotice.setText(R.string.walk_notice_2);
+            txtNotice.setTextColor(getResources().getColor(R.color.color_f02828));
+        }else if(coordDao.getArea()==2){
+            txtNotice.setText(R.string.walk_notice_1);
+            txtNotice.setTextColor(getResources().getColor(R.color.white));
+        }else if(coordDao.getArea()==3){
+            txtNotice.setText(R.string.walk_notice_1);
+            txtNotice.setTextColor(getResources().getColor(R.color.white));
+        }
+        isUpdateAward = true;
     }
 
     void initEquipment() {
@@ -300,11 +327,6 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     }
 
     void initRv() {
-        //TODO 測試數據
-        for (int i = 0; i < 12; i++) {
-            EquipmentDao equipmentDao = new EquipmentDao();
-            data.add(equipmentDao);
-        }
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
         adapter = new WalkDogAdapter(R.layout.adapter_walk_dog, data);
@@ -312,10 +334,14 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         adapter.OnclickListenerItem(new WalkDogAdapter.OnclickListenerItem() {
             @Override
             public void click(int position) {
-                NormalDialog dialog = NormalDialog.newInstance(R.string.collect_notice, R.mipmap.icon_normal);
-                dialog.setTheme(R.style.PaddingScreen);
-                dialog.setGravity(Gravity.CENTER);
-                dialog.show(getSupportFragmentManager(), "edit");
+                if (position >= 0) {
+                    //打开宝箱
+                    presenter.getAward(new AwardRequest(0,data.get(position).getId()),position);
+                }
+//                NormalDialog dialog = NormalDialog.newInstance(R.string.collect_notice, R.mipmap.icon_normal);
+//                dialog.setTheme(R.style.PaddingScreen);
+//                dialog.setGravity(Gravity.CENTER);
+//                dialog.show(getSupportFragmentManager(), "edit");
             }
         });
         adapter.setEnableLoadMore(false);
@@ -405,8 +431,36 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     }
 
     @Override
+    public void getAwardFail(Integer code, String toastMessage) {
+        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+    }
+
+    @Override
     public void stopSuccess(String message) {
 
+    }
+
+    @Override
+    public void getAwardPageSuccess(List<AwardDao> daos) {
+        isUpdateAward = false;
+        ToastUtils.shortToast("获取道具：" + daos.size());
+        //获取奖励
+        data.clear();
+        data.addAll(daos);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getAwardSuccess(String message,int position) {
+        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        data.get(position).setStatus(3);
+        adapter.notifyItemChanged(position);
     }
 
     @Override

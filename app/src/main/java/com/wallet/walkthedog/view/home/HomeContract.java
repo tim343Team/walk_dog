@@ -37,6 +37,10 @@ public class HomeContract {
 
         void getShopDogFoodSuccessful(DogFoodDao data);
 
+        void buyShopDogFoodSuccessful(String data);
+
+        void buyShopDogFoodFail(Integer code, String toastMessage);
+
     }
 
     interface HomePresenter extends Contract.BasePresenter {
@@ -59,5 +63,7 @@ public class HomeContract {
         void upDogLevel(String dogId);//升级
 
         void getShopDogFood();// 获取商城售卖狗粮详情
+
+        void buyShopDogFood(int dogFoodId,int number);//购买商城出售的狗粮
     }
 }

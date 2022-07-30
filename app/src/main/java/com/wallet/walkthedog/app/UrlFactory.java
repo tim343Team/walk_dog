@@ -103,6 +103,16 @@ public class UrlFactory {
         return host + "/index/endWalkTheDog";
     }
 
+    //获取遛狗奖励记录
+    public static String getAwardPageUrl() {
+        return host + "/userInfo/getAwardPage";
+    }
+
+    //领取遛狗奖励记录
+    public static String getAwardUrl() {
+        return host + "/userInfo/getAward";
+    }
+
     //遛狗坐标传入
     public static String addCoordUrl() {
         return host + "/index/addCoord";
@@ -178,6 +188,11 @@ public class UrlFactory {
         return host + "/shopping/cancelSellProp";
     }
 
+    //开启宝箱
+    public static String openBoxUrl() {
+        return host + "/prop/openBox";
+    }
+
     //获取所有训练项目
     public static String getAllTrainUrl() {
         return host + "/trainDog/getAllTrain";
@@ -191,6 +206,11 @@ public class UrlFactory {
     //升级
     public static String upDogLevelUrl() {
         return host + "/dog/upDogLevel";
+    }
+
+    //购买商城出售的狗粮
+    public static String shopDogFoodUrl() {
+        return host + "/userInfo/shopDogFood";
     }
 
     //获取商城售卖狗粮详情

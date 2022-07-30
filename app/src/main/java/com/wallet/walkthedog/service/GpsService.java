@@ -26,6 +26,7 @@ import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
 import com.wallet.walkthedog.bus_event.GpsStartEvent;
 import com.wallet.walkthedog.bus_event.GpsStopEvent;
 import com.wallet.walkthedog.dao.CoordDao;
+import com.wallet.walkthedog.dao.StartWalkDao;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.untils.GpsUtils;
 import com.wallet.walkthedog.untils.ToastUtils;
@@ -62,7 +63,6 @@ public class GpsService extends Service implements WalkContract.WalkView {
         public void run() {
             //上报定时器
             try {
-                ToastUtils.shortToast("GpsService：" + "定时器");
                 Log.e("定时器:" , "定时器");
                 if(gpsEnable){
                     presenter.addCoord(new SwitchWalkRequest(dogId,String.valueOf(lan),String.valueOf(lon)));
@@ -163,7 +163,6 @@ public class GpsService extends Service implements WalkContract.WalkView {
                 noticeMessage=getResources().getString(R.string.walk_start);
                 presenter.startWalkDog(new SwitchWalkRequest(dogId,String.valueOf(lan),String.valueOf(lon)));
             }
-            //TODO 发送数据
         }
     }
 
@@ -195,14 +194,17 @@ public class GpsService extends Service implements WalkContract.WalkView {
     }
 
     @Override
-    public void startSuccess(String message) {
+    public void startSuccess(StartWalkDao message) {
         //通知activity开始遛狗
-        EventBus.getDefault().post(new GpsStartEvent());
+        EventBus.getDefault().post(new GpsStartEvent(message.getLogId()));
     }
 
     @Override
     public void coordSuccess(CoordDao data) {
-        //TODO 如果有道具
+        if(data.getStatus()==1){
+            //如果有道具
+            EventBus.getDefault().post(data);
+        }
     }
 
     @Override
