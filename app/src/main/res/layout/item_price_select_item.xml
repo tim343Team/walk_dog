@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wallet.walkthedog.custom_view.card.ShadowTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/def_while_shadow_style"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_weight"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp"
+    android:text="0g"
+    android:textColor="@color/black" />

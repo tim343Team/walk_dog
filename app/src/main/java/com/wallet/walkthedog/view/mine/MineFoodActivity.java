@@ -71,9 +71,9 @@ public class MineFoodActivity extends BaseActivity {
         }
         SoldQuantityDialog dialog = SoldQuantityDialog.newInstance(dogFood);
         dialog.call = dialog1 -> {
-            dialog1.dismiss();
             pageNo = 1;
             getDogFoodLog(pageSize, pageNo);
+            dialog1.dismiss();
         };
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "");

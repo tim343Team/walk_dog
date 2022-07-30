@@ -28,94 +28,13 @@
             android:textSize="@dimen/dimen_24"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/password_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp30"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.wallet.walkthedog.custom_view.card.ShadowTextView
-                    style="@style/def_while_shadow_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="10dp"
-                    android:text="200g"
-                    android:textColor="@color/black" />
-
-                <com.wallet.walkthedog.custom_view.card.ShadowTextView
-                    style="@style/def_while_shadow_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="10dp"
-                    android:text="500g"
-                    android:textColor="@color/black" />
-
-                <com.wallet.walkthedog.custom_view.card.ShadowTextView
-                    style="@style/def_while_shadow_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="10dp"
-                    android:text="1000g"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.wallet.walkthedog.custom_view.card.ShadowTextView
-                    style="@style/def_while_shadow_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingHorizontal="20dp"
-
-                    android:paddingVertical="10dp"
-                    android:text="1200g"
-                    android:textColor="@color/black" />
-
-                <com.wallet.walkthedog.custom_view.card.ShadowTextView
-                    style="@style/def_while_shadow_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingHorizontal="20dp"
-
-                    android:paddingVertical="10dp"
-                    android:text="1500g"
-                    android:textColor="@color/black" />
-
-                <com.wallet.walkthedog.custom_view.card.ShadowTextView
-                    style="@style/def_while_shadow_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="10dp"
-                    android:text="2000g"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_marginTop="10dp"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_price_select_item" />
 
         <TextView
             android:id="@+id/tv_all"
@@ -127,6 +46,8 @@
             tools:text="asdfasdf" />
 
         <EditText
+            android:inputType="numberDecimal"
+            android:id="@+id/edit_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"

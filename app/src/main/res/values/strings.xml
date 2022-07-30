@@ -350,6 +350,8 @@
     <string name="food_buy">购买</string>
     <string name="fail">失败</string>
     <string name="sell_success">出售成功</string>
-    <string name="my_all_dog_food_s">Balance:\t%.2d</string>
+    <string name="my_all_dog_food_s">Balance:\t%.2f</string>
+    <string name="please_select_weight">please select weight</string>
+    <string name="please_input_price" >please input price</string>
 
 </resources>
