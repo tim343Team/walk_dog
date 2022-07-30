@@ -93,7 +93,6 @@ public class DogWalkRecordActivity extends BaseActivity {
             selectTextView(tvWalkRecord, tvData);
             if (walkRecordAdapter == null) {
                 walkRecordAdapter = new WalkRecordAdapter();
-                walkRecordAdapter.setEnableLoadMore(true);
                 walkRecordAdapter.setOnLoadMoreListener(() -> {
                     pageNo++;
                     getWalkDogLog();
@@ -133,7 +132,7 @@ public class DogWalkRecordActivity extends BaseActivity {
     }
 
     private void getWalkDogLog() {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getWalkDogLog())
+        WonderfulOkhttpUtils.get().url(UrlFactory.getWalkDogLog() +"?pageNo="+pageNo +"&pageSize" +pageSize)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .addParams("pageNo", String.valueOf(pageNo))
                 .addParams("pageSize", String.valueOf(pageSize))

@@ -80,7 +80,6 @@ public class InvitedDogActivity extends BaseActivity {
             selectTextView(tvInviteOthers, tvBeInvited);
             if (adapter0 == null) {
                 adapter0 = new InviteAdapter(false);
-                adapter0.setEnableLoadMore(true);
                 adapter0.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                     @Override
                     public void onLoadMoreRequested() {
@@ -93,9 +92,8 @@ public class InvitedDogActivity extends BaseActivity {
             selectTextView(tvBeInvited, tvInviteOthers);
             if (adapter1 == null) {
                 adapter1 = new InviteAdapter(true);
-                adapter1.setEnableLoadMore(true);
                 setListenner();
-                adapter0.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                adapter1.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                     @Override
                     public void onLoadMoreRequested() {
                         getTogetherPage(data1);
@@ -201,10 +199,7 @@ public class InvitedDogActivity extends BaseActivity {
 
 
     private void getTogetherPage(RequestData data) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getTogetherPage())
-                .addParams("type", String.valueOf(data.type))
-                .addParams("pageNo", String.valueOf(data.pageNo))
-                .addParams("pageSize", String.valueOf(data.pageSize))
+        WonderfulOkhttpUtils.get().url(UrlFactory.getTogetherPage()+"?pageNo="+ data.pageNo +"&pageSize=" + data.pageSize + "&type="+ data.type)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -238,15 +233,17 @@ public class InvitedDogActivity extends BaseActivity {
     private void onSuccessGetTogetherPage(RequestData data, InviteFriendTheDogDao dao) {
         data.pageNo += 1;
         if (data.type == 1) {
-            adapter0.loadMoreComplete();
             if (dao.getRecords().size() < data.pageSize) {
                 adapter0.loadMoreEnd();
+            } else {
+                adapter0.loadMoreComplete();
             }
             adapter0.addData(dao.getRecords());
         } else {
-            adapter1.loadMoreComplete();
             if (dao.getRecords().size() < data.pageSize) {
                 adapter1.loadMoreEnd();
+            } else {
+                adapter1.loadMoreComplete();
             }
             adapter1.addData(dao.getRecords());
         }
