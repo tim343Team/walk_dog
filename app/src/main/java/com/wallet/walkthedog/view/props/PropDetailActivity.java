@@ -15,6 +15,7 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
 import com.wallet.walkthedog.custom_view.card.ShadowTextView;
+import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
@@ -93,13 +94,13 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
                 //售卖
                 if (propDao.getType() == 1) {
                     //判断是否装备
-                    SellPropNoticeDialog noticeDialog = SellPropNoticeDialog.newInstance();
+                    SellPropNoticeDialog noticeDialog = SellPropNoticeDialog.newInstance(R.string.release_prop,R.string.release_prop_notice);
                     noticeDialog.setTheme(R.style.PaddingScreen);
                     noticeDialog.setGravity(Gravity.CENTER);
                     noticeDialog.show(getSupportFragmentManager(), "edit");
                 } else {
                     //输入价格
-                    SellPropDialog sellPropDialog = SellPropDialog.newInstance();
+                    SellPropDialog sellPropDialog = SellPropDialog.newInstance(R.string.sell_prop);
                     sellPropDialog.setTheme(R.style.PaddingScreen);
                     sellPropDialog.setGravity(Gravity.CENTER);
                     sellPropDialog.show(getSupportFragmentManager(), "edit");
@@ -120,15 +121,11 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     @OnClick(R.id.tv_submit)
     void open() {
         if (type.equals(Constant.PROP_BOX)) {
-            //TODO 打开宝箱接口
-
-
-
-
-            
+            //打开宝箱接口
+            presenter.openBox(new OpreationPropRequest(propDao.getId()),0);
         } else if (type.equals(Constant.PROP_FOOD)) {
-            //TODO 打开狗粮接口
-
+            //打开狗粮接口
+            presenter.useDogFood(new OpreationPropRequest(propDao.getId()),0);
         } else if (type.equals(Constant.PROP_NORMAL)) {
             if (propDao.getType() == 1) {
                 //取消装备
@@ -272,8 +269,9 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     }
 
     @Override
-    public void useDogFoodSuccess(String data) {
-        //TODO 打開狗糧
+    public void useDogFoodSuccess(String data,int postion) {
+        //打開狗糧
+        isChange = true;
         OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
@@ -281,18 +279,40 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
         openindDialog.setCallback(new OpenindDialog.OperateCallback() {
             @Override
             public void callback(String name) {
-                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), "TODO 测试数据"), R.mipmap.icon_normal);
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), getResources().getString(R.string.dog_food)), R.mipmap.icon_normal);
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
                 dialog.show(getSupportFragmentManager(), "edit");
                 openindDialog.dismiss();
             }
         });
+        finish();
     }
 
     @Override
     public void sellProp(String data) {
         isChange = true;
+        finish();
+    }
+
+    @Override
+    public void openBoxSuccess(BoxDao dao,int postion) {
+        //打开宝箱成功
+        isChange = true;
+        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_NORMAL,dao);
+        openindDialog.setTheme(R.style.PaddingScreen);
+        openindDialog.setGravity(Gravity.CENTER);
+        openindDialog.show(getSupportFragmentManager(), "edit");
+        openindDialog.setCallback(new OpenindDialog.OperateCallback() {
+            @Override
+            public void callback(String name) {
+                NormalDialog dialog = NormalDialog.newInstance(String.format(getString(R.string.input_prop_success), name), R.mipmap.icon_normal);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+                openindDialog.dismiss();
+            }
+        });
         finish();
     }
 

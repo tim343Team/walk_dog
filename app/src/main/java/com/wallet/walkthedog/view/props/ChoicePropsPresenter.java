@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.props;
 
+import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
@@ -110,13 +111,13 @@ public class ChoicePropsPresenter implements ChoicePropsContract.ChoicePropsPres
     }
 
     @Override
-    public void useDogFood(OpreationPropRequest request) {
+    public void useDogFood(OpreationPropRequest request,int position) {
         view.displayLoadingPopup();//显示loading
         dataRepository.useDogFood(request,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-                view.useDogFoodSuccess((String) obj);
+                view.useDogFoodSuccess((String) obj,position);
             }
 
             @Override
@@ -135,6 +136,24 @@ public class ChoicePropsPresenter implements ChoicePropsContract.ChoicePropsPres
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
                 view.sellProp((String) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void openBox(OpreationPropRequest request,int position) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.openBox(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.openBoxSuccess((BoxDao) obj,position);
             }
 
             @Override

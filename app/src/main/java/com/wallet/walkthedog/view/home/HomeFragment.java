@@ -503,7 +503,10 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void feedSuccessful(String data) {
         //喂食成功,更新数据
-        ToastUtils.shortToast(data);
+        NormalDialog dialog = NormalDialog.newInstance(R.string.feeding_su, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getFragmentManager(), "edit");
         updateData();
     }
 

@@ -20,7 +20,7 @@ public class DogInfoDao implements Serializable {
 
     private double level;
 
-    private int type;
+    private int type;//1背包 2出售 3使用中
 
     private int status;
 

@@ -205,8 +205,8 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void getUserDog(DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getUserDogUrl() + "?pageNo=1&pageSize=50")
+    public void getUserDog(int type,int pageNo,DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getUserDogUrl() + "?pageNo="+pageNo+"&pageSize=50"+ "&type="+type)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1379,6 +1379,37 @@ public class RemoteDataSource implements DataSource {
                                 List<PropMailDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("records").toString(), new TypeToken<List<PropMailDao>>() {
                                 }.getType());
                                 dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void sellDog(SellRequest request, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.sellDogUrl() + "?id=" + request.getId() + "?price=" + request.getPrice())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("售卖狗狗:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("售卖狗狗：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

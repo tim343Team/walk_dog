@@ -33,6 +33,10 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
         this.currentDogId = currentDogId;
     }
 
+    public void setCurrentDogId(String currentDogId) {
+        this.currentDogId = currentDogId;
+    }
+
     @Override
     protected void convert(BaseViewHolder helper, DogInfoDao item) {
         RequestOptions options = new RequestOptions()
@@ -101,6 +105,12 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
                 feedCallback.callback(item);
             }
         });
+        helper.getView(R.id.root_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemCallback.callback(item);
+            }
+        });
     }
 
     //设置进度条
@@ -158,6 +168,16 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
     }
 
     public interface FeedCallback {
+        void callback(DogInfoDao dao);
+    }
+
+    private ItemCallback itemCallback;
+
+    public void setItemCallback(ItemCallback itemCallback) {
+        this.itemCallback = itemCallback;
+    }
+
+    public interface ItemCallback {
         void callback(DogInfoDao dao);
     }
 }

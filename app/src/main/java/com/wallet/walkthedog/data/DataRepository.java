@@ -63,9 +63,9 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public void getUserDog(DataCallback dataCallback) {
-        if (isLocal) mLocalDataSource.getUserDog(dataCallback);
-        else mRemoteDataSource.getUserDog(dataCallback);
+    public void getUserDog(int type,int pageNo,DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getUserDog(type,pageNo,dataCallback);
+        else mRemoteDataSource.getUserDog(type,pageNo,dataCallback);
     }
 
     @Override
@@ -288,6 +288,12 @@ public class DataRepository implements DataSource {
     public void getPropList(MailRequest request, int pageNo, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getPropList(request, pageNo, dataCallback);
         else mRemoteDataSource.getPropList(request, pageNo, dataCallback);
+    }
+
+    @Override
+    public void sellDog(SellRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.sellDog(request, dataCallback);
+        else mRemoteDataSource.sellDog(request, dataCallback);
     }
 
 }

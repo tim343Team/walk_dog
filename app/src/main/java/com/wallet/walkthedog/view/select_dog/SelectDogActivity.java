@@ -108,7 +108,7 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
 
     @Override
     protected void loadData() {
-        presenter.getUserDog();
+        presenter.getUserDog(1,1);
     }
 
     private void initRecyclerView() {
@@ -130,6 +130,12 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
             @Override
             public void callback(DogInfoDao dao) {
                 //TODO feed
+            }
+        });
+        adapter.setItemCallback(new MyDogsAdapter.ItemCallback() {
+            @Override
+            public void callback(DogInfoDao dao) {
+
             }
         });
     }
