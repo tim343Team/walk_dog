@@ -204,6 +204,9 @@
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.mine.otc.OTCOrderActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.otc.PurchaseDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.otc.PurchaseOTCActivity" android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.GpsService"

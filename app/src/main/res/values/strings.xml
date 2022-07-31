@@ -366,5 +366,18 @@
     <string name="asset_type_3">购买</string>
     <string name="copy_success">复制成功</string>
     <string name="save_success">保存成功</string>
+    <string name="mine_item_otc">OTC</string>
+    <string name="purchase_usdt">Purchase USDT</string>
+    <string name="purchase">Purchase</string>
+    <string name="please_enter_the_amount">Please enter the amount</string>
+    <string name="number_of_transaction">Number of Transaction</string>
+    <string name="amount_of_the_transaction">Amount of the Transaction</string>
+    <string name="the_otc_order_hint">* The total order price is less than the specified minimum transaction amount.</string>
+    <string name="transaction_details">Transaction Details</string>
+    <string name="bank_card">Bank card</string>
+    <string name="other_payment_method">Other payment method</string>
+    <string name="buy_hint">Kind tips:\n1. Your remittance will go directly to the other party\'s account, and the digital assets will be protected by platform custody during the transaction.\n2. Please complete the payment within the specified time, and be sure to click the [I have paid successfully] button. After the other party confirms the payment, the system will transfer the digital assets to your account.\n3. If the number of cancellations on the day reaches three-times. The buy function of the day will be limited.</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="payment">Payment</string>
 
 </resources>

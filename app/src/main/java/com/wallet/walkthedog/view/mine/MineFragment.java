@@ -20,6 +20,7 @@ import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.Utils;
 import com.wallet.walkthedog.view.dog.MyDogActivity;
 import com.wallet.walkthedog.view.home.HomeFragment;
+import com.wallet.walkthedog.view.mine.otc.OTCOrderActivity;
 import com.wallet.walkthedog.view.props.MyPropsActivity;
 
 import java.util.List;
@@ -138,6 +139,13 @@ public class MineFragment extends BaseTransFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(requireContext(), MineFoodActivity.class);
+                startActivity(intent);
+            }
+        });
+        rootView.findViewById(R.id.ll_otc).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), OTCOrderActivity.class);
                 startActivity(intent);
             }
         });

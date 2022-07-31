@@ -246,7 +246,7 @@
                     android:background="@drawable/line_dash_black" />
 
                 <LinearLayout
-                    android:id="@+id/ll_rental"
+                    android:id="@+id/ll_otc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -255,7 +255,7 @@
                     <TextView
                         android:layout_width="66dp"
                         android:layout_height="17dp"
-                        android:text="@string/mine_item_rental"
+                        android:text="@string/mine_item_otc"
                         android:textColor="@color/color_485EA8"
                         android:textSize="@dimen/dp14" />
 
