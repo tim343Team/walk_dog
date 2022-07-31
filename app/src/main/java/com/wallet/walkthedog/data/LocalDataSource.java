@@ -10,6 +10,7 @@ import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
+import com.wallet.walkthedog.dao.request.InviteRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.FriendRequest;
@@ -236,6 +237,16 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void delFriend(FriendRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void addTogether(InviteRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void ideaTogether(String togetherId, int status, DataCallback dataCallback) {
 
     }
 

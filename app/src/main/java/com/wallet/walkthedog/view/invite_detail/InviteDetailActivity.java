@@ -18,6 +18,7 @@ import com.wallet.walkthedog.bus_event.UpdateFriendEvent;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.request.FriendRequest;
+import com.wallet.walkthedog.dao.request.InviteRequest;
 import com.wallet.walkthedog.dialog.IdentityDialog;
 import com.wallet.walkthedog.dialog.InviteMoreDialog;
 import com.wallet.walkthedog.dialog.NicknameDialog;
@@ -93,7 +94,8 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         if (mDefultDogInfo == null) {
             return;
         }
-        RemoveFriendDIalog dialog = RemoveFriendDIalog.newInstance(mDefultDogInfo.getFriendName(),mDefultDogInfo.getDogName());
+        RemoveFriendDIalog dialog = RemoveFriendDIalog.newInstance(mDefultDogInfo.getFriendName(),mDefultDogInfo.getDogName(),
+                mDefultDogInfo.getFriendWalkTheDogCount(),mDefultDogInfo.getFriendWalkTheDogTime());
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -126,14 +128,20 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
 
     @OnClick(R.id.view_bottom)
     void settingInvited() {
+        if (mDefultDogInfo == null) {
+            return;
+        }
         SettingInviteDialog dialog = SettingInviteDialog.newInstance();
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.BOTTOM);
         dialog.show(getSupportFragmentManager(), "edit");
         dialog.setCallback(new SettingInviteDialog.OperateCallback() {
             @Override
-            public void callback() {
+            public void callback(String startTime,String endTime) {
                 //TODO 发起邀请接口
+                //2022-07-26    2022-07-28
+                presenter.addTogether(new InviteRequest(mDefultDogInfo.getId(),startTime,endTime));
+                dialog.dismiss();
             }
         });
     }
@@ -287,6 +295,22 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         //刷新好友列表
         EventBus.getDefault().post(new UpdateFriendEvent());
         finish();
+    }
+
+    @Override
+    public void addTogetherSuccess(String data) {
+        NormalDialog dialog = NormalDialog.newInstance(R.string.successful_invite, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+    }
+
+    @Override
+    public void addTogetherFail(Integer code, String toastMessage) {
+        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
     }
 
     @Override

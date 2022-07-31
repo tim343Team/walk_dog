@@ -27,75 +27,77 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:text="@string/invitation_together"
                 android:textColor="@color/color_548FEB"
                 android:textSize="@dimen/dimen_23"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/txt_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_20"
-                android:text="@string/invitation_together_2"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_25"
+                android:text="2022-05-02 18:28:28"
                 android:textColor="@color/color_485EA8"
-                android:textSize="@dimen/dimen_20"
-                android:textStyle="bold" />
+                android:textSize="16dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/invitation_together_1"
+                android:textColor="@color/color_485EA8"
+                android:textSize="16dp"
+                />
+
+            <TextView
+                android:id="@+id/txt_notice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_22"
+                android:text="@string/invitation_together_2"
+                android:textColor="#ff717171"
+                android:textSize="16sp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_30"
-                android:background="@mipmap/bg_dialog_normal"
-                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_27"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:padding="@dimen/dimen_30"
+                android:background="@drawable/rectangle_d5e2ff"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/img_dog"
-                    android:layout_width="@dimen/dimen_132"
-                    android:layout_height="@dimen/dimen_129"
-                    android:layout_marginTop="@dimen/dimen_41"
-                    android:background="@mipmap/icon_null_dog" />
+                <TextView
+                    android:id="@+id/txt_start_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/start_time_s"
+                    android:textColor="@color/color_707070"
+                    android:textSize="16dp"
+                    />
 
                 <TextView
+                    android:id="@+id/txt_end_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_30"
                     android:gravity="center_horizontal"
-                    android:text="@string/invitation_together_3"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/dp12"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dimen_5"
-                    android:layout_marginBottom="@dimen/dimen_30"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txt_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/dimen_10"
-                        android:text="12time"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dp12"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_10"
-                        android:text="24H44m"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dp12"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:text="@string/end_time_s"
+                    android:textColor="@color/color_707070"
+                    android:textSize="16dp"
+                    />
 
             </LinearLayout>
 
@@ -103,44 +105,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dimen_10"
-                android:layout_marginTop="@dimen/dimen_10"
+                android:layout_marginTop="@dimen/dimen_42"
                 android:text="@string/invitation_together_4"
                 android:textColor="@color/color_848484"
                 android:textSize="@dimen/dp14" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50"
-                android:layout_marginTop="@dimen/dimen_30"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_20"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.wallet.walkthedog.custom_view.card.ShadowTextView
                     android:id="@+id/txt_refuse"
+                    style="@style/def_while_shadow_style"
                     android:layout_width="0dp"
-                    android:layout_height="43dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:layout_marginEnd="@dimen/dimen_5"
                     android:layout_weight="1"
-                    android:background="@drawable/rectangle_white"
-                    android:layout_marginEnd="@dimen/dp14"
-                    android:elevation="@dimen/dimen_2"
+                    android:gravity="center"
+                    android:padding="13dp"
                     android:text="@string/refuse"
-                    android:textColor="@color/color_485EA8"
-                    android:textSize="@dimen/dp14"
-                    android:gravity="center"/>
+                    android:textColor="#485EA8"
+                    android:textSize="@dimen/dimen_14"
+                    android:textStyle="bold" />
 
-                <TextView
+                <com.wallet.walkthedog.custom_view.card.ShadowTextView
                     android:id="@+id/txt_accept"
+                    style="@style/defshadow_style"
                     android:layout_width="0dp"
-                    android:layout_height="43dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_5"
+                    android:layout_marginTop="@dimen/dimen_10"
                     android:layout_weight="1"
-                    android:background="@drawable/button_gradual_background"
-                    android:layout_marginStart="@dimen/dp14"
-                    android:elevation="@dimen/dimen_2"
+                    android:gravity="center"
+                    android:padding="13dp"
                     android:text="@string/accept"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/dp14"
-                    android:gravity="center"/>
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/dimen_14"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
         </LinearLayout>

@@ -4,6 +4,7 @@ import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
+import com.wallet.walkthedog.dao.request.InviteRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.FriendRequest;
@@ -102,6 +103,10 @@ public interface DataSource {
     void setNote(FriendRequest request, DataCallback dataCallback);
 
     void delFriend(FriendRequest request, DataCallback dataCallback);
+
+    void addTogether(InviteRequest request, DataCallback dataCallback);
+
+    void ideaTogether(String togetherId, int status, DataCallback dataCallback);
 
     void getDogList(MailRequest request, int pageNo, DataCallback dataCallback);
 

@@ -72,7 +72,7 @@ public class IdentityDialog extends BaseDialogFragment {
         } else {
             txtGender.setText(R.string.male);
         }
-        txtName.setText(mDefultDogInfo.getName().isEmpty()?mDefultDogInfo.getDogName():mDefultDogInfo.getName());
+        txtName.setText(mDefultDogInfo.getName()==null?mDefultDogInfo.getDogName():mDefultDogInfo.getName());
         txtLevel.setText(mDefultDogInfo.getLevel()+"");
         txtWeight.setText(mDefultDogInfo.getWeight()+"Kg");
         txtMucle.setText(mDefultDogInfo.getDecimalDog()+"Kg");

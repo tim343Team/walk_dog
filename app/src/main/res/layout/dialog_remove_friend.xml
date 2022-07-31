@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen_10"
-                    android:text="12time"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="@dimen/dp12"
                     android:textStyle="bold" />
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_10"
-                    android:text="24H44m"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="@dimen/dp12"
                     android:textStyle="bold" />

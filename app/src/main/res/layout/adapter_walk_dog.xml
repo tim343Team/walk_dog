@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Found dog food"
+                android:text="@string/found_s"
                 android:textColor="@color/color_4D67C1"
                 android:textSize="@dimen/dimen_14" />
 

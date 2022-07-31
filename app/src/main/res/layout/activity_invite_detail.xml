@@ -197,7 +197,7 @@
                     <ImageView
                         android:id="@+id/img_identity"
                         android:layout_width="@dimen/dimen_27"
-                        android:layout_height="@dimen/dimen_25"
+                        android:layout_height="match_parent"
                         android:background="@mipmap/icon_identity" />
 
                 </LinearLayout>

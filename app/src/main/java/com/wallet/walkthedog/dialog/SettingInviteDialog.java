@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,7 +48,21 @@ public class SettingInviteDialog extends BaseDialogFragment {
 
     @OnClick(R.id.ll_start)
     void selectStart() {
-        showPicker(1);
+         PickTimeView timeView = new PickTimeView(getDialog().getContext());
+          timeView.setStartTime(1970, 1, 1, 0, 0, 0);
+          timeView.setEndtTimeMillis();
+          timeView.setTitle("生日");
+          timeView.showTimePickerView();
+          timeView.setOnTimeSelectListener(new PickTimeView.OnTimeSelect() {
+              @Override
+              public void onSelect(Date date) {
+//                  DateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
+//                  DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+//                  tvBirthday.setText(df.format(date));
+//                  bean.setBirthday(df2.format(date));
+              }
+          });
+//        showPicker(1);
     }
 
     @OnClick(R.id.ll_end)
@@ -65,10 +81,12 @@ public class SettingInviteDialog extends BaseDialogFragment {
 
     @OnClick(R.id.txt_confirm)
     void confirm() {
-        callback.callback();
+        String startTime = null;
+        String endTime = null;
+        callback.callback(startTime, endTime);
     }
 
-    @OnClick({R.id.txt_cancle,R.id.back})
+    @OnClick({R.id.txt_cancle, R.id.back})
     void cancle() {
         dismiss();
     }
@@ -97,6 +115,17 @@ public class SettingInviteDialog extends BaseDialogFragment {
 
     @Override
     protected void initView() {
+        minutRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     @Override
@@ -142,6 +171,6 @@ public class SettingInviteDialog extends BaseDialogFragment {
     }
 
     public interface OperateCallback {
-        void callback();
+        void callback(String startTime, String endTime);
     }
 }
