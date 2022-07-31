@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.invite_detail;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.request.FriendRequest;
+import com.wallet.walkthedog.dao.request.InviteRequest;
 import com.wallet.walkthedog.data.DataSource;
 
 public class InviteDetailPresenter implements InviteDetailContract.InviteDetailPresenter{
@@ -64,6 +65,24 @@ public class InviteDetailPresenter implements InviteDetailContract.InviteDetailP
             public void onDataNotAvailable(Integer code, String toastMessage) {
                 view.hideLoadingPopup();
                 view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void addTogether(InviteRequest request) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.addTogether(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.addTogetherSuccess((String) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.addTogetherFail(code, toastMessage);
             }
         });
     }

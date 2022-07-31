@@ -120,11 +120,11 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         @Override
         public void run() {
             //定时检查是否获取有新道具
-            ToastUtils.shortToast("WalkActivity：" + "定时器是否获取到道具："+isUpdateAward);
+//            ToastUtils.shortToast("WalkActivity：" + "定时器是否获取到道具："+isUpdateAward+logId);
             try {
-                if (true) {
-//                    presenter.getAwardPage(new AwardRequest(logId,0));
-                    presenter.getAwardPage(new AwardRequest(200,0));
+                if (isUpdateAward) {
+                    presenter.getAwardPage(new AwardRequest(logId,0));
+//                    presenter.getAwardPage(new AwardRequest(200,0));
                 }
                 mHandler.postDelayed(this, 15000);
             } catch (Exception e) {

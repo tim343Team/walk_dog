@@ -195,7 +195,7 @@ public class FriendListActivity extends BaseActivity {
                     dialog.show(getSupportFragmentManager(), "edit");
                     dialog.setCallback(new SettingInviteDialog.OperateCallback() {
                         @Override
-                        public void callback() {
+                        public void callback(String startTime, String endTime) {
 
                         }
                     });

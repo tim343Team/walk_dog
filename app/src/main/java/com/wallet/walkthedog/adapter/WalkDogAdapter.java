@@ -45,6 +45,7 @@ public class WalkDogAdapter extends BaseQuickAdapter<AwardDao, BaseViewHolder> {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(mContext).load(item.getCatImg()).apply(options).into((ImageView) helper.getView(R.id.img_equipment));
         helper.setText(R.id.txt_time,item.getCreateTime());
+        helper.setText(R.id.txt_name,String.format(mContext.getString(R.string._time), item.getCatName()));
     }
 
     OnclickListenerItem itemClick;

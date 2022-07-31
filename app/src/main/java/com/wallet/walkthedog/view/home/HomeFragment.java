@@ -241,7 +241,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             count = count + 1;
         }
 
-        ChoicePropsActivity.actionStart(getmActivity(), mDefultDogInfo.getId(),count );
+        ChoicePropsActivity.actionStart(getmActivity(), mDefultDogInfo.getId(), count);
     }
 
 
@@ -327,6 +327,9 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     void updateData() {
+        if (SharedPrefsHelper.getInstance().getDogId().equals("0")) {
+            return;
+        }
         presenter.getDogInfo(SharedPrefsHelper.getInstance().getDogId());
     }
 
@@ -562,7 +565,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                             @Override
                             public void callback(String password) {
                                 //購買狗糧
-                                presenter.buyShopDogFood(data.getId(),number);
+                                presenter.buyShopDogFood(data.getId(), number);
                                 passwordDialog.dismiss();
                                 buyDialog.dismiss();
                             }
@@ -592,7 +595,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     public void buyShopDogFoodFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");

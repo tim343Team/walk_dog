@@ -272,6 +272,21 @@ public class UrlFactory {
         return host + "/friend/delFriend";
     }
 
+    //发起遛狗邀请
+    public static String addTogetherUrl() {
+        return host + "/together/addTogether";
+    }
+
+    //获取最新遛狗邀请通知
+    public static String getNewTogethersUrl() {
+        return host + "/together/getNewTogethers";
+    }
+
+    //1同意 3拒绝 4取消邀请一起遛狗
+    public static String ideaTogetherUrl() {
+        return host + "/together/ideaTogether";
+    }
+
     //狗狗商城列表
     public static String dogListUrl() {
         return host + "/shopping/dogList";

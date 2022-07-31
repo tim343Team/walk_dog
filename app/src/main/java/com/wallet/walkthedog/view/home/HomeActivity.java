@@ -6,27 +6,40 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.app.UrlFactory;
+import com.wallet.walkthedog.dao.DogFoodWeightItemDao;
+import com.wallet.walkthedog.dao.InviteNoticeDao;
 import com.wallet.walkthedog.dao.UserInfoDao;
+import com.wallet.walkthedog.dao.request.AwardRequest;
+import com.wallet.walkthedog.dialog.InviteNoticeDialog;
+import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.SettingInviteDialog;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.ToastUtils;
+import com.wallet.walkthedog.view.email.EmailPresenter;
 import com.wallet.walkthedog.view.login.LoginActivity;
 import com.wallet.walkthedog.view.mail.MailFragment;
 import com.wallet.walkthedog.view.mine.MineFragment;
 import com.wallet.walkthedog.view.rental.RentalFragment;
 
+import java.util.List;
+
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseTransFragmentActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 
-public class HomeActivity extends BaseTransFragmentActivity {
+public class HomeActivity extends BaseTransFragmentActivity implements HomeMainContract.HomeMainView {
     public static HomeActivity instance = null;
     @BindView(R.id.flContainer)
     FrameLayout flContainer;
@@ -41,6 +54,7 @@ public class HomeActivity extends BaseTransFragmentActivity {
 
     private LinearLayout[] lls;
     private int currentPage;
+    private HomeMainContract.HomeMainPresenter presenter;
     private HomeFragment oneFragment;
     private MailFragment twoFragment;
     private RentalFragment threeFragment;
@@ -52,6 +66,29 @@ public class HomeActivity extends BaseTransFragmentActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO
+    };
+
+    private Handler mHandler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            //定时检查是否获取有邀请信息
+            try {
+                WonderfulOkhttpUtils.get().url(UrlFactory.getNewTogethersUrl())
+                        .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                        .build()
+                        .getCall()
+                        .enqueue(new GsonWalkDogCallBack<RemoteData<List<InviteNoticeDao>>>() {
+                            @Override
+                            protected void onRes(RemoteData<List<InviteNoticeDao>> testRemoteData) {
+                                getInviteNotice(testRemoteData.getNotNullData());
+                            }
+                        });
+                mHandler.postDelayed(this, 15000);
+            } catch (Exception e) {
+                mHandler.postDelayed(this, 15000);
+            }
+        }
     };
 
     public static void actionStart(Context context) {
@@ -124,6 +161,7 @@ public class HomeActivity extends BaseTransFragmentActivity {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         instance = this;
+        presenter = new HomeMainPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         lls = new LinearLayout[]{llOne, llTwo, llThree, llFour};
         llOne.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,10 +224,41 @@ public class HomeActivity extends BaseTransFragmentActivity {
                         onSuccessUserInfo(testRemoteData.getNotNullData());
                     }
                 });
+        mHandler.postDelayed(runnable, 1000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mHandler.removeCallbacks(runnable);
+        super.onDestroy();
     }
 
     private void onSuccessUserInfo(UserInfoDao userinfo) {
         SharedPrefsHelper.getInstance().saveUserInfo(userinfo);
+    }
+
+    private void getInviteNotice(List<InviteNoticeDao> daos) {
+        if (daos.size() > 0) {
+            //弹出邀请信息
+            InviteNoticeDialog dialog = InviteNoticeDialog.newInstance(daos.get(0));
+            dialog.setTheme(R.style.PaddingScreen);
+            dialog.setGravity(Gravity.BOTTOM);
+            dialog.show(getSupportFragmentManager(), "edit");
+            dialog.setRefuseCallback(new InviteNoticeDialog.OperateRefuseCallback() {
+                @Override
+                public void callback() {
+                    //TODO 拒绝邀请
+                    presenter.ideaTogether(daos.get(0).getId() + "", 3);
+                }
+            });
+            dialog.setAcceptCallback(new InviteNoticeDialog.OperateAcceptCallback() {
+                @Override
+                public void callback() {
+                    //TODO 接受邀请
+                    presenter.ideaTogether(daos.get(0).getId() + "", 1);
+                }
+            });
+        }
     }
 
     public void selecte(View v, int page) {
@@ -225,5 +294,35 @@ public class HomeActivity extends BaseTransFragmentActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+    }
+
+    @Override
+    public void ideaTogetherSuccessful(String data, int status) {
+        if (status == 1) {
+            //接受邀请
+            NormalDialog dialog = NormalDialog.newInstance(R.string.accept_invitation, R.mipmap.icon_normal);
+            dialog.setTheme(R.style.PaddingScreen);
+            dialog.setGravity(Gravity.CENTER);
+            dialog.show(getSupportFragmentManager(), "edit");
+        } else if (status == 3) {
+            //取消邀请
+            NormalDialog dialog = NormalDialog.newInstance(R.string.refuse_invitation, R.mipmap.icon_normal);
+            dialog.setTheme(R.style.PaddingScreen);
+            dialog.setGravity(Gravity.CENTER);
+            dialog.show(getSupportFragmentManager(), "edit");
+        }
+    }
+
+    @Override
+    public void setPresenter(HomeMainContract.HomeMainPresenter presenter) {
+        this.presenter = presenter;
     }
 }
