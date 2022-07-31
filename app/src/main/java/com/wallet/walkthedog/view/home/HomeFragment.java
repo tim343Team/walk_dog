@@ -272,26 +272,10 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 //            }
 //        });
         //TODO 测试邀请遛狗,停止遛狗
-//        InvitedDialog dialog = InvitedDialog.newInstance();
+//        InvitedStopDialog dialog = InvitedStopDialog.newInstance();
 //        dialog.setTheme(R.style.PaddingScreen);
 //        dialog.setGravity(Gravity.CENTER);
 //        dialog.show(getFragmentManager(), "edit");
-//        dialog.setRefuseCallback(new InvitedDialog.OperateRefuseCallback() {
-//            @Override
-//            public void callback() {
-//
-//            }
-//        });
-//        dialog.setAcceptCallback(new InvitedDialog.OperateAcceptCallback() {
-//            @Override
-//            public void callback() {
-//
-//            }
-//        });
-        InvitedStopDialog dialog = InvitedStopDialog.newInstance();
-        dialog.setTheme(R.style.PaddingScreen);
-        dialog.setGravity(Gravity.CENTER);
-        dialog.show(getFragmentManager(), "edit");
     }
 
     @Override
