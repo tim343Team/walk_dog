@@ -286,13 +286,12 @@ public class FriendListActivity extends BaseActivity {
     private void accept(String friendId, boolean accpet) {
         String url = "";
         if (accpet) {
-            url = UrlFactory.getInviteFriendList();
+            url = UrlFactory.getAcceptTheInvitation();
         } else {
             url = UrlFactory.getDeclineTheInvitation();
         }
-        WonderfulOkhttpUtils.get().url(url)
+        WonderfulOkhttpUtils.get().url(url +"?id="+friendId)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-                .addParams("id", String.valueOf(friendId))
                 .build()
                 .getCall()
                 .enqueue(new GsonWalkDogCallBack<RemoteData<Object>>() {
