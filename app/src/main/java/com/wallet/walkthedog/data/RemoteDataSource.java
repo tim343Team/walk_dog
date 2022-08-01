@@ -10,6 +10,7 @@ import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
 import com.wallet.walkthedog.dao.FriendInfoDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
@@ -435,7 +436,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void buyDog(BuyRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.buyDogUrl() + "?id=" + request.getId() + "?password=" + request.getPassword())
+        WonderfulOkhttpUtils.get().url(UrlFactory.buyDogUrl() + "?id=" + request.getId() + "&password=" + request.getPassword())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -466,7 +467,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void buyProp(BuyRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.buyPropUrl() + "?id=" + request.getId() + "?password=" + request.getPassword())
+        WonderfulOkhttpUtils.get().url(UrlFactory.buyPropUrl() + "?id=" + request.getId() + "&password=" + request.getPassword())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -608,9 +609,8 @@ public class RemoteDataSource implements DataSource {
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
-                                List<DogInfoDao> objs = gson.fromJson(object.getJSONArray("data").toString(), new TypeToken<List<DogInfoDao>>() {
-                                }.getType());
-                                dataCallback.onDataLoaded(objs);
+                                InvitedFriendDao obj = gson.fromJson(object.getJSONObject("data").toString(), InvitedFriendDao.class);
+                                dataCallback.onDataLoaded(obj);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }
@@ -980,7 +980,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void sellProp(SellRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.sellPropUrl() + "?id=" + request.getId() + "?price=" + request.getPrice())
+        WonderfulOkhttpUtils.get().url(UrlFactory.sellPropUrl() + "?id=" + request.getId() + "&price=" + request.getPrice())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1345,7 +1345,7 @@ public class RemoteDataSource implements DataSource {
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
-                                dataCallback.onDataLoaded(object.optInt("message"));
+                                dataCallback.onDataLoaded(object.optString("message"));
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }
@@ -1456,7 +1456,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void sellDog(SellRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.sellDogUrl() + "?id=" + request.getId() + "?price=" + request.getPrice())
+        WonderfulOkhttpUtils.get().url(UrlFactory.sellDogUrl() + "?id=" + request.getId() + "&price=" + request.getPrice())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {

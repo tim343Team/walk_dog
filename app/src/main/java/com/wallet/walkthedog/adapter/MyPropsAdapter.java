@@ -39,7 +39,7 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
         helper.setText(R.id.txt_id, item.getId());
         helper.setText(R.id.txt_create_time, item.getCreateTime());
         helper.setText(R.id.txt_equipment_id, String.format(mContext.getString(R.string.equipment_dog_), item.getDecorateDogId() + ""));
-        if (nftTypeCatagoryId == 6 || nftTypeCatagoryId == 7 || nftTypeCatagoryId == 8) {
+        if (nftTypeCatagoryId == 1) {
             type= Constant.PROP_FOOD;
             helper.setText(R.id.txt_choice, R.string.open);
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
@@ -48,7 +48,7 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
                     itemOpen.click(helper.getLayoutPosition(),0);
                 }
             });
-        } else if(nftTypeCatagoryId == 10){
+        } else if(nftTypeCatagoryId == 2){
             type= Constant.PROP_BOX;
             helper.setText(R.id.txt_choice, R.string.open);
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
