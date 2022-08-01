@@ -175,7 +175,8 @@
         <activity android:name=".view.mine.AvatarActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.MyAssetActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.CollectionActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.TransferActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.TransferActivity" android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".view.mine.DogWalkRecordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.InvitedDogActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.TrainRecordActivity" android:screenOrientation="portrait"/>
