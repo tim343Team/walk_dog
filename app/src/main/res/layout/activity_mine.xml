@@ -108,9 +108,10 @@
                     android:textSize="18dp" />
 
                 <ImageView
-                    android:layout_width="@dimen/dimen_17"
-                    android:layout_height="12dp"
-                    android:background="@mipmap/icon_eye_see" />
+                    android:padding="5dp"
+                    android:id="@+id/iv_see"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <View
                     android:layout_width="0dp"

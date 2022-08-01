@@ -34,6 +34,7 @@ public class MineFragment extends BaseTransFragment {
 
     @BindView(R.id.avatar)
     ImageView ivHeader;
+    boolean see = true;
 
     @Override
     protected String getmTag() {
@@ -149,6 +150,22 @@ public class MineFragment extends BaseTransFragment {
                 startActivity(intent);
             }
         });
+        ImageView iv_see = rootView.findViewById(R.id.iv_see);
+        iv_see.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                see = !see;
+                if (userInfo != null) {
+                    updateUserInfo(userInfo);
+                }
+                if (see){
+                    iv_see.setImageResource(R.mipmap.icon_eye_close);
+                }else {
+                    iv_see.setImageResource(R.mipmap.icon_eye_see);
+                }
+            }
+        });
+        iv_see.setImageResource(R.mipmap.icon_eye_close);
     }
 
     @Override
@@ -204,12 +221,15 @@ public class MineFragment extends BaseTransFragment {
                 });
     }
 
+    UserInfoDao userInfo;
+
     private void onSuccessUserInfo(UserInfoDao userinfo) {
         SharedPrefsHelper.getInstance().saveUserInfo(userinfo);
         updateUserInfo(userinfo);
     }
 
     private void updateUserInfo(UserInfoDao userinfo) {
+        this.userInfo = userinfo;
         ImageView avatar = rootView.findViewById(R.id.avatar);
         TextView txt_user_name = rootView.findViewById(R.id.txt_user_name);
         TextView tv_asset = rootView.findViewById(R.id.tv_asset);
@@ -224,7 +244,11 @@ public class MineFragment extends BaseTransFragment {
             WalletsItem item = wallets.get(i);
             if (item.getType() == 1) {
                 String asset = Utils.getFormat("%.2f", item.getDogFood());
-                tv_asset.setText(asset);
+                if (see) {
+                    tv_asset.setText(asset);
+                } else {
+                    tv_asset.setText("****");
+                }
 
             } else if (item.getType() == 2) {
                 String dogFood = Utils.getFormat("%.2f", item.getDogFood());
