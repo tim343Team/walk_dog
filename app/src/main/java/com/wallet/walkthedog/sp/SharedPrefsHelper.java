@@ -114,6 +114,8 @@ public class SharedPrefsHelper {
     public void saveUserInfo(UserInfoDao dao) {
         if (dao != null) {
             sharedPreferences.edit().putString(USERINFO_KEY, gson.toJson(dao)).apply();
+        } else {
+            sharedPreferences.edit().remove(USERINFO_KEY).apply();
         }
     }
 

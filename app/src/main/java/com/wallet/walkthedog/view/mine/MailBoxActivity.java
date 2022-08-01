@@ -12,6 +12,7 @@ import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
+import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.login.LoginActivity;
 
 import tim.com.libnetwork.base.BaseActivity;
@@ -89,7 +90,7 @@ public class MailBoxActivity extends BaseActivity {
         ToastUtils.shortToast(R.string.update_email_success);
         //去登录页
         SharedPrefsHelper.getInstance().saveToken("");
-        Intent intent = new Intent(MailBoxActivity.this, LoginActivity.class);
+        Intent intent = new Intent(MailBoxActivity.this, EmailActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

@@ -19,7 +19,9 @@ import com.wallet.walkthedog.sp.SafeGet;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.Utils;
 import com.wallet.walkthedog.view.dog.MyDogActivity;
+import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.home.HomeFragment;
+import com.wallet.walkthedog.view.login.LoginActivity;
 import com.wallet.walkthedog.view.mine.otc.OTCOrderActivity;
 import com.wallet.walkthedog.view.props.MyPropsActivity;
 
@@ -147,6 +149,17 @@ public class MineFragment extends BaseTransFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(requireContext(), OTCOrderActivity.class);
+                startActivity(intent);
+            }
+        });
+        rootView.findViewById(R.id.tv_login_out).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPrefsHelper.getInstance().saveUserInfo(null);
+                SharedPrefsHelper.getInstance().saveToken("");
+                Intent intent = new Intent(requireActivity(), EmailActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });
