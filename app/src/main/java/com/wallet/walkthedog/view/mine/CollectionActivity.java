@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.mine;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,6 +59,10 @@ public class CollectionActivity extends BaseActivity {
                     WalletsItem item = wallets.get(i);
                     if (item.getType() == 1) {
                         String asset = item.getAddress();
+                        if (TextUtils.isEmpty(asset)){
+                            ToastUtils.shortToast(getString(R.string.you_has_not_address));
+                            return;
+                        }
                         try {
                             qrCode = EncodingHandler.createQRCode(asset, ScreenUtils.dip2px(CollectionActivity.this, 350f));
                             qr.setImageBitmap(qrCode);

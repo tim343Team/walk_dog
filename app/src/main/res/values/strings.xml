@@ -388,6 +388,7 @@
     <string name="payment">Payment</string>
     <string name="fee">fee: %s</string>
     <string name="token_audit_success" >token audit success</string>
+    <string name="you_has_not_address">你还没添加地址</string>
 
 
 </resources>
