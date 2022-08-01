@@ -3,6 +3,7 @@ package com.wallet.walkthedog.view.home;
 import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
@@ -41,6 +42,8 @@ public class HomeContract {
 
         void buyShopDogFoodFail(Integer code, String toastMessage);
 
+        void getWalkTheDogFriendSuccessful(InvitedFriendDao data);
+
     }
 
     interface HomePresenter extends Contract.BasePresenter {
@@ -65,5 +68,7 @@ public class HomeContract {
         void getShopDogFood();// 获取商城售卖狗粮详情
 
         void buyShopDogFood(int dogFoodId,int number);//购买商城出售的狗粮
+
+        void getWalkTheDogFriend();//获取一起遛狗的好友
     }
 }

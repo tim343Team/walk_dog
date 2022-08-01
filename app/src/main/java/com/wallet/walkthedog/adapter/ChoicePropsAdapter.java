@@ -41,7 +41,7 @@ public class ChoicePropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_prop));
         helper.setText(R.id.txt_name, item.getName());
         helper.setText(R.id.txt_id, item.getId());
-        if (nftTypeCatagoryId == 6 || nftTypeCatagoryId == 7 || nftTypeCatagoryId == 8) {
+        if (nftTypeCatagoryId == 1) {
             //狗粮
             type= Constant.PROP_FOOD;
             helper.setText(R.id.txt_choice, R.string.open);
@@ -51,7 +51,7 @@ public class ChoicePropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder
                     itemOpen.click(helper.getLayoutPosition(),0);
                 }
             });
-        } else if(nftTypeCatagoryId == 10){
+        } else if(nftTypeCatagoryId == 2){
             //宝箱
             type= Constant.PROP_BOX;
             helper.setText(R.id.txt_choice, R.string.open);

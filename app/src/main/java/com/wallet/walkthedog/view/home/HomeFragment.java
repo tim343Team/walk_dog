@@ -15,6 +15,7 @@ import com.wallet.walkthedog.adapter.HomePropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.TrainRequest;
@@ -77,6 +78,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     TextView txtWalkDog;//狗狗状态描述
     @BindView(R.id.img_dog)
     ImageView imgDog;
+    @BindView(R.id.img_invate)
+    ImageView imgInvate;
     @BindViews({R.id.img_equipment_1, R.id.img_equipment_2, R.id.img_equipment_3})
     ImageView[] imgEquipments;
     @BindView(R.id.progress_bg)
@@ -315,6 +318,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             return;
         }
         presenter.getDogInfo(SharedPrefsHelper.getInstance().getDogId());
+        presenter.getWalkTheDogFriend();
     }
 
     void updateUI() {
@@ -583,6 +587,18 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
+    }
+
+    @Override
+    public void getWalkTheDogFriendSuccessful(InvitedFriendDao data) {
+        //展示遛狗好友狗狗头像
+        if (data != null) {
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_null_dog)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+            Glide.with(getmActivity()).load(data.getDog().getImg()).apply(options).into(imgInvate);
+        }
     }
 
     @Override

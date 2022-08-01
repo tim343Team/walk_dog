@@ -1,33 +1,29 @@
 package com.wallet.walkthedog.dialog;
 
-import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.View;
-import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bigkoo.pickerview.view.TimePickerView;
 import com.wallet.walkthedog.R;
-import com.wallet.walkthedog.adapter.CreateeMnemoricAdapter;
 import com.wallet.walkthedog.adapter.NumberAdapter;
-import com.wallet.walkthedog.view.login.CreateActivity;
+import com.wallet.walkthedog.untils.ToastUtils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseDialogFragment;
+import tim.com.libnetwork.utils.DateTimeUtil;
 import tim.com.libnetwork.view.PickTimeView;
 
 public class SettingInviteDialog extends BaseDialogFragment {
@@ -45,29 +41,60 @@ public class SettingInviteDialog extends BaseDialogFragment {
     private List<Integer> hourList = new ArrayList<>();
     private List<Integer> minutList = new ArrayList<>();
     private int isShowType = 0;
+    String startTime = null;
+    String endTime = null;
 
     @OnClick(R.id.ll_start)
     void selectStart() {
-         PickTimeView timeView = new PickTimeView(getDialog().getContext());
-          timeView.setStartTime(1970, 1, 1, 0, 0, 0);
-          timeView.setEndtTimeMillis();
-          timeView.setTitle("生日");
-          timeView.showTimePickerView();
-          timeView.setOnTimeSelectListener(new PickTimeView.OnTimeSelect() {
-              @Override
-              public void onSelect(Date date) {
-//                  DateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
-//                  DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-//                  tvBirthday.setText(df.format(date));
-//                  bean.setBirthday(df2.format(date));
-              }
-          });
-//        showPicker(1);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        PickTimeView timeView = new PickTimeView(getContext());
+        timeView.setType(new boolean[]{false, false, false, true, true, false});
+        timeView.setStartTime(year, month, day, 0, 0, 0);
+        timeView.setEndtTime(year, month, day, 24, 59, 0);
+        timeView.setDialog(true);
+        timeView.setCancelMessage("");
+        timeView.setSubmitMessage(getResources().getString(R.string.confirm));
+        timeView.setTitle(getResources().getString(R.string.select_time));
+        timeView.showTimePickerView();
+        timeView.setOnTimeSelectListener(new PickTimeView.OnTimeSelect() {
+            @Override
+            public void onSelect(Date date) {
+                DateFormat df = new SimpleDateFormat("MM/dd HH:mm:ss");
+                DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                startTime=df2.format(date);
+                tvStartTime.setText(df.format(date));
+            }
+        });
     }
 
     @OnClick(R.id.ll_end)
     void selectEnd() {
-        showPicker(2);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        PickTimeView timeView = new PickTimeView(getContext());
+        timeView.setType(new boolean[]{false, false, false, true, true, false});
+        timeView.setStartTime(year, month, day, 0, 0, 0);
+        timeView.setEndtTime(year, month, day, 24, 59, 0);
+        timeView.setDialog(true);
+        timeView.setCancelMessage("");
+        timeView.setSubmitMessage(getResources().getString(R.string.confirm));
+        timeView.setTitle(getResources().getString(R.string.select_time));
+        timeView.showTimePickerView();
+        timeView.setOnTimeSelectListener(new PickTimeView.OnTimeSelect() {
+            @Override
+            public void onSelect(Date date) {
+                DateFormat df = new SimpleDateFormat("MM/dd HH:mm:ss");
+                DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                endTime=df2.format(date);
+                tvEndTime.setText(df.format(date));
+            }
+        });
+//        showPicker(2);
     }
 
     @OnClick(R.id.txt_confirm_time)
@@ -81,8 +108,14 @@ public class SettingInviteDialog extends BaseDialogFragment {
 
     @OnClick(R.id.txt_confirm)
     void confirm() {
-        String startTime = null;
-        String endTime = null;
+        if(startTime==null || startTime.isEmpty()){
+            ToastUtils.shortToast(R.string.start_time_hint);
+            return;
+        }
+        if(endTime==null || endTime.isEmpty()){
+            ToastUtils.shortToast(R.string.end_time_hint);
+            return;
+        }
         callback.callback(startTime, endTime);
     }
 

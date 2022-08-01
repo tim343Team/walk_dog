@@ -138,7 +138,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         dialog.setCallback(new SettingInviteDialog.OperateCallback() {
             @Override
             public void callback(String startTime,String endTime) {
-                //TODO 发起邀请接口
+                //发起邀请接口
                 //2022-07-26    2022-07-28
                 presenter.addTogether(new InviteRequest(mDefultDogInfo.getId(),startTime,endTime));
                 dialog.dismiss();

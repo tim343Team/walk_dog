@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.home;
 
 import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.TrainRequest;
 import com.wallet.walkthedog.data.DataSource;
@@ -207,6 +208,21 @@ public class HomePresenter implements HomeContract.HomePresenter{
             public void onDataNotAvailable(Integer code, String toastMessage) {
                 view.hideLoadingPopup();
                 view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getWalkTheDogFriend() {
+        dataRepository.getWalkTheDogFriend(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.getWalkTheDogFriendSuccessful((InvitedFriendDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+//                view.getFail(code, toastMessage);
             }
         });
     }
