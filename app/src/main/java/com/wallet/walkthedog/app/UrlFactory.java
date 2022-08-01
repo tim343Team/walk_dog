@@ -56,6 +56,9 @@ public class UrlFactory {
     public static String userinfo(){
         return host +"/userInfo/getUserInfo";
     }
+    public static String updateNickName(){
+        return host +"/userInfo/updateNickName";
+    }
 
     public static String getDogFoodCat(){
         return host + "/userInfo/getDogFoodCat";

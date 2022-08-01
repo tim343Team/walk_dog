@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.mine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,11 +13,13 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.UserInfoDao;
 import com.wallet.walkthedog.dao.WalletsItem;
+import com.wallet.walkthedog.dialog.NicknameDialog;
 import com.wallet.walkthedog.dialog.QrDialog;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SafeGet;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
 import com.wallet.walkthedog.view.dog.MyDogActivity;
 import com.wallet.walkthedog.view.email.EmailActivity;
@@ -30,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseTransFragment;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
+import tim.com.libnetwork.utils.WonderfulCommonUtils;
 
 public class MineFragment extends BaseTransFragment {
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -163,6 +167,30 @@ public class MineFragment extends BaseTransFragment {
                 startActivity(intent);
             }
         });
+        rootView.findViewById(R.id.iv_edit_name).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NicknameDialog dialog = new NicknameDialog();
+                dialog.setGravity(Gravity.CENTER);
+                dialog.setCallback(new NicknameDialog.OperateCallback() {
+                    @Override
+                    public void callback(String name) {
+                        updateNickName(name);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show(requireFragmentManager(),"");
+            }
+        });
+
+        rootView.findViewById(R.id.iv_copy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView txt_user_name = rootView.findViewById(R.id.txt_user_name);
+                Utils.copyText(requireContext(), txt_user_name.getText().toString());
+                ToastUtils.shortToast(getString(R.string.copy_success));
+            }
+        });
         ImageView iv_see = rootView.findViewById(R.id.iv_see);
         iv_see.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +208,8 @@ public class MineFragment extends BaseTransFragment {
         });
         iv_see.setImageResource(R.mipmap.icon_eye_close);
     }
+
+
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -219,6 +249,19 @@ public class MineFragment extends BaseTransFragment {
                 updateUserInfo(dao);
             }
         });
+    }
+
+    private void updateNickName(String name) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.updateNickName()+"?nickName="+name)
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<UserInfoDao>>() {
+                    @Override
+                    protected void onRes(RemoteData<UserInfoDao> testRemoteData) {
+                        getUserInfo();
+                    }
+                });
     }
 
     private void getUserInfo() {

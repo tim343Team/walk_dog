@@ -1,5 +1,7 @@
 package com.wallet.walkthedog.untils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -118,6 +120,13 @@ public class Utils {
             e.printStackTrace();
         }
         Uri uri = Uri.fromFile(file);
+    }
+
+
+    public static void copyText(Context context,String str){
+        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData myClip = ClipData.newPlainText(null, str);
+        cm.setPrimaryClip(myClip);
     }
 
 

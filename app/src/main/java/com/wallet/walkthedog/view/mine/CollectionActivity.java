@@ -7,10 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.zxing.WriterException;
-import com.google.zxing.qrcode.encoder.QRCode;
 import com.uuzuche.lib_zxing.encoding.EncodingHandler;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.dao.UserInfoDao;
@@ -24,8 +21,6 @@ import java.util.List;
 
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.utils.ScreenUtils;
-import tim.com.libnetwork.utils.WonderfulBitmapUtils;
-import tim.com.libnetwork.utils.WonderfulCommonUtils;
 
 public class CollectionActivity extends BaseActivity {
     @Override
@@ -79,7 +74,7 @@ public class CollectionActivity extends BaseActivity {
         iv_copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WonderfulCommonUtils.copyText(CollectionActivity.this, tv_address.getText().toString());
+                Utils.copyText(CollectionActivity.this, tv_address.getText().toString());
                 ToastUtils.shortToast(getString(R.string.copy_success));
             }
         });
