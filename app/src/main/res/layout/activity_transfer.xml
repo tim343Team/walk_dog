@@ -62,12 +62,13 @@
         android:text="@string/address"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toStartOf="@+id/edit_address"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/edit_address"
         android:layout_width="0dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
@@ -79,7 +80,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:maxLines="1"
+        android:id="@+id/edit_q"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -88,14 +90,14 @@
         android:background="@mipmap/bg_input"
         android:ems="10"
         android:hint="@string/please_enter_the_quantity"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:padding="15dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView9"
+        app:layout_constraintEnd_toStartOf="@+id/tv_all"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/tv_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="35dp"
@@ -104,9 +106,9 @@
         android:textColor="#4D67C1"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName2"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_q"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toTopOf="@+id/edit_q" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -115,10 +117,10 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_edit"
+        app:layout_constraintBottom_toTopOf="@+id/tv_confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12">
+        app:layout_constraintTop_toBottomOf="@+id/tv_shouxu">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,7 +148,7 @@
     </ScrollView>
 
     <com.wallet.walkthedog.custom_view.card.ShadowTextView
-        android:id="@+id/tv_edit"
+        android:id="@+id/tv_confirm"
         style="@style/defshadow_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -170,26 +172,26 @@
         android:text="@string/quantity"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintStart_toStartOf="@+id/edit_q"
+        app:layout_constraintTop_toBottomOf="@+id/edit_address" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/tv_shouxu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        tools:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/edit_q"
+        app:layout_constraintTop_toBottomOf="@+id/edit_q" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/tv_all_asset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName2"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName2"
-        app:layout_constraintTop_toTopOf="@+id/textView12" />
+        tools:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/edit_q"
+        app:layout_constraintStart_toEndOf="@+id/edit_q"
+        app:layout_constraintTop_toTopOf="@+id/tv_shouxu" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

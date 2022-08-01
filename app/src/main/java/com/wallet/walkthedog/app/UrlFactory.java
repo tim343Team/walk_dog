@@ -27,6 +27,15 @@ public class UrlFactory {
     public static String getTrainingPage(){
         return host + "/userInfo/getTrainingPage";
     }
+
+    public static String getSysDataCode(){
+        return host + "/sysData/getSysDataCode";
+    }
+
+    public static String tokenAudit(){
+        return host + "/userInfo/tokenAudit";
+    }
+
     //遛狗总记录
     public static String getWalkDogLogCount() {
         return host + "/userInfo/getWalkDogLogCount";

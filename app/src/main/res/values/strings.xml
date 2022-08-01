@@ -386,5 +386,8 @@
     <string name="buy_hint">Kind tips:\n1. Your remittance will go directly to the other party\'s account, and the digital assets will be protected by platform custody during the transaction.\n2. Please complete the payment within the specified time, and be sure to click the [I have paid successfully] button. After the other party confirms the payment, the system will transfer the digital assets to your account.\n3. If the number of cancellations on the day reaches three-times. The buy function of the day will be limited.</string>
     <string name="cancel_order">Cancel Order</string>
     <string name="payment">Payment</string>
+    <string name="fee">fee: %s</string>
+    <string name="token_audit_success" >token audit success</string>
+
 
 </resources>
