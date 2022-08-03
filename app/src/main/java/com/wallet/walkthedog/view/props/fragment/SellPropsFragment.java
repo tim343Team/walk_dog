@@ -17,6 +17,7 @@ import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.props.PropDetailActivity;
@@ -115,7 +116,7 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
             @Override
             public void click(int position) {
                 //移除售賣
-                presenter.cancelSellProp(new BuyRequest(data.get(position).getId()),position);
+                presenter.cancelSellProp(new BuyRequest(data.get(position).getId()), position);
             }
         });
         adapter.OnclickListenerItem(new MyPropsAdapter.OnOpenListenerItem() {
@@ -146,7 +147,7 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
@@ -188,11 +189,11 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
     }
 
     @Override
-    public void useDogFoodSuccess(String dao,int position) {
+    public void useDogFoodSuccess(String dao, int position) {
         //打開狗糧
         data.remove(position);
         adapter.notifyItemRemoved(position);
-        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
+        OpenindDialog openindDialog = OpenindDialog.newInstance(Constant.PROP_FOOD);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
         openindDialog.show(getFragmentManager(), "edit");
@@ -212,7 +213,11 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
     public void cancelSellSuccess(String message, int position) {
         //取消售卖成功刷新页面
         data.remove(position);
-        adapter.notifyItemRemoved(position);
+        if (data.size() > 0) {
+            adapter.notifyItemRemoved(position);
+        } else {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -220,7 +225,7 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
         //打开宝箱成功
         data.remove(position);
         adapter.notifyItemRemoved(position);
-        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_NORMAL,dao);
+        OpenindDialog openindDialog = OpenindDialog.newInstance(Constant.PROP_NORMAL, dao);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
         openindDialog.show(getFragmentManager(), "edit");

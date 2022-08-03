@@ -19,6 +19,7 @@ import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.db.dao.PropCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
 
@@ -162,7 +163,7 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     @Override
     public void getAddFail(Integer code, String toastMessage) {
         //提示
-        NormalDialog dialog = NormalDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");

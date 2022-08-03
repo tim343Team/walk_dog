@@ -41,7 +41,7 @@ public class DogMailDao implements Serializable {
 
     private int sysDelete;
 
-    private String price;
+    private double price;
 
     private String token;
 
@@ -53,6 +53,8 @@ public class DogMailDao implements Serializable {
 
     private int rateOfProgress;
 
+    private String shoppingFee;
+
     private String nickName;
 
     private String lastTrainingTime;
@@ -62,6 +64,14 @@ public class DogMailDao implements Serializable {
     private String upgradeWeight;
 
     private String upgradeTime;
+
+    public String getShoppingFee() {
+        return shoppingFee;
+    }
+
+    public void setShoppingFee(String shoppingFee) {
+        this.shoppingFee = shoppingFee;
+    }
 
     public String getId() {
         return id;
@@ -215,11 +225,11 @@ public class DogMailDao implements Serializable {
         this.sysDelete = sysDelete;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -262,6 +272,8 @@ public class DogMailDao implements Serializable {
     public void setRateOfProgress(int rateOfProgress) {
         this.rateOfProgress = rateOfProgress;
     }
+
+
 
     public String getNickName() {
         return nickName;

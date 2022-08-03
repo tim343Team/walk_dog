@@ -13,7 +13,7 @@ import com.wallet.walkthedog.custom_view.card.ShadowFrameLayout;
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseDialogFragment;
 
-public class NormalDialog extends BaseDialogFragment {
+public class NormalErrorDialog extends BaseDialogFragment {
     @BindView(R.id.root_view)
     ShadowFrameLayout rootView;
     @BindView(R.id.img_notice)
@@ -21,47 +21,29 @@ public class NormalDialog extends BaseDialogFragment {
     @BindView(R.id.txt_notice)
     TextView txtNotice;
 
-    public static NormalDialog newInstance(int resMessageId, int resImgid) {
-        NormalDialog fragment = new NormalDialog();
+    public static NormalErrorDialog newInstance(int resMessageId, int resImgId, int resColorId) {
+        NormalErrorDialog fragment = new NormalErrorDialog();
         Bundle bundle = new Bundle();
         bundle.putInt("message", resMessageId);
-        bundle.putInt("img", resImgid);
+        bundle.putInt("img", resImgId);
+        bundle.putInt("color", resColorId);
         fragment.setArguments(bundle);
         return fragment;
     }
 
-    public static NormalDialog newInstance(String messageString, int resImgid) {
-        NormalDialog fragment = new NormalDialog();
+    public static NormalErrorDialog newInstance(String messageString, int resImgId, int resColorId) {
+        NormalErrorDialog fragment = new NormalErrorDialog();
         Bundle bundle = new Bundle();
         bundle.putString("messageString", messageString);
-        bundle.putInt("img", resImgid);
+        bundle.putInt("img", resImgId);
+        bundle.putInt("color", resColorId);
         fragment.setArguments(bundle);
         return fragment;
     }
-
-//    public static NormalDialog newInstance(int resMessageId, int resImgId, int resColorId) {
-//        NormalDialog fragment = new NormalDialog();
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("message", resMessageId);
-//        bundle.putInt("img", resImgId);
-//        bundle.putInt("color", resColorId);
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
-//
-//    public static NormalDialog newInstance(String messageString, int resImgId, int resColorId) {
-//        NormalDialog fragment = new NormalDialog();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("messageString", messageString);
-//        bundle.putInt("img", resImgId);
-//        bundle.putInt("color", resColorId);
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.dialog_normal;
+        return R.layout.dialog_normal_error;
     }
 
     @Override

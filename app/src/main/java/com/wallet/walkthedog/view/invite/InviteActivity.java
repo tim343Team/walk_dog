@@ -107,44 +107,45 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
         adapter.setEnableLoadMore(false);
         adapter.setCallback(new InviteDogAdapter.OperateCallback() {
             @Override
-            public void callback(FriendInfoDao dao) {
-                InvitedInforDialog dialog = InvitedInforDialog.newInstance(dao);
-                dialog.setTheme(R.style.PaddingScreen);
-                dialog.setGravity(Gravity.CENTER);
-                dialog.show(getSupportFragmentManager(), "edit");
-                dialog.setCallback(new InvitedInforDialog.OperateCallback() {
-                    @Override
-                    public void callback() {
-                        //邀請
-                    }
-                });
-                dialog.setMoreCallback(new InvitedInforDialog.MoreCallback() {
-                    @Override
-                    public void callback() {
-                        //更多
-                        InviteMoreDialog moreDialog = InviteMoreDialog.newInstance();
-                        moreDialog.setTheme(R.style.PaddingScreen);
-                        moreDialog.setGravity(Gravity.CENTER);
-                        moreDialog.show(getSupportFragmentManager(), "edit");
-                        moreDialog.setCallback(new InviteMoreDialog.OperateCallback() {
-                            @Override
-                            public void callback() {
-                                NicknameDialog nicknameDialog = NicknameDialog.newInstance();
-                                nicknameDialog.setTheme(R.style.PaddingScreen);
-                                nicknameDialog.setGravity(Gravity.CENTER);
-                                nicknameDialog.show(getSupportFragmentManager(), "edit");
-                                nicknameDialog.setCallback(new NicknameDialog.OperateCallback() {
-                                    @Override
-                                    public void callback(String name) {
-                                        nicknameDialog.dismiss();
-                                        dialog.dismiss();
-                                    }
-                                });
-                                moreDialog.dismiss();
-                            }
-                        });
-                    }
-                });
+            public void callback(FriendInfoDao dao,int position) {
+//                InvitedInforDialog dialog = InvitedInforDialog.newInstance(dao);
+//                dialog.setTheme(R.style.PaddingScreen);
+//                dialog.setGravity(Gravity.CENTER);
+//                dialog.show(getSupportFragmentManager(), "edit");
+//                dialog.setCallback(new InvitedInforDialog.OperateCallback() {
+//                    @Override
+//                    public void callback() {
+//                        //邀請
+//                    }
+//                });
+//                dialog.setMoreCallback(new InvitedInforDialog.MoreCallback() {
+//                    @Override
+//                    public void callback() {
+//                        //更多
+//                        InviteMoreDialog moreDialog = InviteMoreDialog.newInstance();
+//                        moreDialog.setTheme(R.style.PaddingScreen);
+//                        moreDialog.setGravity(Gravity.CENTER);
+//                        moreDialog.show(getSupportFragmentManager(), "edit");
+//                        moreDialog.setCallback(new InviteMoreDialog.OperateCallback() {
+//                            @Override
+//                            public void callback() {
+//                                NicknameDialog nicknameDialog = NicknameDialog.newInstance();
+//                                nicknameDialog.setTheme(R.style.PaddingScreen);
+//                                nicknameDialog.setGravity(Gravity.CENTER);
+//                                nicknameDialog.show(getSupportFragmentManager(), "edit");
+//                                nicknameDialog.setCallback(new NicknameDialog.OperateCallback() {
+//                                    @Override
+//                                    public void callback(String name) {
+//                                        nicknameDialog.dismiss();
+//                                        dialog.dismiss();
+//                                    }
+//                                });
+//                                moreDialog.dismiss();
+//                            }
+//                        });
+//                    }
+//                });
+                InviteDetailActivity.actionStart(InviteActivity.this,data.get(position));
             }
         });
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

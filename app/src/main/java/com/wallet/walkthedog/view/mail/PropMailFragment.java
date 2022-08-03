@@ -70,6 +70,7 @@ public class PropMailFragment extends BaseLazyFragment implements MailContract.M
     protected void initViews(Bundle savedInstanceState) {
         presenter = new MailPresenter(Injection.provideTasksRepository(getmActivity()), this);//初始化presenter
         initRecyclerView();
+        presenter.getPropList(new MailRequest(), pageNo);
     }
 
     @Override
@@ -84,7 +85,6 @@ public class PropMailFragment extends BaseLazyFragment implements MailContract.M
 
     @Override
     protected void loadData() {
-        presenter.getPropList(new MailRequest(), pageNo);
     }
 
     @Override

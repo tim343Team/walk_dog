@@ -13,4 +13,7 @@ public class Constant {
     public static final String PROP_NORMAL = "11";
     public static final String PROP_FOOD = "12";
     public static final String PROP_BOX = "13";
+
+    //字典接口code
+    public static final String SHOPPING_FEE = "shopping_fee";
 }

@@ -29,9 +29,6 @@ import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.StartWalkDao;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.untils.GpsUtils;
-import com.wallet.walkthedog.untils.ToastUtils;
-import com.wallet.walkthedog.view.home.HomeActivity;
-import com.wallet.walkthedog.view.props.ChoicePropsPresenter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

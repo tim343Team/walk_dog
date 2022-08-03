@@ -22,6 +22,7 @@ import com.wallet.walkthedog.dao.UserInfoDao;
 import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dialog.InviteNoticeDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.SettingInviteDialog;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
@@ -298,7 +299,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");

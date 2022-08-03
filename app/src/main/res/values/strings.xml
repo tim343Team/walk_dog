@@ -54,7 +54,7 @@
     <string name="enter_your_password">再次輸入您的密碼</string>
     <string name="enter_password">輸入密碼</string>
     <string name="match_password">您輸入的密碼不匹配. 請重新輸入</string>
-    <string name="match_password_error">密碼為6位字母，數字，或字母+數字</string>
+    <string name="match_password_error">密碼為6位純字母或字母+數字</string>
     <string name="match_invited_error">邀請碼錯誤</string>
     <string name="match_mailbox_error">該郵箱已註冊</string>
     <!--创建助记词-->
@@ -119,8 +119,8 @@
     <string name="get_a_dog_">獲得的狗狗:</string>
     <string name="dog_owner">狗狗主人:</string>
     <string name="identity_information">身份信息</string>
-    <string name="male">公</string>
-    <string name="female">母</string>
+    <string name="male">雄</string>
+    <string name="female">雌</string>
     <!--遛狗-->
     <string name="walk_title">遛狗</string>
     <string name="gps_week">GPS信號弱</string>
@@ -129,6 +129,7 @@
     <string name="found_s">找到%s</string>
     <string name="walk_stop">停止遛狗</string>
     <string name="walk_start">开始遛狗</string>
+    <string name="walk_start_notice">是否停止遛狗</string>
     <string name="walk_notice_2">你進入了[未知區域]，得到道具概率將會增加</string>
     <string name="collect">收藏</string>
     <string name="collect_notice">道具已经收集並且\n放在我的道具里了</string>
@@ -137,6 +138,9 @@
     <string name="stop_count">后停止计数</string>
     <string name="walk_notice_3">慢下来!快走，否则爱犬找不到宝物，没有收入哦</string>
     <string name="walk_number">遛狗次數</string>
+    <string name="walk_number_">今日遛狗次數:</string>
+    <string name="individual_total_">個人遛狗總計:</string>
+    <string name="number_total_">一起遛狗總計:</string>
     <string name="walk_notice_4">每隻狗狗，每天可以遛2次；次用用完了，就需要等到下一天才能遛狗</string>
     <string name="notification_title">正在遛狗。。。</string>
     <string name="notification_content">正在遛狗。。。</string>
@@ -168,6 +172,7 @@
     <string name="deselect">取消選擇</string>
     <string name="choose_select">選擇成功</string>
     <string name="_time">%s 次</string>
+    <string name="nothing">裝備狗狗: 无</string>
     <string name="equipment_dog_">裝備狗狗: %s</string>
     <string name="release_dog">解除狗狗</string>
     <string name="release_dog_notice">狗狗出售時需要解除選擇</string>
@@ -254,7 +259,6 @@
     <!--租赁狗狗-->
     <string name="lease_time">租賃時間</string>
     <string name="available_rental_time">可租用%s天</string>
-    <string name="character_">性格:</string>
     <string name="cancel_rental">取消租賃</string>
     <string name="rental_success">租賃成功</string>
     <!--我的主页-->

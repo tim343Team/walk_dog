@@ -2,7 +2,7 @@
 <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
-    style="@style/def_while_shadow_style"
+    style="@style/def_red_shadow_style"
     android:layout_height="wrap_content">
 
     <LinearLayout

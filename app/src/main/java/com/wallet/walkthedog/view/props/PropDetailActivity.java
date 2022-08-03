@@ -24,6 +24,7 @@ import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.dialog.MoreOperationDialog;
 import com.wallet.walkthedog.dialog.MorePropOperationDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.dialog.SellPropDialog;
 import com.wallet.walkthedog.dialog.SellPropNoticeDialog;
@@ -215,7 +216,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -223,7 +224,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
 
     @Override
     public void getAddFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -255,7 +256,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(this).load(data.getImg()).apply(options).into(imgDog);
         TextTitle.setText(data.getName());
-        txtPrice.setText(String.format(getString(R.string.price_s), data.getPrice() + ""));
+        txtPrice.setText(String.format(getString(R.string.price_s), data.getPrice() + " suzu"));
         txtName.setText(data.getName());
         txtTimee.setText(data.getCreateTime());
         txtCharm.setText(data.getUsercp());

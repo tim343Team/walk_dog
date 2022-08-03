@@ -20,10 +20,13 @@ import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.UserCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.email.EmailPresenter;
+import com.wallet.walkthedog.view.email.InvitationActivity;
+import com.wallet.walkthedog.view.email.LoginTypeActivity;
 import com.wallet.walkthedog.view.email.SettingMobileCodeActivity;
 import com.wallet.walkthedog.view.home.HomeActivity;
 
@@ -55,12 +58,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
 
     @OnClick(R.id.txt_cancle)
     void clearText() {
-        passwordView.setText("");
-    }
-
-    @OnClick(R.id.txt_cancle)
-    void clear() {
-        passwordView.setText("");
+        finish();
     }
 
     @OnClick(R.id.img_back)
@@ -127,7 +125,7 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
                 if (content.length() == 6) {
                     //检查密码只能为数字或者字母
                     if (!checkoutPassword(content)) {
-                        NormalDialog dialog = NormalDialog.newInstance(R.string.match_password_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+                        NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.match_password_error, R.mipmap.icon_normal_no, R.color.color_E12828);
                         dialog.setTheme(R.style.PaddingScreen);
                         dialog.setGravity(Gravity.CENTER);
                         dialog.show(getSupportFragmentManager(), "edit");
@@ -193,7 +191,8 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
     public boolean checkoutPassword(String password) {
         boolean flag = false;
         try {
-            Pattern pattern = Pattern.compile("^[0-9a-zA-Z]+$");
+//            Pattern pattern = Pattern.compile("^[0-9a-zA-Z]+$");//密码为6位纯字母或字母+数字
+            Pattern pattern = Pattern.compile("^[A-Za-z][A-Za-z0-9]+$");//密码为6位纯字母或字母+数字
             Matcher matcher = pattern.matcher(password);
             flag = matcher.matches();
         } catch (Exception e) {
@@ -245,13 +244,13 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
                 closeLoginView();
             }else if (type.equals("-2")) {
                 //邀请码无效
-                NormalDialog dialog = NormalDialog.newInstance(R.string.match_invited_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+                NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.match_invited_error, R.mipmap.icon_normal_no, R.color.color_E12828);
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
                 dialog.show(getSupportFragmentManager(), "edit");
             }else if(type.equals("1")){
                 //已注册
-                NormalDialog dialog = NormalDialog.newInstance(R.string.match_mailbox_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+                NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.match_mailbox_error, R.mipmap.icon_normal_no, R.color.color_E12828);
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
                 dialog.show(getSupportFragmentManager(), "edit");
@@ -276,6 +275,12 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
         }
         if (SettingMobileCodeActivity.instance != null) {
             SettingMobileCodeActivity.instance.finish();
+        }
+        if (InvitationActivity.instance != null) {
+            InvitationActivity.instance.finish();
+        }
+        if (LoginTypeActivity.instance != null) {
+            LoginTypeActivity.instance.finish();
         }
         if (EmailActivity.instance != null) {
             EmailActivity.instance.finish();

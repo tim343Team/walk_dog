@@ -31,7 +31,7 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
         helper.getView(R.id.txt_invite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.callback(item);
+                callback.callback(item,helper.getLayoutPosition());
             }
         });
 
@@ -41,7 +41,7 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
         helper.setText(R.id.txt_level,"Lv." + item.getLevel());
         helper.setText(R.id.txt_time, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
         helper.setText(R.id.txt_trip, DateTimeUtil.second2Time(item.getWalkTheDogTime()));//总次数
-        helper.setText(R.id.txt_id, item.getId()+"");//总次数
+        helper.setText(R.id.txt_id, item.getId()+"");
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -72,6 +72,6 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
     }
 
     public interface OperateCallback {
-        void callback(FriendInfoDao dao);
+        void callback(FriendInfoDao dao,int position);
     }
 }

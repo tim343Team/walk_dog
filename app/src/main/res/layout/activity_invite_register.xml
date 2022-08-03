@@ -30,10 +30,10 @@
             android:id="@+id/img_ok"
             android:layout_width="@dimen/dimen_30"
             android:layout_height="@dimen/dimen_30"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:background="@mipmap/icon_ok"
-            android:visibility="visible"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 
@@ -54,13 +54,13 @@
 
         <LinearLayout
             android:id="@+id/ll_edit"
+            style="@style/PaddingCardView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_marginTop="@dimen/dimen_30"
-            android:layout_centerHorizontal="true"
-            android:background="@mipmap/card_view"
             android:layout_below="@id/txt_title"
-            style="@style/PaddingCardView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:background="@mipmap/card_view"
             android:orientation="vertical">
 
             <EditText
@@ -68,10 +68,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:hint="@string/invitation_code_notice"
                 android:lineSpacingMultiplier="1.2"
                 android:textColor="@color/color_848484"
-                android:textSize="@dimen/dimen_14"
-                android:hint="@string/invitation_code_notice"/>
+                android:textSize="@dimen/dimen_14" />
 
         </LinearLayout>
 

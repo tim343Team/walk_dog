@@ -37,8 +37,8 @@ public class PropMailAdapter extends BaseQuickAdapter<PropMailDao, BaseViewHolde
         });
         helper.setText(R.id.txt_name, item.getName());
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_prop));
-        helper.setText(R.id.txt_id, item.getId() + "");
-        helper.setText(R.id.txt_price, String.valueOf(item.getPrice()));
+        helper.setText(R.id.txt_id, item.getPropNumberChain() + "");
+        helper.setText(R.id.txt_price, String.valueOf(item.getPrice())+" suzu");
         if(item.getMemberId().equals(uid)){
             helper.setText(R.id.txt_cancle,R.string.cancle_buy);
         }else {

@@ -220,7 +220,8 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="invisible">
 
                         <TextView
                             style="@style/TextWhiteStyle"

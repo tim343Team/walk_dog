@@ -1,15 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.wallet.walkthedog.custom_view.card.ShadowFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
         style="@style/def_while_shadow_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="@dimen/dimen_178"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:shadowStartColor="#EEF1FB">
 
         <RelativeLayout
-            android:layout_width="@dimen/dimen_158"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
             android:padding="@dimen/dimen_12">
 
@@ -58,4 +64,6 @@
 
         </RelativeLayout>
 
-</com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>
+    </com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>
+
+</LinearLayout>

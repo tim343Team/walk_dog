@@ -46,7 +46,7 @@ public class DogInfoDao implements Serializable {
 
     private int sysDelete;
 
-    private int price;
+    private double price;
 
     private String token;
 
@@ -233,11 +233,11 @@ public class DogInfoDao implements Serializable {
         this.sysDelete = sysDelete;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

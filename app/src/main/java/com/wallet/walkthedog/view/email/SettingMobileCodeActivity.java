@@ -19,6 +19,7 @@ import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.home.HomeActivity;
@@ -49,7 +50,8 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
 
     @OnClick(R.id.txt_cancle)
     void clear() {
-        passwordView.setText("");
+        finish();
+//        passwordView.setText("");
     }
 
     private EmailContract.EmailPresenter presenter;
@@ -105,11 +107,10 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
                         }else if(type.equals(Constant.LOGIN_MAIL_REGISTER)){
                             //註冊
                             SettingPassWordActivity.actionStart(SettingMobileCodeActivity.this, type,email,code);
-                            finish();
                         }
                     }else {
                         //验证码错误
-                        NormalDialog dialog = NormalDialog.newInstance(R.string.mailbox_code_error, R.mipmap.icon_normal_no,R.color.color_E12828);
+                        NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.mailbox_code_error, R.mipmap.icon_normal_no,R.color.color_E12828);
                         dialog.setTheme(R.style.PaddingScreen);
                         dialog.setGravity(Gravity.CENTER);
                         dialog.show(getSupportFragmentManager(), "edit");
@@ -216,6 +217,12 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
         }
         if (SettingMobileCodeActivity.instance != null) {
             SettingMobileCodeActivity.instance.finish();
+        }
+        if (InvitationActivity.instance != null) {
+            InvitationActivity.instance.finish();
+        }
+        if (LoginTypeActivity.instance != null) {
+            LoginTypeActivity.instance.finish();
         }
         if (EmailActivity.instance != null) {
             EmailActivity.instance.finish();

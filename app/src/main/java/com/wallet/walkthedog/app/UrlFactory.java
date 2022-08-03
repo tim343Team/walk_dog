@@ -229,6 +229,11 @@ public class UrlFactory {
         return host + "/shopping/cancelSellProp";
     }
 
+    //根据code查询
+    public static String getSysDataCodeUrl() {
+        return host + "/sysData/getSysDataCode";
+    }
+
     //开启宝箱
     public static String openBoxUrl() {
         return host + "/prop/openBox";

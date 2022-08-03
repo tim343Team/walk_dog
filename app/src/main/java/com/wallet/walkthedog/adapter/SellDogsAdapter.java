@@ -53,7 +53,7 @@ public class SellDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder
         helper.setText(R.id.txt_cancle,R.string.cancle_buy);
         helper.setText(R.id.txt_count,String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + "") );//遛狗次数
         helper.setText(R.id.txt_time, DateTimeUtil.second2Time(Long.parseLong(item.getWalkTheDogTime())));//遛狗时间
-        helper.setText(R.id.txt_id,item.getId());//id
+        helper.setText(R.id.txt_id,item.getDogNumberChain());//id
 
     }
 

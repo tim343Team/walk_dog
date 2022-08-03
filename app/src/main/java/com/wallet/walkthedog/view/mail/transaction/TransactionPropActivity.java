@@ -14,12 +14,14 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateMaiPropEvent;
 import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
+import com.wallet.walkthedog.dao.CodeDataDao;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.UserCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -114,7 +116,7 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
         txtTitle.setText(propMailDao.getName());
         txtName.setText(propMailDao.getName());
         txtCharm.setText(propMailDao.getUsercp());
-        txtId.setText(propMailDao.getId() + "");
+        txtId.setText(propMailDao.getPropNumberChain() + "");
         txtIntroduce.setText(propMailDao.getDescribeData());
         if (propMailDao.getMemberId().equals(uid)) {
             status = 1;
@@ -142,7 +144,7 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -174,6 +176,11 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
         //刷新列表
         EventBus.getDefault().post(new UpdateMaiPropEvent());
         finish();
+    }
+
+    @Override
+    public void getSysDataCodeSuccess(CodeDataDao data) {
+
     }
 
     @Override

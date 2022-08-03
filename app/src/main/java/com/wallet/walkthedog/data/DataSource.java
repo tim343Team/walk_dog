@@ -56,6 +56,8 @@ public interface DataSource {
 
     void cancelSellProp(BuyRequest request, DataCallback dataCallback);
 
+    void getSysDataCode(String code, DataCallback dataCallback);
+
     void openBox(OpreationPropRequest request, DataCallback dataCallback);
 
     void getWalkTheDogFriend(DataCallback dataCallback);

@@ -19,6 +19,7 @@ import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
@@ -159,7 +160,7 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
@@ -168,7 +169,7 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
     @Override
     public void getAddFail(Integer code, String toastMessage) {
         //提示
-        NormalDialog dialog = NormalDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.cancle_props, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
@@ -198,6 +199,7 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
     @Override
     public void getRemovePropSuccess(int position) {
         data.get(position).setType(2);
+        data.get(position).setDecorateDogId(0);
         adapter.notifyItemChanged(position);
         ((MyPropsActivity) Objects.requireNonNull(getActivity())).isChange = true;
     }
@@ -205,6 +207,7 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
     @Override
     public void getAddPropSuccess(int position) {
         data.get(position).setType(1);
+        data.get(position).setDecorateDogId(Integer.parseInt(currentDogId));
         adapter.notifyItemChanged(position);
         NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
         dialog.setTheme(R.style.PaddingScreen);

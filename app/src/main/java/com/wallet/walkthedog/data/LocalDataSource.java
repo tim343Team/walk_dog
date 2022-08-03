@@ -121,6 +121,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void getSysDataCode(String code, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void openBox(OpreationPropRequest request, DataCallback dataCallback) {
 
     }

@@ -23,9 +23,11 @@ import com.wallet.walkthedog.dialog.IdentityDialog;
 import com.wallet.walkthedog.dialog.InviteMoreDialog;
 import com.wallet.walkthedog.dialog.NicknameDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.RemoveFriendDIalog;
 import com.wallet.walkthedog.dialog.SettingInviteDialog;
+import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.untils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,6 +66,8 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
     TextView txtTime;
     @BindView(R.id.txt_number_t)
     TextView txtFrequency;
+    @BindView(R.id.txt_number_tt)
+    TextView txtFrequencyT;
     @BindView(R.id.txt_time_t)
     TextView txtTimeT;
     @BindView(R.id.txt_walk_t)
@@ -94,15 +98,15 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         if (mDefultDogInfo == null) {
             return;
         }
-        RemoveFriendDIalog dialog = RemoveFriendDIalog.newInstance(mDefultDogInfo.getFriendName(),mDefultDogInfo.getDogName(),
-                mDefultDogInfo.getFriendWalkTheDogCount(),mDefultDogInfo.getFriendWalkTheDogTime());
+        RemoveFriendDIalog dialog = RemoveFriendDIalog.newInstance(mDefultDogInfo.getFriendName(), mDefultDogInfo.getDogName(),
+                mDefultDogInfo.getFriendWalkTheDogCount(), mDefultDogInfo.getFriendWalkTheDogTime());
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
         dialog.setCallback(new RemoveFriendDIalog.OperateCallback() {
             @Override
             public void callback() {
-                presenter.delFriend(new FriendRequest(friendInfoDao.getFriendMemberId()+""));
+                presenter.delFriend(new FriendRequest(friendInfoDao.getFriendMemberId() + ""));
 //                PasswordDialog passwordDialog = PasswordDialog.newInstance();
 //                passwordDialog.setTheme(R.style.PaddingScreen);
 //                passwordDialog.setGravity(Gravity.CENTER);
@@ -137,10 +141,10 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         dialog.show(getSupportFragmentManager(), "edit");
         dialog.setCallback(new SettingInviteDialog.OperateCallback() {
             @Override
-            public void callback(String startTime,String endTime) {
+            public void callback(String startTime, String endTime) {
                 //发起邀请接口
                 //2022-07-26    2022-07-28
-                presenter.addTogether(new InviteRequest(mDefultDogInfo.getId(),startTime,endTime));
+                presenter.addTogether(new InviteRequest(mDefultDogInfo.getFriendMemberId(), startTime, endTime));
                 dialog.dismiss();
             }
         });
@@ -162,7 +166,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
                 nicknameDialog.setCallback(new NicknameDialog.OperateCallback() {
                     @Override
                     public void callback(String name) {
-                        FriendRequest request = new FriendRequest(friendInfoDao.getFriendListId()+"",name);
+                        FriendRequest request = new FriendRequest(friendInfoDao.getFriendListId() + "", name);
                         presenter.setNote(request);
                         nicknameDialog.dismiss();
                     }
@@ -201,10 +205,10 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
 
     @Override
     protected void loadData() {
-        if(friendInfoDao==null){
+        if (friendInfoDao == null) {
             return;
         }
-        presenter.getFriendDogDetail(friendInfoDao.getId()+"");
+        presenter.getFriendDogDetail(friendInfoDao.getId() + "");
     }
 
     //设置进度条
@@ -265,14 +269,15 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         Glide.with(this).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
         setProgress(progressBg, progressBar, progressTxt, mDefultDogInfo.getRateOfProgress() / 100.00);
         //
-        txtKm.setText(String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm() + "Km"));
+        txtKm.setText(mDefultDogInfo.getWalkTheDogKm() + "Km");
         txtTrip.setText(mDefultDogInfo.getWalkTheDogTime() + "");
-        txtTrip.setText( DateTimeUtil.second2Time(Long.valueOf(mDefultDogInfo.getWalkTheDogTime())));
+        txtTrip.setText(DateTimeUtil.second2Time(Long.valueOf(mDefultDogInfo.getWalkTheDogTime())));
         txtTime.setText(mDefultDogInfo.getDayLimit() + "/2");
+        txtFrequencyT.setText(String.format(getString(R.string._time), mDefultDogInfo.getWalkTheDogCount() + ""));
         //
         txtFrequency.setText(String.format(getString(R.string._time), mDefultDogInfo.getFriendWalkTheDogCount()));
-        txtTimeT.setText( DateTimeUtil.second2Time(Long.valueOf(mDefultDogInfo.getFriendWalkTheDogTime())));
-        txtKmt.setText( mDefultDogInfo.getFriendWalkTheDogTime() + "Km");
+        txtTimeT.setText(DateTimeUtil.second2Time(Long.valueOf(mDefultDogInfo.getFriendWalkTheDogTime())));
+        txtKmt.setText(mDefultDogInfo.getFriendWalkTheDogTime() + "Km");
 
     }
 
@@ -294,6 +299,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         dialog.show(getSupportFragmentManager(), "edit");
         //刷新好友列表
         EventBus.getDefault().post(new UpdateFriendEvent());
+        EventBus.getDefault().post(new UpdateHomeData());
         finish();
     }
 
@@ -307,7 +313,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
 
     @Override
     public void addTogetherFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");

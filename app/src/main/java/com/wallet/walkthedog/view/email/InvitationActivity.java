@@ -23,6 +23,7 @@ import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
 public class InvitationActivity extends BaseActivity  implements EmailContract.EmailView{
+    public static InvitationActivity instance = null;
     @BindView(R.id.txt_title)
     TextView txtTile;
     @BindView(R.id.edit)
@@ -80,6 +81,7 @@ public class InvitationActivity extends BaseActivity  implements EmailContract.E
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        instance = this;
         presenter = new EmailPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
     }
 
@@ -128,7 +130,6 @@ public class InvitationActivity extends BaseActivity  implements EmailContract.E
         //发送验证码接口的返回
         ToastUtils.shortToast(this,R.string.mailbox_send_succeed);
         SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_REGISTER);
-        finish();
     }
 
     @Override

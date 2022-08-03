@@ -112,10 +112,10 @@ public class BuyOrRentDogDialog extends BaseDialogFragment {
         txtWeight.setText(dogMailDao.getWeight()+"Kg");
         txtMuscle.setText(dogMailDao.getDecimalDog()+"Kg");
         txtTime.setText(DateTimeUtil.second2Time(Long.valueOf(dogMailDao.getWalkTheDogTime())));
-        txtId.setText(dogMailDao.getId());
-        txtPrice.setText(dogMailDao.getPrice());
+        txtId.setText(dogMailDao.getDogNumberChain());
+        txtPrice.setText(dogMailDao.getPrice()+"suzu");
         txtBalance.setText(totalProperty);
-        txtFee.setText("缺少字段");
+        txtFee.setText(dogMailDao.getShoppingFee());
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_null_dog)

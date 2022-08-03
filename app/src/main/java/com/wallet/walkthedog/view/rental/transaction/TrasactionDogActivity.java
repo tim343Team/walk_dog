@@ -20,8 +20,6 @@ public class TrasactionDogActivity extends BaseActivity {
     TextView txtRentTime;
     @BindView(R.id.txt_operation)
     TextView txtOperation;
-    @BindView(R.id.ll_character)
-    View llCharacter;
 
     private int status = 0;//0：購買 1：取消售賣
 
@@ -77,7 +75,6 @@ public class TrasactionDogActivity extends BaseActivity {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         txtRentTime.setVisibility(View.VISIBLE);
-        llCharacter.setVisibility(View.VISIBLE);
         txtOperation.setText(R.string.rental);
     }
 

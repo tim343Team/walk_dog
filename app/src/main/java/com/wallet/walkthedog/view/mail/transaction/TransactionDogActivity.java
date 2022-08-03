@@ -15,12 +15,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
+import com.wallet.walkthedog.dao.CodeDataDao;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.request.BuyRequest;
+import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.UserCache;
 import com.wallet.walkthedog.dialog.BuyOrRentDogDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,7 +35,7 @@ import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.utils.DateTimeUtil;
 
-public class TransactionDogActivity extends BaseActivity implements TransactionContract.TransactionView{
+public class TransactionDogActivity extends BaseActivity implements TransactionContract.TransactionView {
     @BindView(R.id.txt_operation)
     TextView txtPeration;
     @BindView(R.id.progress_bg)
@@ -57,8 +60,6 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
     TextView txtId;
     @BindView(R.id.txt_time)
     TextView txtTime;
-    @BindView(R.id.txt_character)
-    TextView txtCharacter;
     @BindView(R.id.txt_fee)
     TextView txtFee;
     @BindView(R.id.txt_price)
@@ -80,7 +81,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
     @OnClick(R.id.txt_operation)
     void operation() {
         if (status == 0) {
-            dialog = BuyOrRentDogDialog.newInstance(dogMailDao,totalProperty,1);
+            dialog = BuyOrRentDogDialog.newInstance(dogMailDao, totalProperty, 1);
             dialog.setTheme(R.style.PaddingScreen);
             dialog.setGravity(Gravity.CENTER);
             dialog.show(getSupportFragmentManager(), "edit");
@@ -95,7 +96,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
                         @Override
                         public void callback(String password) {
                             //购买狗狗接口
-                            presenter.buyDog(new BuyRequest(dogMailDao.getId(),password));
+                            presenter.buyDog(new BuyRequest(dogMailDao.getId(), password));
                         }
                     });
                     passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
@@ -145,14 +146,12 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
         }
         txtTitle.setText(dogMailDao.getName());
         txtLevel.setText("LEVEL " + dogMailDao.getLevel());
-        txtMuscle.setText(dogMailDao.getDecimalDog()+"Kg");
-        txtWeight.setText(dogMailDao.getWeight()+"Kg");
-        txtId.setText(dogMailDao.getId()+"");
+        txtMuscle.setText(dogMailDao.getDecimalDog() + "Kg");
+        txtWeight.setText(dogMailDao.getWeight() + "Kg");
+        txtId.setText(dogMailDao.getDogNumberChain() + "");
         txtTime.setText(DateTimeUtil.second2Time(Long.valueOf(dogMailDao.getWalkTheDogTime())));
-        txtPrice.setText(dogMailDao.getPrice());
+        txtPrice.setText(dogMailDao.getPrice() + "suzu");
         setProgress(progressBg, progressBar, progressTxt, dogMailDao.getRateOfProgress() / 100.00);
-        txtFee.setText("缺少字段");
-        txtCharacter.setText("缺少字段");
         if (dogMailDao.getMemberId().equals(uid)) {
             status = 1;
             txtPeration.setText(R.string.cancle_buy);
@@ -160,6 +159,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
             status = 0;
             txtPeration.setText(R.string.buy);
         }
+        presenter.getSysDataCode(Constant.SHOPPING_FEE);
         presenter.getWallet("1");
     }
 
@@ -206,7 +206,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -244,7 +244,15 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
     }
 
     @Override
+    public void getSysDataCodeSuccess(CodeDataDao data) {
+        double fee = 0.0;
+        fee = Double.parseDouble(data.getValue());
+        String feeValue = String.valueOf(dogMailDao.getPrice() * fee);
+        txtFee.setText(feeValue+" suzu");
+    }
+
+    @Override
     public void setPresenter(TransactionContract.TransactionPresenter presenter) {
-        this.presenter=presenter;
+        this.presenter = presenter;
     }
 }

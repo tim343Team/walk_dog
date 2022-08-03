@@ -50,7 +50,7 @@ public class DogMailAdapter extends BaseQuickAdapter<DogMailDao, BaseViewHolder>
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_dog));
         helper.setText(R.id.txt_level, "Lv." + item.getLevel());
         helper.setText(R.id.txt_name,item.getName());
-        helper.setText(R.id.txt_price,String.valueOf(item.getPrice()));
+        helper.setText(R.id.txt_price,String.valueOf(item.getPrice())+" suzu");
         if(item.getMemberId().equals(uid)){
             helper.setText(R.id.txt_cancle,R.string.cancle_buy);
         }else {

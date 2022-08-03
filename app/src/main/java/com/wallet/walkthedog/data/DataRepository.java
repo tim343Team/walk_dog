@@ -136,6 +136,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void getSysDataCode(String code, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getSysDataCode(code, dataCallback);
+        else mRemoteDataSource.getSysDataCode(code, dataCallback);
+    }
+
+    @Override
     public void openBox(OpreationPropRequest request, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.openBox(request, dataCallback);
         else mRemoteDataSource.openBox(request, dataCallback);

@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.walk;
 
 import com.wallet.walkthedog.dao.AwardDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.SendMailboxCodeRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
@@ -24,6 +25,7 @@ public class WalkContract {
 
         void getAwardSuccess(String message,int position);
 
+        void getWalkTheDogFriendSuccessful(InvitedFriendDao data);
 
     }
 
@@ -34,5 +36,7 @@ public class WalkContract {
         void getAwardPage(AwardRequest request);
 
         void getAward(AwardRequest request,int position);//领取奖励
+
+        void getWalkTheDogFriend();//获取一起遛狗的好友
     }
 }

@@ -40,7 +40,7 @@ public class ChoicePropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_prop));
         helper.setText(R.id.txt_name, item.getName());
-        helper.setText(R.id.txt_id, item.getId());
+        helper.setText(R.id.txt_id, item.getPropNumberChain());
         if (nftTypeCatagoryId == 1) {
             //狗粮
             type= Constant.PROP_FOOD;

@@ -18,11 +18,13 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,20 +40,26 @@ import com.wallet.walkthedog.bus_event.GpsLocationEvent;
 import com.wallet.walkthedog.bus_event.GpsSateliteEvent;
 import com.wallet.walkthedog.bus_event.GpsStartEvent;
 import com.wallet.walkthedog.bus_event.GpsStopEvent;
+import com.wallet.walkthedog.bus_event.UpdateFriendEvent;
 import com.wallet.walkthedog.dao.AwardDao;
 import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EquipmentDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.PropDao;
+import com.wallet.walkthedog.dao.RentDogDao;
 import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.NoticeDialog;
+import com.wallet.walkthedog.dialog.StopWalkDIalog;
 import com.wallet.walkthedog.dialog.WalkNoticeDialog;
 import com.wallet.walkthedog.service.GpsService;
 import com.wallet.walkthedog.untils.AutoUtils;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.home.HomeActivity1;
+import com.wallet.walkthedog.view.invite.InviteActivity;
 import com.wallet.walkthedog.view.login.CreateActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -94,6 +102,8 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     ImageView[] imgEquipments;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+    @BindView(R.id.img_invate)
+    ImageView imgInvate;
     @BindView(R.id.ll_gps)
     View llGPS;
 
@@ -123,7 +133,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
 //            ToastUtils.shortToast("WalkActivity：" + "定时器是否获取到道具："+isUpdateAward+logId);
             try {
                 if (isUpdateAward) {
-                    presenter.getAwardPage(new AwardRequest(logId,0));
+                    presenter.getAwardPage(new AwardRequest(logId, 0));
 //                    presenter.getAwardPage(new AwardRequest(200,0));
                 }
                 mHandler.postDelayed(this, 15000);
@@ -133,9 +143,34 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         }
     };
 
+    @OnClick(R.id.img_invate)
+    void addInvate() {
+        InviteActivity.actionStart(this);
+    }
+
     @OnClick(R.id.img_back)
     void back() {
-        finish();
+        if (isWalking) {
+            //增加提示弹窗
+            StopWalkDIalog dialog = StopWalkDIalog.newInstance();
+            dialog.setTheme(R.style.PaddingScreen);
+            dialog.setGravity(Gravity.CENTER);
+            dialog.show(getSupportFragmentManager(), "edit");
+            dialog.setCallback(new StopWalkDIalog.OperateCallback() {
+                @Override
+                public void callback() {
+                    //停止遛狗
+                    stopService(gpsService);
+                    switchButton(false);
+                    //停止遛狗接口
+                    if (isServicesWalking)
+                        presenter.stopWalkDog(new SwitchWalkRequest(mDefultDogInfo.getId(), String.valueOf(lan), String.valueOf(lon)));
+                    dialog.dismiss();
+                }
+            });
+        } else {
+            finish();
+        }
     }
 
     @OnClick(R.id.ll_status)
@@ -203,6 +238,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     @Override
     protected void loadData() {
         mHandler.postDelayed(runnable, 1000);
+        presenter.getWalkTheDogFriend();
     }
 
     @Override
@@ -222,11 +258,12 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     //gps 定位实时经纬度
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void GetGpsLocation(GpsLocationEvent location) {
+        double speend = 0.0;
         if (gpsEnable) {
             lon = location.getLongitude();
             lan = location.getLatitude();
             BigDecimal bigDecimal = new BigDecimal(location.getSpeed());
-            double speend = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+            speend = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
             txtSpeed.setText(String.valueOf(speend));
             txtSpeed2.setText(location.getSpeedStatus());
             if (location.getSpeedStatus().equals("1")) {
@@ -240,7 +277,9 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
                 stopWarning();
             }
         } else {
-            txtSpeed.setText("0.0");
+            speend = 0.0;
+            txtSpeed.setText(speend + "");
+            showWarning("1", String.valueOf(speend));
         }
     }
 
@@ -292,17 +331,23 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void addCoord(CoordDao coordDao) {
         logId = coordDao.getLogId();
-        if(coordDao.getArea()==1){
+        if (coordDao.getArea() == 1) {
             txtNotice.setText(R.string.walk_notice_2);
             txtNotice.setTextColor(getResources().getColor(R.color.color_f02828));
-        }else if(coordDao.getArea()==2){
+        } else if (coordDao.getArea() == 2) {
             txtNotice.setText(R.string.walk_notice_1);
             txtNotice.setTextColor(getResources().getColor(R.color.white));
-        }else if(coordDao.getArea()==3){
+        } else if (coordDao.getArea() == 3) {
             txtNotice.setText(R.string.walk_notice_1);
             txtNotice.setTextColor(getResources().getColor(R.color.white));
         }
         isUpdateAward = true;
+    }
+
+    //更新好友
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshData(UpdateFriendEvent location) {
+        presenter.getWalkTheDogFriend();
     }
 
     void initEquipment() {
@@ -327,7 +372,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     }
 
     void initRv() {
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
         adapter = new WalkDogAdapter(R.layout.adapter_walk_dog, data);
         adapter.bindToRecyclerView(recyclerView);
@@ -336,7 +381,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
             public void click(int position) {
                 if (position >= 0) {
                     //打开宝箱
-                    presenter.getAward(new AwardRequest(0,data.get(position).getId()),position);
+                    presenter.getAward(new AwardRequest(0, data.get(position).getId()), position);
                 }
 //                NormalDialog dialog = NormalDialog.newInstance(R.string.collect_notice, R.mipmap.icon_normal);
 //                dialog.setTheme(R.style.PaddingScreen);
@@ -361,13 +406,11 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
             txtStatus.setText(R.string.walk_stop);
             imgStatus.setBackgroundResource(R.mipmap.icon_walk_stop);
             llGPS.setVisibility(View.VISIBLE);
-            imgBack.setVisibility(View.INVISIBLE);
         } else {
             //停止遛狗
             txtStatus.setText(R.string.walk_start);
             imgStatus.setBackgroundResource(R.mipmap.icon_walking);
             llGPS.setVisibility(View.INVISIBLE);
-            imgBack.setVisibility(View.VISIBLE);
         }
     }
 
@@ -383,6 +426,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
             @Override
             public void callback() {
                 dialog.dismiss();
+                //TODO 调用结束接口
             }
         });
     }
@@ -432,7 +476,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
 
     @Override
     public void getAwardFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -454,13 +498,25 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
     }
 
     @Override
-    public void getAwardSuccess(String message,int position) {
+    public void getAwardSuccess(String message, int position) {
         NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
         data.get(position).setStatus(3);
         adapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void getWalkTheDogFriendSuccessful(InvitedFriendDao data) {
+        //展示遛狗好友狗狗头像
+        if (data != null) {
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_null_dog)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+            Glide.with(this).load(data.getDog().getImg()).apply(options).into(imgInvate);
+        }
     }
 
     @Override

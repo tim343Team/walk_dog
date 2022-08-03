@@ -68,6 +68,7 @@ public class DogMailFragment extends BaseLazyFragment implements MailContract.Ma
     protected void initViews(Bundle savedInstanceState) {
         presenter = new MailPresenter(Injection.provideTasksRepository(getmActivity()), this);//初始化presenter
         initRecyclerView();
+        presenter.getDogList(new MailRequest(),pageNo);
     }
 
     @Override
@@ -82,7 +83,6 @@ public class DogMailFragment extends BaseLazyFragment implements MailContract.Ma
 
     @Override
     protected void loadData() {
-        presenter.getDogList(new MailRequest(),pageNo);
     }
 
     @Override

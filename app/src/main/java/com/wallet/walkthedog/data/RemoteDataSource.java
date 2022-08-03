@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.AwardDao;
 import com.wallet.walkthedog.dao.BoxDao;
+import com.wallet.walkthedog.dao.CodeDataDao;
 import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
@@ -547,6 +548,38 @@ public class RemoteDataSource implements DataSource {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
                                 dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getSysDataCode(String code, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getSysDataCodeUrl() + "?code=" + code)
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("根据code查询:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("根据code查询:", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                CodeDataDao obj = gson.fromJson(object.getJSONObject("data").toString(), CodeDataDao.class);
+                                dataCallback.onDataLoaded(obj);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

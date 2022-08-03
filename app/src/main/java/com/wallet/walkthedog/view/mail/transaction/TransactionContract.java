@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.mail.transaction;
 
+import com.wallet.walkthedog.dao.CodeDataDao;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
@@ -20,6 +21,8 @@ public class TransactionContract {
 
         void cancelSellSuccess(String data);
 
+        void getSysDataCodeSuccess(CodeDataDao data);
+
     }
 
     interface TransactionPresenter extends Contract.BasePresenter {
@@ -32,5 +35,7 @@ public class TransactionContract {
         void cancelSellDog(BuyRequest request);//取消售卖狗狗
 
         void cancelSellProp(BuyRequest request);//取消售卖道具
+
+        void getSysDataCode(String code);//获取交易手续费
     }
 }

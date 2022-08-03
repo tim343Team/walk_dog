@@ -7,6 +7,8 @@ import java.util.List;
 public class FriendInfoDao implements Serializable {
     private int id;
 
+    private String getDogNumberChain;
+
     private int friendMemberId;
 
     private int friendListId;
@@ -54,6 +56,18 @@ public class FriendInfoDao implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getGetDogNumberChain() {
+        return getDogNumberChain;
+    }
+
+    public void setGetDogNumberChain(String getDogNumberChain) {
+        this.getDogNumberChain = getDogNumberChain;
+    }
+
+    public void setDayLimit(int dayLimit) {
+        this.dayLimit = dayLimit;
     }
 
     public int getFriendMemberId() {

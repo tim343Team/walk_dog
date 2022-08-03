@@ -17,6 +17,7 @@ import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.dog.DogDetailActivity;
@@ -149,7 +150,7 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");

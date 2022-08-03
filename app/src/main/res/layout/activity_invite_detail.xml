@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <!--标题-->
@@ -128,7 +128,7 @@
                     android:layout_width="@dimen/dimen_186"
                     android:layout_height="@dimen/dimen_186"
                     android:layout_below="@+id/ll_header"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true" />
 
                 <LinearLayout
                     android:id="@+id/ll_equipment"
@@ -151,7 +151,7 @@
                             android:background="@drawable/round_white"
                             android:padding="@dimen/dp5"
                             android:src="@mipmap/icon_invate"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/img_equipment_2"
@@ -162,7 +162,7 @@
                             android:background="@drawable/round_white"
                             android:padding="@dimen/dp5"
                             android:src="@mipmap/icon_invate"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/img_equipment_3"
@@ -171,7 +171,7 @@
                             android:background="@drawable/round_white"
                             android:padding="@dimen/dp5"
                             android:src="@mipmap/icon_invate"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
@@ -271,12 +271,81 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/TextStyle1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/walk_number_"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_time"
+                        style="@style/TextStyle1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text=""
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_6"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextStyle1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/individual_total_"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_6"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txt_number_tt"
+                        style="@style/TextStyle1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/aggregate_"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/TextStyle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="/"
+                        android:textStyle="bold" />
+
+                    <TextView
                         android:id="@+id/txt_km"
                         style="@style/TextStyle1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:text="@string/aggregate_"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/TextStyle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="/"
                         android:textStyle="bold" />
 
                     <TextView
@@ -285,41 +354,31 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="" />
+                        android:gravity="center"
+                        android:text="16h" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_6"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/txt_time"
                         style="@style/TextStyle1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text=""
+                        android:text="@string/number_total_"
                         android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_region"
-                        style="@style/TextStyle1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/walk_together" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_6"
                     android:orientation="horizontal">
 
                     <TextView
@@ -328,8 +387,34 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="start"
-                        android:text=""
+                        android:gravity="center"
+                        android:text="12次"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/TextStyle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="/"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_walk_t"
+                        style="@style/TextStyle1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="16H"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/TextStyle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="/"
                         android:textStyle="bold" />
 
                     <TextView
@@ -339,29 +424,20 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="" />
+                        android:text="16h" />
 
-                    <TextView
-                        android:id="@+id/txt_walk_t"
-                        style="@style/TextStyle1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text=""
-                        android:textColor="@color/color_4D67C1" />
 
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/txt_remove"
+                    style="@style/TextStyle1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/TextStyle1"
-                    android:textColor="@color/color_4D67C1"
                     android:layout_marginTop="@dimen/dimen_47"
                     android:gravity="end"
-                    android:text="@string/remove"/>
+                    android:text="@string/remove"
+                    android:textColor="@color/color_4D67C1" />
 
                 <com.wallet.walkthedog.custom_view.card.ShadowTextView
                     android:id="@+id/view_bottom"

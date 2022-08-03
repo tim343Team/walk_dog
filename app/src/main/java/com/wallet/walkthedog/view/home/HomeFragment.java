@@ -27,6 +27,7 @@ import com.wallet.walkthedog.dialog.IdentityDialog;
 import com.wallet.walkthedog.dialog.InvitedStopDialog;
 import com.wallet.walkthedog.dialog.MoreOperationDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.TrainDogDialog;
 import com.wallet.walkthedog.dialog.TrainListDialog;
@@ -583,7 +584,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     public void buyShopDogFoodFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");

@@ -16,12 +16,18 @@ import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
 public class LoginTypeActivity extends BaseActivity implements EmailContract.EmailView{
+    public static LoginTypeActivity instance = null;
     private EmailContract.EmailPresenter presenter;
     private String mailbox;
+
+    @OnClick(R.id.img_back)
+    void back(){
+        finish();
+    }
+
     @OnClick(R.id.ll_password_login)
     void gotoPasswordLogin(){
         SettingPassWordActivity.actionStart(this, Constant.LOGIN_MAIL_LOGIN,mailbox);
-        finish();
     }
 
     @OnClick(R.id.ll_code_login)
@@ -42,6 +48,7 @@ public class LoginTypeActivity extends BaseActivity implements EmailContract.Ema
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        instance = this;
         presenter = new EmailPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
     }
 
@@ -70,7 +77,6 @@ public class LoginTypeActivity extends BaseActivity implements EmailContract.Ema
         //发送验证码接口的返回
         ToastUtils.shortToast(LoginTypeActivity.this,R.string.mailbox_send_succeed);
         SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_LOGIN);
-        finish();
     }
 
     @Override

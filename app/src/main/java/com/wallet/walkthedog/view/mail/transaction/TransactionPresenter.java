@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.mail.transaction;
 
+import com.wallet.walkthedog.dao.CodeDataDao;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.mail.MailContract;
@@ -89,6 +90,23 @@ public class TransactionPresenter implements  TransactionContract.TransactionPre
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
                 view.cancelSellSuccess((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getSysDataCode(String code) {
+        dataRepository.getSysDataCode(code,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getSysDataCodeSuccess((CodeDataDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override

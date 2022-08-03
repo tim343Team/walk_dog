@@ -23,6 +23,7 @@ import com.wallet.walkthedog.dialog.IdentityDialog;
 import com.wallet.walkthedog.dialog.MoreDogOperationDialog;
 import com.wallet.walkthedog.dialog.MoreOperationDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.SellPropDialog;
 import com.wallet.walkthedog.dialog.SellPropNoticeDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
@@ -231,7 +232,7 @@ public class DogDetailActivity extends BaseActivity implements DogDetailContract
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -259,7 +260,7 @@ public class DogDetailActivity extends BaseActivity implements DogDetailContract
         //喂食失败
         if (code == 1) {
             //获取狗粮数据
-            NormalDialog dialog = NormalDialog.newInstance(R.string.feeding_error, R.mipmap.icon_normal_no, R.color.color_E12828);
+            NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.feeding_error, R.mipmap.icon_normal_no, R.color.color_E12828);
             dialog.setTheme(R.style.PaddingScreen);
             dialog.setGravity(Gravity.CENTER);
             dialog.show(getSupportFragmentManager(), "edit");

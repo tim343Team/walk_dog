@@ -20,6 +20,7 @@ import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.dog.DogDetailActivity;
 import com.wallet.walkthedog.view.props.fragment.PropsContract;
@@ -128,7 +129,7 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");

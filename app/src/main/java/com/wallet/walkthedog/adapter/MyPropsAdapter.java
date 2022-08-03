@@ -36,29 +36,33 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(mContext).load(item.getImg()).apply(options).into((ImageView) helper.getView(R.id.img_prop));
         helper.setText(R.id.txt_name, item.getName());
-        helper.setText(R.id.txt_id, item.getId());
+        helper.setText(R.id.txt_id, item.getPropNumberChain());
         helper.setText(R.id.txt_create_time, item.getCreateTime());
-        helper.setText(R.id.txt_equipment_id, String.format(mContext.getString(R.string.equipment_dog_), item.getDecorateDogId() + ""));
+        if(item.getDecorateDogId() == 0){
+            helper.setText(R.id.txt_equipment_id,R.string.nothing);
+        }else {
+            helper.setText(R.id.txt_equipment_id,String.format(mContext.getString(R.string.equipment_dog_), item.getDecorateDogId() + ""));
+        }
         if (nftTypeCatagoryId == 1) {
-            type= Constant.PROP_FOOD;
+            type = Constant.PROP_FOOD;
             helper.setText(R.id.txt_choice, R.string.open);
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemOpen.click(helper.getLayoutPosition(),0);
+                    itemOpen.click(helper.getLayoutPosition(), 0);
                 }
             });
-        } else if(nftTypeCatagoryId == 2){
-            type= Constant.PROP_BOX;
+        } else if (nftTypeCatagoryId == 2) {
+            type = Constant.PROP_BOX;
             helper.setText(R.id.txt_choice, R.string.open);
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemOpen.click(helper.getLayoutPosition(),1);
+                    itemOpen.click(helper.getLayoutPosition(), 1);
                 }
             });
         } else {
-            type= Constant.PROP_NORMAL;
+            type = Constant.PROP_NORMAL;
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -67,11 +71,11 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
             });
             if (item.getType() == 1) {
                 helper.setText(R.id.txt_choice, R.string.deselect);
-            } else if(item.getType() == 2){
+            } else if (item.getType() == 2) {
                 helper.setText(R.id.txt_choice, R.string.select);
-            }else if(item.getType() == 3){
+            } else if (item.getType() == 3) {
                 helper.setText(R.id.txt_choice, R.string.cancle_sale);
-            }else {
+            } else {
                 helper.setText(R.id.txt_choice, R.string.select);
             }
         }
@@ -94,7 +98,7 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
         helper.getView(R.id.root_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rootClick.click(helper.getLayoutPosition(),type);
+                rootClick.click(helper.getLayoutPosition(), type);
             }
         });
     }
@@ -116,7 +120,7 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
     }
 
     public interface OnOpenListenerItem {
-        void click(int position,int type);//0:狗糧 1：箱子
+        void click(int position, int type);//0:狗糧 1：箱子
     }
 
     OnclickListenerRoot rootClick;
@@ -126,6 +130,6 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
     }
 
     public interface OnclickListenerRoot {
-        void click(int position,String type);
+        void click(int position, String type);
     }
 }
