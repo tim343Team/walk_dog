@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -24,6 +25,7 @@ import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.FriendInfoListDao;
 import com.wallet.walkthedog.dao.InviteFriendDao;
 import com.wallet.walkthedog.dao.InviteFriendItem;
+import com.wallet.walkthedog.dao.UserInfoDao;
 import com.wallet.walkthedog.data.DataRepository;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.dialog.AddFriendDialog;
@@ -31,6 +33,7 @@ import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.SettingInviteDialog;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
+import com.wallet.walkthedog.sp.SafeGet;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
@@ -329,9 +332,16 @@ public class FriendListActivity extends BaseActivity {
 
     private static class InviteAdapter extends BaseQuickAdapter<InviteFriendItem, BaseViewHolder> {
 
+        int id = 0;
 
         public InviteAdapter() {
             super(R.layout.item_friend_invite_info);
+            SharedPrefsHelper.getInstance().AsyncGetUserInfo().onGet(new SafeGet.SafeCall<UserInfoDao>() {
+                @Override
+                public void call(UserInfoDao dao) {
+                    id = dao.getId();
+                }
+            });
         }
 
         @Override
@@ -347,12 +357,12 @@ public class FriendListActivity extends BaseActivity {
             //如果自己的id=memberId  那么就显示friendNote或者friend Email
             //如果自己的id=friendId  那么就显示memberNote或者memberEmail
             String friendName = "";
-            if (item.getId() == item.getMemberId()) {
+            if (id == item.getMemberId()) {
                 friendName = item.getFriendNote();
                 if (TextUtils.isEmpty(friendName)) {
                     friendName = item.getFriendEmail();
                 }
-            } else if (Objects.equals(item.getFriendId(), String.valueOf(item.getId()))) {
+            } else if (Objects.equals(item.getFriendId(), String.valueOf(id))) {
                 friendName = item.getMemberNote();
                 if (TextUtils.isEmpty(friendName)) {
                     friendName = item.getMemberEmail();
@@ -425,6 +435,34 @@ public class FriendListActivity extends BaseActivity {
                 helper.setTextColor(R.id.txt_status, Color.parseColor("#30B226"));
                 helper.setText(R.id.txt_status, R.string.full_of_energy);
             }
+            setProgress(helper, item.getRateOfProgress() / 100.00);
+        }
+
+        //设置进度条
+        private void setProgress(BaseViewHolder helper, double percentage) {
+            View progressBg = helper.getView(R.id.progress_bg);
+            View progressBar = helper.getView(R.id.progress_bar);
+            TextView progressTxt = helper.getView(R.id.progress_txt);
+            progressBg.post(new Runnable() {
+                @Override
+                public void run() {
+                    int progressAll = progressBg.getWidth();
+                    int progress = (int) (progressAll * percentage);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) progressBar.getLayoutParams();
+                    params.width = progress;
+                    progressBar.setLayoutParams(params);
+                    RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) progressTxt.getLayoutParams();
+                    if (percentage < 0.2) {
+                        params2.leftMargin = 0;
+                    } else if (percentage > 0.9) {
+                        params2.leftMargin = (int) (progress - progressAll * 0.4);
+                    } else {
+                        params2.leftMargin = (int) (progress - progressAll * 0.18);
+                    }
+                    progressTxt.setLayoutParams(params2);
+                    progressTxt.setText(percentage * 100 + "%");
+                }
+            });
         }
     }
 }

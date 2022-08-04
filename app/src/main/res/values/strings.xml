@@ -399,6 +399,7 @@
     <string name="invite_register">invite to register</string>
     <string name="my_invitation_code">My invitation code</string>
     <string name="no_invite_register_list">You haven’t invited friends yet</string>
+    <string name="this_friend_no_have_dog">This friend doesn’t have an online dog</string>
 
 
 </resources>
