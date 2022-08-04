@@ -276,6 +276,11 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
     }
 
     @Override
+    public void cancelSellSuccess(String data, int position) {
+
+    }
+
+    @Override
     public void setPresenter(ChoicePropsContract.ChoicePropsPresenter presenter) {
         this.presenter = presenter;
     }

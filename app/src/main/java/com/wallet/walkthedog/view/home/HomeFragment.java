@@ -37,6 +37,7 @@ import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.invite.InviteActivity;
+import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
 import com.wallet.walkthedog.view.select_dog.SelectDogActivity;
 import com.wallet.walkthedog.view.walk.WalkActivity;
@@ -105,6 +106,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     private String totalProperty = "0";
     private HomePropsAdapter adapter;
     private DogInfoDao mDefultDogInfo;
+    private InvitedFriendDao invitedFriendDao;
 
     @OnClick(R.id.ll_add_dog)
     void addDoag() {
@@ -137,7 +139,12 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.img_invate)
     void addInvate() {
-        InviteActivity.actionStart(getmActivity());
+        if(invitedFriendDao==null){
+            InviteActivity.actionStart(getmActivity());
+        }else {
+            //进入朋友详情页
+            InviteDetailActivity.actionStart(getmActivity(),invitedFriendDao.getDog());
+        }
     }
 
     @OnClick(R.id.img_more)
@@ -320,6 +327,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             return;
         }
         presenter.getDogInfo(SharedPrefsHelper.getInstance().getDogId());
+        invitedFriendDao = null;
         presenter.getWalkTheDogFriend();
     }
 
@@ -363,8 +371,9 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             txtState.setText("状态字段返回错误为：" + mDefultDogInfo.getStarvation());
             viewBg.setBackgroundResource(R.mipmap.bg_home_normal);
         }
+        txtStatus.setText(mDefultDogInfo.getDogNumberChain());
         txtDogLevel2.setText("LEVEL " + mDefultDogInfo.getLevel());
-        txtDogLevel.setText("LV. " + mDefultDogInfo.getLevel());
+        txtDogLevel.setText("Lv. " + mDefultDogInfo.getLevel());
         txtSpeed.setText(String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm() + "Km"));
         txtNumber.setText(String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount() + ""));
         txtTrip.setText(String.format(getString(R.string.time_totle), mDefultDogInfo.getWalkTheDogTime() + ""));
@@ -378,6 +387,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         //道具
         for (ImageView imageView : imgEquipments) {
             RequestOptions optionsEq = new RequestOptions()
+                    .placeholder(R.mipmap.icon_add_equipment)
                     .centerCrop();
             Glide.with(getmActivity()).load(R.mipmap.icon_add_equipment).apply(optionsEq).into(imageView);
         }
@@ -485,7 +495,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                     public void callback(int trainId) {
                         //获取训练详情
                         presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(), trainId + ""));
-                        trainDogDialog.dismiss();
                     }
                 });
                 trainDialog.dismiss();
@@ -594,6 +603,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void getWalkTheDogFriendSuccessful(InvitedFriendDao data) {
         //展示遛狗好友狗狗头像
+        invitedFriendDao = data;
         if (data != null) {
             RequestOptions options = new RequestOptions()
                     .centerCrop()

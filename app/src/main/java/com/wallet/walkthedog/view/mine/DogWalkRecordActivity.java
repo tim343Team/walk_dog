@@ -241,13 +241,13 @@ public class DogWalkRecordActivity extends BaseActivity {
             helper.setText(R.id.tv_top_speed, String.format(Locale.getDefault(), "%.2fkm/h", item.getMaxSpeed()));
             helper.setText(R.id.tv_dog_species, item.getDogTypeName());
             helper.setText(R.id.tv_dog_number, item.getDogNumberChain());
-            helper.setText(R.id.tv_dog_rating, String.format(Locale.getDefault(), "LV.%s", item.getDogLevel()));
+            helper.setText(R.id.tv_dog_rating, String.format(Locale.getDefault(), "Lv.%s", item.getDogLevel()));
 
             helper.setText(R.id.tv_friends, item.getFriendDogId());
             helper.setText(R.id.tv_friends_mileages, String.format(Locale.getDefault(), "%.2fkm", item.getFriendKm()));
             helper.setText(R.id.tv_friends_spe, item.getFriendDogTypeName());
             helper.setText(R.id.tv_friends_num, item.getFriendDogNumberChain());
-            helper.setText(R.id.tv_friends_rating, String.format(Locale.getDefault(), "LV.%s", item.getFriendDogLevel()));
+            helper.setText(R.id.tv_friends_rating, String.format(Locale.getDefault(), "Lv.%s", item.getFriendDogLevel()));
 
 
             helper.setText(R.id.tv_area_know, String.format(Locale.getDefault(),"%.2fkm",item.getPopularityArea()));

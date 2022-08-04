@@ -3,6 +3,7 @@ package com.wallet.walkthedog.view.props;
 import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.data.DataSource;
@@ -154,6 +155,24 @@ public class ChoicePropsPresenter implements ChoicePropsContract.ChoicePropsPres
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
                 view.openBoxSuccess((BoxDao) obj,position);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void cancelSellProp(BuyRequest request, int position) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.cancelSellProp(request,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.cancelSellSuccess((String) obj,position);
             }
 
             @Override

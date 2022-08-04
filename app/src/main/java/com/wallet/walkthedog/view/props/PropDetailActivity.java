@@ -18,6 +18,7 @@ import com.wallet.walkthedog.custom_view.card.ShadowTextView;
 import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.data.Constant;
@@ -120,13 +121,26 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     @OnClick(R.id.tv_submit)
     void open() {
         if (type.equals(Constant.PROP_BOX)) {
-            //打开宝箱接口
-            presenter.openBox(new OpreationPropRequest(propDao.getId()),0);
+            if(propDao.getType() == 3){
+                //取消出售
+                presenter.cancelSellProp(new BuyRequest(propDao.getId()), 0);
+            }else {
+                //打开宝箱接口
+                presenter.openBox(new OpreationPropRequest(propDao.getId()), 0);
+            }
         } else if (type.equals(Constant.PROP_FOOD)) {
             //打开狗粮接口
-            presenter.useDogFood(new OpreationPropRequest(propDao.getId()),0);
+            if(propDao.getType() == 3){
+                //取消出售
+                presenter.cancelSellProp(new BuyRequest(propDao.getId()), 0);
+            }else {
+                presenter.useDogFood(new OpreationPropRequest(propDao.getId()),0);
+            }
         } else if (type.equals(Constant.PROP_NORMAL)) {
-            if (propDao.getType() == 1) {
+            if(propDao.getType() == 3){
+                //取消出售
+                presenter.cancelSellProp(new BuyRequest(propDao.getId()), 0);
+            }else if (propDao.getType() == 1) {
                 //取消装备
                 presenter.getRemoveProp(new OpreationPropRequest(propDao.getId(), String.valueOf(propDao.getDecorateDogId())), 0);
             } else {
@@ -311,6 +325,12 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
                 openindDialog.dismiss();
             }
         });
+        finish();
+    }
+
+    @Override
+    public void cancelSellSuccess(String data, int position) {
+        isChange = true;
         finish();
     }
 

@@ -45,7 +45,11 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
         }
         if (nftTypeCatagoryId == 1) {
             type = Constant.PROP_FOOD;
-            helper.setText(R.id.txt_choice, R.string.open);
+            if (item.getType() == 3) {
+                helper.setText(R.id.txt_choice, R.string.cancle_sale);
+            }else {
+                helper.setText(R.id.txt_choice, R.string.open);
+            }
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -54,7 +58,11 @@ public class MyPropsAdapter extends BaseQuickAdapter<PropDao, BaseViewHolder> {
             });
         } else if (nftTypeCatagoryId == 2) {
             type = Constant.PROP_BOX;
-            helper.setText(R.id.txt_choice, R.string.open);
+            if (item.getType() == 3) {
+                helper.setText(R.id.txt_choice, R.string.cancle_sale);
+            }else {
+                helper.setText(R.id.txt_choice, R.string.open);
+            }
             helper.getView(R.id.txt_choice).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

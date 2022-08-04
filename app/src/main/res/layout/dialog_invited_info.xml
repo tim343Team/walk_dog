@@ -102,7 +102,7 @@
                     android:layout_height="@dimen/dp30"
                     android:background="@drawable/round_white"
                     android:padding="@dimen/dp5"
-                    android:src="@mipmap/icon_invate" />
+                    android:src="@mipmap/icon_add_equipment" />
 
                 <ImageView
                     android:id="@+id/img_equipment_2"
@@ -112,7 +112,7 @@
                     android:layout_marginEnd="@dimen/dp20"
                     android:background="@drawable/round_white"
                     android:padding="@dimen/dp5"
-                    android:src="@mipmap/icon_invate" />
+                    android:src="@mipmap/icon_add_equipment" />
 
                 <ImageView
                     android:id="@+id/img_equipment_3"
@@ -120,7 +120,7 @@
                     android:layout_height="@dimen/dp30"
                     android:background="@drawable/round_white"
                     android:padding="@dimen/dp5"
-                    android:src="@mipmap/icon_invate" />
+                    android:src="@mipmap/icon_add_equipment" />
 
             </LinearLayout>
 

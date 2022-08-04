@@ -3,6 +3,7 @@ package com.wallet.walkthedog.view.props;
 import com.wallet.walkthedog.dao.BoxDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
+import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.dao.request.SwitchWalkRequest;
@@ -32,6 +33,8 @@ public class ChoicePropsContract {
         void sellProp(String data);
 
         void openBoxSuccess(BoxDao dao,int position);
+
+        void cancelSellSuccess(String data,int position);
     }
 
     interface ChoicePropsPresenter extends Contract.BasePresenter {
@@ -49,6 +52,8 @@ public class ChoicePropsContract {
         void sellProp(SellRequest request);
 
         void openBox(OpreationPropRequest request,int position);
+
+        void cancelSellProp(BuyRequest request, int position);
 
     }
 }

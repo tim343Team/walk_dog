@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class InvitedFriendDao implements Serializable {
     private UserInfoDao user;
-    private DogInfoDao dog;
+    private FriendInfoDao dog;
     private int status;//-1是dog为空 1是好友在遛狗 2等待遛狗 3是训练中
 
     public UserInfoDao getUser() {
@@ -15,11 +15,11 @@ public class InvitedFriendDao implements Serializable {
         this.user = user;
     }
 
-    public DogInfoDao getDog() {
+    public FriendInfoDao getDog() {
         return dog;
     }
 
-    public void setDog(DogInfoDao dog) {
+    public void setDog(FriendInfoDao dog) {
         this.dog = dog;
     }
 

@@ -10,6 +10,8 @@ public class DogInfoDao implements Serializable {
 
     private String name;
 
+    private String getDogNumberChain;
+
     private int nftTypeCatagoryId;
 
     private String img;
@@ -87,6 +89,14 @@ public class DogInfoDao implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getGetDogNumberChain() {
+        return getDogNumberChain;
+    }
+
+    public void setGetDogNumberChain(String getDogNumberChain) {
+        this.getDogNumberChain = getDogNumberChain;
     }
 
     public String getName() {
