@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,6 +25,8 @@ public class FeedingDialog extends BaseDialogFragment {
     TextView txtGender;
     @BindView(R.id.txt_level)
     TextView txtLevel;
+    @BindView(R.id.txt_add_weight)
+    TextView txtAddWeight;
     @BindView(R.id.txt_weight)
     TextView txtWeight;
     @BindView(R.id.txt_muscle)
@@ -40,7 +43,7 @@ public class FeedingDialog extends BaseDialogFragment {
 //    TextView txtAddWeight;
 
     private DogInfoDao mDefultDogInfo;
-    private String feedDog;
+    private FeedDogFoodDao feedDog;
     private String totalFood;
 
     @OnClick(R.id.txt_feeding)
@@ -48,11 +51,11 @@ public class FeedingDialog extends BaseDialogFragment {
         feedCallback.callback();
     }
 
-    public static FeedingDialog newInstance(DogInfoDao mDefultDogInfo,String feedDog,String totalFood) {
+    public static FeedingDialog newInstance(DogInfoDao mDefultDogInfo, FeedDogFoodDao feedDog, String totalFood) {
         FeedingDialog fragment = new FeedingDialog();
         Bundle bundle = new Bundle();
         bundle.putSerializable("mDefultDogInfo",mDefultDogInfo);
-        bundle.putString("feedDog",feedDog);
+        bundle.putSerializable("feedDog",feedDog);
         bundle.putString("totalFood",totalFood);
         fragment.setArguments(bundle);
         return fragment;
@@ -77,9 +80,10 @@ public class FeedingDialog extends BaseDialogFragment {
     protected void initView() {
         Bundle bundle = getArguments();
         mDefultDogInfo = (DogInfoDao) bundle.getSerializable("mDefultDogInfo");
-        feedDog = bundle.getString("feedDog");
+        feedDog = (FeedDogFoodDao) bundle.getSerializable("feedDog");
         totalFood = bundle.getString("totalFood");
-        txtConsumption.setText(feedDog+"g");
+        txtConsumption.setText(feedDog.getFood()+"g");
+        txtAddWeight.setText("+"+feedDog.getAddWeight()+"g");
         txtSurplus.setText(totalFood+"g");
         if (mDefultDogInfo.getSex() == 0) {
             txtGender.setText(R.string.female);

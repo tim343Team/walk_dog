@@ -15,6 +15,7 @@ import com.wallet.walkthedog.adapter.HomePropsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.TrainDao;
@@ -439,7 +440,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     @Override
-    public void getFeedDogInfo(String data) {
+    public void getFeedDogInfo(FeedDogFoodDao data) {
         //喂食弹唱
         FeedingDialog dialog = FeedingDialog.newInstance(mDefultDogInfo, data, totalFood);
         dialog.setTheme(R.style.PaddingScreen);

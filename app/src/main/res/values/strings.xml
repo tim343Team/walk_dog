@@ -105,7 +105,7 @@
     <!--身份id卡-->
     <string name="name_">姓名:</string>
     <string name="name">名稱</string>
-    <string name="name1_">名稱_</string>
+    <string name="name1_">名稱:</string>
     <string name="gender_">性別:</string>
     <string name="level_">等級:</string>
     <string name="weight_">體重:</string>
@@ -187,6 +187,7 @@
     <string name="walk_on_a_lead">走前面</string>
     <string name="get_back_to_his_place">回到自己的地方</string>
     <string name="consume_food">消耗食物</string>
+    <string name="add_reap">增加肌肉</string>
     <string name="insufficient_food">食物不足</string>
     <!--我的道具-->
     <string name="my_props">我的道具</string>
@@ -198,6 +199,7 @@
     <string name="possible_access_">有機會獲得：</string>
     <string name="fight_hunger_">抵抗飢餓：充滿幹勁</string>
     <string name="sell">出售</string>
+    <string name="sell_record">出售記錄</string>
     <string name="sell_prop">出售裝備</string>
     <string name="enter_sell_price">請輸入出售價格</string>
     <string name="sell_price_notice">價格需要大於0</string>

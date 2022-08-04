@@ -191,8 +191,8 @@ public class SettingPassWordActivity extends BaseActivity implements SettingPass
     public boolean checkoutPassword(String password) {
         boolean flag = false;
         try {
-//            Pattern pattern = Pattern.compile("^[0-9a-zA-Z]+$");//密码为6位纯字母或字母+数字
-            Pattern pattern = Pattern.compile("^[A-Za-z][A-Za-z0-9]+$");//密码为6位纯字母或字母+数字
+            Pattern pattern = Pattern.compile("^[0-9a-zA-Z]+$");//TODO 密码为6位纯字母或字母+数字
+//            Pattern pattern = Pattern.compile("^[A-Za-z][A-Za-z0-9]+$");//密码为6位纯字母或字母+数字
             Matcher matcher = pattern.matcher(password);
             flag = matcher.matches();
         } catch (Exception e) {

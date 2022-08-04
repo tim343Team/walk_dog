@@ -46,10 +46,10 @@ public class GpsService extends Service implements WalkContract.WalkView {
     private NotificationManager mNM;
     private GpsUtils gpsUtils;
     private long timeSecond;
-    private String noticeMessage="";
+    private String noticeMessage = "";
     private String dogId;
     private boolean gpsEnable = false;
-    private boolean isFirst = true;
+    private boolean isStart = false;
     private double lan;//维度
     private double lon;//经度
 
@@ -60,9 +60,9 @@ public class GpsService extends Service implements WalkContract.WalkView {
         public void run() {
             //上报定时器
             try {
-                Log.e("定时器:" , "定时器");
-                if(gpsEnable){
-                    presenter.addCoord(new SwitchWalkRequest(dogId,String.valueOf(lan),String.valueOf(lon)));
+                Log.e("定时器:", "定时器");
+                if (gpsEnable) {
+                    presenter.addCoord(new SwitchWalkRequest(dogId, String.valueOf(lan), String.valueOf(lon)));
                 }
                 mHandler.postDelayed(this, 5000);
             } catch (Exception e) {
@@ -74,7 +74,7 @@ public class GpsService extends Service implements WalkContract.WalkView {
     @Override
     public void onCreate() {
         Log.e(getClass().getName(), "onCreate");
-        isFirst = true;
+        isStart = false;
         presenter = new WalkPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         EventBus.getDefault().register(this);
         mHandler.postDelayed(runnable, 1000);
@@ -154,11 +154,10 @@ public class GpsService extends Service implements WalkContract.WalkView {
         if (gpsEnable) {
             lon = location.getLongitude();
             lan = location.getLatitude();
-            if (isFirst) {
-                isFirst = false;
+            if (!isStart) {
                 //开始遛狗
-                noticeMessage=getResources().getString(R.string.walk_start);
-                presenter.startWalkDog(new SwitchWalkRequest(dogId,String.valueOf(lan),String.valueOf(lon)));
+                noticeMessage = getResources().getString(R.string.walk_start);
+                presenter.startWalkDog(new SwitchWalkRequest(dogId, String.valueOf(lan), String.valueOf(lon)));
             }
         }
     }
@@ -176,7 +175,7 @@ public class GpsService extends Service implements WalkContract.WalkView {
     public void GetGpsStop(GpsStopEvent location) {
         Log.e(getClass().getName(), "stopSelf");
         //停止遛狗接口
-        presenter.stopWalkDog(new SwitchWalkRequest(dogId,String.valueOf(lan),String.valueOf(lon)));
+        presenter.stopWalkDog(new SwitchWalkRequest(dogId, String.valueOf(lan), String.valueOf(lon)));
     }
 
     @Override
@@ -193,12 +192,13 @@ public class GpsService extends Service implements WalkContract.WalkView {
     @Override
     public void startSuccess(StartWalkDao message) {
         //通知activity开始遛狗
+        isStart = true;
         EventBus.getDefault().post(new GpsStartEvent(message.getLogId()));
     }
 
     @Override
     public void coordSuccess(CoordDao data) {
-        if(data.getStatus()==1){
+        if (data.getStatus() == 1) {
             //如果有道具
             EventBus.getDefault().post(data);
         }

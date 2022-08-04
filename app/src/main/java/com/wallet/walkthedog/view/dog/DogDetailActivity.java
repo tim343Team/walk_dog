@@ -17,6 +17,7 @@ import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateDogEvent;
 import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.dialog.FeedingDialog;
 import com.wallet.walkthedog.dialog.IdentityDialog;
@@ -269,7 +270,7 @@ public class DogDetailActivity extends BaseActivity implements DogDetailContract
     }
 
     @Override
-    public void getFeedDogInfo(String data) {
+    public void getFeedDogInfo(FeedDogFoodDao data) {
         //喂食弹唱
         FeedingDialog dialog = FeedingDialog.newInstance(dogInfoDao, data, totalFood);
         dialog.setTheme(R.style.PaddingScreen);

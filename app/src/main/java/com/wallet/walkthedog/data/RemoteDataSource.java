@@ -10,7 +10,9 @@ import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.FriendInfoDao;
+import com.wallet.walkthedog.dao.InviteNoticeDao;
 import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
@@ -361,7 +363,8 @@ public class RemoteDataSource implements DataSource {
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
-                                dataCallback.onDataLoaded(object.optString("data"));
+                                FeedDogFoodDao  obj = gson.fromJson(object.getJSONObject("data").toString(), FeedDogFoodDao.class);
+                                dataCallback.onDataLoaded(obj);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }
@@ -1391,6 +1394,39 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
+    public void getNewTogethersUrl(DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getNewTogethersUrl())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("获取最新遛狗邀请通知:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("获取最新遛狗邀请通知：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                List<InviteNoticeDao> objs = gson.fromJson(object.getJSONArray("data").toString(), new TypeToken<List<InviteNoticeDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void ideaTogether(String togetherId, int status, DataCallback dataCallback) {
         WonderfulOkhttpUtils.get().url(UrlFactory.ideaTogetherUrl() + "?togetherId=" + togetherId + "&status="+status)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
@@ -1409,7 +1445,7 @@ public class RemoteDataSource implements DataSource {
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
-                                dataCallback.onDataLoaded(object.optInt("message"));
+                                dataCallback.onDataLoaded(object.optString("message"));
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

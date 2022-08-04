@@ -1,6 +1,7 @@
 package com.wallet.walkthedog.view.dog;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.view.dog.fragment.DogContract;
 
@@ -15,7 +16,7 @@ public class DogDetailContract {
 
         void sellDog(String data);
 
-        void getFeedDogInfo(String data);
+        void getFeedDogInfo(FeedDogFoodDao data);
 
         void feedSuccessful(String data);
 

@@ -30,11 +30,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseLazyFragment;
 
 public class SellPropsFragment extends BaseLazyFragment implements PropsContract.PropsView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+
+    @OnClick(R.id.ll_sell_record)
+    void gotoRecord(){
+        //TODO 售卖
+    }
 
     private PropsContract.PropsPresenter presenter;
     private int pageNo = 1;

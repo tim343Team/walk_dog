@@ -37,7 +37,7 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
 
         ImageView imgGender = (ImageView) helper.getView(R.id.img_gender);
         helper.setText(R.id.txt_dog_name,item.getNftName());
-        helper.setText(R.id.txt_rent_name,item.getDogName());
+        helper.setText(R.id.txt_rent_name,item.getFriendName());
         helper.setText(R.id.txt_level,"Lv." + item.getLevel());
         helper.setText(R.id.txt_time, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
         helper.setText(R.id.txt_trip, DateTimeUtil.second2Time(item.getWalkTheDogTime()));//总次数
@@ -53,8 +53,7 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
         } else {
             Glide.with(mContext).load(R.mipmap.icon_black_male).apply(options).into(imgGender);
         }
-        //TODO 缺少
-//        helper.setText(R.id.txt_number, item.getDayLimit() + "/2");
+        helper.setText(R.id.txt_number, item.getDayLimit() + "/2");
         //精力状态
         if(item.getStarvation()==1){
             helper.setTextColor(R.id.txt_status,Color.parseColor("#E51616"));

@@ -292,6 +292,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void getNewTogethersUrl(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getNewTogethersUrl( dataCallback);
+        else mRemoteDataSource.getNewTogethersUrl( dataCallback);
+    }
+
+    @Override
     public void ideaTogether(String togetherId, int status, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.ideaTogether(togetherId,status, dataCallback);
         else mRemoteDataSource.ideaTogether(togetherId,status, dataCallback);

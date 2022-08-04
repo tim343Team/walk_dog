@@ -177,10 +177,10 @@ public class FriendListActivity extends BaseActivity {
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                     if (view.getId() == R.id.tv_accept) {
                         //同意
-                        accept(adapter1.getData().get(position).getFriendId(), true);
+                        accept(adapter1.getData().get(position).getId()+"", true);
                     } else if (view.getId() == R.id.tv_refuse) {
                         //拒绝
-                        accept(adapter1.getData().get(position).getFriendId(), false);
+                        accept(adapter1.getData().get(position).getId()+"", false);
                     }
                 }
             });

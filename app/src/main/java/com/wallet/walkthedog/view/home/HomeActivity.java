@@ -75,16 +75,17 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
         public void run() {
             //定时检查是否获取有邀请信息
             try {
-                WonderfulOkhttpUtils.get().url(UrlFactory.getNewTogethersUrl())
-                        .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-                        .build()
-                        .getCall()
-                        .enqueue(new GsonWalkDogCallBack<RemoteData<List<InviteNoticeDao>>>() {
-                            @Override
-                            protected void onRes(RemoteData<List<InviteNoticeDao>> testRemoteData) {
-                                getInviteNotice(testRemoteData.getNotNullData());
-                            }
-                        });
+//                WonderfulOkhttpUtils.get().url(UrlFactory.getNewTogethersUrl())
+//                        .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+//                        .build()
+//                        .getCall()
+//                        .enqueue(new GsonWalkDogCallBack<RemoteData<List<InviteNoticeDao>>>() {
+//                            @Override
+//                            protected void onRes(RemoteData<List<InviteNoticeDao>> testRemoteData) {
+//                                getInviteNotice(testRemoteData.getNotNullData());
+//                            }
+//                        });
+                presenter.getNewTogethersUrl();
                 mHandler.postDelayed(this, 15000);
             } catch (Exception e) {
                 mHandler.postDelayed(this, 15000);
@@ -243,7 +244,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
             //弹出邀请信息
             InviteNoticeDialog dialog = InviteNoticeDialog.newInstance(daos.get(0));
             dialog.setTheme(R.style.PaddingScreen);
-            dialog.setGravity(Gravity.BOTTOM);
+            dialog.setGravity(Gravity.CENTER);
             dialog.show(getSupportFragmentManager(), "edit");
             dialog.setRefuseCallback(new InviteNoticeDialog.OperateRefuseCallback() {
                 @Override
@@ -319,6 +320,13 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
             dialog.setTheme(R.style.PaddingScreen);
             dialog.setGravity(Gravity.CENTER);
             dialog.show(getSupportFragmentManager(), "edit");
+        }
+    }
+
+    @Override
+    public void getNewTogethersSuccessful(List<InviteNoticeDao> noticeDaoList) {
+        if(noticeDaoList.size()>0){
+            getInviteNotice(noticeDaoList);
         }
     }
 

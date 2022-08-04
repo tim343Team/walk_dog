@@ -3,6 +3,7 @@ package com.wallet.walkthedog.view.home;
 import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.EmailLoginDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
@@ -22,7 +23,7 @@ public class HomeContract {
 
         void getCurrentDogInfo(DogInfoDao dogInfoDao);
 
-        void getFeedDogInfo(String data);
+        void getFeedDogInfo(FeedDogFoodDao data);
 
         void getWalletInfo(String data,String type);
 

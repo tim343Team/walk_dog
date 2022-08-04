@@ -55,8 +55,6 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     TextView txtName;
     @BindView(R.id.txt_time)
     TextView txtTimee;
-    @BindView(R.id.txt_charm)
-    TextView txtCharm;
     @BindView(R.id.txt_id)
     TextView txtPropId;
     @BindView(R.id.txt_weight)
@@ -259,7 +257,6 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
         txtPrice.setText(String.format(getString(R.string.price_s), data.getPrice() + " suzu"));
         txtName.setText(data.getName());
         txtTimee.setText(data.getCreateTime());
-        txtCharm.setText(data.getUsercp());
         txtPropId.setText(data.getId() + "");
         txtDogname.setText(data.getDogName());
         txtDogId.setText(data.getDogId() + "");
@@ -327,14 +324,17 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
             boxView.setVisibility(View.GONE);
             foodView.setVisibility(View.GONE);
             normalView.setVisibility(View.VISIBLE);
+            txtPrice.setVisibility(View.VISIBLE);
         } else if (type.equals(Constant.PROP_FOOD)) {
             boxView.setVisibility(View.GONE);
             foodView.setVisibility(View.VISIBLE);
             normalView.setVisibility(View.GONE);
+            txtPrice.setVisibility(View.VISIBLE);
         } else if (type.equals(Constant.PROP_BOX)) {
             boxView.setVisibility(View.VISIBLE);
             foodView.setVisibility(View.GONE);
             normalView.setVisibility(View.GONE);
+            txtPrice.setVisibility(View.GONE);
         }
     }
 }

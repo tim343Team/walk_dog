@@ -108,6 +108,8 @@ public interface DataSource {
 
     void addTogether(InviteRequest request, DataCallback dataCallback);
 
+    void getNewTogethersUrl( DataCallback dataCallback);
+
     void ideaTogether(String togetherId, int status, DataCallback dataCallback);
 
     void getDogList(MailRequest request, int pageNo, DataCallback dataCallback);

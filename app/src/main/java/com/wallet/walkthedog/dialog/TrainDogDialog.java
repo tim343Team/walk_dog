@@ -22,17 +22,28 @@ public class TrainDogDialog extends BaseDialogFragment {
     TextView txtTrainType;
     @BindView(R.id.txt_train_introduce)
     TextView txtTrainIntroduce;
+    @BindView(R.id.txt_status)
+    TextView txtStatus;
     @BindView(R.id.txt_consume)
     TextView txtConsume;
+    @BindView(R.id.txt_back)
+    TextView txtBack;
     @BindView(R.id.txt_balance)
     TextView txtBalance;
 
     private TrainDao item;
     private String totalFood;
+    private int status = 0;//0:训练  1：训练完成确认页面
 
     @OnClick(R.id.txt_back)
-    void feeding(){
-        callback.callback(item.getId());
+    void feeding() {
+        if (status == 0) {
+            status = 1;
+            updateUi();
+            callback.callback(item.getId());
+        } else if (status == 1) {
+            dismiss();
+        }
     }
 
     @OnClick(R.id.back)
@@ -40,11 +51,11 @@ public class TrainDogDialog extends BaseDialogFragment {
         dismiss();
     }
 
-    public static TrainDogDialog newInstance(TrainDao item,String totalFood) {
+    public static TrainDogDialog newInstance(TrainDao item, String totalFood) {
         TrainDogDialog fragment = new TrainDogDialog();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("TrainDao",item);
-        bundle.putString("totalFood",totalFood);
+        bundle.putSerializable("TrainDao", item);
+        bundle.putString("totalFood", totalFood);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -71,12 +82,18 @@ public class TrainDogDialog extends BaseDialogFragment {
         totalFood = bundle.getString("totalFood");
         txtTrainType.setText(item.getName());
         txtTrainIntroduce.setText(item.getDescribe());
-        txtConsume.setText(String.format(getString(R.string.g), String.valueOf(item.getConsume())));
+        txtConsume.setText(String.format(getString(R.string.g), String.valueOf(item.getConsume())));//显示消耗粮食
         txtBalance.setText(String.format(getString(R.string.g), String.valueOf(totalFood)));
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(getContext()).load(item.getImg()).apply(options).into(imgTrainType);
+    }
+
+    private void updateUi(){
+        txtStatus.setText(R.string.add_reap);
+        txtBack.setText(R.string.confirm);
+        txtConsume.setText(String.format(getString(R.string.g), String.valueOf(item.getReap())));//显示增加粮食
     }
 
     @Override

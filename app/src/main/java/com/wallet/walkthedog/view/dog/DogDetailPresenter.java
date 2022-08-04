@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.dog;
 
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.props.ChoicePropsContract;
@@ -38,7 +39,7 @@ public class DogDetailPresenter implements DogDetailContract.DogDetailPresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-                view.getFeedDogInfo((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+                view.getFeedDogInfo((FeedDogFoodDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override

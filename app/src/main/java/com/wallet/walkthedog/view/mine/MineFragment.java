@@ -161,6 +161,7 @@ public class MineFragment extends BaseTransFragment {
             public void onClick(View v) {
                 SharedPrefsHelper.getInstance().saveUserInfo(null);
                 SharedPrefsHelper.getInstance().saveToken("");
+                SharedPrefsHelper.getInstance().saveDogId("0");
                 Intent intent = new Intent(requireActivity(), EmailActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

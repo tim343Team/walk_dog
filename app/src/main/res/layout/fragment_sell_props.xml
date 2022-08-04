@@ -9,8 +9,31 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dimen_8">
 
+        <RelativeLayout
+            android:id="@+id/ll_sell_record"
+            android:layout_width="@dimen/dimen_108"
+            android:layout_height="20dp"
+            android:layout_marginBottom="@dimen/dimen_12"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/rectangle_ebeeff">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:drawablePadding="@dimen/dimen_3"
+                android:drawableEnd="@mipmap/icon_gray_go_next"
+                android:text="@string/sell_record"
+                android:textColor="@color/text_7B7B7B"
+                android:textSize="12dp"
+                />
+
+        </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
+            android:layout_below="@+id/ll_sell_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible" />
