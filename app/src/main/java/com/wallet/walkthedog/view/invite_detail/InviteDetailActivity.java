@@ -261,7 +261,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
             txtState.setText("状态字段返回错误为：" + mDefultDogInfo.getStarvation());
         }
         txtDogLevel2.setText("LEVEL " + mDefultDogInfo.getLevel());
-        txtDogLevel.setText("LV. " + mDefultDogInfo.getLevel());
+        txtDogLevel.setText("Lv. " + mDefultDogInfo.getLevel());
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_null_dog)

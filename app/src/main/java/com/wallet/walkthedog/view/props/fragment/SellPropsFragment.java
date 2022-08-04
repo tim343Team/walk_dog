@@ -39,7 +39,7 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
 
     @OnClick(R.id.ll_sell_record)
     void gotoRecord(){
-        //TODO 售卖
+        //TODO 售卖记录
     }
 
     private PropsContract.PropsPresenter presenter;
@@ -129,11 +129,11 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
             @Override
             public void click(int position, int type) {
                 if (type == 0) {
-                    //打開狗粮接口
-                    presenter.useDogFood(new OpreationPropRequest(data.get(position).getId()), position);
+                    //售卖狗粮
+                    presenter.cancelSellProp(new BuyRequest(data.get(position).getId()), position);
                 } else if (type == 1) {
-                    //打開寶箱接口
-                    presenter.openBox(new OpreationPropRequest(data.get(position).getId()), position);
+                    //售卖宝箱
+                    presenter.cancelSellProp(new BuyRequest(data.get(position).getId()), position);
                 }
             }
         });

@@ -420,9 +420,7 @@ public class FriendListActivity extends BaseActivity {
                     .load(item.getImg())
                     .apply(RequestOptions.placeholderOf(R.mipmap.icon_null_dog))
                     .into((ImageView) helper.getView(R.id.iv_dog_pic));
-
-            helper.setText(R.id.iv_lv, Utils.getFormat("LV.%d", (int) (item.getLevel())));
-
+            helper.setText(R.id.iv_lv, Utils.getFormat("Lv.%d",(int) (item.getLevel())));
             helper.setText(R.id.iv_name1, item.getDogName());
             helper.setText(R.id.tv_times, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
             helper.setText(R.id.tv_all_time, Utils.getTime(item.getWalkTheDogTime()));

@@ -5,57 +5,98 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendInfoDao implements Serializable {
-    private int id;
+    private String id;
+
+    private String name;
 
     private String getDogNumberChain;
 
-    private int friendMemberId;
+    private int nftTypeCatagoryId;
 
-    private int friendListId;
+    private String img;
 
-    private String nftName;
-
-    private String dogName;
-
-    private String friendName;
-
-    private String friendNickName;
-
-    private String name;
+    private String dogNumberChain;
 
     private int sex;
 
     private double level;
 
+    private int type;//1背包 2出售 3使用中
+
+    private int status;
+
     private double walkTheDogKm;
 
-    private int walkTheDogCount;
+    private int walkTheDogCount;//总次数
 
-    private long walkTheDogTime;
+    private int dayLimit;//今日次数
 
-    private String propList;
+    private long walkTheDogTime;//总时长（秒）
 
-    private String img;
+    private double weight;
 
-    private int starvation;
+    private double decimalDog;
 
-    private double rateOfProgress;
+    private String props;
+
+    private String feedTime;
+
+    private String memberId;
+
+    private String createTime;
+
+    private int sysDelete;
+
+    private double price;
+
+    private String token;
+
+    private int trainingCount;
+
+    private String nickName;
+
+    private String email;
+
+    private int rateOfProgress;
+
+    private int starvation;//1饥饿 2正常
+
+    private List<PropDao> propList=new ArrayList<>();
+
+    //一起遛狗信息
+    private String nftName;
+
+    private String friendMemberId;
+
+    private String friendListId;
+
+    private String friendName;
+
+    private String friendNickName;
 
     private String friendWalkTheDogKm;
 
-    private int friendWalkTheDogCount;
+    private String friendWalkTheDogCount;
 
-    private int friendWalkTheDogTime;
+    private String friendWalkTheDogTime;
 
-    private int dayLimit;
+    private String dogName;
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGetDogNumberChain() {
@@ -66,64 +107,28 @@ public class FriendInfoDao implements Serializable {
         this.getDogNumberChain = getDogNumberChain;
     }
 
-    public void setDayLimit(int dayLimit) {
-        this.dayLimit = dayLimit;
+    public int getNftTypeCatagoryId() {
+        return nftTypeCatagoryId;
     }
 
-    public int getFriendMemberId() {
-        return friendMemberId;
+    public void setNftTypeCatagoryId(int nftTypeCatagoryId) {
+        this.nftTypeCatagoryId = nftTypeCatagoryId;
     }
 
-    public void setFriendMemberId(int friendMemberId) {
-        this.friendMemberId = friendMemberId;
+    public String getImg() {
+        return img;
     }
 
-    public int getFriendListId() {
-        return friendListId;
+    public void setImg(String img) {
+        this.img = img;
     }
 
-    public void setFriendListId(int friendListId) {
-        this.friendListId = friendListId;
+    public String getDogNumberChain() {
+        return dogNumberChain;
     }
 
-    public String getNftName() {
-        return nftName;
-    }
-
-    public void setNftName(String nftName) {
-        this.nftName = nftName;
-    }
-
-    public String getDogName() {
-        return dogName;
-    }
-
-    public void setDogName(String dogName) {
-        this.dogName = dogName;
-    }
-
-    public String getFriendName() {
-        return friendName;
-    }
-
-    public void setFriendName(String friendName) {
-        this.friendName = friendName;
-    }
-
-    public String getFriendNickName() {
-        return friendNickName;
-    }
-
-    public void setFriendNickName(String friendNickName) {
-        this.friendNickName = friendNickName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setDogNumberChain(String dogNumberChain) {
+        this.dogNumberChain = dogNumberChain;
     }
 
     public int getSex() {
@@ -142,6 +147,22 @@ public class FriendInfoDao implements Serializable {
         this.level = level;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public double getWalkTheDogKm() {
         return walkTheDogKm;
     }
@@ -158,6 +179,14 @@ public class FriendInfoDao implements Serializable {
         this.walkTheDogCount = walkTheDogCount;
     }
 
+    public int getDayLimit() {
+        return dayLimit;
+    }
+
+    public void setDayLimit(int dayLimit) {
+        this.dayLimit = dayLimit;
+    }
+
     public long getWalkTheDogTime() {
         return walkTheDogTime;
     }
@@ -166,20 +195,108 @@ public class FriendInfoDao implements Serializable {
         this.walkTheDogTime = walkTheDogTime;
     }
 
-    public String getPropList() {
-        return propList;
+    public double getWeight() {
+        return weight;
     }
 
-    public void setPropList(String propList) {
-        this.propList = propList;
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
-    public String getImg() {
-        return img;
+    public double getDecimalDog() {
+        return decimalDog;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setDecimalDog(double decimalDog) {
+        this.decimalDog = decimalDog;
+    }
+
+    public String getProps() {
+        return props;
+    }
+
+    public void setProps(String props) {
+        this.props = props;
+    }
+
+    public String getFeedTime() {
+        return feedTime;
+    }
+
+    public void setFeedTime(String feedTime) {
+        this.feedTime = feedTime;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public int getSysDelete() {
+        return sysDelete;
+    }
+
+    public void setSysDelete(int sysDelete) {
+        this.sysDelete = sysDelete;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public int getTrainingCount() {
+        return trainingCount;
+    }
+
+    public void setTrainingCount(int trainingCount) {
+        this.trainingCount = trainingCount;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getRateOfProgress() {
+        return rateOfProgress;
+    }
+
+    public void setRateOfProgress(int rateOfProgress) {
+        this.rateOfProgress = rateOfProgress;
     }
 
     public int getStarvation() {
@@ -190,12 +307,52 @@ public class FriendInfoDao implements Serializable {
         this.starvation = starvation;
     }
 
-    public double getRateOfProgress() {
-        return rateOfProgress;
+    public List<PropDao> getPropList() {
+        return propList;
     }
 
-    public void setRateOfProgress(double rateOfProgress) {
-        this.rateOfProgress = rateOfProgress;
+    public void setPropList(List<PropDao> propList) {
+        this.propList = propList;
+    }
+
+    public String getNftName() {
+        return nftName;
+    }
+
+    public void setNftName(String nftName) {
+        this.nftName = nftName;
+    }
+
+    public String getFriendMemberId() {
+        return friendMemberId;
+    }
+
+    public void setFriendMemberId(String friendMemberId) {
+        this.friendMemberId = friendMemberId;
+    }
+
+    public String getFriendListId() {
+        return friendListId;
+    }
+
+    public void setFriendListId(String friendListId) {
+        this.friendListId = friendListId;
+    }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public void setFriendName(String friendName) {
+        this.friendName = friendName;
+    }
+
+    public String getFriendNickName() {
+        return friendNickName;
+    }
+
+    public void setFriendNickName(String friendNickName) {
+        this.friendNickName = friendNickName;
     }
 
     public String getFriendWalkTheDogKm() {
@@ -206,24 +363,27 @@ public class FriendInfoDao implements Serializable {
         this.friendWalkTheDogKm = friendWalkTheDogKm;
     }
 
-    public int getFriendWalkTheDogCount() {
+    public String getFriendWalkTheDogCount() {
         return friendWalkTheDogCount;
     }
 
-    public void setFriendWalkTheDogCount(int friendWalkTheDogCount) {
+    public void setFriendWalkTheDogCount(String friendWalkTheDogCount) {
         this.friendWalkTheDogCount = friendWalkTheDogCount;
     }
 
-    public int getFriendWalkTheDogTime() {
+    public String getFriendWalkTheDogTime() {
         return friendWalkTheDogTime;
     }
 
-    public void setFriendWalkTheDogTime(int friendWalkTheDogTime) {
+    public void setFriendWalkTheDogTime(String friendWalkTheDogTime) {
         this.friendWalkTheDogTime = friendWalkTheDogTime;
     }
 
+    public String getDogName() {
+        return dogName;
+    }
 
-    public int getDayLimit() {
-        return dayLimit;
+    public void setDogName(String dogName) {
+        this.dogName = dogName;
     }
 }
