@@ -73,6 +73,7 @@ public class MineFoodActivity extends BaseActivity {
         dialog.call = dialog1 -> {
             pageNo = 1;
             getDogFoodLog(pageSize, pageNo);
+            getDogFood();
             dialog1.dismiss();
         };
         dialog.setGravity(Gravity.CENTER);
@@ -118,7 +119,7 @@ public class MineFoodActivity extends BaseActivity {
     }
 
     private void getDogFoodLog(int pageSize, int pageNo) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getDogFoodLog() + "?pageSize=" + pageSize + "&startTime=1970-01-01 00:00:00&endTime=" + nowTime + "&pageNo" + pageNo)
+        WonderfulOkhttpUtils.get().url(UrlFactory.getDogFoodLog() + "?pageSize=" + pageSize + "&startTime=1970-01-01 00:00:00&endTime=" + nowTime + "&pageNo=" + pageNo)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()

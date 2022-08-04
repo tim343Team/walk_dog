@@ -49,8 +49,8 @@ public class UrlFactory {
         return host + "/wallet/getWallet";
     }
 
-    public static String sellDoogFood(){
-        return host + "/userinfo/sellDoogFood";
+    public static String sellDogFood(){
+        return host + "/userInfo/sellDogFood";
     }
 
     public static String userinfo(){

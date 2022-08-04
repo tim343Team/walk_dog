@@ -85,7 +85,7 @@ public class SoldQuantityDialog extends BaseDialogFragment {
         dialog.setCallback(new PasswordDialog.OperateCallback() {
             @Override
             public void callback(String password) {
-                sellDoogFood(price, id, new Runnable() {
+                sellDoogFood(price, id,password, new Runnable() {
                     @Override
                     public void run() {
                         ToastUtils.shortToast(getString(R.string.sell_success));
@@ -107,8 +107,8 @@ public class SoldQuantityDialog extends BaseDialogFragment {
         dialog.show(getChildFragmentManager(), "");
     }
 
-    private void sellDoogFood(double price, int id, Runnable runnable) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.sellDoogFood() + "?catID=" + id + "&price=" + price)
+    private void sellDoogFood(double price, int id,String pw, Runnable runnable) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.sellDogFood() + "?catId=" + id + "&price=" + price+"&passWord="+pw)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
