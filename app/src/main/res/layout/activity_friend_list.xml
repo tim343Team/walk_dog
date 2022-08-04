@@ -36,7 +36,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@mipmap/icon_add"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </RelativeLayout>
 
     <LinearLayout
@@ -89,7 +89,7 @@
     <!--    tools:listitem="@layout/item_invite_frinds"-->
     <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
         android:id="@+id/layout_add"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginHorizontal="20dp"
         style="@style/def_while_shadow_style"
         android:layout_width="match_parent"

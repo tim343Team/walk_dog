@@ -101,6 +101,12 @@ public class FriendListActivity extends BaseActivity {
                 showAddDialog();
             }
         });
+        findViewById(R.id.img_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddDialog();
+            }
+        });
         onSelect();
     }
 
