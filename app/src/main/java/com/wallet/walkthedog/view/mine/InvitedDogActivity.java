@@ -275,7 +275,7 @@ public class InvitedDogActivity extends BaseActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, InviteFriendTheDogItem item) {
-            helper.setText(R.id.tv_dog_name, helper.itemView.getContext().getString(R.string.persion_name_dog_format, item.getFriendName()));
+            helper.setText(R.id.tv_dog_name, item.getFriendName());
 
             //1已同意 2等待同意 3已拒绝 4自动拒绝 5发起人取消
             boolean visible = false;

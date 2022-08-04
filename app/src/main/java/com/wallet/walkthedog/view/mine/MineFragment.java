@@ -192,6 +192,16 @@ public class MineFragment extends BaseTransFragment {
                 ToastUtils.shortToast(getString(R.string.copy_success));
             }
         });
+
+        rootView.findViewById(R.id.ll_invite_register).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(),InviteRegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         ImageView iv_see = rootView.findViewById(R.id.iv_see);
         iv_see.setOnClickListener(new View.OnClickListener() {
             @Override

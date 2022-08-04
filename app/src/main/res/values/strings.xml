@@ -396,6 +396,9 @@
     <string name="token_audit_success" >token audit success</string>
     <string name="you_has_not_address">你还没添加地址</string>
     <string name="log_out">Log Out</string>
+    <string name="invite_register">invite to register</string>
+    <string name="my_invitation_code">My invitation code</string>
+    <string name="no_invite_register_list">You haven’t invited friends yet</string>
 
 
 </resources>

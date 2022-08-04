@@ -353,6 +353,37 @@
                     android:background="@drawable/line_dash_black" />
 
                 <LinearLayout
+                    android:id="@+id/ll_invite_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="17dp"
+                        android:text="@string/invite_register"
+                        android:textColor="@color/color_485EA8"
+                        android:textSize="@dimen/dp14" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:background="@mipmap/icon_next_blue" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_36"
+                    android:background="@drawable/line_dash_black" />
+
+                <LinearLayout
                     android:id="@+id/ll_train_record"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

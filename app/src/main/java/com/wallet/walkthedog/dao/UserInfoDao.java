@@ -19,7 +19,7 @@ public class UserInfoDao {
     private int id;
     private String email;
     private String walkTheDogKm;
-    private Object invitationCode;
+    private String invitationCode;
     private String chatHead;
 
     public Object getWalletId() {
@@ -85,7 +85,7 @@ public class UserInfoDao {
         return walkTheDogKm;
     }
 
-    public Object getInvitationCode() {
+    public String getInvitationCode() {
         return invitationCode;
     }
 

@@ -36,6 +36,8 @@ import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
 import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
 
+import java.util.Objects;
+
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 import tim.com.libnetwork.utils.ScreenUtils;
@@ -171,21 +173,21 @@ public class FriendListActivity extends BaseActivity {
     }
 
     private void setclickListenner() {
-        if (adapter1!=null){
+        if (adapter1 != null) {
             adapter1.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                     if (view.getId() == R.id.tv_accept) {
                         //同意
-                        accept(adapter1.getData().get(position).getId()+"", true);
+                        accept(adapter1.getData().get(position).getId() + "", true);
                     } else if (view.getId() == R.id.tv_refuse) {
                         //拒绝
-                        accept(adapter1.getData().get(position).getId()+"", false);
+                        accept(adapter1.getData().get(position).getId() + "", false);
                     }
                 }
             });
         }
-        if (adapter0!=null){
+        if (adapter0 != null) {
             adapter0.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -204,7 +206,7 @@ public class FriendListActivity extends BaseActivity {
             adapter0.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    InviteDetailActivity.actionStart(FriendListActivity.this,adapter0.getItem(position));
+                    InviteDetailActivity.actionStart(FriendListActivity.this, adapter0.getItem(position));
                 }
             });
         }
@@ -290,7 +292,7 @@ public class FriendListActivity extends BaseActivity {
         } else {
             url = UrlFactory.getDeclineTheInvitation();
         }
-        WonderfulOkhttpUtils.get().url(url +"?id="+friendId)
+        WonderfulOkhttpUtils.get().url(url + "?id=" + friendId)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -336,9 +338,19 @@ public class FriendListActivity extends BaseActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, InviteFriendItem item) {
-            String friendName = item.getFriendNote();
-            if (TextUtils.isEmpty(friendName)){
-                friendName = item.getFriendEmail();
+            //如果自己的id=memberId  那么就显示friendNote或者friend Email
+            //如果自己的id=friendId  那么就显示memberNote或者memberEmail
+            String friendName = "";
+            if (item.getId() == item.getMemberId()) {
+                friendName = item.getFriendNote();
+                if (TextUtils.isEmpty(friendName)) {
+                    friendName = item.getFriendEmail();
+                }
+            } else if (Objects.equals(item.getFriendId(), String.valueOf(item.getId()))) {
+                friendName = item.getMemberNote();
+                if (TextUtils.isEmpty(friendName)) {
+                    friendName = item.getMemberEmail();
+                }
             }
             helper.setText(R.id.tv_dog_name, friendName);
             helper.setText(R.id.tv_time, item.getCreateTime());
@@ -364,7 +376,8 @@ public class FriendListActivity extends BaseActivity {
     }
 
 
-    private static class FrindListAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHolder> {
+    private static class FrindListAdapter extends BaseQuickAdapter<
+            FriendInfoDao, BaseViewHolder> {
 
         public FrindListAdapter() {
             super(R.layout.item_invite_frinds);
@@ -392,12 +405,12 @@ public class FriendListActivity extends BaseActivity {
                     .apply(RequestOptions.placeholderOf(R.mipmap.icon_null_dog))
                     .into((ImageView) helper.getView(R.id.iv_dog_pic));
 
-            helper.setText(R.id.iv_lv, Utils.getFormat("LV.%d",(int) (item.getLevel())));
+            helper.setText(R.id.iv_lv, Utils.getFormat("LV.%d", (int) (item.getLevel())));
 
             helper.setText(R.id.iv_name1, item.getDogName());
             helper.setText(R.id.tv_times, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
             helper.setText(R.id.tv_all_time, Utils.getTime(item.getWalkTheDogTime()));
-            helper.setText(R.id.tv_today,Utils.getFormat("%d/2",item.getDayLimit()));
+            helper.setText(R.id.tv_today, Utils.getFormat("%d/2", item.getDayLimit()));
 
             if (item.getStarvation() == 1) {
                 helper.setTextColor(R.id.txt_status, Color.parseColor("#E51616"));

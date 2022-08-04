@@ -99,6 +99,10 @@ public class UrlFactory {
         return host + "/friend/invitedOtherList";
     }
 
+    public static String getInviteRegisterList(){
+        return host +"/userInfo/getInvitePage";
+    }
+
     //邮箱登录
     public static String getEmailLoginUrl() {
         return host + "/user/emailCheckCode.json";

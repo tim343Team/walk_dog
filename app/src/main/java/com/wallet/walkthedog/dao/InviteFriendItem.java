@@ -1,7 +1,7 @@
 package com.wallet.walkthedog.dao;
 
 public class InviteFriendItem {
-	private Object memberNote;
+	private String memberNote;
 	private String friendEmail;
 	private String friendId;
 	private String createTime;
@@ -12,7 +12,7 @@ public class InviteFriendItem {
 	private int status;
 	private String memberEmail;
 
-	public Object getMemberNote(){
+	public String getMemberNote(){
 		return memberNote;
 	}
 
