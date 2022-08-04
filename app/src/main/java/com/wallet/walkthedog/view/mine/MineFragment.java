@@ -211,13 +211,13 @@ public class MineFragment extends BaseTransFragment {
                     updateUserInfo(userInfo);
                 }
                 if (see){
-                    iv_see.setImageResource(R.mipmap.icon_eye_close);
-                }else {
                     iv_see.setImageResource(R.mipmap.icon_eye_see);
+                }else {
+                    iv_see.setImageResource(R.mipmap.icon_eye_close);
                 }
             }
         });
-        iv_see.setImageResource(R.mipmap.icon_eye_close);
+        iv_see.setImageResource(R.mipmap.icon_eye_see);
     }
 
 

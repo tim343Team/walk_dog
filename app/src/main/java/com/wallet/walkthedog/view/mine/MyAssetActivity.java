@@ -33,7 +33,7 @@ public class MyAssetActivity extends BaseActivity {
     private final static String xxxx ="****";
     private AssetListAdapter adapter = new AssetListAdapter();
     private int pageNo = 1;
-    boolean see = true;
+    boolean see = false;
 
     @Override
     protected int getActivityLayoutId() {
@@ -55,10 +55,10 @@ public class MyAssetActivity extends BaseActivity {
             public void onClick(View v) {
                 see = !see;
                 if (see) {
-                    iv.setImageResource(R.mipmap.icon_eye_close);
+                    iv.setImageResource(R.mipmap.icon_eye_see);
                     tv_all_asset.setText(Utils.getFormat("%.2f", all_asset));
                 } else {
-                    iv.setImageResource(R.mipmap.icon_eye_see);
+                    iv.setImageResource(R.mipmap.icon_eye_close);
                     tv_all_asset.setText(xxxx);
 
                 }
