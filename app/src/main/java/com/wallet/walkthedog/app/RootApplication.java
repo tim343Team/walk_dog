@@ -11,6 +11,11 @@ import tim.com.libnetwork.app.MyApplication;
 
 public class RootApplication extends MyApplication {
     private static RootApplication instance;
+    private static Context mContext;
+
+    public static Context getContext() {
+        return mContext;
+    }
 
     /**
      * 获取程序的Application对象
@@ -21,6 +26,7 @@ public class RootApplication extends MyApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
         initApplication();
         /*二维码识别*///
 //        ZXingLibrary.initDisplayOpinion(this);

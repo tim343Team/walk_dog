@@ -379,6 +379,7 @@
     <string name="asset_type_3">购买</string>
     <string name="copy_success">复制成功</string>
     <string name="save_success">保存成功</string>
+    <string name="setting_language_nitice">重新启动应用后生效</string>
     <string name="mine_item_otc">OTC</string>
     <string name="purchase_usdt">Purchase USDT</string>
     <string name="purchase">Purchase</string>

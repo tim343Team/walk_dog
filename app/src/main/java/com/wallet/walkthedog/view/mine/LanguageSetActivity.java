@@ -1,17 +1,24 @@
 package com.wallet.walkthedog.view.mine;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.RootApplication;
 import com.wallet.walkthedog.custom_view.card.ShadowDrawable;
+import com.wallet.walkthedog.untils.AppLanguageUtils;
+import com.wallet.walkthedog.untils.ToastUtils;
 
 import tim.com.libnetwork.base.BaseActivity;
+import tim.com.libnetwork.utils.ConstantLanguages;
 import tim.com.libnetwork.utils.ScreenUtils;
+import tim.com.libnetwork.utils.SharedPreferencesUtils;
 
 public class LanguageSetActivity extends BaseActivity {
 
@@ -25,6 +32,14 @@ public class LanguageSetActivity extends BaseActivity {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         //TODO GET
+        String language = SharedPreferencesUtils.getCurrentLanguages(getApplicationContext());
+        if (language.equals(ConstantLanguages.SIMPLIFIED_CHINESE)) {
+            selectIndex = 0;
+        } else if (language.equals(ConstantLanguages.ENGLISH)) {
+            selectIndex = 1;
+        } else {
+            selectIndex = 2;
+        }
         View layout_ch = findViewById(R.id.layout_ch);
         TextView tv_ch = findViewById(R.id.tv_ch);
         ImageView iv_ch = findViewById(R.id.iv_ch);
@@ -51,9 +66,8 @@ public class LanguageSetActivity extends BaseActivity {
                     iv_en.setImageTintList(ColorStateList.valueOf(unselectColor));
                     tv_japan.setTextColor(unselectColor);
                     iv_japan.setImageTintList(ColorStateList.valueOf(unselectColor));
-
                 } else if (selectIndex == 1) {
-                    select(layout_en,layout_ch, layout_japan);
+                    select(layout_en, layout_ch, layout_japan);
                     tv_en.setTextColor(Color.WHITE);
                     iv_en.setImageTintList(ColorStateList.valueOf(Color.WHITE));
 
@@ -62,7 +76,7 @@ public class LanguageSetActivity extends BaseActivity {
                     tv_japan.setTextColor(unselectColor);
                     iv_japan.setImageTintList(ColorStateList.valueOf(unselectColor));
                 } else {
-                    select(layout_japan,layout_en,layout_ch);
+                    select(layout_japan, layout_en, layout_ch);
                     tv_japan.setTextColor(Color.WHITE);
                     iv_japan.setImageTintList(ColorStateList.valueOf(Color.WHITE));
 
@@ -79,6 +93,7 @@ public class LanguageSetActivity extends BaseActivity {
             public void onClick(View v) {
                 selectIndex = 0;
                 runnable.run();
+
             }
         });
         layout_en.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +155,16 @@ public class LanguageSetActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         //TODO SAVE
+        if (selectIndex == 0) {
+            //设置中文
+            onChangeAppLanguage(ConstantLanguages.SIMPLIFIED_CHINESE);
+        } else if (selectIndex == 1) {
+            //设置英文
+            onChangeAppLanguage(ConstantLanguages.ENGLISH);
+        } else {
+            //设置日文
+            onChangeAppLanguage(ConstantLanguages.JAPAN);
+        }
     }
 
     @Override
@@ -155,5 +180,14 @@ public class LanguageSetActivity extends BaseActivity {
     @Override
     protected void loadData() {
 
+    }
+
+    private void onChangeAppLanguage(String newLanguage) {
+        SharedPreferencesUtils.setCurrentLanguages(getApplicationContext(), newLanguage);
+        //切换applaction语言
+        AppLanguageUtils.applyChange(RootApplication.getContext());
+        ToastUtils.shortToast(R.string.setting_language_nitice);
+        //关闭应用
+//        ActivityManage.finishAll();
     }
 }
