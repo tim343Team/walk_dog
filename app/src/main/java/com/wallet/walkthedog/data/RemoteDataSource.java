@@ -17,6 +17,7 @@ import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
+import com.wallet.walkthedog.dao.SellRecordDao;
 import com.wallet.walkthedog.dao.StartWalkDao;
 import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.AwardRequest;
@@ -1543,6 +1544,39 @@ public class RemoteDataSource implements DataSource {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
                                 dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getShoppLog(int pageNo, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getShoppLogUrl() + "?pageNo="+pageNo+"&pageSize=20")
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("购买出售记录:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("购买出售记录：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                List<SellRecordDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("records").toString(), new TypeToken<List<SellRecordDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

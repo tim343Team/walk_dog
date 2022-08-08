@@ -275,4 +275,9 @@ public class LocalDataSource implements DataSource {
 
     }
 
+    @Override
+    public void getShoppLog(int pageNo, DataCallback dataCallback) {
+
+    }
+
 }

@@ -321,4 +321,10 @@ public class DataRepository implements DataSource {
         else mRemoteDataSource.sellDog(request, dataCallback);
     }
 
+    @Override
+    public void getShoppLog(int pageNo, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getShoppLog(pageNo, dataCallback);
+        else mRemoteDataSource.getShoppLog(pageNo, dataCallback);
+    }
+
 }

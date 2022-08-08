@@ -195,6 +195,12 @@
         <activity android:name=".view.mine.MineFoodActivity" android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".view.props.SellRecordActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".view.dog.MyDogActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
