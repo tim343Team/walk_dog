@@ -40,6 +40,27 @@ public class UrlFactory {
     public static String getWalkDogLogCount() {
         return host + "/userInfo/getWalkDogLogCount";
     }
+
+    public static String coinList() {
+        return host + "/coin/all";
+    }
+
+    public static String countryList() {
+        return host + "/advertise/getAllCountry";
+    }
+
+    public static String AdpageByUnit(){
+        return host + "/advertise/page-by-unit";
+    }
+
+    public static String orderBuy(){
+        return host +"/order/buy";
+    }
+
+    public static String orderDetail(){
+        return host +"/order/detail";
+    }
+
     //遛狗详细记录
     public static String getWalkDogLog() {
         return host + "/userInfo/getWalkDogLog";

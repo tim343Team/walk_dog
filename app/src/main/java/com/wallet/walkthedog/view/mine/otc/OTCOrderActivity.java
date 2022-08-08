@@ -38,6 +38,7 @@ public class OTCOrderActivity extends BaseActivity {
         });
         tablayout = findViewById(R.id.tablayout);
         viewpager = findViewById(R.id.viewpager);
+        displayLoadingPopup();
     }
 
     @Override

@@ -402,5 +402,16 @@
     <string name="no_invite_register_list">You haven’t invited friends yet</string>
     <string name="this_friend_no_have_dog">This friend doesn’t have an online dog</string>
 
+    <string name="max_quantity_is_s" >max quantity is %f</string>
+    <string name="amount_of_the_transaction_s">Amount of the transaction: %s</string>
+    <string name="number_of_transactions_s">"Number of transactions: %s"</string>
+    <string name="unit_price_s">Unit price: %s</string>
+    <string name="merchant_s">Merchant: %s</string>
+    <string name="order_time_s">Order time: %s</string>
+    <string name="order_number_s">Order number: %s</string>
+    <string name="remaining_to_close_s">Remaining to close：%s</string>
+    <string name="waiting_for_buyers_payment">Waiting for buyers payment</string>
+    <string name="unpaid">Unpaid</string>
+
 
 </resources>
