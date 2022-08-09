@@ -17,7 +17,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.AdvertiseUnitItem;
-import com.wallet.walkthedog.dao.AdvertiseUnitPage;
 import com.wallet.walkthedog.dao.CoinNameItem;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
@@ -29,7 +28,10 @@ import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 import tim.com.libnetwork.network.okhttp.post.PostFormBuilder;
 
-public class PurchaseOTCActivity extends BaseActivity {
+/**
+ * 买卖生成订单
+ */
+public class PurchaseSellOTCActivity extends BaseActivity {
     @Override
     protected int getActivityLayoutId() {
         return R.layout.activity_purchase_otc;
@@ -38,10 +40,13 @@ public class PurchaseOTCActivity extends BaseActivity {
     private EditText editTextNum;
     private EditText editTextAmount;
     private TextView tv_limit_hint;
+    private TextView tv_buy;
+    private int advertiseType;//0是买，1是卖
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        advertiseType = getIntent().getIntExtra("advertiseType", 0);
         editTextNum = findViewById(R.id.edt_q);
         editTextAmount = findViewById(R.id.edit_amount);
         tv_limit_hint = findViewById(R.id.tv_limit_hint);
@@ -113,17 +118,46 @@ public class PurchaseOTCActivity extends BaseActivity {
 
             }
         });
-
-        findViewById(R.id.tv_buy).setOnClickListener(new View.OnClickListener() {
+        tv_buy = findViewById(R.id.tv_buy);
+        tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submit();
+                if (advertiseType==0){
+                    submitBuy();
+                }else {
+                    submitSell();
+                }
             }
         });
 
     }
+    //卖币流程
+    private void submitSell() {
+        try {
+            String num = editTextNum.getText().toString();
+            String amount = editTextAmount.getText().toString();
+            if (num.isEmpty()) {
+                ToastUtils.shortToast(getString(R.string.please_enter_the_quantity));
+                return;
+            }
+            double numd = Double.parseDouble(num);
+            if (numd > advertiseUnitItem.getRemainQuantity()) {
+                ToastUtils.shortToast(getString(R.string.max_quantity_is_s, advertiseUnitItem.getRemainQuantity()));
+                return;
+            }
 
-    private void submit() {
+            if (limit(amount)) {
+                ToastUtils.shortToast(getString(R.string.the_otc_order_hint));
+                return;
+            }
+            requestSell(num);
+        } catch (Exception ignored) {
+
+        }
+    }
+
+    //买的流程
+    private void submitBuy() {
         try {
             String num = editTextNum.getText().toString();
             String amount = editTextAmount.getText().toString();
@@ -146,7 +180,32 @@ public class PurchaseOTCActivity extends BaseActivity {
 
         }
     }
-
+    private void requestSell(String num) {
+        PostFormBuilder builder = WonderfulOkhttpUtils.post().url(UrlFactory.orderSell());
+        builder.addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .addParams("id", String.valueOf(advertiseUnitItem.getAdvertiseId()))
+                .addParams("coinId", String.valueOf(coinNameItem.getId()))
+                .addParams("price", String.valueOf(advertiseUnitItem.getPrice()))
+                .addParams("remark", "")
+                .addParams("mode", String.valueOf(0));
+        builder.addParams("amount", num);
+        builder.addParams("money", String.valueOf(Double.parseDouble(num) * advertiseUnitItem.getPrice()));
+        builder.build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<String>>() {
+                    @Override
+                    protected void onRes(RemoteData<String> testRemoteData) {
+                        String notNullData = testRemoteData.getNotNullData();
+                        if (!notNullData.isEmpty()) {
+                            Intent intent = new Intent(PurchaseSellOTCActivity.this, SellDetailActivity.class);
+                            intent.putExtra("CoinNameItemKEY", coinNameItem);
+                            intent.putExtra("AdvertiseUnitItemKEY", advertiseUnitItem);
+                            intent.putExtra("orderID", testRemoteData.getNotNullData());
+                            startActivity(intent);
+                        }
+                    }
+                });
+    }
     private void requestBuy(String num) {
         PostFormBuilder builder = WonderfulOkhttpUtils.post().url(UrlFactory.orderBuy());
         builder.addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
@@ -164,7 +223,7 @@ public class PurchaseOTCActivity extends BaseActivity {
                     protected void onRes(RemoteData<String> testRemoteData) {
                         String notNullData = testRemoteData.getNotNullData();
                         if (!notNullData.isEmpty()) {
-                            Intent intent = new Intent(PurchaseOTCActivity.this, PurchaseDetailActivity.class);
+                            Intent intent = new Intent(PurchaseSellOTCActivity.this, PurchaseDetailActivity.class);
                             intent.putExtra("CoinNameItemKEY", coinNameItem);
                             intent.putExtra("AdvertiseUnitItemKEY", advertiseUnitItem);
                             intent.putExtra("orderID", testRemoteData.getNotNullData());
@@ -216,6 +275,9 @@ public class PurchaseOTCActivity extends BaseActivity {
         helper.setText(R.id.tv_unit, item.getCoinName() + "/" + item.getLegalCurrency());
         helper.setText(R.id.tv_qu, Utils.getFormat("Quantity：%.2f" + item.getCoinName(), item.getRemainQuantity()));
         helper.setText(R.id.tv_limit, Utils.getFormat("Limit：%.2f" + item.getLegalCurrency(), item.getMinLimit()));
+        if (advertiseType == 1) {
+            tv_buy.setText(getString(R.string.sell));
+        }
     }
 
     public static class Hepler {

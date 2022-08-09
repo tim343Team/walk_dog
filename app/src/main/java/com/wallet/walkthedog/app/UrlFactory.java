@@ -57,6 +57,9 @@ public class UrlFactory {
     public static String orderBuy() {
         return host + "/order/buy";
     }
+    public static String orderSell() {
+        return host + "/order/sell";
+    }
 
     public static String orderDetail() {
         return host + "/order/detail";
@@ -64,6 +67,9 @@ public class UrlFactory {
 
     public static String orderCancel() {
         return host + "/order/cancel";
+    }
+    public static String releaseOrder(){
+        return host +"/order/release";
     }
 
     public static String orderPay() {

@@ -420,6 +420,11 @@
     <string name="already_paid">Already Paid</string>
     <string name="the_order_has_been_cancelled">The order has been cancelled</string>
     <string name="cancelled">Cancelled</string>
+    <string name="release_s">Release %s</string>
+    <string name="safety_verification">Safety Verification</string>
+    <string name="please_enter_the_funding_password">Please enter the Funding Password</string>
+    <string name="i_have_received_payment">I have received payment</string>
+    <string name="please_confirm_received_payment">please confirm received payment</string>
 
 
 </resources>

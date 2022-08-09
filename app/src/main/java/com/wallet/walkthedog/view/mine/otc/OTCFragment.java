@@ -28,7 +28,6 @@ import com.wallet.walkthedog.dao.ContryItem;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
-import com.wallet.walkthedog.untils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ import tim.com.libnetwork.utils.ScreenUtils;
 /**
  * 买otc
  */
-public class OTCBuyFragment extends Fragment {
+public class OTCFragment extends Fragment {
     private TextView tv_m_select;
     private int countrySelect = 0;
     private List<ContryItem> contryItems = new ArrayList<>();
@@ -121,7 +120,7 @@ public class OTCBuyFragment extends Fragment {
 
     @Nullable
     public ContryItem getCountry() {
-        if (contryItems.isEmpty()){
+        if (contryItems.isEmpty()) {
             return null;
         }
         return contryItems.get(countrySelect);
@@ -162,7 +161,8 @@ public class OTCBuyFragment extends Fragment {
     private void onRequestCoinList(List<CoinNameItem> notNullData) {
         title.clear();
         title.addAll(notNullData);
-        viewPager.setAdapter(new PageAdapter(getChildFragmentManager(), title));
+        assert getArguments() != null;
+        viewPager.setAdapter(new PageAdapter(getChildFragmentManager(), title, getArguments().getInt("advertiseType")));
     }
 
     interface ISelectFaBi {
@@ -173,16 +173,18 @@ public class OTCBuyFragment extends Fragment {
     static class PageAdapter extends FragmentStatePagerAdapter {
 
         private final List<CoinNameItem> titles;
+        private final int advertiseType;
 
-        public PageAdapter(@NonNull FragmentManager fm, List<CoinNameItem> titles) {
+        public PageAdapter(@NonNull FragmentManager fm, List<CoinNameItem> titles, int advertiseType) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+            this.advertiseType = advertiseType;
             this.titles = titles;
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return OTCBuyListFragment.newInstance(titles.get(position));
+            return OTCListFragment.newInstance(titles.get(position), advertiseType);
         }
 
         @Override

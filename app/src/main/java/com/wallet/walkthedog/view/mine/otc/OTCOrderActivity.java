@@ -76,10 +76,11 @@ public class OTCOrderActivity extends BaseActivity {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return new OTCBuyFragment();
-            }
-            return new OTCSellFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("advertiseType",position);
+            OTCFragment otcFragment = new OTCFragment();
+            otcFragment.setArguments(bundle);
+            return otcFragment;
         }
 
         @Override

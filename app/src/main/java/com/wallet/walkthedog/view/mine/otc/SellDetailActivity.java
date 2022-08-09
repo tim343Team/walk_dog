@@ -15,6 +15,8 @@ import com.wallet.walkthedog.app.ActivityLifecycleManager;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.OTCOrderDetailDao;
 import com.wallet.walkthedog.dao.PayInfo;
+import com.wallet.walkthedog.dialog.OTCPasswordDialog;
+import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.PayConfirmDialog;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
@@ -25,17 +27,18 @@ import com.wallet.walkthedog.untils.Utils;
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 
-public class PurchaseDetailActivity extends BaseActivity {
+/**
+ * 卖出的详情
+ */
+public class SellDetailActivity extends BaseActivity {
     @Override
     protected int getActivityLayoutId() {
-        return R.layout.activity_purchase_detail;
+        return R.layout.activity_sell_detail;
     }
 
     private ViewGroup layout_content;
     private FrameLayout layout_status;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private long timeLimit = -1L;
-    private long sysTime = System.currentTimeMillis();
     private TextView tv_pay;
     private TextView tv_cancel;
     private int status = -1;
@@ -71,8 +74,8 @@ public class PurchaseDetailActivity extends BaseActivity {
         tv_pay.findViewById(R.id.tv_pay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (status == 1) {
-                    showPaySuccessDialog();
+                if (status == 2) {
+                    showPassWorldDialog();
                 } else {
                     if (ActivityLifecycleManager.get().hasActivity(PurchaseSellOTCActivity.class)) {
                         finish();
@@ -86,26 +89,27 @@ public class PurchaseDetailActivity extends BaseActivity {
         });
     }
 
-    private void showPaySuccessDialog() {
-        PayConfirmDialog payConfirmDialog = new PayConfirmDialog();
-        payConfirmDialog.setGravity(Gravity.CENTER);
-        payConfirmDialog.setCallback(() -> {
-            orderPay(getIntent().getStringExtra("orderID"));
-            payConfirmDialog.dismiss();
+    private void showPassWorldDialog() {
+        OTCPasswordDialog otcPasswordDialog = new OTCPasswordDialog();
+        otcPasswordDialog.setCallback(password -> {
+            Runnable runnable = otcPasswordDialog::dismiss;
+            releaseOrder(password, runnable, getIntent().getStringExtra("orderID"));
         });
-        payConfirmDialog.show(getSupportFragmentManager(), "");
+        otcPasswordDialog.show(getSupportFragmentManager(), "");
     }
 
-    private void orderPay(String orderID) {
-        WonderfulOkhttpUtils.post().url(UrlFactory.orderPay())
+    private void releaseOrder(String password, Runnable runnable, String orderID) {
+        WonderfulOkhttpUtils.post().url(UrlFactory.releaseOrder())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .addParams("orderSn", orderID)
+                .addParams("jyPassword", password)
                 .build()
                 .getCall()
                 .enqueue(new GsonWalkDogCallBack<RemoteData<Object>>() {
                     @Override
                     protected void onRes(RemoteData<Object> otcOrderDetailDaoRemoteData) {
                         orderDetail(orderID);
+                        runnable.run();
                     }
                 });
     }
@@ -166,8 +170,6 @@ public class PurchaseDetailActivity extends BaseActivity {
     private void onSuccess(OTCOrderDetailDao dao) {
         layout_content.setVisibility(View.VISIBLE);
         PurchaseSellOTCActivity.Hepler helper = new PurchaseSellOTCActivity.Hepler(getWindow().getDecorView());
-        timeLimit = dao.getTimeLimit() * 60L * 1000;
-        sysTime = System.currentTimeMillis();
         helper.setText(R.id.tv_amount, getString(R.string.amount_of_the_transaction_s, Utils.getFormat("￥%.2f", dao.getMoney())));
         helper.setText(R.id.tv_number, getString(R.string.number_of_transactions_s, Utils.getFormat("%.8f" + dao.getUnit(), dao.getAmount())));
         helper.setText(R.id.tv_price, getString(R.string.number_of_transactions_s, Utils.getFormat("￥%.2f", dao.getPrice())));
@@ -182,17 +184,6 @@ public class PurchaseDetailActivity extends BaseActivity {
                 ToastUtils.shortToast(getString(R.string.copy_success));
             }
         });
-        PayInfo payInfo = dao.getPayInfo();
-        if (payInfo != null && payInfo.getBankInfo() != null) {
-//            StringBuffer buffer = new StringBuffer();
-//            buffer.append(getString(R.string.payer))
-//                    .append(payInfo.getRealName()).append("\n")
-//                    .append("Pay by:")
-//                    .append("Perfect Money").append("\n")
-//                    .append("Country:")
-//                    .append("J")
-        }
-
         status = dao.getStatus();//status 0已取消 1 未付款 2已付款 3已完成 4申述中
         layout_status.removeAllViews();
         tv_cancel.setVisibility(View.GONE);
@@ -200,38 +191,21 @@ public class PurchaseDetailActivity extends BaseActivity {
         if (status == 0) {
             layout_status.addView(LayoutInflater.from(this).inflate(R.layout.view_order_cancel, layout_status, false));
         } else if (status == 1) {
-            tv_cancel.setVisibility(View.VISIBLE);
-            tv_pay.setText(getString(R.string.payment_is_successful));
             layout_status.addView(createPayingView());
         } else if (status == 2) {
+            tv_pay.setText(getString(R.string.release_s, dao.getUnit()));
             layout_status.addView(LayoutInflater.from(this).inflate(R.layout.view_order_success_1, layout_status, false));
         } else if (status == 3) {
             layout_status.addView(LayoutInflater.from(this).inflate(R.layout.view_order_success_1, layout_status, false));
+            tv_pay.setVisibility(View.INVISIBLE);
         }
-
-
-        //  helper.setText(R.id.tv_pay_info, "");
     }
 
 
     private View createPayingView() {
         View paying = LayoutInflater.from(this).inflate(R.layout.view_order_paying, layout_status, false);
         TextView tv_time_limit = paying.findViewById(R.id.tv_time_limit);
-        Runnable timeRun = new Runnable() {
-            @Override
-            public void run() {
-                long timeSpacing = System.currentTimeMillis() - sysTime;
-                long curTime = timeLimit - timeSpacing;
-                String time = Utils.getTimeSecond(curTime / 1000L);
-                tv_time_limit.setText(getString(R.string.remaining_to_close_s, time));
-                if (curTime < 0) {
-                    finish();
-                    return;
-                }
-                handler.postDelayed(this, 1000);
-            }
-        };
-        handler.post(timeRun);
+        tv_time_limit.setVisibility(View.INVISIBLE);
         return paying;
     }
 }

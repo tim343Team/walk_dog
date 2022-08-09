@@ -29,22 +29,22 @@ import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.Utils;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 
-public class OTCBuyListFragment extends Fragment implements OTCBuyFragment.ISelectFaBi {
+public class OTCListFragment extends Fragment implements OTCFragment.ISelectFaBi {
 
-    public static OTCBuyListFragment newInstance(CoinNameItem item) {
+    public static OTCListFragment newInstance(CoinNameItem item, int advertiseType) {
         Bundle args = new Bundle();
         args.putSerializable("CoinNameItemKEY", item);
-        OTCBuyListFragment fragment = new OTCBuyListFragment();
+        args.putInt("advertiseType", advertiseType);
+        OTCListFragment fragment = new OTCListFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
+    private int advertiseType;//0是买，1是卖
     private OTCListAdapter otcListAdapter;
     private CoinNameItem coinNameItem;
 
@@ -52,10 +52,10 @@ public class OTCBuyListFragment extends Fragment implements OTCBuyFragment.ISele
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         coinNameItem = (CoinNameItem) getArguments().getSerializable("CoinNameItemKEY");
-
+        advertiseType = getArguments().getInt("advertiseType");
         RecyclerView recyclerView = new RecyclerView(requireActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        otcListAdapter = new OTCListAdapter();
+        otcListAdapter = new OTCListAdapter(advertiseType);
         recyclerView.setAdapter(otcListAdapter);
         return recyclerView;
     }
@@ -67,15 +67,16 @@ public class OTCBuyListFragment extends Fragment implements OTCBuyFragment.ISele
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.tv_buy) {
-                    Intent intent = new Intent(requireActivity(), PurchaseOTCActivity.class);
-                    intent.putExtra("CoinNameItemKEY",coinNameItem);
-                    AdvertiseUnitItem item =  otcListAdapter.getData().get(position);
-                    intent.putExtra("AdvertiseUnitItemKEY",item);
+                    Intent intent = new Intent(requireActivity(), PurchaseSellOTCActivity.class);
+                    intent.putExtra("CoinNameItemKEY", coinNameItem);
+                    AdvertiseUnitItem item = otcListAdapter.getData().get(position);
+                    intent.putExtra("AdvertiseUnitItemKEY", item);
+                    intent.putExtra("advertiseType",advertiseType);
                     startActivity(intent);
                 }
             }
         });
-        OTCBuyFragment parentFragment = (OTCBuyFragment) getParentFragment();
+        OTCFragment parentFragment = (OTCFragment) getParentFragment();
         assert parentFragment != null;
         ContryItem country = parentFragment.getCountry();
         if (country != null) {
@@ -86,7 +87,7 @@ public class OTCBuyListFragment extends Fragment implements OTCBuyFragment.ISele
     }
 
     private void requestList(String unit, String country) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.AdpageByUnit() + "?pageNo=1&pageSize=1000" + "&unit=" + unit + "&legalCurrency=" + country + "&advertiseType=1&isCertified=0&payModes=Bank")
+        WonderfulOkhttpUtils.get().url(UrlFactory.AdpageByUnit() + "?pageNo=1&pageSize=1000" + "&unit=" + unit + "&legalCurrency=" + country + "&isCertified=0&payModes=Bank" + "&advertiseType=" + advertiseType)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -110,8 +111,11 @@ public class OTCBuyListFragment extends Fragment implements OTCBuyFragment.ISele
 
     static class OTCListAdapter extends BaseQuickAdapter<AdvertiseUnitItem, BaseViewHolder> {
 
-        public OTCListAdapter() {
+        private final int advertiseType;
+
+        public OTCListAdapter(int advertiseType) {
             super(R.layout.item_list_buy);
+            this.advertiseType = advertiseType;
         }
 
         @Override
@@ -136,7 +140,11 @@ public class OTCBuyListFragment extends Fragment implements OTCBuyFragment.ISele
             helper.setText(R.id.tv_unit, item.getCoinName() + "/" + item.getLegalCurrency());
             helper.setText(R.id.tv_qu, Utils.getFormat("Quantity：%.2f" + item.getCoinName(), item.getRemainQuantity()));
             helper.setText(R.id.tv_qu, Utils.getFormat("Limit：%.2f" + item.getLegalCurrency(), item.getMaxLimit()));
-
+            if (advertiseType == 0) {
+                helper.setText(R.id.tv_buy, helper.itemView.getContext().getString(R.string.buy));
+            } else {
+                helper.setText(R.id.tv_buy, helper.itemView.getContext().getString(R.string.sell));
+            }
         }
     }
 }
