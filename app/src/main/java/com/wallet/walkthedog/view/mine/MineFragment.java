@@ -21,6 +21,7 @@ import com.wallet.walkthedog.sp.SafeGet;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
+import com.wallet.walkthedog.view.card.CardActivity;
 import com.wallet.walkthedog.view.dog.MyDogActivity;
 import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.home.HomeFragment;
@@ -75,6 +76,8 @@ public class MineFragment extends BaseTransFragment {
             public void onClick(View v) {
                 //我的狗狗
                 MyDogActivity.actionStart(getmActivity());
+                //TODO 测试银行卡
+//                CardActivity.actionStart(getmActivity());
             }
         });
         rootView.findViewById(R.id.ll_prop).setOnClickListener(new View.OnClickListener() {

@@ -33,7 +33,7 @@
                 android:layout_centerInParent="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/my_dog" />
+                android:text="@string/sell_record" />
 
             <TextView
                 android:id="@+id/txt_rent_dog"
@@ -63,14 +63,6 @@
             android:layout_height="match_parent"
             android:visibility="visible" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_rent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
-
     </RelativeLayout>
-
-
 
 </LinearLayout>
