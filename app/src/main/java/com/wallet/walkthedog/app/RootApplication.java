@@ -35,6 +35,7 @@ public class RootApplication extends MyApplication {
 
     private void initApplication() {
         instance = this;
+        ActivityLifecycleManager.init(this);
     }
 
     public static RootApplication getInstance() {

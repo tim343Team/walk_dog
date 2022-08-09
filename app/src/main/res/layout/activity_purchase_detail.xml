@@ -59,43 +59,12 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-
-                <LinearLayout
-                    android:id="@+id/layout_info"
+                <FrameLayout
+                    android:id="@+id/layout_status"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/shape_black_radius_20"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/unpaid"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/waiting_for_buyers_payment"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_time_limit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textColor="#E12828"
-                        tools:text="@string/remaining_to_close_s" />
-                </LinearLayout>
+                    android:layout_centerHorizontal="true" />
 
                 <com.wallet.walkthedog.custom_view.WHImageView
                     android:layout_width="match_parent"
@@ -275,11 +244,13 @@
             style="@style/def_while_shadow_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="14dp"
+            android:paddingHorizontal="3dp"
             android:paddingVertical="10dp"
             android:text="@string/cancel_order"
             android:textColor="#485EA8"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <com.wallet.walkthedog.custom_view.card.ShadowTextView
             android:id="@+id/tv_pay"
@@ -288,9 +259,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingHorizontal="14dp"
             android:paddingVertical="10dp"
-            android:text="@string/payment"
+            android:text="@string/payment_is_successful"
             android:textColor="@color/white"
             android:textStyle="bold" />
 

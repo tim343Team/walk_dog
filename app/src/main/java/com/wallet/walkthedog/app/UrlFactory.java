@@ -16,23 +16,24 @@ public class UrlFactory {
         return host + "/user/emailRegister.json";
     }
 
-    public static String getCheckEmailUrl(){
+    public static String getCheckEmailUrl() {
         return host + "/userInfo/checkEmail";
     }
 
-    public static String getUpdateEmailUrl(){
+    public static String getUpdateEmailUrl() {
         return host + "/userInfo/updateEmail";
     }
+
     //训练记录
-    public static String getTrainingPage(){
+    public static String getTrainingPage() {
         return host + "/userInfo/getTrainingPage";
     }
 
-    public static String getSysDataCode(){
+    public static String getSysDataCode() {
         return host + "/sysData/getSysDataCode";
     }
 
-    public static String tokenAudit(){
+    public static String tokenAudit() {
         return host + "/userInfo/tokenAudit";
     }
 
@@ -49,16 +50,24 @@ public class UrlFactory {
         return host + "/advertise/getAllCountry";
     }
 
-    public static String AdpageByUnit(){
+    public static String AdpageByUnit() {
         return host + "/advertise/page-by-unit";
     }
 
-    public static String orderBuy(){
-        return host +"/order/buy";
+    public static String orderBuy() {
+        return host + "/order/buy";
     }
 
-    public static String orderDetail(){
-        return host +"/order/detail";
+    public static String orderDetail() {
+        return host + "/order/detail";
+    }
+
+    public static String orderCancel() {
+        return host + "/order/cancel";
+    }
+
+    public static String orderPay() {
+        return host + "/order/pay";
     }
 
     //遛狗详细记录
@@ -70,58 +79,59 @@ public class UrlFactory {
         return host + "/wallet/getWallet";
     }
 
-    public static String sellDogFood(){
+    public static String sellDogFood() {
         return host + "/userInfo/sellDogFood";
     }
 
-    public static String userinfo(){
-        return host +"/userInfo/getUserInfo";
-    }
-    public static String updateNickName(){
-        return host +"/userInfo/updateNickName";
+    public static String userinfo() {
+        return host + "/userInfo/getUserInfo";
     }
 
-    public static String getDogFoodCat(){
+    public static String updateNickName() {
+        return host + "/userInfo/updateNickName";
+    }
+
+    public static String getDogFoodCat() {
         return host + "/userInfo/getDogFoodCat";
     }
 
-    public static String getTokenLog(){
+    public static String getTokenLog() {
         return host + "/userInfo/getTokenLog";
     }
 
-    public static String getDogFoodLog(){
+    public static String getDogFoodLog() {
         return host + "/userInfo/getDogFoodLog";
     }
 
     //
-    public static String getTogetherPage(){
+    public static String getTogetherPage() {
         return host + "/together/getTogetherPage";
     }
 
-    public static String getIdeaTogether(){
+    public static String getIdeaTogether() {
         return host + "/together/ideaTogether";
     }
 
-    public static String getFriendList(){
+    public static String getFriendList() {
         return host + "/friend/FriendList";
     }
 
     //拒绝好友
-    public static String getDeclineTheInvitation(){
+    public static String getDeclineTheInvitation() {
         return host + "/friend/declineTheInvitation";
     }
 
     //同意好友
-    public static String getAcceptTheInvitation(){
+    public static String getAcceptTheInvitation() {
         return host + "/friend/acceptTheInvitation";
     }
 
-    public static String getInviteFriendList(){
+    public static String getInviteFriendList() {
         return host + "/friend/invitedOtherList";
     }
 
-    public static String getInviteRegisterList(){
-        return host +"/userInfo/getInvitePage";
+    public static String getInviteRegisterList() {
+        return host + "/userInfo/getInvitePage";
     }
 
     //邮箱登录

@@ -392,7 +392,7 @@
     <string name="other_payment_method">Other payment method</string>
     <string name="buy_hint">Kind tips:\n1. Your remittance will go directly to the other party\'s account, and the digital assets will be protected by platform custody during the transaction.\n2. Please complete the payment within the specified time, and be sure to click the [I have paid successfully] button. After the other party confirms the payment, the system will transfer the digital assets to your account.\n3. If the number of cancellations on the day reaches three-times. The buy function of the day will be limited.</string>
     <string name="cancel_order">Cancel Order</string>
-    <string name="payment">Payment</string>
+    <string name="payment_is_successful">Payment is successful</string>
     <string name="fee">fee: %s</string>
     <string name="token_audit_success" >token audit success</string>
     <string name="you_has_not_address">你还没添加地址</string>
@@ -414,6 +414,12 @@
     <string name="unpaid">Unpaid</string>
     <string name="order_detail_hint_1">If you have already paid the other party, be sure to click [I have paid], otherwise you may lose funds.</string>
     <string name="payer">Payer:</string>
+    <string name="confirm_pay_success">Please confirm that your payment has been successful！</string>
+    <string name="confirmation_of_payment">Confirmation of payment</string>
+    <string name="pay_success">The buyer has paid and is waiting for the seller to release the coins.</string>
+    <string name="already_paid">Already Paid</string>
+    <string name="the_order_has_been_cancelled">The order has been cancelled</string>
+    <string name="cancelled">Cancelled</string>
 
 
 </resources>

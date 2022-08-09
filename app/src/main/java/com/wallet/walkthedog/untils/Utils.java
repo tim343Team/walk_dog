@@ -40,6 +40,18 @@ public class Utils {
         return String.format(Locale.getDefault(), "%02d:%02d", hours, mintes);
     }
 
+    /**
+     * 时间转换成 HH:mm:ss
+     *
+     * @param time 秒
+     * @return HH：mm
+     */
+    public static String getTimeSecond(long time) {
+        long mintes = time / 60 % 60;
+        long s = time % 60;
+        return String.format(Locale.getDefault(), "%02d:%02d", mintes, s);
+    }
+
     public static String getFormat(String format, Object... arg) {
         try {
             return String.format(Locale.getDefault(), format, arg);
@@ -123,7 +135,7 @@ public class Utils {
     }
 
 
-    public static void copyText(Context context,String str){
+    public static void copyText(Context context, String str) {
         ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData myClip = ClipData.newPlainText(null, str);
         cm.setPrimaryClip(myClip);
