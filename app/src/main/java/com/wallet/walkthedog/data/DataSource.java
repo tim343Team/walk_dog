@@ -118,4 +118,6 @@ public interface DataSource {
 
     void sellDog(SellRequest request,  DataCallback dataCallback);
 
+    void getShoppLog(int pageNo,  DataCallback dataCallback);
+
 }

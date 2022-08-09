@@ -21,6 +21,7 @@ import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.props.PropDetailActivity;
+import com.wallet.walkthedog.view.props.SellRecordActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,7 +40,8 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
 
     @OnClick(R.id.ll_sell_record)
     void gotoRecord(){
-        //TODO 售卖记录
+        //售卖记录
+        SellRecordActivity.actionStart(getmActivity());
     }
 
     private PropsContract.PropsPresenter presenter;

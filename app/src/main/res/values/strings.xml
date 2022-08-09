@@ -105,6 +105,8 @@
     <!--身份id卡-->
     <string name="name_">姓名:</string>
     <string name="name">名稱</string>
+    <string name="country">國家</string>
+    <string name="card_number">卡號</string>
     <string name="name1_">名稱:</string>
     <string name="gender_">性別:</string>
     <string name="level_">等級:</string>
@@ -112,6 +114,7 @@
     <string name="muscle_">肌肉:</string>
     <string name="personality_">個性:</string>
     <string name="id_">編號:</string>
+    <string name="id">編號</string>
     <string name="dog_walk_time_">遛狗時間:</string>
     <string name="charm_value_">魅力值:</string>
     <string name="time_">時間:</string>
@@ -196,10 +199,12 @@
     <string name="input_prop_success">%s已经放入道具</string>
     <string name="input_prop_fail">垃圾已经丢弃</string>
     <string name="price_s">價格：%s</string>
+    <string name="price">價格</string>
     <string name="possible_access_">有機會獲得：</string>
     <string name="fight_hunger_">抵抗飢餓：充滿幹勁</string>
     <string name="sell">出售</string>
     <string name="sell_record">出售記錄</string>
+    <string name="order_number_">訂單號：%s</string>
     <string name="sell_prop">出售裝備</string>
     <string name="enter_sell_price">請輸入出售價格</string>
     <string name="sell_price_notice">價格需要大於0</string>
@@ -263,6 +268,10 @@
     <string name="available_rental_time">可租用%s天</string>
     <string name="cancel_rental">取消租賃</string>
     <string name="rental_success">租賃成功</string>
+    <!--银行卡-->
+    <string name="my_card">我的銀行卡</string>
+    <string name="default_payment">默認收款</string>
+
     <!--我的主页-->
     <string name="mine_item_food">我的狗糧</string>
     <string name="mine_item_dog">我的狗狗</string>

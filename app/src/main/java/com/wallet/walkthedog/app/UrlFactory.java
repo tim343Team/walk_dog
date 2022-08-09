@@ -360,4 +360,9 @@ public class UrlFactory {
         return host + "/shopping/sellDog";
     }
 
+    //购买出售记录
+    public static String getShoppLogUrl() {
+        return host + "/shopping/getShoppLog";
+    }
+
 }
