@@ -105,6 +105,8 @@
     <!--身份id卡-->
     <string name="name_">姓名:</string>
     <string name="name">名稱</string>
+    <string name="country">國家</string>
+    <string name="card_number">卡號</string>
     <string name="name1_">名稱:</string>
     <string name="gender_">性別:</string>
     <string name="level_">等級:</string>
@@ -266,6 +268,10 @@
     <string name="available_rental_time">可租用%s天</string>
     <string name="cancel_rental">取消租賃</string>
     <string name="rental_success">租賃成功</string>
+    <!--银行卡-->
+    <string name="my_card">我的銀行卡</string>
+    <string name="default_payment">默認收款</string>
+
     <!--我的主页-->
     <string name="mine_item_food">我的狗糧</string>
     <string name="mine_item_dog">我的狗狗</string>

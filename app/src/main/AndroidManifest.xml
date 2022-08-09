@@ -161,6 +161,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".view.card.CardActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".view.props.PropDetailActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
