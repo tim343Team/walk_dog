@@ -412,6 +412,8 @@
     <string name="remaining_to_close_s">Remaining to close：%s</string>
     <string name="waiting_for_buyers_payment">Waiting for buyers payment</string>
     <string name="unpaid">Unpaid</string>
+    <string name="order_detail_hint_1">If you have already paid the other party, be sure to click [I have paid], otherwise you may lose funds.</string>
+    <string name="payer">Payer:</string>
 
 
 </resources>

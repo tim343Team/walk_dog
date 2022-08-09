@@ -249,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="If you have already paid the other party, be sure to click [I have paid], otherwise you may lose funds."
+                android:text="@string/order_detail_hint_1"
                 android:textColor="#ff838383"
                 android:textSize="12sp" />
 

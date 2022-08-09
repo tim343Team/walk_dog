@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.OTCOrderDetailDao;
+import com.wallet.walkthedog.dao.PayInfo;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
@@ -26,6 +27,7 @@ public class PurchaseDetailActivity extends BaseActivity {
     protected int getActivityLayoutId() {
         return R.layout.activity_purchase_detail;
     }
+
     private ViewGroup layout_content;
     private TextView tv_time_limit;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -118,5 +120,18 @@ public class PurchaseDetailActivity extends BaseActivity {
                 ToastUtils.shortToast(getString(R.string.copy_success));
             }
         });
+        PayInfo payInfo = dao.getPayInfo();
+        if (payInfo != null && payInfo.getBankInfo() != null) {
+//            StringBuffer buffer = new StringBuffer();
+//            buffer.append(getString(R.string.payer))
+//                    .append(payInfo.getRealName()).append("\n")
+//                    .append("Pay by:")
+//                    .append("Perfect Money").append("\n")
+//                    .append("Country:")
+//                    .append("J")
+        }
+
+
+      //  helper.setText(R.id.tv_pay_info, "");
     }
 }

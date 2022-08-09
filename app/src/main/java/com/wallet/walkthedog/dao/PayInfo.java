@@ -2,7 +2,7 @@ package com.wallet.walkthedog.dao;
 
 public class PayInfo{
 	private String realName;
-	private Object bankInfo;
+	private BankCarInfo bankInfo;
 	private Object alipay;
 	private Object wechatPay;
 	private Object swift;
@@ -11,7 +11,7 @@ public class PayInfo{
 		return realName;
 	}
 
-	public Object getBankInfo(){
+	public BankCarInfo getBankInfo(){
 		return bankInfo;
 	}
 
