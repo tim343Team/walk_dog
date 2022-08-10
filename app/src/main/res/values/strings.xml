@@ -450,6 +450,27 @@
     <string name="please_enter_the_funding_password">Please enter the Funding Password</string>
     <string name="i_have_received_payment">I have received payment</string>
     <string name="please_confirm_received_payment">please confirm received payment</string>
+    <string name="place_an_ad">Place an Ad</string>
+    <string name="token_choose">Token Choose</string>
+    <string name="premium">Premium</string>
+    <string name="market_reference_hint">Market reference price：7.074\nPremium is the percentage above the current market price to sell.</string>
+    <string name="buy_quantity">Buy Quantity</string>
+    <string name="trading_period">Trading Period</string>
+    <string name="min">min</string>
+    <string name="the_acceptable_timeframe_hint">The acceptable timeframe for the buyer to trade, please enter an integer.</string>
+    <string name="minimum_transaction_amount">Minimum Transaction Amount</string>
+    <string name="please_enter_transaction_amount">Please enter transaction amount</string>
+    <string name="maximum_transaction_amount">Maximum Transaction Amount</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="please_choose_a_payment_method">Please choose a payment method</string>
+    <string name="place_ad_tip">Tip: You can go to the personal center to bind/add payment methods.</string>
+    <string name="turn_on_fixed_price">Turn on Fixed Price</string>
+    <string name="buy_ads">Buy Ads</string>
+    <string name="sell_ads">Sell Ads</string>
+    <string name="my_ads">My Ads</string>
+    <string name="how_to_pay">How to Pay</string>
+    <string name="trade_history">Trade history</string>
+
 
 
 </resources>

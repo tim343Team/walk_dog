@@ -41,7 +41,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
     private EditText editTextAmount;
     private TextView tv_limit_hint;
     private TextView tv_buy;
-    private int advertiseType;//0是买，1是卖
+    private int advertiseType;//1是买，0是卖
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -51,7 +51,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
         editTextAmount = findViewById(R.id.edit_amount);
         tv_limit_hint = findViewById(R.id.tv_limit_hint);
         TextView tv_title = findViewById(R.id.tv_title);
-        if (advertiseType == 1) {
+        if (advertiseType == 0) {
             tv_title.setText(getString(R.string.sell));
         }
         findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
@@ -127,7 +127,6 @@ public class PurchaseSellOTCActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (advertiseType == 0) {
-                    //这里的买和卖是正好反的
                     submitSell();
                 } else {
                     submitBuy();
@@ -204,7 +203,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                     protected void onRes(RemoteData<String> testRemoteData) {
                         String notNullData = testRemoteData.getNotNullData();
                         if (!notNullData.isEmpty()) {
-                            Intent intent = new Intent(PurchaseSellOTCActivity.this, PurchaseDetailActivity.class);
+                            Intent intent = new Intent(PurchaseSellOTCActivity.this, SellDetailActivity.class);
                             intent.putExtra("CoinNameItemKEY", coinNameItem);
                             intent.putExtra("AdvertiseUnitItemKEY", advertiseUnitItem);
                             intent.putExtra("orderID", testRemoteData.getNotNullData());
@@ -231,7 +230,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                     protected void onRes(RemoteData<String> testRemoteData) {
                         String notNullData = testRemoteData.getNotNullData();
                         if (!notNullData.isEmpty()) {
-                            Intent intent = new Intent(PurchaseSellOTCActivity.this, SellDetailActivity.class);
+                            Intent intent = new Intent(PurchaseSellOTCActivity.this, PurchaseDetailActivity.class);
                             intent.putExtra("CoinNameItemKEY", coinNameItem);
                             intent.putExtra("AdvertiseUnitItemKEY", advertiseUnitItem);
                             intent.putExtra("orderID", testRemoteData.getNotNullData());
@@ -283,7 +282,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
         helper.setText(R.id.tv_unit, item.getCoinName() + "/" + item.getLegalCurrency());
         helper.setText(R.id.tv_qu, Utils.getFormat("Quantity：%.2f" + item.getCoinName(), item.getRemainQuantity()));
         helper.setText(R.id.tv_limit, Utils.getFormat("Limit：%.2f" + item.getLegalCurrency(), item.getMinLimit()));
-        if (advertiseType == 1) {
+        if (advertiseType == 0) {
             tv_buy.setText(getString(R.string.sell));
         }
     }

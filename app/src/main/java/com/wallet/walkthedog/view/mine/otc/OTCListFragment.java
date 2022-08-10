@@ -44,7 +44,7 @@ public class OTCListFragment extends Fragment implements OTCFragment.ISelectFaBi
         return fragment;
     }
 
-    private int advertiseType;//0是买，1是卖
+    private int advertiseType;//1是买，0是卖
     private OTCListAdapter otcListAdapter;
     private CoinNameItem coinNameItem;
 
@@ -140,7 +140,7 @@ public class OTCListFragment extends Fragment implements OTCFragment.ISelectFaBi
             helper.setText(R.id.tv_unit, item.getCoinName() + "/" + item.getLegalCurrency());
             helper.setText(R.id.tv_qu, Utils.getFormat("Quantity：%.2f" + item.getCoinName(), item.getRemainQuantity()));
             helper.setText(R.id.tv_qu, Utils.getFormat("Limit：%.2f" + item.getLegalCurrency(), item.getMaxLimit()));
-            if (advertiseType == 0) {
+            if (advertiseType == 1) {
                 helper.setText(R.id.tv_buy, helper.itemView.getContext().getString(R.string.buy));
             } else {
                 helper.setText(R.id.tv_buy, helper.itemView.getContext().getString(R.string.sell));

@@ -246,6 +246,7 @@
         <activity android:name=".view.mine.otc.PurchaseSellOTCActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.InviteRegisterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.otc.SellDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.ad.PlaceADActivity" android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.GpsService"

@@ -86,6 +86,7 @@ public class OTCFragment extends Fragment {
             public void onItemClick(BaseQuickAdapter a, View view, int position) {
                 if (popupWindow != null) {
                     popupWindow.dismiss();
+                    popupWindow = null;
                     countrySelect = position;
                     onSelectFaBi();
                 }
@@ -93,18 +94,24 @@ public class OTCFragment extends Fragment {
         });
         adapter.setNewData(contryItems);
         View view = LayoutInflater.from(requireContext()).inflate(R.layout.pop_money_select, null, false);
-        view.measure(View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenWidth(requireContext()), View.MeasureSpec.AT_MOST),
-                View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenHeight(requireContext()), View.MeasureSpec.AT_MOST)
-        );
         RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
+        ViewGroup.LayoutParams layoutParams = recyclerview.getLayoutParams();
+        layoutParams.width = ScreenUtils.dip2px(requireContext(),70);
+
         recyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerview.setAdapter(adapter);
         popupWindow = new PopupWindow(view, -2, -2);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setFocusable(true);
         popupWindow.setClippingEnabled(false);
+        view.measure(View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenWidth(requireContext()), View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenHeight(requireContext()), View.MeasureSpec.AT_MOST)
+        );
+        int[] outLocation = new int[2];
+        int screenWidth = ScreenUtils.getScreenWidth(requireContext());
+        tv_m_select.getLocationInWindow(outLocation);
         int measuredWidth = view.getMeasuredWidth();
-        popupWindow.showAsDropDown(tv_m_select, -measuredWidth, 0, Gravity.BOTTOM);
+        popupWindow.showAsDropDown(tv_m_select, -measuredWidth + (screenWidth - outLocation[0]), 0, Gravity.BOTTOM);
     }
 
     private void onSelectFaBi() {
