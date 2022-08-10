@@ -11,7 +11,6 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.CardAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.dao.CardInfoDao;
-import com.wallet.walkthedog.view.dog.DogDetailPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class CardActivity extends BaseActivity implements CardContract.CardView{
 
     @OnClick(R.id.img_add)
     void add() {
-        finish();
+        EditCardActivity.actionStart(this,0);
     }
 
     public static void actionStart(Activity activity) {
@@ -91,6 +90,12 @@ public class CardActivity extends BaseActivity implements CardContract.CardView{
             @Override
             public void click(int position) {
 
+            }
+        });
+        adapter.OnEditListenerItem(new CardAdapter.OnEditListenerItem() {
+            @Override
+            public void click(int position) {
+                EditCardActivity.actionStart(CardActivity.this,1);
             }
         });
     }

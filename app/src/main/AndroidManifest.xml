@@ -167,6 +167,30 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".view.card.EditCardActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".view.card.CardVerifyActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".view.merchant.MerchantActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".view.merchant.MerchantAgreementActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".view.props.PropDetailActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"

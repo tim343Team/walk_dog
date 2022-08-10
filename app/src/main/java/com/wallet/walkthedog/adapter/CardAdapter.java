@@ -25,13 +25,13 @@ public class CardAdapter extends BaseQuickAdapter<CardInfoDao, BaseViewHolder> {
         helper.getView(R.id.img_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                itemClick.click(helper.getLayoutPosition());
             }
         });
         helper.getView(R.id.img_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                itemEdit.click(helper.getLayoutPosition());
             }
         });
     }
