@@ -50,6 +50,10 @@ public class PurchaseSellOTCActivity extends BaseActivity {
         editTextNum = findViewById(R.id.edt_q);
         editTextAmount = findViewById(R.id.edit_amount);
         tv_limit_hint = findViewById(R.id.tv_limit_hint);
+        TextView tv_title = findViewById(R.id.tv_title);
+        if (advertiseType == 1) {
+            tv_title.setText(getString(R.string.sell));
+        }
         findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,15 +126,17 @@ public class PurchaseSellOTCActivity extends BaseActivity {
         tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (advertiseType==0){
-                    submitBuy();
-                }else {
+                if (advertiseType == 0) {
+                    //这里的买和卖是正好反的
                     submitSell();
+                } else {
+                    submitBuy();
                 }
             }
         });
 
     }
+
     //卖币流程
     private void submitSell() {
         try {
@@ -180,6 +186,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
 
         }
     }
+
     private void requestSell(String num) {
         PostFormBuilder builder = WonderfulOkhttpUtils.post().url(UrlFactory.orderSell());
         builder.addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
@@ -197,7 +204,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                     protected void onRes(RemoteData<String> testRemoteData) {
                         String notNullData = testRemoteData.getNotNullData();
                         if (!notNullData.isEmpty()) {
-                            Intent intent = new Intent(PurchaseSellOTCActivity.this, SellDetailActivity.class);
+                            Intent intent = new Intent(PurchaseSellOTCActivity.this, PurchaseDetailActivity.class);
                             intent.putExtra("CoinNameItemKEY", coinNameItem);
                             intent.putExtra("AdvertiseUnitItemKEY", advertiseUnitItem);
                             intent.putExtra("orderID", testRemoteData.getNotNullData());
@@ -206,6 +213,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                     }
                 });
     }
+
     private void requestBuy(String num) {
         PostFormBuilder builder = WonderfulOkhttpUtils.post().url(UrlFactory.orderBuy());
         builder.addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
@@ -223,7 +231,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                     protected void onRes(RemoteData<String> testRemoteData) {
                         String notNullData = testRemoteData.getNotNullData();
                         if (!notNullData.isEmpty()) {
-                            Intent intent = new Intent(PurchaseSellOTCActivity.this, PurchaseDetailActivity.class);
+                            Intent intent = new Intent(PurchaseSellOTCActivity.this, SellDetailActivity.class);
                             intent.putExtra("CoinNameItemKEY", coinNameItem);
                             intent.putExtra("AdvertiseUnitItemKEY", advertiseUnitItem);
                             intent.putExtra("orderID", testRemoteData.getNotNullData());
