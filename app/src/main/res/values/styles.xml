@@ -145,6 +145,14 @@
         <item name="cardElevation">8dp</item>
     </style>
 
+    <style name="defshadow_style_2">
+        <item name="shadowGradientColor">"#A4B6F4,#DBE3FF"</item>
+        <item name="shadowStartColor">#8A758BD4</item>
+        <item name="shadowEndColor">#10E6E8EF</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">8dp</item>
+    </style>
+
     <style name="def_while_shadow_style">
         <item name="cardBackgroundColor">@color/white</item>
         <item name="shadowStartColor">#56758BD4</item>
