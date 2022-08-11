@@ -50,6 +50,10 @@ public class UrlFactory {
         return host + "/advertise/getAllCountry";
     }
 
+    public static String getAllCoin() {
+        return host + "/advertise/getAllCoin";
+    }
+
     public static String AdpageByUnit() {
         return host + "/advertise/page-by-unit";
     }
@@ -57,6 +61,7 @@ public class UrlFactory {
     public static String orderBuy() {
         return host + "/order/buy";
     }
+
     public static String orderSell() {
         return host + "/order/sell";
     }
@@ -68,8 +73,9 @@ public class UrlFactory {
     public static String orderCancel() {
         return host + "/order/cancel";
     }
-    public static String releaseOrder(){
-        return host +"/order/release";
+
+    public static String releaseOrder() {
+        return host + "/order/release";
     }
 
     public static String orderPay() {

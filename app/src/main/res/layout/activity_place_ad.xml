@@ -70,6 +70,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_token"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -82,6 +83,7 @@
                         tools:text="USDT" />
 
                     <ImageView
+                        android:id="@+id/iv_token"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:paddingStart="15dp"
@@ -141,6 +143,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_contry_select"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -206,6 +209,7 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/edit_premium"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -258,6 +262,7 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:inputType="number"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -303,6 +308,7 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:inputType="number"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -354,6 +360,8 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:inputType="numberDecimal"
+                        android:id="@+id/edit_min"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -368,6 +376,7 @@
                         tools:ignore="RtlSymmetry" />
 
                     <TextView
+                        android:id="@+id/tv_min_c"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -398,6 +407,8 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:inputType="numberDecimal"
+                        android:id="@+id/edit_max"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -412,6 +423,7 @@
                         tools:ignore="RtlSymmetry" />
 
                     <TextView
+                        android:id="@+id/tv_max_c"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"

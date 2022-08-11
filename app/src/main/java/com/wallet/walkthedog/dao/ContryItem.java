@@ -1,6 +1,8 @@
 package com.wallet.walkthedog.dao;
 
-public class ContryItem{
+import com.wallet.walkthedog.dialog.SelectCoinDialog;
+
+public class ContryItem implements SelectCoinDialog.SimpleText {
 	private String areaCode;
 	private String zhName;
 	private String enName;
@@ -30,5 +32,10 @@ public class ContryItem{
 
 	public int getSort(){
 		return sort;
+	}
+
+	@Override
+	public String getShowText() {
+		return enName;
 	}
 }
