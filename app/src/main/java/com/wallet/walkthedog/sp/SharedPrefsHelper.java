@@ -17,6 +17,7 @@ public class SharedPrefsHelper {
     private static final String SP_KEY_TOKEN = "SP_KEY_TOKEN";
     private static final String SIGN_PASSWORD = "SIGN_PASSWORD";
     private static final String CURRENT_DOG_ID = "CURRENT_DOG_ID";
+    private static final String CARD_TYPE = "CARD_TYPE";
 
     private static final String USERINFO_KEY = "USERINFO_KEY";
 
@@ -97,6 +98,21 @@ public class SharedPrefsHelper {
     public void saveDogId(String id) {
         if (sharedPreferences == null) return;
         sharedPreferences.edit().putString(CURRENT_DOG_ID, id).apply();
+    }
+
+    /**
+     * 保存当前選擇卡
+     */
+    public void saveCard(int type) {
+        if (sharedPreferences == null) return;
+        sharedPreferences.edit().putInt(CARD_TYPE, type).apply();
+    }
+
+    /**
+     * 獲取当前選擇卡
+     */
+    public int getCard() {
+        return sharedPreferences == null ? 0 : sharedPreferences.getInt(CARD_TYPE, 0);
     }
 
     @Nullable

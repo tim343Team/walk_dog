@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.AwardDao;
 import com.wallet.walkthedog.dao.BoxDao;
+import com.wallet.walkthedog.dao.CardInfoDao;
 import com.wallet.walkthedog.dao.CodeDataDao;
 import com.wallet.walkthedog.dao.CoordDao;
 import com.wallet.walkthedog.dao.DogFoodDao;
@@ -22,6 +23,7 @@ import com.wallet.walkthedog.dao.StartWalkDao;
 import com.wallet.walkthedog.dao.TrainDao;
 import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
+import com.wallet.walkthedog.dao.request.CardEditRequset;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.InviteRequest;
@@ -1577,6 +1579,103 @@ public class RemoteDataSource implements DataSource {
                                 List<SellRecordDao> objs = gson.fromJson(object.getJSONObject("data").getJSONArray("records").toString(), new TypeToken<List<SellRecordDao>>() {
                                 }.getType());
                                 dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getBankAccount(DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getBankAccountUrl())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("账户设置详情:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("账户设置详情：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                List<CardInfoDao> objs = gson.fromJson(object.getJSONArray("data").toString(), new TypeToken<List<CardInfoDao>>() {
+                                }.getType());
+                                dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getApproveBank(CardEditRequset requset, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.bindBankAccountUrl()+"?realName="+requset.getRealName()+"&bank="+requset.getBank()
+                        +"&cardNo="+requset.getCardNo()+"&jyPassword="+requset.getJyPassword())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("设置银行卡:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("设置银行卡：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getApproveSwift(CardEditRequset requset, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.bindSwiftAccountUrl()+"?swiftAddress="+requset.getSwiftAddress()+"&swiftRealName="+requset.getSwiftRealName()
+                        +"&password="+requset.getPassword())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("绑定swift:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("绑定swift：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

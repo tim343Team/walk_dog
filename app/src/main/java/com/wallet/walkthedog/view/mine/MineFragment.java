@@ -26,6 +26,7 @@ import com.wallet.walkthedog.view.dog.MyDogActivity;
 import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.home.HomeFragment;
 import com.wallet.walkthedog.view.login.LoginActivity;
+import com.wallet.walkthedog.view.merchant.MerchantActivity;
 import com.wallet.walkthedog.view.mine.otc.OTCOrderActivity;
 import com.wallet.walkthedog.view.props.MyPropsActivity;
 
@@ -75,9 +76,9 @@ public class MineFragment extends BaseTransFragment {
             @Override
             public void onClick(View v) {
                 //我的狗狗
-//                MyDogActivity.actionStart(getmActivity());
-                //TODO 测试银行卡
-                CardActivity.actionStart(getmActivity());
+                MyDogActivity.actionStart(getmActivity());
+                //TODO 测试商家
+//                MerchantActivity.actionStart(getmActivity(),0);
             }
         });
         rootView.findViewById(R.id.ll_prop).setOnClickListener(new View.OnClickListener() {
@@ -136,6 +137,13 @@ public class MineFragment extends BaseTransFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(requireContext(), AboutActivity.class);
                 startActivity(intent);
+            }
+        });
+        rootView.findViewById(R.id.ll_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //银行卡
+                CardActivity.actionStart(getmActivity());
             }
         });
         rootView.findViewById(R.id.ll_invite_friend).setOnClickListener(new View.OnClickListener() {

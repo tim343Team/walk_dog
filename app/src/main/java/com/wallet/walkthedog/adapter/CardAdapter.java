@@ -15,9 +15,11 @@ import java.util.List;
 
 public class CardAdapter extends BaseQuickAdapter<CardInfoDao, BaseViewHolder> {
     private List<PropDao> selectDao = new ArrayList<>();
+    private int type;
 
-    public CardAdapter(int layoutResId, @Nullable List<CardInfoDao> data) {
+    public CardAdapter(int layoutResId, @Nullable List<CardInfoDao> data, int type) {
         super(layoutResId, data);
+        this.type = type;
     }
 
     @Override
@@ -25,6 +27,7 @@ public class CardAdapter extends BaseQuickAdapter<CardInfoDao, BaseViewHolder> {
         helper.getView(R.id.img_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                type = item.getType();
                 itemClick.click(helper.getLayoutPosition());
             }
         });
@@ -34,6 +37,15 @@ public class CardAdapter extends BaseQuickAdapter<CardInfoDao, BaseViewHolder> {
                 itemEdit.click(helper.getLayoutPosition());
             }
         });
+        helper.setText(R.id.txt_name, item.getRealName());
+        helper.setText(R.id.txt_card_number, item.getAccount());
+        helper.setText(R.id.txt_bank, item.getBankName());
+        helper.setText(R.id.txt_type, item.getTypeText());
+        if (type == item.getType()) {
+            helper.getView(R.id.img_select).setBackgroundResource(R.mipmap.icon_select_white);
+        } else {
+            helper.getView(R.id.img_select).setBackgroundResource(R.mipmap.icon_unselect_white);
+        }
     }
 
     OnclickListenerItem itemClick;
