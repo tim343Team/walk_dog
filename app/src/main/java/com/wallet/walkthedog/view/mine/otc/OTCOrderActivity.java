@@ -23,6 +23,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.tabs.TabLayout;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.dao.ContryItem;
+import com.wallet.walkthedog.view.mine.ad.ADAssetActivity;
 import com.wallet.walkthedog.view.mine.ad.PlaceADActivity;
 
 import java.util.ArrayList;
@@ -81,7 +82,6 @@ public class OTCOrderActivity extends BaseActivity {
         items.add(getString(R.string.buy_ads));
         items.add(getString(R.string.sell_ads));
         items.add(getString(R.string.my_ads));
-        items.add(getString(R.string.how_to_pay));
         items.add(getString(R.string.trade_history));
 
 
@@ -107,11 +107,14 @@ public class OTCOrderActivity extends BaseActivity {
     private void onMenuSelect(int position) {
         if (position == 0) {
             Intent intent = new Intent(this, PlaceADActivity.class);
-            intent.putExtra("PlaceADActivity.Buy", true);
+            intent.putExtra("advertiseType", 0);
             startActivity(intent);
         } else if (position == 1) {
             Intent intent = new Intent(this, PlaceADActivity.class);
-            intent.putExtra("PlaceADActivity.Buy", false);
+            intent.putExtra("advertiseType", 1);
+            startActivity(intent);
+        } else if (position == 2) {
+            Intent intent = new Intent(this, ADAssetActivity.class);
             startActivity(intent);
         }
     }

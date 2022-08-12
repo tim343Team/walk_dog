@@ -21,7 +21,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import tim.com.libnetwork.utils.WonderfulPermissionUtils;
 
@@ -142,4 +146,36 @@ public class Utils {
     }
 
 
+    public static double toDouble(String premium) {
+        if (premium == null) {
+            return 0.0;
+        }
+        if (premium.isEmpty()) {
+            return 0.0;
+        }
+        try {
+            return Double.parseDouble(premium);
+        } catch (Exception e) {
+            return 0.0;
+        }
+    }
+
+    public static String toGetUri(Map<String, Object> hashMap) {
+        StringBuilder result = new StringBuilder();
+        Set<String> strings = hashMap.keySet();
+        for (String next : strings) {
+            Object value = hashMap.get(next);
+            if (value == null) {
+                continue;
+            }
+            result.append(next)
+                    .append("=")
+                    .append(value)
+                    .append("&");
+        }
+        if (result.length() == 0) {
+            return "";
+        }
+        return result.replace(result.length() - 1, result.length(), "").toString();
+    }
 }

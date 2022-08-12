@@ -455,6 +455,7 @@
     <string name="premium">Premium</string>
     <string name="market_reference_hint">Market reference price：7.074\nPremium is the percentage above the current market price to sell.</string>
     <string name="buy_quantity">Buy Quantity</string>
+    <string name="sell_quantity">Sell Quantity</string>
     <string name="trading_period">Trading Period</string>
     <string name="min">min</string>
     <string name="the_acceptable_timeframe_hint">The acceptable timeframe for the buyer to trade, please enter an integer.</string>
@@ -468,9 +469,24 @@
     <string name="buy_ads">Buy Ads</string>
     <string name="sell_ads">Sell Ads</string>
     <string name="my_ads">My Ads</string>
+    <string name="my_ad">My Ad</string>
     <string name="how_to_pay">How to Pay</string>
     <string name="trade_history">Trade history</string>
+    <string name="select_coin">please select coin</string>
+    <string name="select_country">please select country</string>
+    <string name="input_quantity">please input quantity</string>
+    <string name="input_trading_period">please input trading period</string>
+    <string name="input_minimum_transaction_amount">please input minimum transaction amount</string>
+    <string name="input_maximum_transaction_amount">please input maximum transaction amount</string>
 
+    <string name="place_ad_success">place ad success</string>
+    <string name="my_order">My Order</string>
+    <string name="revise">Revise</string>
+    <string name="take_off">Take Off</string>
+    <string name="delete">Delete</string>
+    <string name="limit">Limit</string>
+    <string name="currency">Currency</string>
+    <string name="swift">Swift</string>
 
 
 </resources>

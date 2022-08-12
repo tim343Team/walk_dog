@@ -53,6 +53,21 @@ public class UrlFactory {
     public static String getAllCoin() {
         return host + "/advertise/getAllCoin";
     }
+    public static String advertiseCreate(){
+        return host + "/advertise/create";
+    }
+
+    public static String advertiseAll(){
+        return host + "/advertise/self/all";
+    }
+
+    public static String advertiseOFF(){
+        return host + "/advertise/off/shelves";
+    }
+
+    public static String advertiseDelect(){
+        return host + "/advertise/delete";
+    }
 
     public static String AdpageByUnit() {
         return host + "/advertise/page-by-unit";
