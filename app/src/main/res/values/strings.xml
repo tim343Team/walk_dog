@@ -529,7 +529,6 @@
     <string name="delete">Delete</string>
     <string name="limit">Limit</string>
     <string name="currency">Currency</string>
-    <string name="swift">Swift</string>
 
 
 </resources>
