@@ -2,6 +2,7 @@ package com.wallet.walkthedog.data;
 
 import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
+import com.wallet.walkthedog.dao.request.CardEditRequset;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.InviteRequest;
@@ -119,5 +120,11 @@ public interface DataSource {
     void sellDog(SellRequest request,  DataCallback dataCallback);
 
     void getShoppLog(int pageNo,  DataCallback dataCallback);
+
+    void getBankAccount(DataCallback dataCallback);
+
+    void getApproveBank(CardEditRequset requset,DataCallback dataCallback);
+
+    void getApproveSwift(CardEditRequset requset,DataCallback dataCallback);
 
 }

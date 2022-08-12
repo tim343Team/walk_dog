@@ -386,4 +386,19 @@ public class UrlFactory {
         return host + "/shopping/getShoppLog";
     }
 
+    //账户设置详情
+    public static String getBankAccountUrl() {
+        return host + "/approve/account/setting";
+    }
+
+    //设置银行卡
+    public static String bindBankAccountUrl() {
+        return host + "/approve/update/bank";
+    }
+
+    //绑定swift
+    public static String bindSwiftAccountUrl() {
+        return host + "/approve/update/swift";
+    }
+
 }

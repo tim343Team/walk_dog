@@ -2,6 +2,7 @@ package com.wallet.walkthedog.data;
 
 import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
+import com.wallet.walkthedog.dao.request.CardEditRequset;
 import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.InviteRequest;
@@ -325,6 +326,24 @@ public class DataRepository implements DataSource {
     public void getShoppLog(int pageNo, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getShoppLog(pageNo, dataCallback);
         else mRemoteDataSource.getShoppLog(pageNo, dataCallback);
+    }
+
+    @Override
+    public void getBankAccount(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getBankAccount( dataCallback);
+        else mRemoteDataSource.getBankAccount( dataCallback);
+    }
+
+    @Override
+    public void getApproveBank(CardEditRequset requset, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getApproveBank(requset, dataCallback);
+        else mRemoteDataSource.getApproveBank(requset, dataCallback);
+    }
+
+    @Override
+    public void getApproveSwift(CardEditRequset requset, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getApproveSwift(requset, dataCallback);
+        else mRemoteDataSource.getApproveSwift(requset, dataCallback);
     }
 
 }

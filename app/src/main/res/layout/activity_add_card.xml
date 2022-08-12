@@ -37,7 +37,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@mipmap/icon_delete"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </RelativeLayout>
 
     <ScrollView
@@ -58,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp10"
                 android:gravity="center"
-                android:text="@string/card_notice"
                 android:textColor="@color/color_848484"
                 android:textSize="15dp" />
 
@@ -77,22 +76,25 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/name"
+                        android:text="@string/ral_name"
                         android:textColor="@color/color_848484"
                         android:textSize="14dp" />
 
                     <EditText
+                        android:id="@+id/edit_name"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_40"
                         android:layout_marginTop="@dimen/dp10"
                         android:background="@mipmap/bg_edit"
                         android:gravity="center_vertical"
                         android:maxLength="32"
+                        android:maxLines="1"
                         android:paddingHorizontal="@dimen/dimen_15"
                         android:textColor="@color/color_848484"
                         android:textSize="14dp" />
 
                     <TextView
+                        android:id="@+id/txt_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp20"
@@ -107,6 +109,7 @@
                         android:background="@mipmap/bg_edit">
 
                         <EditText
+                            android:id="@+id/edit_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -115,6 +118,7 @@
                             android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1"
                             android:gravity="center_vertical"
                             android:maxLength="32"
+                            android:maxLines="1"
                             android:paddingHorizontal="@dimen/dimen_15"
                             android:textColor="@color/color_848484"
                             android:textSize="14dp" />
@@ -123,10 +127,11 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/txt_enter_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp20"
-                        android:text="@string/type"
+                        android:text="@string/enter_card_number"
                         android:textColor="@color/color_848484"
                         android:textSize="14dp" />
 
@@ -134,96 +139,61 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp10"
-                        android:background="@mipmap/bg_edit">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginTop="@dimen/dp10"
-                            android:background="@null"
-                            android:gravity="center_vertical"
-                            android:maxLength="32"
-                            android:paddingHorizontal="@dimen/dimen_15"
-                            android:text="@string/name"
-                            android:textColor="@color/color_848484"
-                            android:textSize="14dp" />
-
-                        <ImageView
-                            android:layout_width="@dimen/dimen_12"
-                            android:layout_height="@dimen/dimen_12"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/dp20"
-                            android:background="@mipmap/icon_pull_more" />
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp20"
-                        android:text="@string/country_area"
-                        android:textColor="@color/color_848484"
-                        android:textSize="14dp" />
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp10"
-                        android:background="@mipmap/bg_edit">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginTop="@dimen/dp10"
-                            android:background="@null"
-                            android:gravity="center_vertical"
-                            android:maxLength="32"
-                            android:paddingHorizontal="@dimen/dimen_15"
-                            android:text="@string/name"
-                            android:textColor="@color/color_848484"
-                            android:textSize="14dp" />
-
-                        <ImageView
-                            android:layout_width="@dimen/dimen_12"
-                            android:layout_height="@dimen/dimen_12"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/dp20"
-                            android:background="@mipmap/icon_pull_more" />
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp20"
-                        android:text="@string/country_area"
-                        android:textColor="@color/color_848484"
-                        android:textSize="14dp" />
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp10"
+                        android:layout_marginBottom="@dimen/dp20"
                         android:background="@mipmap/bg_edit">
 
                         <EditText
+                            android:id="@+id/edit_enter_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/dp10"
                             android:background="@null"
-                            android:digits="0123456789"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1"
                             android:gravity="center_vertical"
                             android:maxLength="32"
+                            android:maxLines="1"
                             android:paddingHorizontal="@dimen/dimen_15"
                             android:textColor="@color/color_848484"
                             android:textSize="14dp" />
 
                     </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_bank_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bank_name"
+                            android:textColor="@color/color_848484"
+                            android:textSize="14dp" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp10"
+                            android:background="@mipmap/bg_edit">
+
+                            <EditText
+                                android:id="@+id/edit_bank_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginTop="@dimen/dp10"
+                                android:background="@null"
+                                android:gravity="center_vertical"
+                                android:maxLength="32"
+                                android:paddingHorizontal="@dimen/dimen_15"
+                                android:textColor="@color/color_848484"
+                                android:textSize="14dp" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
