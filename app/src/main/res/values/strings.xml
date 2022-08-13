@@ -537,6 +537,9 @@
     <string name="completed">Completed</string>
     <string name="you_can_exchange_usdt_for_suzu">You can exchange USDT for SUZU</string>
     <string name="suzu_hint">If your USDT balance is insufficient, you need to recharge in your wallet.</string>
+    <string name="otc_account">OTC 账户</string>
+    <string name="funding_account">Funding Account</string>
+    <string name="please_enter_quantity">Please enter quantity</string>
 
 
 </resources>
