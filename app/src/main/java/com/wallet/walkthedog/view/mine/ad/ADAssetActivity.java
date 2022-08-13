@@ -1,6 +1,7 @@
 package com.wallet.walkthedog.view.mine.ad;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,12 @@ public class ADAssetActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         TabLayout tablayout = findViewById(R.id.tablayout);
         ViewPager viewPager = findViewById(R.id.viewpager);
         tablayout.setupWithViewPager(viewPager);

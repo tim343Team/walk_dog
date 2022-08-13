@@ -49,7 +49,7 @@ public class MyAdFragment extends Fragment {
             if (view1.getId() == R.id.btn_1) {
                 revise(adapter.getData().get(position));
             } else if (view1.getId() == R.id.btn_2) {
-                takeOffOn(adapter.getData().get(position).getId(),adapter.getData().get(position).getStatus());
+                takeOffOn(adapter.getData().get(position).getId(), adapter.getData().get(position).getStatus());
             } else if (view1.getId() == R.id.btn_3) {
                 delect(adapter.getData().get(position).getId());
             }
@@ -57,7 +57,7 @@ public class MyAdFragment extends Fragment {
     }
 
     private void delect(int id) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.advertiseDelect() + "?" + "id="+id)
+        WonderfulOkhttpUtils.get().url(UrlFactory.advertiseDelect() + "?" + "id=" + id)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -70,8 +70,15 @@ public class MyAdFragment extends Fragment {
                 });
     }
 
+    //0 上架  1下架 2关闭
     private void takeOffOn(int id, int status) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.advertiseOFF() + "?" + "id="+id)
+        String url;
+        if (status == 0) {
+            url = UrlFactory.advertiseOFF() + "?" + "id=" + id;
+        } else {
+            url = UrlFactory.advertiseON() + "?" + "id=" + id;
+        }
+        WonderfulOkhttpUtils.get().url(url)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -90,8 +97,8 @@ public class MyAdFragment extends Fragment {
     }
 
     private void revise(ContentItem contentItem) {
-        Intent intent = new Intent(requireActivity(),PlaceADActivity.class);
-        intent.putExtra("contentItem",contentItem);
+        Intent intent = new Intent(requireActivity(), PlaceADActivity.class);
+        intent.putExtra("contentItem", contentItem);
         startActivity(intent);
     }
 
@@ -144,7 +151,15 @@ public class MyAdFragment extends Fragment {
             helper.setText(R.id.tv_3, String.valueOf(item.getNumber()));
             helper.setText(R.id.tv_4, String.valueOf(item.getCoin().getName()));
             helper.setText(R.id.tv_5, String.valueOf(item.getUpdateTime()));
-
+            //0 上架  1下架 2关闭
+            helper.setVisible(R.id.btn_2, true);
+            if (item.getStatus() == 0) {
+                helper.setText(R.id.btn_2, getString(R.string.take_off));
+            } else if (item.getStatus() == 1) {
+                helper.setText(R.id.btn_2, getString(R.string.take_on));
+            } else {
+                helper.setVisible(R.id.btn_2, false);
+            }
         }
     }
 

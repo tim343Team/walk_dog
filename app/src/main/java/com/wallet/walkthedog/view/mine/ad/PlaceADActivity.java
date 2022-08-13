@@ -1,18 +1,19 @@
 package com.wallet.walkthedog.view.mine.ad;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.ADCoinItem;
 import com.wallet.walkthedog.dao.ContentItem;
 import com.wallet.walkthedog.dao.ContryItem;
+import com.wallet.walkthedog.dialog.MutSelectCoinDialog;
 import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.SelectCoinDialog;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
@@ -21,7 +22,6 @@ import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,14 +50,14 @@ public class PlaceADActivity extends BaseActivity {
     private Integer selectContryPostion = -1;
     private int advertiseType = 0; // 0是买，1是卖
     private ContentItem contentItem;
-    private PayInfo payInfo;
+    private final List<Integer> selectPayInfo = new ArrayList<>();
     private final List<PayInfo> payInfos = new ArrayList<>();
     private boolean ignoreCoinNextReset = false;
     private boolean ignoreCountryNextReset = false;
 
     @Override
     protected int getActivityLayoutId() {
-        payInfos.add(new PayInfo("Bank", getString(R.string.bank_card)));
+        payInfos.add(new PayInfo("Bank Paypal", getString(R.string.bank_card)));
         payInfos.add(new PayInfo("Swift", getString(R.string.swift)));
         return R.layout.activity_place_ad;
     }
@@ -152,12 +152,24 @@ public class PlaceADActivity extends BaseActivity {
         }
     }
 
+    private String getPayInfoTxt() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < selectPayInfo.size(); i++) {
+            result.append(payInfos.get(selectPayInfo.get(i)).getShowText()).append(",");
+        }
+        if (result.length() == 0) {
+            return "";
+        }
+        return result.replace(result.length() - 1, result.length(), "").toString();
+    }
+
     private void showSelectPayInfo() {
 
-        SelectCoinDialog<PayInfo> selectCoinDialog = new SelectCoinDialog<>();
-        selectCoinDialog.callBack = integer -> {
-            this.payInfo = payInfos.get(integer);
-            tv_pay_info.setText(payInfo.payNametxt);
+        MutSelectCoinDialog<PayInfo> selectCoinDialog = new MutSelectCoinDialog<PayInfo>();
+        selectCoinDialog.callBack = select -> {
+            selectPayInfo.clear();
+            selectPayInfo.addAll(select);
+            tv_pay_info.setText(getPayInfoTxt());
         };
         selectCoinDialog.lists = payInfos;
         selectCoinDialog.show(getSupportFragmentManager(), "");
@@ -197,13 +209,18 @@ public class PlaceADActivity extends BaseActivity {
         settings_right_toogle.setChecked(contentItem.getPriceType() == 1);
 
         String payMode = contentItem.getPayMode();
-        if (Objects.equals(payMode, "Bank")) {
-            this.payInfo = payInfos.get(0);
-        } else {
-            this.payInfo = payInfos.get(1);
+        if (!TextUtils.isEmpty(payMode)){
+            selectPayInfo.clear();
+            String[] split = payMode.split(",");
+            for (String s : split) {
+                for (int j = 0; j < payInfos.size(); j++) {
+                    if (payInfos.get(j).getShowText().equals(s)) {
+                        selectPayInfo.add(j);
+                    }
+                }
+            }
+            tv_pay_info.setText(getPayInfoTxt());
         }
-        tv_pay_info.setText(payInfo.payNametxt);
-
     }
 
     private void submit() {
@@ -237,7 +254,7 @@ public class PlaceADActivity extends BaseActivity {
             ToastUtils.shortToast(getString(R.string.input_maximum_transaction_amount));
             return;
         }
-        if (payInfo == null) {
+        if (selectPayInfo.isEmpty()) {
             ToastUtils.shortToast(getString(R.string.please_choose_a_payment_method));
             return;
         }
@@ -245,6 +262,9 @@ public class PlaceADActivity extends BaseActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (contentItem != null) {
+                    hashMap.put("id", contentItem.getId());
+                }
                 hashMap.put("advertiseType", advertiseType);
                 hashMap.put("coinId", adCoinItems.get(selectCoinPostion).getId());
                 hashMap.put("countryName", contryItems.get(selectContryPostion).getZhName());
@@ -259,10 +279,15 @@ public class PlaceADActivity extends BaseActivity {
                 }
                 hashMap.put("priceType", priceType);
                 hashMap.put("number", quantity);
-                hashMap.put("pay[]", payInfo.payName);
+                hashMap.put("pay[]", tv_pay_info.getText().toString());
                 String params = Utils.toGetUri(hashMap);
 
-                WonderfulOkhttpUtils.get().url(UrlFactory.advertiseCreate() + "?" + params)
+                String url = UrlFactory.advertiseCreate();
+                if (contentItem != null) {
+                    url = UrlFactory.advertiseUpdate();
+                }
+
+                WonderfulOkhttpUtils.get().url(url + "?" + params)
                         .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                         .build()
                         .getCall()
@@ -335,7 +360,7 @@ public class PlaceADActivity extends BaseActivity {
             tv_max_c.setText(contryItem.getLocalCurrency());
             tv_min_c.setText(contryItem.getLocalCurrency());
             tv_country_name.setText(contryItem.getEnName());
-            if (!ignoreCountryNextReset){
+            if (!ignoreCountryNextReset) {
                 edit_max.setText("");
                 edit_min.setText("");
             }

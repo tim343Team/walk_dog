@@ -449,7 +449,6 @@
     <string name="save_success">保存成功</string>
     <string name="setting_language_nitice">重新启动应用后生效</string>
     <string name="mine_item_otc">OTC</string>
-    <string name="purchase_usdt">Purchase USDT</string>
     <string name="purchase">Purchase</string>
     <string name="please_enter_the_amount">Please enter the amount</string>
     <string name="number_of_transaction">Number of Transaction</string>
@@ -480,6 +479,7 @@
     <string name="remaining_to_close_s">Remaining to close：%s</string>
     <string name="waiting_for_buyers_payment">Waiting for buyers payment</string>
     <string name="unpaid">Unpaid</string>
+    <string name="paid">Paid</string>
     <string name="order_detail_hint_1">If you have already paid the other party, be sure to click [I have paid], otherwise you may lose funds.</string>
     <string name="payer">Payer:</string>
     <string name="confirm_pay_success">Please confirm that your payment has been successful！</string>
@@ -529,7 +529,14 @@
     <string name="delete">Delete</string>
     <string name="limit">Limit</string>
     <string name="currency">Currency</string>
-    <string name="swift">Swift</string>
+    <string name="take_on">Take On</string>
+    <string name="number_1">Number</string>
+    <string name="objects">Objects</string>
+    <string name="amount">Amount</string>
+    <string name="handling_fee">Handling Fee</string>
+    <string name="completed">Completed</string>
+    <string name="you_can_exchange_usdt_for_suzu">You can exchange USDT for SUZU</string>
+    <string name="suzu_hint">If your USDT balance is insufficient, you need to recharge in your wallet.</string>
 
 
 </resources>

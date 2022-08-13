@@ -1,6 +1,7 @@
 package com.wallet.walkthedog.view.mine;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +38,12 @@ public class TrainRecordActivity extends BaseActivity {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         RecyclerView recyclerview = findViewById(R.id.recyclerview);
-
+        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         adapter = new TrainRecordAdapter();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new RequestLoadMoreListener() {
