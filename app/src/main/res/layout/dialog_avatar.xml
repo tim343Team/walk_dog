@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:background="@drawable/circular_white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dimen_25"
+            android:paddingTop="@dimen/dimen_30"
+            android:paddingEnd="@dimen/dimen_25"
+            android:paddingBottom="@dimen/dimen_30">
+
+
+            <com.wallet.walkthedog.custom_view.card.ShadowTextView
+                android:id="@+id/txt_photograph"
+                style="@style/defshadow_style"
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/dimen_30"
+                android:layout_marginEnd="@dimen/dimen_30"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/photograph"
+                android:textColor="#FFF"
+                android:textSize="@dimen/dimen_14"
+                android:textStyle="bold" />
+
+
+            <com.wallet.walkthedog.custom_view.card.ShadowTextView
+                android:id="@+id/txt_album"
+                style="@style/defshadow_style"
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/dimen_30"
+                android:layout_marginEnd="@dimen/dimen_30"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/album"
+                android:textColor="#FFF"
+                android:textSize="@dimen/dimen_14"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/dimen_30"
+            android:background="@mipmap/icon_dialog_close" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+

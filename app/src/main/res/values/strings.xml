@@ -4,6 +4,7 @@
     <string name="cancle">取消</string>
     <string name="back">返回</string>
     <string name="successful">成功</string>
+    <string name="unknown_error">未知錯誤</string>
     <string name="operation_successful">操作成功</string>
     <string name="enter">確認</string>
     <string name="password_error">密碼錯誤，請重新輸入</string>
@@ -291,6 +292,8 @@
     <string name="swift_number_notice">請輸入Swift賬號</string>
     <string name="enter_swift_number">確認Swift賬號</string>
     <string name="enter_swift_number_notice">Swift賬號不一致</string>
+    <string name="library_file_exception">圖庫文件返回異常</string>
+
     <!--商家-->
     <string name="merchant_settle">商家入駐</string>
     <string name="merchant_apply_imme">立即申請</string>
@@ -329,7 +332,11 @@
     <string name="currency_num">數量</string>
     <string name="merchant_apply_data_2">Please pledge USDT- ERC20 at the address below</string>
     <string name="merchant_apply_data_3">Digital asset transaction certificate</string>
-
+    <string name="merchant_notice_1">Under review, please wait patiently!</string>
+    <string name="merchant_notice_3">Sorry，failed to review!</string>
+    <string name="reapply">重新申請</string>
+    <string name="photograph">拍照</string>
+    <string name="album">相冊</string>
     <!--我的主页-->
     <string name="mine_item_food">我的狗糧</string>
     <string name="mine_item_dog">我的狗狗</string>

@@ -7,6 +7,7 @@ import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.InviteRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
+import com.wallet.walkthedog.dao.request.MerchantRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.FriendRequest;
 import com.wallet.walkthedog.dao.request.SellRequest;
@@ -126,5 +127,11 @@ public interface DataSource {
     void getApproveBank(CardEditRequset requset,DataCallback dataCallback);
 
     void getApproveSwift(CardEditRequset requset,DataCallback dataCallback);
+
+    void applyMerchant(MerchantRequest requset, DataCallback dataCallback);
+
+    void cancleMerchant(DataCallback dataCallback);
+
+    void merchantStatus(DataCallback dataCallback);
 
 }

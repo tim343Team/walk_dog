@@ -114,6 +114,11 @@ public class UrlFactory {
         return host + "/userInfo/getUserInfo";
     }
 
+    //update头像
+    public static String updateAvatar() {
+        return host + "/userInfo/updateChatHead";
+    }
+
     public static String updateNickName() {
         return host + "/userInfo/updateNickName";
     }
@@ -399,6 +404,26 @@ public class UrlFactory {
     //绑定swift
     public static String bindSwiftAccountUrl() {
         return host + "/approve/update/swift";
+    }
+
+    //取消商家申请
+    public static String cancleMerchantUrl() {
+        return host + "/approve/cancel/business";
+    }
+
+    //认证商家申请
+    public static String applyMerchantUrl() {
+        return host + "/approve/certified/business/apply";
+    }
+
+    //认证商家申请状态
+    public static String statusMerchantUrl() {
+        return host + "/approve/certified/business/status";
+    }
+
+    //上传图片
+    public static String uploadImgUrl() {
+        return host + "/common/upload/local/image";
     }
 
 }
