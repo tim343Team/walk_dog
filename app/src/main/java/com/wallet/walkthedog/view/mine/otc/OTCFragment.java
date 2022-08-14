@@ -96,7 +96,7 @@ public class OTCFragment extends Fragment {
         View view = LayoutInflater.from(requireContext()).inflate(R.layout.pop_money_select, null, false);
         RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
         ViewGroup.LayoutParams layoutParams = recyclerview.getLayoutParams();
-        layoutParams.width = ScreenUtils.dip2px(requireContext(),70);
+        layoutParams.width = ScreenUtils.dip2px(requireContext(), 70);
 
         recyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerview.setAdapter(adapter);
@@ -168,7 +168,9 @@ public class OTCFragment extends Fragment {
     private void onRequestCoinList(List<CoinNameItem> notNullData) {
         title.clear();
         title.addAll(notNullData);
+        title.add(new CoinNameItem());
         assert getArguments() != null;
+        viewPager.setOffscreenPageLimit(title.size()-1);
         viewPager.setAdapter(new PageAdapter(getChildFragmentManager(), title, getArguments().getInt("advertiseType")));
     }
 
@@ -191,6 +193,9 @@ public class OTCFragment extends Fragment {
         @NonNull
         @Override
         public Fragment getItem(int position) {
+            if (position == titles.size() - 1) {
+                return SUZUFragment.newInstance(advertiseType);
+            }
             return OTCListFragment.newInstance(titles.get(position), advertiseType);
         }
 
@@ -202,6 +207,9 @@ public class OTCFragment extends Fragment {
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
+            if (position==titles.size()-1){
+                return "SUZU";
+            }
             return titles.get(position).getName();
         }
     }

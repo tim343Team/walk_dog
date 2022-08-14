@@ -46,6 +46,14 @@ public class UrlFactory {
         return host + "/coin/all";
     }
 
+    public static String otcWalletGet() {
+        return host + "/otc/wallet/get";
+    }
+
+    public static String otcWallet() {
+        return host + "/otc/wallet";
+    }
+
     public static String countryList() {
         return host + "/advertise/getAllCountry";
     }
@@ -53,19 +61,32 @@ public class UrlFactory {
     public static String getAllCoin() {
         return host + "/advertise/getAllCoin";
     }
-    public static String advertiseCreate(){
+
+    public static String orderSelf() {
+        return host + "/order/self";
+    }
+
+    public static String advertiseUpdate() {
+        return host + "/advertise/update";
+    }
+
+    public static String advertiseCreate() {
         return host + "/advertise/create";
     }
 
-    public static String advertiseAll(){
+    public static String advertiseAll() {
         return host + "/advertise/self/all";
     }
 
-    public static String advertiseOFF(){
+    public static String advertiseOFF() {
         return host + "/advertise/off/shelves";
     }
 
-    public static String advertiseDelect(){
+    public static String advertiseON() {
+        return host + "/advertise/on/shelves";
+    }
+
+    public static String advertiseDelect() {
         return host + "/advertise/delete";
     }
 
@@ -401,4 +422,7 @@ public class UrlFactory {
         return host + "/approve/update/swift";
     }
 
+    public static String getOTCLog() {
+        return host + "/otc/wallet/getTransferLog";
+    }
 }

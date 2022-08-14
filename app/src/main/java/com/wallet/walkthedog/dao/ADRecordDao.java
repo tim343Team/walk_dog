@@ -8,7 +8,6 @@ public class ADRecordDao{
 	private int numberOfElements;
 	private int size;
 	private int totalPages;
-	private List<SortItem> sort;
 	private List<ContentItem> content;
 	private boolean first;
 	private int totalElements;
@@ -33,9 +32,6 @@ public class ADRecordDao{
 		return totalPages;
 	}
 
-	public List<SortItem> getSort(){
-		return sort;
-	}
 
 	public List<ContentItem> getContent(){
 		return content;

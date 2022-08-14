@@ -43,16 +43,20 @@ public class PurchaseSellOTCActivity extends BaseActivity {
     private TextView tv_buy;
     private int advertiseType;//1是买，0是卖
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     protected void initViews(Bundle savedInstanceState) {
         advertiseType = getIntent().getIntExtra("advertiseType", 0);
         editTextNum = findViewById(R.id.edt_q);
         editTextAmount = findViewById(R.id.edit_amount);
         tv_limit_hint = findViewById(R.id.tv_limit_hint);
+
+
         TextView tv_title = findViewById(R.id.tv_title);
         if (advertiseType == 0) {
-            tv_title.setText(getString(R.string.sell));
+            tv_title.setText(getString(R.string.sell)+" "+coinNameItem.getName());
+        } else  {
+            tv_title.setText(getString(R.string.purchase)+" "+coinNameItem.getName());
         }
         findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
             @Override

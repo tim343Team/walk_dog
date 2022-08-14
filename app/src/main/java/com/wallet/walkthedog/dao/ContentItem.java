@@ -29,7 +29,7 @@ public class ContentItem implements Serializable {
 	private double maxLimit;
 	private Object limitMoney;
 	private Object coinUnit;
-	private Coin coin;
+	private CoinDao coin;
 	private int status;
 	private Object username;
 
@@ -137,7 +137,7 @@ public class ContentItem implements Serializable {
 		return coinUnit;
 	}
 
-	public Coin getCoin(){
+	public CoinDao getCoin(){
 		return coin;
 	}
 

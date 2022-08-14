@@ -27,6 +27,8 @@ import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.home.HomeFragment;
 import com.wallet.walkthedog.view.login.LoginActivity;
 import com.wallet.walkthedog.view.merchant.MerchantActivity;
+import com.wallet.walkthedog.view.mine.otc.MyOTCAssetActivity;
+import com.wallet.walkthedog.view.mine.otc.MyOtherAssetActivity;
 import com.wallet.walkthedog.view.mine.otc.OTCOrderActivity;
 import com.wallet.walkthedog.view.props.MyPropsActivity;
 
@@ -208,6 +210,13 @@ public class MineFragment extends BaseTransFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(requireContext(),InviteRegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        rootView.findViewById(R.id.ll_otc_account).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), MyOtherAssetActivity.class);
                 startActivity(intent);
             }
         });

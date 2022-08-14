@@ -1,4 +1,4 @@
-package com.wallet.walkthedog.view.mine.ad;
+package com.wallet.walkthedog.view.mine.otc;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,31 +14,29 @@ import com.wallet.walkthedog.R;
 
 import tim.com.libnetwork.base.BaseActivity;
 
-public class ADAssetActivity extends BaseActivity {
+public class MyOtherAssetActivity extends BaseActivity {
+
     @Override
     protected int getActivityLayoutId() {
-        return R.layout.activity_ad_asset;
+        return R.layout.activity_my_other_asset;
     }
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.llTitle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        TabLayout tablayout = findViewById(R.id.tablayout);
-        ViewPager viewPager = findViewById(R.id.viewpager);
-        tablayout.setupWithViewPager(viewPager);
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        ViewPager viewpager = findViewById(R.id.viewpager);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(viewpager);
+        viewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @NonNull
             @Override
             public Fragment getItem(int position) {
-                if (position==0){
-                    return new MyAdFragment();
-                }
-                return new MyOrderFragment();
+                return MyAssetFragment.newInstance(position);
             }
 
             @Override
@@ -49,10 +47,10 @@ public class ADAssetActivity extends BaseActivity {
             @Nullable
             @Override
             public CharSequence getPageTitle(int position) {
-                if (position == 0){
-                    return getString(R.string.my_ad);
+                if (position==0){
+                    return getString(R.string.asset_account);
                 }
-                return getString(R.string.my_order);
+                return getString(R.string.otc_account);
             }
         });
     }
