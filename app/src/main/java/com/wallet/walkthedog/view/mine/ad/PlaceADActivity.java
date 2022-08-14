@@ -209,7 +209,7 @@ public class PlaceADActivity extends BaseActivity {
         settings_right_toogle.setChecked(contentItem.getPriceType() == 1);
 
         String payMode = contentItem.getPayMode();
-        if (!TextUtils.isEmpty(payMode)){
+        if (!TextUtils.isEmpty(payMode)) {
             selectPayInfo.clear();
             String[] split = payMode.split(",");
             for (String s : split) {
@@ -265,12 +265,16 @@ public class PlaceADActivity extends BaseActivity {
                 if (contentItem != null) {
                     hashMap.put("id", contentItem.getId());
                 }
-                hashMap.put("advertiseType", advertiseType);
+                String advertiseTypeStr = "BUY";
+                if (advertiseType == 1) {
+                    advertiseTypeStr = "SELL";
+                }
+                hashMap.put("advertiseType", advertiseTypeStr);
                 hashMap.put("coinId", adCoinItems.get(selectCoinPostion).getId());
                 hashMap.put("countryName", contryItems.get(selectContryPostion).getZhName());
                 hashMap.put("minLimit", min);
                 hashMap.put("maxLimit", max);
-                hashMap.put("remark", "");
+                hashMap.put("remark", "r");
                 hashMap.put("timeLimit", (int) tradePeriod);
                 hashMap.put("premiseRate", premium / 100);
                 String priceType = "REGULAR";
@@ -279,7 +283,15 @@ public class PlaceADActivity extends BaseActivity {
                 }
                 hashMap.put("priceType", priceType);
                 hashMap.put("number", quantity);
-                hashMap.put("pay[]", tv_pay_info.getText().toString());
+                String pay = "";
+                StringBuilder result = new StringBuilder();
+                for (int i = 0; i < selectPayInfo.size(); i++) {
+                    result.append(payInfos.get(selectPayInfo.get(i)).payName).append(",");
+                }
+                if (result.length() != 0) {
+                    pay = result.replace(result.length() - 1, result.length(), "").toString();
+                }
+                hashMap.put("pay[]", pay);
                 String params = Utils.toGetUri(hashMap);
 
                 String url = UrlFactory.advertiseCreate();

@@ -291,7 +291,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="@string/otc_account"
+                        android:text="@string/other_asset"
                         android:textColor="@color/color_485EA8"
                         android:textSize="@dimen/dp14" />
 

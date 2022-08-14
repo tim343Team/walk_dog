@@ -9,13 +9,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorListener;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.dao.OtherAssetDao;
+
+import java.io.Serializable;
 
 import tim.com.libnetwork.base.BaseActivity;
 
-public class OTCAccountActivity extends BaseActivity {
+public class OTCExchangeActivity extends BaseActivity {
     private LinearLayout layout_0, layout_1;
     private TextView tv_1_hint, tv_2_hint;
     private boolean fromfund = true;
+    private OtherAssetDao otherAssetDao;
 
     @Override
     protected int getActivityLayoutId() {
@@ -24,6 +28,7 @@ public class OTCAccountActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        otherAssetDao = (OtherAssetDao) getIntent().getSerializableExtra("otherAssetDao");
         layout_0 = findViewById(R.id.layout_0);
         layout_1 = findViewById(R.id.layout_1);
         tv_1_hint = findViewById(R.id.tv_1_hint);
@@ -44,8 +49,9 @@ public class OTCAccountActivity extends BaseActivity {
 
     private int exchangeH = 0;
     private boolean isAnimation = false;
+
     private void startChangeAnim() {
-        if (isAnimation){
+        if (isAnimation) {
             return;
         }
         if (exchangeH == 0) {
@@ -54,7 +60,7 @@ public class OTCAccountActivity extends BaseActivity {
             exchangeH = top1 - top;
         }
         int exchange = exchangeH;
-        if (!fromfund){
+        if (!fromfund) {
             exchange = -exchangeH;
         }
         ViewCompat.animate(layout_0).translationYBy(exchange)

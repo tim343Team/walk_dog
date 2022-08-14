@@ -46,6 +46,14 @@ public class UrlFactory {
         return host + "/coin/all";
     }
 
+    public static String otcWalletGet() {
+        return host + "/otc/wallet/get";
+    }
+
+    public static String otcWallet() {
+        return host + "/otc/wallet";
+    }
+
     public static String countryList() {
         return host + "/advertise/getAllCountry";
     }
@@ -414,4 +422,7 @@ public class UrlFactory {
         return host + "/approve/update/swift";
     }
 
+    public static String getOTCLog() {
+        return host + "/otc/wallet/getTransferLog";
+    }
 }

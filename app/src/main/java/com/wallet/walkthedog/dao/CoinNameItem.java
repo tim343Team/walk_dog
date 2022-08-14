@@ -19,6 +19,10 @@ public class CoinNameItem implements Serializable {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getSellMinAmount(){
 		return sellMinAmount;
 	}

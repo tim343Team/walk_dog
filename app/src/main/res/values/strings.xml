@@ -540,6 +540,8 @@
     <string name="otc_account">OTC 账户</string>
     <string name="funding_account">Funding Account</string>
     <string name="please_enter_quantity">Please enter quantity</string>
+    <string name="other_asset">其他资产</string>
+    <string name="asset_account">资金账户</string>
 
 
 </resources>

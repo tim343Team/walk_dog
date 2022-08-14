@@ -2,7 +2,7 @@ package com.wallet.walkthedog.dao;
 
 import java.io.Serializable;
 
-public class Coin implements Serializable {
+public class CoinDao implements Serializable {
 	private int coinScale;
 	private String nameCn;
 	private String updateTime;

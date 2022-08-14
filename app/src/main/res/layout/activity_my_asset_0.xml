@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/llTitle"
+        style="@style/TitlePaddingParent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/icon_back" />
+
+        <TextView
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/my_asset" />
+
+        <ImageView
+            android:id="@+id/img_add"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/icon_add"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
+        android:id="@+id/shadowFrameLayout"
+        style="@style/defshadow_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/dimen_18"
+            android:paddingVertical="@dimen/dimen_26">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUZU"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/tv_hint"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:padding="10dp"
+                android:src="@mipmap/icon_eye_see" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:gravity="center_vertical"
+                android:id="@+id/tv_all_asset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:textColor="@color/white"
+                app:drawableRightCompat="@mipmap/ic_right"
+                tools:text="10000.43" />
+        </LinearLayout>
+    </com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>
+
+    <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
+        android:id="@+id/layout_0"
+        style="@style/def_while_shadow_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        app:layout_constraintEnd_toStartOf="@+id/layout_1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/layout_1">
+
+        <LinearLayout
+            android:id="@+id/layout_collection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/ic_enter" />
+
+            <TextView
+                android:id="@+id/tv_edit_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/str_collection"
+                android:textColor="#485EA8"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>
+
+    <com.wallet.walkthedog.custom_view.card.ShadowFrameLayout
+        android:id="@+id/layout_1"
+        style="@style/def_while_shadow_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"
+        app:cardBackgroundColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/layout_0"
+        app:layout_constraintTop_toBottomOf="@+id/shadowFrameLayout">
+
+        <LinearLayout
+            android:id="@+id/layout_transfer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/ic_enter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/str_transfer"
+                android:textColor="#485EA8"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.wallet.walkthedog.custom_view.card.ShadowFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/layout_1"
+        app:layout_constraintStart_toStartOf="@+id/layout_0"
+        app:layout_constraintTop_toBottomOf="@+id/layout_0">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/type" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/quantity" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/time" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/state" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingHorizontal="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:itemCount="20"
+        tools:listitem="@layout/item_my_asset"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

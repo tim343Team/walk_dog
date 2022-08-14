@@ -254,8 +254,9 @@
         <activity android:name=".view.mine.otc.SellDetailActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.ad.PlaceADActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.ad.ADAssetActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.mine.otc.OTCAccountActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.otc.OTCExchangeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.otc.MyOTCAssetActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.otc.MyOtherAssetActivity" android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.GpsService"

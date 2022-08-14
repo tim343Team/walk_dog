@@ -29,9 +29,9 @@ import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 
 /**
- * OTC资产点进来的
+ * 其他账户点进来的
  */
-public class MyOTCAssetActivity extends BaseActivity {
+public class MyOTCAssetActivity0 extends BaseActivity {
     TextView tv_all_asset;
     private double all_asset = 0.0;
     private final static String xxxx ="****";
@@ -41,7 +41,7 @@ public class MyOTCAssetActivity extends BaseActivity {
 
     @Override
     protected int getActivityLayoutId() {
-        return R.layout.activity_my_otc_asset;
+        return R.layout.activity_my_asset_0;
     }
 
     @Override
@@ -70,10 +70,18 @@ public class MyOTCAssetActivity extends BaseActivity {
         });
         iv.callOnClick();
 
+        findViewById(R.id.layout_collection).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyOTCAssetActivity0.this, CollectionActivity.class);
+                startActivity(intent);
+            }
+        });
+
         findViewById(R.id.layout_transfer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MyOTCAssetActivity.this, OTCExchangeActivity.class);
+                Intent intent = new Intent(MyOTCAssetActivity0.this, TransferActivity.class);
                 startActivity(intent);
             }
         });
