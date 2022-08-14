@@ -78,9 +78,7 @@ public class MineFragment extends BaseTransFragment {
             @Override
             public void onClick(View v) {
                 //我的狗狗
-//                MyDogActivity.actionStart(getmActivity());
-                //TODO 测试商家
-                MerchantActivity.actionStart(getmActivity());
+                MyDogActivity.actionStart(getmActivity());
             }
         });
         rootView.findViewById(R.id.ll_prop).setOnClickListener(new View.OnClickListener() {

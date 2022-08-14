@@ -22,6 +22,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.tabs.TabLayout;
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.view.merchant.MerchantActivity;
 import com.wallet.walkthedog.view.mine.ad.ADAssetActivity;
 import com.wallet.walkthedog.view.mine.ad.PlaceADActivity;
 
@@ -81,6 +82,7 @@ public class OTCOrderActivity extends BaseActivity {
         items.add(getString(R.string.buy_ads));
         items.add(getString(R.string.sell_ads));
         items.add(getString(R.string.my_ads));
+        items.add(getString(R.string.merchant_settle));
         adapter.setNewData(items);
         View view = LayoutInflater.from(this).inflate(R.layout.pop_money_select, null, false);
         view.measure(View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenWidth(this), View.MeasureSpec.AT_MOST),
@@ -112,6 +114,9 @@ public class OTCOrderActivity extends BaseActivity {
         } else if (position == 2) {
             Intent intent = new Intent(this, ADAssetActivity.class);
             startActivity(intent);
+        } else if (position == 3) {
+            //商家
+            MerchantActivity.actionStart(this);
         }
     }
 
