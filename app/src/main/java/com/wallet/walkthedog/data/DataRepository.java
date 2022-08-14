@@ -7,6 +7,7 @@ import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.InviteRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
+import com.wallet.walkthedog.dao.request.MerchantRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.FriendRequest;
 import com.wallet.walkthedog.dao.request.SellRequest;
@@ -344,6 +345,24 @@ public class DataRepository implements DataSource {
     public void getApproveSwift(CardEditRequset requset, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getApproveSwift(requset, dataCallback);
         else mRemoteDataSource.getApproveSwift(requset, dataCallback);
+    }
+
+    @Override
+    public void applyMerchant(MerchantRequest requset, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.applyMerchant(requset, dataCallback);
+        else mRemoteDataSource.applyMerchant(requset, dataCallback);
+    }
+
+    @Override
+    public void cancleMerchant(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.cancleMerchant( dataCallback);
+        else mRemoteDataSource.cancleMerchant( dataCallback);
+    }
+
+    @Override
+    public void merchantStatus(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.merchantStatus(dataCallback);
+        else mRemoteDataSource.merchantStatus(dataCallback);
     }
 
 }

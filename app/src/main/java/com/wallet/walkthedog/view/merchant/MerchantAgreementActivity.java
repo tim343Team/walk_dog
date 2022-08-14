@@ -3,19 +3,24 @@ package com.wallet.walkthedog.view.merchant;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.custom_view.card.ShadowTextView;
+import com.wallet.walkthedog.dao.MerchantStatusDao;
+import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.untils.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
-public class MerchantAgreementActivity extends BaseActivity {
+public class MerchantAgreementActivity extends BaseActivity implements MerchantContract.MerchantView {
     @BindView(R.id.tv_confirm)
     ShadowTextView txtConfirm;
     @BindView(R.id.txt_notice_1)
@@ -39,8 +44,9 @@ public class MerchantAgreementActivity extends BaseActivity {
     @BindView(R.id.img_select)
     ImageView imgSelect;
 
-    private int type;//0:申請  1：退出
+    private int type;//0:申請  2：退出
     private boolean isSelect = false;
+    private MerchantContract.MerchantPresenter presenter;
 
     @OnClick(R.id.img_select)
     void select() {
@@ -55,14 +61,16 @@ public class MerchantAgreementActivity extends BaseActivity {
 
     @OnClick(R.id.tv_confirm)
     void confirm() {
-        if(!isSelect){
+        if (!isSelect) {
             ToastUtils.shortToast(R.string.merchant_agreement_notice);
             return;
         }
         if (type == 0) {
             MerchantApplyActivity.actionStart(this);
+            finish();
         } else {
-            //TODO 調用退出接口
+            //調用退出接口
+            presenter.cancleMerchant();
         }
     }
 
@@ -84,6 +92,7 @@ public class MerchantAgreementActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        presenter = new MerchantPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         type = getIntent().getIntExtra("type", 0);
         if (type == 0) {
             txtConfirm.setText(R.string.merchant_apply_imme);
@@ -123,5 +132,37 @@ public class MerchantAgreementActivity extends BaseActivity {
     @Override
     protected void loadData() {
 
+    }
+
+    @Override
+    public void getFail(Integer code, String toastMessage) {
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+    }
+
+    @Override
+    public void cancleSuccess(String toastMessage) {
+        NormalDialog dialog = NormalDialog.newInstance(toastMessage, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        finish();
+    }
+
+    @Override
+    public void applySuccess(String toastMessage) {
+
+    }
+
+    @Override
+    public void statusSuccess(MerchantStatusDao merchantStatusDao) {
+
+    }
+
+    @Override
+    public void setPresenter(MerchantContract.MerchantPresenter presenter) {
+        this.presenter = presenter;
     }
 }

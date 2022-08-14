@@ -13,6 +13,7 @@ import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.InviteRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
+import com.wallet.walkthedog.dao.request.MerchantRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.FriendRequest;
 import com.wallet.walkthedog.dao.request.SellRequest;
@@ -293,6 +294,21 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void getApproveSwift(CardEditRequset requset, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void applyMerchant(MerchantRequest requset, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void cancleMerchant(DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void merchantStatus(DataCallback dataCallback) {
 
     }
 

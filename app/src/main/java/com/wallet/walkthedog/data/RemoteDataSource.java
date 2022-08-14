@@ -15,6 +15,7 @@ import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.InviteNoticeDao;
 import com.wallet.walkthedog.dao.InvitedFriendDao;
+import com.wallet.walkthedog.dao.MerchantStatusDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.PropDetailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
@@ -28,6 +29,7 @@ import com.wallet.walkthedog.dao.request.EmailLoginRequest;
 import com.wallet.walkthedog.dao.request.EmailRegisterRequest;
 import com.wallet.walkthedog.dao.request.InviteRequest;
 import com.wallet.walkthedog.dao.request.MailRequest;
+import com.wallet.walkthedog.dao.request.MerchantRequest;
 import com.wallet.walkthedog.dao.request.OpreationPropRequest;
 import com.wallet.walkthedog.dao.request.FriendRequest;
 import com.wallet.walkthedog.dao.request.SellRequest;
@@ -39,6 +41,7 @@ import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.List;
 
 import okhttp3.Request;
@@ -48,6 +51,8 @@ import tim.com.libnetwork.utils.WonderfulLogUtils;
 
 import static com.wallet.walkthedog.app.GlobalConstant.JSON_ERROR;
 import static com.wallet.walkthedog.app.GlobalConstant.OKHTTP_ERROR;
+
+import android.util.Log;
 
 public class RemoteDataSource implements DataSource {
     private static RemoteDataSource INSTANCE;
@@ -1672,6 +1677,160 @@ public class RemoteDataSource implements DataSource {
                     @Override
                     public void onResponse(String response) {
                         WonderfulLogUtils.logi("绑定swift：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void applyMerchant(MerchantRequest requset, DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.applyMerchantUrl()+"?email="+requset.getEmail()+"&assetImg="+requset.getAssetImg())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("认证商家申请:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("认证商家申请：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void cancleMerchant(DataCallback dataCallback) {
+        WonderfulOkhttpUtils.post().url(UrlFactory.cancleMerchantUrl())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .addParams("detail","null")
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("取消商家申请:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("取消商家申请：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("message"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void merchantStatus(DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.statusMerchantUrl())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("认证商家申请状态:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("认证商家申请状态：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                MerchantStatusDao obj = gson.fromJson(object.getJSONObject("data").toString(), MerchantStatusDao.class);
+                                dataCallback.onDataLoaded(obj);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    public void uploadFile(String fileName, File file, final DataCallback dataCallback) {
+        WonderfulOkhttpUtils.post().url(UrlFactory.uploadImgUrl())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .addFile("file", fileName, file)
+                .build().execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("上传文件", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("上传文件：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                dataCallback.onDataLoaded(object.optString("data"));
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("error"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    public void updateChatHead(String url,  final DataCallback dataCallback) {
+        WonderfulOkhttpUtils.post().url(UrlFactory.updateAvatar()+"?url="+url)
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build().execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("更新头像", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("更新头像：", response.toString());
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.optInt("code") == 0) {
