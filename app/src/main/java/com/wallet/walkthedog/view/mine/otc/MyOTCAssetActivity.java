@@ -73,7 +73,9 @@ public class MyOTCAssetActivity extends BaseActivity {
         findViewById(R.id.layout_transfer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(MyOTCAssetActivity.this, OTCExchangeActivity.class);
+                intent.putExtra("otherAssetDao",getIntent().getSerializableExtra("otherAssetDao"));
                 startActivity(intent);
             }
         });
