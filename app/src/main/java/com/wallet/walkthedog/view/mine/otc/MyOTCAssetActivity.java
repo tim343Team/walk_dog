@@ -119,7 +119,27 @@ public class MyOTCAssetActivity extends BaseActivity {
     String nowTime = Utils.timeFormat(System.currentTimeMillis() + 3600_000, "yyyy-MM-dd HH:mm:ss");
 
     private void getTokenLog() {
-
+        //TODO 获取otc交易列表
+//        WonderfulOkhttpUtils.post().url(UrlFactory.getTokenLog())
+//                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+//                .addParams("pageNo", String.valueOf(pageNo))
+//                .addParams("pageSize", "50")
+//                .addParams("startTime", "1970-01-01 00:00:00")
+//                .addParams("endTime", nowTime)
+//                .build()
+//                .getCall()
+//                .enqueue(new GsonWalkDogCallBack<RemoteData<AssetLogDao>>() {
+//                    @Override
+//                    protected void onRes(RemoteData<AssetLogDao> testRemoteData) {
+//                        onSuccessGetAssetLog(testRemoteData.getNotNullData().getRecords());
+//                    }
+//
+//                    @Override
+//                    protected void onFail(Exception e) {
+//                        super.onFail(e);
+//                        onFailGetAssetLog();
+//                    }
+//                });
     }
 
     private void onFailGetAssetLog() {

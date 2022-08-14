@@ -37,7 +37,7 @@ public class LanguageSetActivity extends BaseActivity {
             selectIndex = 0;
         } else if (language.equals(ConstantLanguages.ENGLISH)) {
             selectIndex = 1;
-        } else {
+        } else if (language.equals(ConstantLanguages.JAPAN)) {
             selectIndex = 2;
         }
         View layout_ch = findViewById(R.id.layout_ch);
@@ -154,7 +154,7 @@ public class LanguageSetActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        //TODO SAVE
+        //SAVE
         if (selectIndex == 0) {
             //设置中文
             onChangeAppLanguage(ConstantLanguages.SIMPLIFIED_CHINESE);

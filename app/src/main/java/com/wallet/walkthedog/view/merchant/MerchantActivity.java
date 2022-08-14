@@ -118,7 +118,6 @@ public class MerchantActivity extends BaseActivity implements MerchantContract.M
     public void statusSuccess(MerchantStatusDao merchantStatusDao) {
         //0未认证   认证1等待审核  2认证审核成功   3认证审核失败  4保证金不足  5退保待审核 6退保审核失败 7退保审核成功
         type = merchantStatusDao.getCertifiedBusinessStatus();
-        type = 0;
         if (type == 0 || type == 7) {
             type = 0;
             view0.setVisibility(View.VISIBLE);

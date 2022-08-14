@@ -182,7 +182,7 @@
                 android:layout_gravity="center"
                 android:maxLines="1"
                 android:ellipsize="middle"
-                android:text="0x0XWSIJIOSAI8273ISaaaaaaaaaaJDO"
+                android:text="该处缺少接口数据"
                 android:textColor="#ff848484"
                 android:textSize="12dp"
                 />
