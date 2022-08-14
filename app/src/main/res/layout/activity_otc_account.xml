@@ -52,6 +52,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/edit_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -61,6 +62,7 @@
             android:padding="10dp" />
 
         <TextView
+            android:id="@+id/tv_money"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,6 +94,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/edit_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -101,6 +104,7 @@
             android:padding="10dp" />
 
         <TextView
+            android:id="@+id/tv_otc_money"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,6 +117,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
     <com.wallet.walkthedog.custom_view.card.ShadowTextView
+        android:id="@+id/tv_confim"
         android:layout_margin="15dp"
         android:padding="10dp"
         style="@style/defshadow_style"

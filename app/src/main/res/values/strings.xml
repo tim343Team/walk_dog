@@ -550,6 +550,9 @@
     <string name="please_enter_quantity">Please enter quantity</string>
     <string name="other_asset">其他资产</string>
     <string name="asset_account">资金账户</string>
+    <string name="please_input_funding">please input funding</string>
+    <string name="please_input_otc">please input otc</string>
+    <string name="exchange_success">exchange success</string>
 
 
 </resources>

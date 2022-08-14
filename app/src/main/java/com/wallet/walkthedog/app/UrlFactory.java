@@ -74,6 +74,10 @@ public class UrlFactory {
         return host + "/advertise/create";
     }
 
+    public static String otcExchange() {
+        return host + "/otc/wallet/transfer";
+    }
+
     public static String advertiseAll() {
         return host + "/advertise/self/all";
     }

@@ -1,7 +1,9 @@
 package com.wallet.walkthedog.view.mine.otc;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -9,17 +11,36 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorListener;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.OtherAssetDao;
+import com.wallet.walkthedog.dao.UserInfoDao;
+import com.wallet.walkthedog.dao.WalletsItem;
+import com.wallet.walkthedog.net.GsonWalkDogCallBack;
+import com.wallet.walkthedog.net.RemoteData;
+import com.wallet.walkthedog.sp.SafeGet;
+import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.ToastUtils;
+import com.wallet.walkthedog.untils.Utils;
+import com.wallet.walkthedog.view.mine.ad.MinMaxInputFilter;
+import com.wallet.walkthedog.view.mine.ad.PlaceADActivity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import tim.com.libnetwork.base.BaseActivity;
+import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 
+/**
+ * OTC划转
+ */
 public class OTCExchangeActivity extends BaseActivity {
     private LinearLayout layout_0, layout_1;
     private TextView tv_1_hint, tv_2_hint;
     private boolean fromfund = true;
     private OtherAssetDao otherAssetDao;
+    private EditText edit_1, edit_2;
+    private int exchangeH = 0;
+    private boolean isAnimation = false;
 
     @Override
     protected int getActivityLayoutId() {
@@ -27,12 +48,44 @@ public class OTCExchangeActivity extends BaseActivity {
     }
 
     @Override
+    @SuppressLint("SetTextI18n")
     protected void initViews(Bundle savedInstanceState) {
         otherAssetDao = (OtherAssetDao) getIntent().getSerializableExtra("otherAssetDao");
         layout_0 = findViewById(R.id.layout_0);
+        edit_1 = findViewById(R.id.edit_1);
+        edit_2 = findViewById(R.id.edit_2);
         layout_1 = findViewById(R.id.layout_1);
         tv_1_hint = findViewById(R.id.tv_1_hint);
         tv_2_hint = findViewById(R.id.tv_2_hint);
+        TextView tv_money = findViewById(R.id.tv_money);
+        TextView tv_otc_money = findViewById(R.id.tv_otc_money);
+        findViewById(R.id.tv_confim).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
+        SharedPrefsHelper.getInstance().AsyncGetUserInfo().onGet(new SafeGet.SafeCall<UserInfoDao>() {
+            @Override
+            public void call(UserInfoDao dao) {
+                List<WalletsItem> wallets = dao.getWallets();
+                for (int i = 0; i < wallets.size(); i++) {
+                    WalletsItem item = wallets.get(i);
+                    if (item.getType() == 1) {
+                        String asset = Utils.getFormat("%.2f", item.getDogFood());
+                        tv_money.setText(getString(R.string.balance_) + asset);
+                        MinMaxInputFilter.minMaxLimit(edit_1, 0, item.getDogFood());
+                    }
+                }
+            }
+        });
+        tv_otc_money.setText(getString(R.string.balance_) + otherAssetDao.getBalance());
+        try {
+            double max = Double.parseDouble(otherAssetDao.getBalance());
+            MinMaxInputFilter.minMaxLimit(edit_2, 0, max);
+        } catch (Exception ignored) {
+
+        }
         findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,8 +100,49 @@ public class OTCExchangeActivity extends BaseActivity {
         });
     }
 
-    private int exchangeH = 0;
-    private boolean isAnimation = false;
+    private void submit() {
+        double v1 = Utils.toDouble(edit_1.getText().toString());
+        double v2 = Utils.toDouble(edit_2.getText().toString());
+        if (fromfund && v1 <= 0) {
+            ToastUtils.shortToast(getString(R.string.please_input_funding));
+            return;
+        }
+        if (!fromfund && v2 <= 0) {
+            ToastUtils.shortToast(getString(R.string.please_input_otc));
+            return;
+        }
+        double amount = 0.0;
+        if (fromfund) {
+            amount = v1;
+        }
+        int direction = 2;
+        if (!fromfund) {
+            direction = 1;
+        }
+        String coinName = "3";
+        String name = otherAssetDao.getCoin().getName();
+        if (!name.equals("USDT")) {
+            coinName = "4";
+        }
+        if (fromfund) {
+            coinName = "1";
+        }
+        WonderfulOkhttpUtils.post().url(UrlFactory.otcExchange())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .addParams("coinName", coinName)
+                .addParams("amount", String.valueOf(amount))
+                .addParams("direction", String.valueOf(direction))
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<Object>>() {
+                    @Override
+                    protected void onRes(RemoteData<Object> data) {
+                        ToastUtils.shortToast(getString(R.string.exchange_success));
+                        finish();
+                    }
+                });
+    }
+
 
     private void startChangeAnim() {
         if (isAnimation) {
@@ -75,6 +169,11 @@ public class OTCExchangeActivity extends BaseActivity {
                     public void onAnimationEnd(View view) {
                         isAnimation = false;
                         fromfund = !fromfund;
+                        if (fromfund) {
+                            edit_2.setText("");
+                        } else {
+                            edit_1.setText("");
+                        }
                     }
 
                     @Override
