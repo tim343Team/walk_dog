@@ -554,7 +554,10 @@
     <string name="please_input_otc">otcを入力してください</string>
     <string name="exchange_success">交換成功</string>
     <string name="trading_price">取引価格：</string>
-
+    <string name="otc_exchange">otc exchange</string>
+    <string name="otc_duihuan">Otc exchange</string>
+    <string name="otc_trade">otc trading</string>
+    <string name="please_input_amount">Please enter amount</string>
 
 </resources>
 

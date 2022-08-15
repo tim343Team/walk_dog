@@ -554,17 +554,10 @@
     <string name="please_input_otc">請輸入otc</string>
     <string name="exchange_success">交換成功</string>
     <string name="trading_price">交易價格：</string>
-
-
-<!--    TODO 待翻译-->
-    <string name="please_input_funding">please input funding</string>
-    <string name="please_input_otc">please input otc</string>
-    <string name="exchange_success">exchange success</string>
-    <string name="trading_price">Trading price：</string>
-    <string name="otc_exchange">otc exchange</string>
-    <string name="otc_duihuan">otc 兑换</string>
+    <string name="otc_exchange">otc 交換</string>
+    <string name="otc_duihuan">otc 兌換</string>
     <string name="otc_trade">otc 交易</string>
-    <string name="please_input_amount">please input amount</string>
+    <string name="please_input_amount">請輸入數量</string>
 
 </resources>
 
