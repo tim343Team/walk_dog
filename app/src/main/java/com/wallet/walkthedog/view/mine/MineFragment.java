@@ -25,9 +25,6 @@ import com.wallet.walkthedog.view.card.CardActivity;
 import com.wallet.walkthedog.view.dog.MyDogActivity;
 import com.wallet.walkthedog.view.email.EmailActivity;
 import com.wallet.walkthedog.view.home.HomeFragment;
-import com.wallet.walkthedog.view.login.LoginActivity;
-import com.wallet.walkthedog.view.merchant.MerchantActivity;
-import com.wallet.walkthedog.view.mine.otc.MyOTCAssetActivity;
 import com.wallet.walkthedog.view.mine.otc.MyOtherAssetActivity;
 import com.wallet.walkthedog.view.mine.otc.OTCOrderActivity;
 import com.wallet.walkthedog.view.props.MyPropsActivity;
@@ -37,7 +34,6 @@ import java.util.List;
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseTransFragment;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
-import tim.com.libnetwork.utils.WonderfulCommonUtils;
 
 public class MineFragment extends BaseTransFragment {
     public static final String TAG = HomeFragment.class.getSimpleName();

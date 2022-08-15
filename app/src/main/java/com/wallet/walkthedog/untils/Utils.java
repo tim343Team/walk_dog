@@ -162,7 +162,7 @@ public class Utils {
         }
     }
 
-    public static String toGetUri(Map<String, Object> hashMap) {
+    public static <T> String toGetUri(Map<String, T> hashMap) {
         StringBuilder result = new StringBuilder();
         Set<String> strings = hashMap.keySet();
         try {

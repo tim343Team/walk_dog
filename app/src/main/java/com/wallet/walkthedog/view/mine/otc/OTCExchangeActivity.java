@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorListener;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.ActivityLifecycleManager;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.OtherAssetDao;
 import com.wallet.walkthedog.dao.UserInfoDao;
@@ -25,7 +26,9 @@ import com.wallet.walkthedog.view.mine.ad.MinMaxInputFilter;
 import com.wallet.walkthedog.view.mine.ad.PlaceADActivity;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
@@ -119,17 +122,15 @@ public class OTCExchangeActivity extends BaseActivity {
         if (!fromfund) {
             direction = 1;
         }
-        String coinName = "3";
-        String name = otherAssetDao.getCoin().getName();
-        if (!name.equals("USDT")) {
-            coinName = "4";
-        }
-        if (fromfund) {
-            coinName = "1";
-        }
-        WonderfulOkhttpUtils.post().url(UrlFactory.otcExchange())
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("coinName", otherAssetDao.getCoin().getName());
+        hashmap.put("amount", String.valueOf(amount));
+        hashmap.put("direction", String.valueOf(direction));
+        String s = Utils.toGetUri(hashmap);
+
+        WonderfulOkhttpUtils.get().url(UrlFactory.otcExchange() + "?" + s)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-                .addParams("coinName", coinName)
+                .addParams("coinName", otherAssetDao.getCoin().getName())
                 .addParams("amount", String.valueOf(amount))
                 .addParams("direction", String.valueOf(direction))
                 .build()
@@ -139,6 +140,7 @@ public class OTCExchangeActivity extends BaseActivity {
                     protected void onRes(RemoteData<Object> data) {
                         ToastUtils.shortToast(getString(R.string.exchange_success));
                         finish();
+                        ActivityLifecycleManager.get().finishs(MyOTCAssetActivity.class, MyOtherAssetActivity.class);
                     }
                 });
     }

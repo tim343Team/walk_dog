@@ -58,6 +58,10 @@ public class UrlFactory {
         return host + "/advertise/getAllCountry";
     }
 
+    public static String walletExchange() {
+        return host + "/wallet/exchange";
+    }
+
     public static String getAllCoin() {
         return host + "/advertise/getAllCoin";
     }
@@ -74,7 +78,7 @@ public class UrlFactory {
         return host + "/advertise/create";
     }
 
-    public static String  marketGetMarket() {
+    public static String marketGetMarket() {
         return host + "/market/getMarket";
     }
 
@@ -158,6 +162,10 @@ public class UrlFactory {
 
     public static String getTokenLog() {
         return host + "/userInfo/getTokenLog";
+    }
+
+    public static String getTransferLog() {
+        return host + "/otc/wallet/getTransferLog";
     }
 
     public static String getDogFoodLog() {

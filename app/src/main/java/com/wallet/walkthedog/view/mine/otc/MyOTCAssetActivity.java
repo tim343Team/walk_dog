@@ -1,6 +1,5 @@
 package com.wallet.walkthedog.view.mine.otc;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,16 +13,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
-import com.wallet.walkthedog.dao.AssetLogDao;
-import com.wallet.walkthedog.dao.AssetLogItem;
+import com.wallet.walkthedog.dao.CoinExchangeLogDao;
+import com.wallet.walkthedog.dao.CoinExchangeLogItem;
+import com.wallet.walkthedog.dao.OtherAssetDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.Utils;
-import com.wallet.walkthedog.view.mine.CollectionActivity;
-import com.wallet.walkthedog.view.mine.TransferActivity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
@@ -33,11 +33,11 @@ import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
  */
 public class MyOTCAssetActivity extends BaseActivity {
     TextView tv_all_asset;
-    private double all_asset = 0.0;
-    private final static String xxxx ="****";
-    private AssetListAdapter adapter = new AssetListAdapter();
-    private int pageNo = 1;
+    private String all_asset = "0.0";
+    private final static String xxxx = "****";
+    private final AssetListAdapter adapter = new AssetListAdapter();
     boolean see = false;
+    private OtherAssetDao otherAssetDao;
 
     @Override
     protected int getActivityLayoutId() {
@@ -46,6 +46,12 @@ public class MyOTCAssetActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        otherAssetDao = (OtherAssetDao) getIntent().getSerializableExtra("otherAssetDao");
+
+        TextView tv_syb = findViewById(R.id.tv_syb);
+        tv_syb.setText(otherAssetDao.getCoin().getName());
+        all_asset = otherAssetDao.getBalance();
+
         tv_all_asset = findViewById(R.id.tv_all_asset);
         findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +66,10 @@ public class MyOTCAssetActivity extends BaseActivity {
                 see = !see;
                 if (see) {
                     iv.setImageResource(R.mipmap.icon_eye_see);
-                    tv_all_asset.setText(Utils.getFormat("%.2f", all_asset));
+                    tv_all_asset.setText(all_asset);
                 } else {
                     iv.setImageResource(R.mipmap.icon_eye_close);
                     tv_all_asset.setText(xxxx);
-
                 }
             }
         });
@@ -73,20 +78,13 @@ public class MyOTCAssetActivity extends BaseActivity {
         findViewById(R.id.layout_transfer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(MyOTCAssetActivity.this, OTCExchangeActivity.class);
-                intent.putExtra("otherAssetDao",getIntent().getSerializableExtra("otherAssetDao"));
+                intent.putExtra("otherAssetDao", getIntent().getSerializableExtra("otherAssetDao"));
                 startActivity(intent);
             }
         });
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                getTokenLog();
-            }
-        }, recyclerView);
         recyclerView.setAdapter(adapter);
     }
 
@@ -102,111 +100,113 @@ public class MyOTCAssetActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-        getAsset();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        pageNo = 1;
         getTokenLog();
     }
 
-    private void getAsset() {
-
-    }
-
-    String nowTime = Utils.timeFormat(System.currentTimeMillis() + 3600_000, "yyyy-MM-dd HH:mm:ss");
 
     private void getTokenLog() {
-        //TODO 获取otc交易列表
-//        WonderfulOkhttpUtils.post().url(UrlFactory.getTokenLog())
-//                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-//                .addParams("pageNo", String.valueOf(pageNo))
-//                .addParams("pageSize", "50")
-//                .addParams("startTime", "1970-01-01 00:00:00")
-//                .addParams("endTime", nowTime)
-//                .build()
-//                .getCall()
-//                .enqueue(new GsonWalkDogCallBack<RemoteData<AssetLogDao>>() {
-//                    @Override
-//                    protected void onRes(RemoteData<AssetLogDao> testRemoteData) {
-//                        onSuccessGetAssetLog(testRemoteData.getNotNullData().getRecords());
-//                    }
-//
-//                    @Override
-//                    protected void onFail(Exception e) {
-//                        super.onFail(e);
-//                        onFailGetAssetLog();
-//                    }
-//                });
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("symbol", otherAssetDao.getCoin().getName());
+        hashmap.put("pageNo", "1");
+        hashmap.put("pageSize", "1000");
+        hashmap.put("direction", "ASC");
+        String s = Utils.toGetUri(hashmap);
+
+
+        WonderfulOkhttpUtils.get().url(UrlFactory.getTransferLog() + "?" + s)
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<CoinExchangeLogDao>>() {
+                    @Override
+                    protected void onRes(RemoteData<CoinExchangeLogDao> testRemoteData) {
+                        onSuccessGetAssetLog(testRemoteData.getNotNullData().getContent());
+                    }
+
+                    @Override
+                    protected void onFail(Exception e) {
+                        super.onFail(e);
+                        onFailGetAssetLog();
+                    }
+                });
     }
 
     private void onFailGetAssetLog() {
         adapter.loadMoreFail();
     }
 
-    private void onSuccessGetAssetLog(List<AssetLogItem> records) {
-        if (records.size() < 50) {
-            adapter.loadMoreEnd();
-        } else {
-            adapter.loadMoreComplete();
-        }
-        if (pageNo == 1) {
-            adapter.setNewData(records);
-        } else {
-            adapter.addData(records);
-        }
-        pageNo++;
-    }
-
-    private void onSuccessGetAsset(double notNullData) {
-        this.all_asset = notNullData;
-        if (see){
-            tv_all_asset.setText(Utils.getFormat("%.2f", notNullData));
-        }else {
-            tv_all_asset.setText(xxxx);
-        }
+    private void onSuccessGetAssetLog(List<CoinExchangeLogItem> records) {
+        adapter.setNewData(records);
     }
 
 
-    static class AssetListAdapter extends BaseQuickAdapter<AssetLogItem, BaseViewHolder> {
+    static class AssetListAdapter extends BaseQuickAdapter<CoinExchangeLogItem, BaseViewHolder> {
 
         public AssetListAdapter() {
             super(R.layout.item_my_asset);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, AssetLogItem item) {
-            int status = item.getStatus();
+        protected void convert(BaseViewHolder helper, CoinExchangeLogItem item) {
+
+            //otc交易钱包的交易类型
+            //"充值"),//0
+            //("提现"),//1
+            //("转账"),//2
+            //("合约交易"),//3
+            //("法币买入"),//4
+            //("法币卖出"),//5
+            //("活动奖励"),//6
+            //("推广奖励"),//7
+            //("分红"),//8
+            //("投票"),//9
+            //("人工充值"),//10
+            //("配对"),//11
+            //("缴纳商家认证保证金"),//12
+            //("退回商家认证保证金"),//13
+            //("法币充值"),//14
+            //("币币兑换"),//15
+            //("渠道推广"),//16
+            //("划转入杠杆钱包"),//17
+            //("从杠杆钱包划转出"),//18
+            //("钱包空投"),//19
+            //("锁仓"),//20
+            //("解锁"),//21
+            //("第三方转入"),//22
+            //("第三方转出"),//23
+            //("币币转入法币"),//24
+            //("法币转入币币"),//25
+            //("借贷流水"),//26
+            //("还款流水"),//27
+            //("币币转入合约"),//28
+            //("合约转入币币"),//29
+            //("隔夜费"),//35
+            //("期货转入法币"),//36
+            //("法币转入期货"),//37
+            //("期货交易"),//38
+            //("OTC人工充值"),//42
+            //("退回商家投资款"),//44
+            //("释放质押"),//45
             int type = item.getType();
-            //1充值 2提现 3购买 4遛狗奖励 5售卖 6宝箱获得
-            Context context = helper.itemView.getContext();
-            if (type == 1) {
-                helper.setText(R.id.tv_type, context.getString(R.string.asset_type_1));
-            } else if (type == 2) {
-                helper.setText(R.id.tv_type, context.getString(R.string.asset_type_2));
-            } else if (type == 3) {
-                helper.setText(R.id.tv_type, context.getString(R.string.asset_type_3));
-            } else if (type == 4) {
-                helper.setText(R.id.tv_type, context.getString(R.string.asset_type_4));
-            } else if (type == 5) {
-                helper.setText(R.id.tv_type, context.getString(R.string.asset_type_5));
+            if (type == 28 || type == 29 || type == 24 || type == 25) {
+                helper.setText(R.id.tv_type, helper.itemView.getContext().getString(R.string.otc_exchange));
+            } else if (type==15){
+                helper.setText(R.id.tv_type, helper.itemView.getContext().getString(R.string.otc_duihuan));
             } else {
-                helper.setText(R.id.tv_type, context.getString(R.string.asset_type_6));
+                helper.setText(R.id.tv_type, helper.itemView.getContext().getString(R.string.otc_trade));
             }
-            helper.setText(R.id.tv_q, Utils.getFormat("%+.2f", item.getAmount()));
+            try {
+                helper.setText(R.id.tv_q, String.valueOf(Integer.valueOf(item.getAmount())));
+            } catch (Exception ignored) {
+            }
             helper.setText(R.id.tv_time, item.getCreateTime());
-            // 0待审核 1 成功 2失败 4已审核
-            if (status == 0) {
-                helper.setText(R.id.tv_state, context.getString(R.string.asset_state_0));
-            } else if (status == 1) {
-                helper.setText(R.id.tv_state, context.getString(R.string.successful));
-            } else if (status == 2) {
-                helper.setText(R.id.tv_state, context.getString(R.string.fail));
-            } else if (status == 4) {
-                helper.setText(R.id.tv_state, context.getString(R.string.asset_state_4));
-            }
+            helper.setText(R.id.tv_state, helper.itemView.getContext().getString(R.string.successful));
         }
     }
 }

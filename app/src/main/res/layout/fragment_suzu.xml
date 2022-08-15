@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/tv_hint_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="130dp"
@@ -49,9 +49,10 @@
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_hint_1" />
 
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,6 +63,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
             <EditText
+                android:visibility="invisible"
                 android:id="@+id/editTextTextPersonName2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -113,6 +115,7 @@
         android:layout_weight="1" />
 
     <com.wallet.walkthedog.custom_view.card.ShadowTextView
+        android:id="@+id/confirm"
         style="@style/defshadow_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
