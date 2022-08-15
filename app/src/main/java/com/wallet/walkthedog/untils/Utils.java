@@ -16,7 +16,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -163,19 +165,23 @@ public class Utils {
     public static String toGetUri(Map<String, Object> hashMap) {
         StringBuilder result = new StringBuilder();
         Set<String> strings = hashMap.keySet();
-        for (String next : strings) {
-            Object value = hashMap.get(next);
-            if (value == null) {
-                continue;
+        try {
+            for (String next : strings) {
+                Object value = hashMap.get(next);
+                if (value == null) {
+                    continue;
+                }
+                result.append(URLEncoder.encode(next, "UTF-8"))
+                        .append("=")
+                        .append(URLEncoder.encode(value.toString(), "UTF-8"))
+                        .append("&");
             }
-            result.append(next)
-                    .append("=")
-                    .append(value)
-                    .append("&");
-        }
-        if (result.length() == 0) {
+            if (result.length() == 0) {
+                return "";
+            }
+            return result.replace(result.length() - 1, result.length(), "").toString();
+        } catch (UnsupportedEncodingException e) {
             return "";
         }
-        return result.replace(result.length() - 1, result.length(), "").toString();
     }
 }

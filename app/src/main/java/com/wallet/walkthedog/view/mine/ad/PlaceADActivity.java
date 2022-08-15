@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.mine.ad;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -275,11 +276,13 @@ public class PlaceADActivity extends BaseActivity {
                 hashMap.put("minLimit", min);
                 hashMap.put("maxLimit", max);
                 hashMap.put("remark", "r");
+                hashMap.put("price", "0");
                 hashMap.put("timeLimit", (int) tradePeriod);
                 hashMap.put("premiseRate", premium / 100);
                 String priceType = "REGULAR";
                 if (settings_right_toogle.isChecked()) {
                     priceType = "MUTATIVE";
+                    hashMap.remove("price");
                 }
                 hashMap.put("priceType", priceType);
                 hashMap.put("number", quantity);
@@ -377,6 +380,8 @@ public class PlaceADActivity extends BaseActivity {
                 edit_min.setText("");
             }
             ignoreCountryNextReset = false;
+            tv_conutry_to_coin.setText("");
+            getPrice(contryItem.getLocalCurrency());
         }
     }
 
@@ -442,6 +447,23 @@ public class PlaceADActivity extends BaseActivity {
                             selectContryPostion = 0;
                         }
                         onSelectContry();
+                    }
+                });
+    }
+
+    private void getPrice(String currency){
+        WonderfulOkhttpUtils.get().url(UrlFactory.marketGetMarket()+"?currency="+currency)
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<String>>() {
+
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    protected void onRes(RemoteData<String> data) {
+                        if (data.getNotNullData()!=null){
+                            tv_conutry_to_coin.setText(getString(R.string.trading_price) + data.getNotNullData() + currency + "/" + "USDT");
+                        }
                     }
                 });
     }

@@ -553,6 +553,7 @@
     <string name="please_input_funding">please input funding</string>
     <string name="please_input_otc">please input otc</string>
     <string name="exchange_success">exchange success</string>
+    <string name="trading_price">Trading price：</string>
 
 
 </resources>
