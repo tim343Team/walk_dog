@@ -15,8 +15,10 @@ import com.wallet.walkthedog.adapter.SellDogsAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateDogEvent;
 import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
+import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.DogMailDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dialog.NormalDialog;
@@ -168,6 +170,36 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
         normalDialog.setTheme(R.style.PaddingScreen);
         normalDialog.setGravity(Gravity.CENTER);
         normalDialog.show(getFragmentManager(), "edit");
+    }
+
+    @Override
+    public void getFeedDogInfo(FeedDogFoodDao data, DogInfoDao mDefultDogInfo) {
+
+    }
+
+    @Override
+    public void feedSuccessful(String data) {
+
+    }
+
+    @Override
+    public void feedFail(Integer code, String toastMessage) {
+
+    }
+
+    @Override
+    public void getShopDogFoodSuccessful(DogFoodDao data) {
+
+    }
+
+    @Override
+    public void buyShopDogFoodSuccessful(String data) {
+
+    }
+
+    @Override
+    public void getWalletInfo(String data, String type) {
+
     }
 
     @Override

@@ -219,7 +219,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void getUserDog(int type,int pageNo,DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getUserDogUrl() + "?pageNo="+pageNo+"&pageSize=50"+ "&type="+type)
+        WonderfulOkhttpUtils.get().url(UrlFactory.getUserDogUrl() + "?pageNo="+pageNo+"&pageSize=99"+ "&type="+type)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1024,7 +1024,8 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void sellProp(SellRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.sellPropUrl() + "?id=" + request.getId() + "&price=" + request.getPrice())
+        WonderfulOkhttpUtils.get().url(UrlFactory.sellPropUrl() + "?id=" + request.getId() + "&price=" + request.getPrice()
+                +"&password="+request.getPrice())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {
@@ -1533,7 +1534,8 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void sellDog(SellRequest request, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.sellDogUrl() + "?id=" + request.getId() + "&price=" + request.getPrice())
+        WonderfulOkhttpUtils.get().url(UrlFactory.sellDogUrl() + "?id=" + request.getId() + "&price=" + request.getPrice()
+                +"&password="+request.getPrice())
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {

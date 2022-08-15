@@ -14,12 +14,19 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.MyDogsAdapter;
 import com.wallet.walkthedog.adapter.RentDogsAdapter;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.UserCache;
+import com.wallet.walkthedog.dialog.BuyFoodDialog;
+import com.wallet.walkthedog.dialog.FeedingDialog;
+import com.wallet.walkthedog.dialog.FeedofRemindDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.email.EmailPresenter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,6 +50,8 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
 
     private SelectContract.SelectPresenter presenter;
     private int status = 0;//0:我的狗狗 1:租赁的狗狗
+    private String totalFood = "0";
+    private String totalProperty = "0";
 
     @OnClick(R.id.txt_my_dog)
     void choiceMyDog() {
@@ -108,7 +117,7 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
 
     @Override
     protected void loadData() {
-        presenter.getUserDog(1,1);
+        updateData();
     }
 
     private void initRecyclerView() {
@@ -129,7 +138,8 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
         adapter.setFeedCallback(new MyDogsAdapter.FeedCallback() {
             @Override
             public void callback(DogInfoDao dao) {
-                //TODO feed
+                //feed
+                showFeeding(dao);
             }
         });
         adapter.setItemCallback(new MyDogsAdapter.ItemCallback() {
@@ -155,6 +165,7 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
 
     @Override
     public void getMyDogSuccess(List<DogInfoDao> dogInfoDaos) {
+        data.clear();
         if (dogInfoDaos.size() > 0) {
             data.addAll(dogInfoDaos);
             adapter.notifyDataSetChanged();
@@ -177,7 +188,117 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
     }
 
     @Override
+    public void getFeedDogInfo(FeedDogFoodDao data,DogInfoDao mDefultDogInfo) {
+        //喂食弹唱
+        FeedingDialog dialog = FeedingDialog.newInstance(mDefultDogInfo, data, totalFood);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        dialog.setFeedCallback(new FeedingDialog.OperateFeedCallback() {
+            @Override
+            public void callback() {
+                //調用餵食接口
+                presenter.feedDog(mDefultDogInfo.getId());
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
     public void setPresenter(SelectContract.SelectPresenter presenter) {
         this.presenter = presenter;
+    }
+
+    @Override
+    public void feedSuccessful(String data) {
+        //喂食成功,更新数据
+        NormalDialog dialog = NormalDialog.newInstance(R.string.feeding_su, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        //刷新列表
+        updateData();
+    }
+
+    @Override
+    public void feedFail(Integer code, String toastMessage) {
+        //喂食失败
+        if (code == 1) {
+            //获取狗粮数据
+            presenter.getShopDogFood();
+        }
+    }
+
+    @Override
+    public void getShopDogFoodSuccessful(DogFoodDao data) {
+        //新增是否购买页面
+        FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.BOTTOM);
+        dialog.show(getSupportFragmentManager(), "edit");
+        dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
+
+            @Override
+            public void callback() {
+                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
+                buyDialog.setTheme(R.style.PaddingScreen);
+                buyDialog.setGravity(Gravity.CENTER);
+                buyDialog.show(getSupportFragmentManager(), "edit");
+                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+                    @Override
+                    public void callback(int number) {
+                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
+                        passwordDialog.setTheme(R.style.PaddingScreen);
+                        passwordDialog.setGravity(Gravity.CENTER);
+                        passwordDialog.show(getSupportFragmentManager(), "edit");
+                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+                            @Override
+                            public void callback(String password) {
+                                //購買狗糧
+                                presenter.buyShopDogFood(data.getId(), number);
+                                passwordDialog.dismiss();
+                                buyDialog.dismiss();
+                            }
+                        });
+                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+                            @Override
+                            public void callback() {
+                                ToastUtils.shortToast("错误");
+                            }
+                        });
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void buyShopDogFoodSuccessful(String data) {
+        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        //更新
+        updateData();
+    }
+
+    @Override
+    public void getWalletInfo(String data, String type) {
+        if (type.equals("1")) {
+            totalProperty = data;
+        } else if (type.equals("2")) {
+            totalFood = data;
+        }
+    }
+
+    private void showFeeding(DogInfoDao mDefultDogInfo) {
+        presenter.getFeedDog(mDefultDogInfo.getId(),mDefultDogInfo);
+    }
+
+    private void updateData(){
+        presenter.getWallet("1");//获取代币总数
+        presenter.getWallet("2");//获取狗粮总数
+        presenter.getUserDog(1,1);
     }
 }

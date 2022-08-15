@@ -27,6 +27,7 @@ import com.wallet.walkthedog.dialog.MorePropOperationDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
+import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.SellPropDialog;
 import com.wallet.walkthedog.dialog.SellPropNoticeDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
@@ -80,6 +81,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     private String type;
     private String id;
     private boolean isChange = false;
+    private PasswordDialog passwordDialog;
     private ChoicePropsContract.ChoicePropsPresenter presenter;
 
     @OnClick(R.id.img_more)
@@ -94,7 +96,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
                 //售卖
                 if (propDao.getType() == 1) {
                     //判断是否装备
-                    SellPropNoticeDialog noticeDialog = SellPropNoticeDialog.newInstance(R.string.release_prop,R.string.release_prop_notice);
+                    SellPropNoticeDialog noticeDialog = SellPropNoticeDialog.newInstance(R.string.release_prop, R.string.release_prop_notice);
                     noticeDialog.setTheme(R.style.PaddingScreen);
                     noticeDialog.setGravity(Gravity.CENTER);
                     noticeDialog.show(getSupportFragmentManager(), "edit");
@@ -107,7 +109,17 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
                     sellPropDialog.setCallback(new SellPropDialog.OperateCallback() {
                         @Override
                         public void callback(String price) {
-                            presenter.sellProp(new SellRequest(propDao.getId(), price));
+                            passwordDialog = PasswordDialog.newInstance();
+                            passwordDialog.setTheme(R.style.PaddingScreen);
+                            passwordDialog.setGravity(Gravity.CENTER);
+                            passwordDialog.show(getSupportFragmentManager(), "edit");
+                            passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+                                @Override
+                                public void callback(String password) {
+                                    presenter.sellProp(new SellRequest(propDao.getId(), price, password));
+                                    passwordDialog.dismiss();
+                                }
+                            });
                             sellPropDialog.dismiss();
                         }
                     });
@@ -121,26 +133,26 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     @OnClick(R.id.tv_submit)
     void open() {
         if (type.equals(Constant.PROP_BOX)) {
-            if(propDao.getType() == 3){
+            if (propDao.getType() == 3) {
                 //取消出售
                 presenter.cancelSellProp(new BuyRequest(propDao.getId()), 0);
-            }else {
+            } else {
                 //打开宝箱接口
                 presenter.openBox(new OpreationPropRequest(propDao.getId()), 0);
             }
         } else if (type.equals(Constant.PROP_FOOD)) {
             //打开狗粮接口
-            if(propDao.getType() == 3){
+            if (propDao.getType() == 3) {
                 //取消出售
                 presenter.cancelSellProp(new BuyRequest(propDao.getId()), 0);
-            }else {
-                presenter.useDogFood(new OpreationPropRequest(propDao.getId()),0);
+            } else {
+                presenter.useDogFood(new OpreationPropRequest(propDao.getId()), 0);
             }
         } else if (type.equals(Constant.PROP_NORMAL)) {
-            if(propDao.getType() == 3){
+            if (propDao.getType() == 3) {
                 //取消出售
                 presenter.cancelSellProp(new BuyRequest(propDao.getId()), 0);
-            }else if (propDao.getType() == 1) {
+            } else if (propDao.getType() == 1) {
                 //取消装备
                 presenter.getRemoveProp(new OpreationPropRequest(propDao.getId(), String.valueOf(propDao.getDecorateDogId())), 0);
             } else {
@@ -199,9 +211,9 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
             //装备，取消装备
             if (propDao.getType() == 1) {
                 tvSubmit.setText(R.string.deselect);
-            } else if(propDao.getType() == 2){
+            } else if (propDao.getType() == 2) {
                 tvSubmit.setText(R.string.select);
-            }else if(propDao.getType() == 3){
+            } else if (propDao.getType() == 3) {
                 tvSubmit.setText(R.string.cancle_sale);
             } else {
                 tvSubmit.setText(R.string.select);
@@ -228,7 +240,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -281,10 +293,10 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     }
 
     @Override
-    public void useDogFoodSuccess(String data,int postion) {
+    public void useDogFoodSuccess(String data, int postion) {
         //打開狗糧
         isChange = true;
-        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_FOOD);
+        OpenindDialog openindDialog = OpenindDialog.newInstance(Constant.PROP_FOOD);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
         openindDialog.show(getSupportFragmentManager(), "edit");
@@ -308,10 +320,10 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     }
 
     @Override
-    public void openBoxSuccess(BoxDao dao,int postion) {
+    public void openBoxSuccess(BoxDao dao, int postion) {
         //打开宝箱成功
         isChange = true;
-        OpenindDialog openindDialog=OpenindDialog.newInstance(Constant.PROP_NORMAL,dao);
+        OpenindDialog openindDialog = OpenindDialog.newInstance(Constant.PROP_NORMAL, dao);
         openindDialog.setTheme(R.style.PaddingScreen);
         openindDialog.setGravity(Gravity.CENTER);
         openindDialog.show(getSupportFragmentManager(), "edit");

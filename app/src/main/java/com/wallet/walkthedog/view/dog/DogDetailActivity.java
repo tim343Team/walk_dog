@@ -25,6 +25,7 @@ import com.wallet.walkthedog.dialog.MoreDogOperationDialog;
 import com.wallet.walkthedog.dialog.MoreOperationDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NormalErrorDialog;
+import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.SellPropDialog;
 import com.wallet.walkthedog.dialog.SellPropNoticeDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
@@ -63,6 +64,7 @@ public class DogDetailActivity extends BaseActivity implements DogDetailContract
     private String totalFood = "0";
     private DogInfoDao dogInfoDao;
     private DogDetailContract.DogDetailPresenter presenter;
+    private PasswordDialog passwordDialog;
 
     @OnClick(R.id.img_more)
     void startMore() {
@@ -95,8 +97,18 @@ public class DogDetailActivity extends BaseActivity implements DogDetailContract
                     sellPropDialog.setCallback(new SellPropDialog.OperateCallback() {
                         @Override
                         public void callback(String price) {
-                            //出售狗狗
-                            presenter.sellDog(new SellRequest(dogInfoDao.getId(), price));
+                            passwordDialog = PasswordDialog.newInstance();
+                            passwordDialog.setTheme(R.style.PaddingScreen);
+                            passwordDialog.setGravity(Gravity.CENTER);
+                            passwordDialog.show(getSupportFragmentManager(), "edit");
+                            passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+                                @Override
+                                public void callback(String password) {
+                                    //出售狗狗
+                                    presenter.sellDog(new SellRequest(dogInfoDao.getId(), price,password));
+                                    passwordDialog.dismiss();
+                                }
+                            });
                             sellPropDialog.dismiss();
                         }
                     });

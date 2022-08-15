@@ -1,6 +1,8 @@
 package com.wallet.walkthedog.view.select_dog;
 
+import com.wallet.walkthedog.dao.DogFoodDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
+import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.home.HomeContract;
 
@@ -53,12 +55,99 @@ public class SelectPresenter implements SelectContract.SelectPresenter{
         });
     }
 
+
+    @Override
+    public void getWallet(String type) {
+        dataRepository.getWallet(type,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getWalletInfo((String) obj,type);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
     @Override
     public void removeDog(String dogId) {
         dataRepository.removeDog(dogId,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getFeedDog(String dogId,DogInfoDao mDefultDogInfo) {
+        dataRepository.getFeedDog(dogId,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getFeedDogInfo((FeedDogFoodDao) obj,mDefultDogInfo);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void feedDog(String dogId) {
+        dataRepository.feedDog(dogId,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.feedSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.feedFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getShopDogFood() {
+        dataRepository.getShopDogFood(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getShopDogFoodSuccessful((DogFoodDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void buyShopDogFood(int dogFoodId, int number) {
+        view.displayLoadingPopup();
+        dataRepository.ShopDogFood(dogFoodId,number,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.buyShopDogFoodSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override

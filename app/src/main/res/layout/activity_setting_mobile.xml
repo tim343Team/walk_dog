@@ -117,18 +117,18 @@
                 android:id="@+id/password_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_98"
-                android:background="@drawable/rectangle_f5f5f5"
-                android:layout_marginTop="@dimen/dp30"
+                android:layout_below="@+id/txt_title"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/txt_title">
+                android:layout_marginTop="@dimen/dp30"
+                android:background="@mipmap/bg_input">
 
                 <com.wallet.walkthedog.custom_view.PasswordView
                     android:id="@+id/password_edit"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    app:bgColor="#ffffff"
-                    android:background="@null"/>
+                    android:background="@null"
+                    app:bgColor="#ffffff" />
 
             </RelativeLayout>
 
