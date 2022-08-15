@@ -56,8 +56,7 @@
                         android:layout_width="@dimen/dimen_132"
                         android:layout_height="@dimen/dimen_132"
                         android:layout_marginTop="@dimen/dimen_41"
-                        android:layout_marginBottom="@dimen/dimen_22"
-                        android:background="@mipmap/icon_null_dog" />
+                        android:layout_marginBottom="@dimen/dimen_22"/>
 
                     <TextView
                         android:id="@+id/txt_speed"

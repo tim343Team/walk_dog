@@ -23,7 +23,7 @@ public class HomePresenter implements HomeContract.HomePresenter{
 
     @Override
     public void getDogInfo(String dogId) {
-        view.displayLoadingPopup();//显示loading
+//        view.displayLoadingPopup();//显示loading
         dataRepository.getDogInfo(dogId,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {

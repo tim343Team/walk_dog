@@ -220,6 +220,11 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         presenter = new WalkPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         EventBus.getDefault().register(this);
         mDefultDogInfo = (DogInfoDao) getIntent().getSerializableExtra("mDefultDogInfo");
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.icon_null_dog)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+        Glide.with(this).load(mDefultDogInfo.getImg()).apply(options).into(imgDog);
         initEquipment();
         initRv();
         checkPermission();
@@ -396,6 +401,7 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
         if (!isIgnoringBatteryOptimizations(this)) {
             requestIgnoreBatteryOptimizations(this);
         }
+        //TODO 设置白名单
 //        AutoUtils.openAutoStart(this);
     }
 

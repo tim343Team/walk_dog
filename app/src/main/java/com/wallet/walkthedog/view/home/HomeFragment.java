@@ -19,8 +19,10 @@ import com.wallet.walkthedog.dao.FeedDogFoodDao;
 import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.PropDao;
 import com.wallet.walkthedog.dao.TrainDao;
+import com.wallet.walkthedog.dao.UserInfoDao;
 import com.wallet.walkthedog.dao.request.TrainRequest;
 import com.wallet.walkthedog.dialog.BuyFoodDialog;
+import com.wallet.walkthedog.dialog.DayLimitDialog;
 import com.wallet.walkthedog.dialog.FeedingDialog;
 import com.wallet.walkthedog.dialog.FeedofRemindDialog;
 import com.wallet.walkthedog.dialog.HungryDialog;
@@ -34,6 +36,7 @@ import com.wallet.walkthedog.dialog.TrainDogDialog;
 import com.wallet.walkthedog.dialog.TrainListDialog;
 import com.wallet.walkthedog.dialog.UpgradeDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
+import com.wallet.walkthedog.sp.SafeGet;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.invite.InviteActivity;
@@ -215,16 +218,16 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                 presenter.upDogLevel(mDefultDogInfo.getId());
             } else {
                 //TODO
-                WalkActivity.actionStart(getmActivity(), mDefultDogInfo);
+//                WalkActivity.actionStart(getmActivity(), mDefultDogInfo);
                 //判断遛狗次数
-//                if (mDefultDogInfo.getDayLimit() < 2) {
-//                    WalkActivity.actionStart(getmActivity(), mDefultDogInfo);
-//                } else {
-//                    DayLimitDialog dialog = DayLimitDialog.newInstance(getResources().getString(R.string.walk_number), getResources().getString(R.string.walk_notice_4));
-//                    dialog.setTheme(R.style.PaddingScreen);
-//                    dialog.setGravity(Gravity.CENTER);
-//                    dialog.show(getFragmentManager(), "edit");
-//                }
+                if (mDefultDogInfo.getDayLimit() < 2) {
+                    WalkActivity.actionStart(getmActivity(), mDefultDogInfo);
+                } else {
+                    DayLimitDialog dialog = DayLimitDialog.newInstance(getResources().getString(R.string.walk_number), getResources().getString(R.string.walk_notice_4));
+                    dialog.setTheme(R.style.PaddingScreen);
+                    dialog.setGravity(Gravity.CENTER);
+                    dialog.show(getFragmentManager(), "edit");
+                }
             }
 
         }
@@ -302,7 +305,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     protected void loadData() {
-        updateData();
+//        updateData();
     }
 
     @Override
@@ -313,6 +316,12 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     protected void initDestroy() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateData();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -332,7 +341,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     void updateUI() {
-//        mDefultDogInfo.setStarvation(1);//TODO 測試飢餓狀態
         if (viewNullDog == null) {
             return;
         }
