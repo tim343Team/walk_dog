@@ -15,9 +15,13 @@ public class EmailContract {
 
         void getSuccessMobileLogin(EmailLoginDao dao);
 
+        void getSuccessInvited(String dao,String code);
+
     }
 
     interface EmailPresenter extends Contract.BasePresenter {
+
+        void checkInvitedCode(SendMailboxCodeRequest request);
 
         void sendMailboxCode(SendMailboxCodeRequest request);
 

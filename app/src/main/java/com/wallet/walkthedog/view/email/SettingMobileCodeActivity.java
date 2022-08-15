@@ -57,19 +57,26 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
     private EmailContract.EmailPresenter presenter;
     private CountDownTimer timer;
     private String type;
-    private String code;
     private String email;
+    private String invitCode;
 
     @OnClick(R.id.img_back)
     void back() {
         finish();
     }
 
-    public static void actionStart(Context context,String code,String email, String type) {
+    public static void actionStart(Context context,String email, String type) {
         Intent intent = new Intent(context, SettingMobileCodeActivity.class);
-        intent.putExtra("code", code);
         intent.putExtra("email", email);
         intent.putExtra("type", type);
+        context.startActivity(intent);
+    }
+
+    public static void actionStart(Context context,String email, String type,String invitCode) {
+        Intent intent = new Intent(context, SettingMobileCodeActivity.class);
+        intent.putExtra("email", email);
+        intent.putExtra("type", type);
+        intent.putExtra("invitCode", invitCode);
         context.startActivity(intent);
     }
 
@@ -98,23 +105,13 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
             public void afterTextChanged(Editable editable) {
                 String content = editable.toString();
                 if (content.length() == 6) {
-                    //判断郵箱验证码是否正确
-                    if(code.equals(content)){
-                        if(type.equals(Constant.LOGIN_MAIL_LOGIN)){
-                            //調用驗證碼登錄
-                            SendMailboxCodeRequest request=new SendMailboxCodeRequest(email,content);
-                            presenter.emailCheckCode(request);
-                        }else if(type.equals(Constant.LOGIN_MAIL_REGISTER)){
-                            //註冊
-                            SettingPassWordActivity.actionStart(SettingMobileCodeActivity.this, type,email,code);
-                        }
-                    }else {
-                        //验证码错误
-                        NormalErrorDialog dialog = NormalErrorDialog.newInstance(R.string.mailbox_code_error, R.mipmap.icon_normal_no,R.color.color_E12828);
-                        dialog.setTheme(R.style.PaddingScreen);
-                        dialog.setGravity(Gravity.CENTER);
-                        dialog.show(getSupportFragmentManager(), "edit");
-                        passwordView.setText("");
+                    if(type.equals(Constant.LOGIN_MAIL_LOGIN)){
+                        //調用驗證碼登錄
+                        SendMailboxCodeRequest request=new SendMailboxCodeRequest(email,content);
+                        presenter.emailCheckCode(request);
+                    }else if(type.equals(Constant.LOGIN_MAIL_REGISTER)){
+                        //註冊
+                        presenter.checkInvitedCode(new SendMailboxCodeRequest(email,content));
                     }
                 }
             }
@@ -124,8 +121,8 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
     @Override
     protected void obtainData() {
         type = getIntent().getStringExtra("type");
-        code = getIntent().getStringExtra("code");
         email = getIntent().getStringExtra("email");
+        invitCode = getIntent().getStringExtra("invitCode");
         txtMailbox.setText(String.format(getString(R.string.mailbox_code_notice), email));
     }
 
@@ -174,7 +171,11 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        ToastUtils.shortToast(toastMessage);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        passwordView.setText("");
     }
 
     @Override
@@ -198,6 +199,11 @@ public class SettingMobileCodeActivity extends BaseActivity  implements EmailCon
         UserDao.insert(this, cv);
         HomeActivity.actionStart(this);
         closeLoginView();
+    }
+
+    @Override
+    public void getSuccessInvited(String dao,String code) {
+        SettingPassWordActivity.actionStart(SettingMobileCodeActivity.this, type, email, code,invitCode);
     }
 
     @Override

@@ -38,6 +38,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void checkInvitedCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
 
     }

@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseActivity;
 
-public class InvitationActivity extends BaseActivity  implements EmailContract.EmailView{
+public class InvitationActivity extends BaseActivity implements EmailContract.EmailView {
     public static InvitationActivity instance = null;
     @BindView(R.id.txt_title)
     TextView txtTile;
@@ -31,6 +31,7 @@ public class InvitationActivity extends BaseActivity  implements EmailContract.E
 
     private EmailContract.EmailPresenter presenter;
     private int status = 0;//0:输入邀請碼 1：輸入郵箱
+    private String invitCode;
 
     @OnClick({R.id.view_bottom, R.id.img_ok})
     void gotocheckInvitation() {
@@ -39,15 +40,15 @@ public class InvitationActivity extends BaseActivity  implements EmailContract.E
                 Toast.makeText(InvitationActivity.this, R.string.invitation_code_notice, Toast.LENGTH_SHORT).show();
                 return;
             }
-            //TODO 調用接口驗證邀請碼
+            //保存邀请码
             switchToStatus();
         } else if (status == 1) {
-            if(editText.getText().toString().isEmpty()){
-                Toast.makeText(InvitationActivity.this,R.string.mailbox_address,Toast.LENGTH_SHORT).show();
+            if (editText.getText().toString().isEmpty()) {
+                Toast.makeText(InvitationActivity.this, R.string.mailbox_address, Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(!checkoutEmail(editText.getText().toString())){
-                Toast.makeText(InvitationActivity.this,R.string.mailbox_address_notice,Toast.LENGTH_SHORT).show();
+            if (!checkoutEmail(editText.getText().toString())) {
+                Toast.makeText(InvitationActivity.this, R.string.mailbox_address_notice, Toast.LENGTH_SHORT).show();
                 return;
             }
             presenter.sendMailboxCode(new SendMailboxCodeRequest(editText.getText().toString()));//发起请求
@@ -100,36 +101,37 @@ public class InvitationActivity extends BaseActivity  implements EmailContract.E
 
     }
 
-    private void switchToStatus(){
-        status=1;
+    private void switchToStatus() {
+        status = 1;
+        invitCode = editText.getText().toString();
         txtTile.setText(R.string.mailbox_sign_up);
         editText.setHint(R.string.mailbox_address);
         editText.setText("");
     }
 
     public boolean checkoutEmail(String email) {
-        boolean flag=false;
+        boolean flag = false;
         try {
-            String emailMatcher="[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+";
-            Pattern regex= Pattern.compile(emailMatcher);
-            Matcher matcher=regex.matcher(email);
-            flag=matcher.matches();
-        }catch (Exception e){
-            flag=false;
+            String emailMatcher = "[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+";
+            Pattern regex = Pattern.compile(emailMatcher);
+            Matcher matcher = regex.matcher(email);
+            flag = matcher.matches();
+        } catch (Exception e) {
+            flag = false;
         }
         return flag;
     }
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        ToastUtils.shortToast(this,R.string.mailbox_send_error);
+        ToastUtils.shortToast(this, R.string.mailbox_send_error);
     }
 
     @Override
-    public void getSuccessCodeData(String dao,String email) {
+    public void getSuccessCodeData(String dao, String email) {
         //发送验证码接口的返回
-        ToastUtils.shortToast(this,R.string.mailbox_send_succeed);
-        SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_REGISTER);
+        ToastUtils.shortToast(this, R.string.mailbox_send_succeed);
+        SettingMobileCodeActivity.actionStart(this, email, Constant.LOGIN_MAIL_REGISTER,invitCode);
     }
 
     @Override
@@ -138,7 +140,12 @@ public class InvitationActivity extends BaseActivity  implements EmailContract.E
     }
 
     @Override
+    public void getSuccessInvited(String dao, String code) {
+
+    }
+
+    @Override
     public void setPresenter(EmailContract.EmailPresenter presenter) {
-        this.presenter=presenter;
+        this.presenter = presenter;
     }
 }

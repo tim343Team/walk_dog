@@ -11,6 +11,11 @@ public class UrlFactory {
         return host + "/user/getEmailCheckCode.json";
     }
 
+    //验证邀请码
+    public static String getCheckInvitedUrl() {
+        return host + "/user/checkEmail";
+    }
+
     //邮箱注册
     public static String getEmailRegisterUrl() {
         return host + "/user/emailRegister.json";

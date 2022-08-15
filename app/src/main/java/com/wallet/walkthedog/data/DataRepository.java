@@ -36,6 +36,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void checkInvitedCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.checkInvitedCode(request, dataCallback);
+        else mRemoteDataSource.checkInvitedCode(request, dataCallback);
+    }
+
+    @Override
     public void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.sendMailboxCode(request, dataCallback);
         else mRemoteDataSource.sendMailboxCode(request, dataCallback);

@@ -24,6 +24,8 @@ public interface DataSource {
         void onDataNotAvailable(Integer code, String toastMessage);
     }
 
+    void checkInvitedCode(SendMailboxCodeRequest request, DataCallback dataCallback);
+
     void sendMailboxCode(SendMailboxCodeRequest request, DataCallback dataCallback);
 
     void emailCheckCode(SendMailboxCodeRequest request, DataCallback dataCallback);
