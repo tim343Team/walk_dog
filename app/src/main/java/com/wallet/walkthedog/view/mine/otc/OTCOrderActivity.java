@@ -22,6 +22,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.tabs.TabLayout;
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.UrlFactory;
+import com.wallet.walkthedog.dao.MerchantStatusDao;
+import com.wallet.walkthedog.net.GsonWalkDogCallBack;
+import com.wallet.walkthedog.net.RemoteData;
+import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.merchant.MerchantActivity;
 import com.wallet.walkthedog.view.mine.ad.ADAssetActivity;
 import com.wallet.walkthedog.view.mine.ad.PlaceADActivity;
@@ -30,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tim.com.libnetwork.base.BaseActivity;
+import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 import tim.com.libnetwork.utils.ScreenUtils;
 
 public class OTCOrderActivity extends BaseActivity {
@@ -57,6 +63,12 @@ public class OTCOrderActivity extends BaseActivity {
                 showSelectWindow(v);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        statusMerchant();
     }
 
     private PopupWindow popupWindow;
@@ -104,13 +116,22 @@ public class OTCOrderActivity extends BaseActivity {
 
     private void onMenuSelect(int position) {
         if (position == 0) {
-            Intent intent = new Intent(this, PlaceADActivity.class);
-            intent.putExtra("advertiseType", 0);
-            startActivity(intent);
+            if (canTouch) {
+                Intent intent = new Intent(this, PlaceADActivity.class);
+                intent.putExtra("advertiseType", 0);
+                startActivity(intent);
+            } else {
+                MerchantActivity.actionStart(this);
+            }
         } else if (position == 1) {
-            Intent intent = new Intent(this, PlaceADActivity.class);
-            intent.putExtra("advertiseType", 1);
-            startActivity(intent);
+            if (canTouch) {
+                Intent intent = new Intent(this, PlaceADActivity.class);
+                intent.putExtra("advertiseType", 1);
+                startActivity(intent);
+            } else {
+                MerchantActivity.actionStart(this);
+            }
+
         } else if (position == 2) {
             Intent intent = new Intent(this, ADAssetActivity.class);
             startActivity(intent);
@@ -118,6 +139,22 @@ public class OTCOrderActivity extends BaseActivity {
             //商家
             MerchantActivity.actionStart(this);
         }
+    }
+
+    private boolean canTouch = true;
+
+    private void statusMerchant() {
+        WonderfulOkhttpUtils.get().url(UrlFactory.statusMerchantUrl())
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<MerchantStatusDao>>() {
+                    @Override
+                    protected void onRes(RemoteData<MerchantStatusDao> testRemoteData) {
+                        int certifiedBusinessStatus = testRemoteData.getNotNullData().getCertifiedBusinessStatus();
+                        canTouch = certifiedBusinessStatus == 2 || certifiedBusinessStatus == 5 || certifiedBusinessStatus == 6;
+                    }
+                });
     }
 
     @Override

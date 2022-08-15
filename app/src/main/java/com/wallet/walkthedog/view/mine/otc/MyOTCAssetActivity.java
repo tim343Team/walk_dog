@@ -15,6 +15,7 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.CoinExchangeLogDao;
 import com.wallet.walkthedog.dao.CoinExchangeLogItem;
+import com.wallet.walkthedog.dao.MerchantStatusDao;
 import com.wallet.walkthedog.dao.OtherAssetDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
@@ -137,6 +138,7 @@ public class MyOTCAssetActivity extends BaseActivity {
                 });
     }
 
+
     private void onFailGetAssetLog() {
         adapter.loadMoreFail();
     }
@@ -196,7 +198,7 @@ public class MyOTCAssetActivity extends BaseActivity {
             int type = item.getType();
             if (type == 28 || type == 29 || type == 24 || type == 25) {
                 helper.setText(R.id.tv_type, helper.itemView.getContext().getString(R.string.otc_exchange));
-            } else if (type==15){
+            } else if (type == 15) {
                 helper.setText(R.id.tv_type, helper.itemView.getContext().getString(R.string.otc_duihuan));
             } else {
                 helper.setText(R.id.tv_type, helper.itemView.getContext().getString(R.string.otc_trade));
