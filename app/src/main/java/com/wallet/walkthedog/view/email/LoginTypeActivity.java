@@ -76,11 +76,16 @@ public class LoginTypeActivity extends BaseActivity implements EmailContract.Ema
     public void getSuccessCodeData(String dao,String email) {
         //发送验证码接口的返回
         ToastUtils.shortToast(LoginTypeActivity.this,R.string.mailbox_send_succeed);
-        SettingMobileCodeActivity.actionStart(this,dao,email, Constant.LOGIN_MAIL_LOGIN);
+        SettingMobileCodeActivity.actionStart(this,email, Constant.LOGIN_MAIL_LOGIN);
     }
 
     @Override
     public void getSuccessMobileLogin(EmailLoginDao dao) {
+
+    }
+
+    @Override
+    public void getSuccessInvited(String dao, String code) {
 
     }
 
