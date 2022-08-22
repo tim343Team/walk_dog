@@ -333,7 +333,7 @@ public class MineFragment extends BaseTransFragment {
 
             } else if (item.getType() == 2) {
                 String dogFood = Utils.getFormat("%.2f", item.getDogFood());
-                tv_dog_food.setText(dogFood);
+                tv_dog_food.setText(dogFood +"g");
             }
         }
     }
