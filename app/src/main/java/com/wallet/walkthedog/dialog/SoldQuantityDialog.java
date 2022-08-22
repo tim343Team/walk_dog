@@ -54,7 +54,7 @@ public class SoldQuantityDialog extends BaseDialogFragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             double dogFood = getArguments().getDouble("dogFood");
-            view.<TextView>findViewById(R.id.tv_all).setText(getString(R.string.my_all_dog_food_s, dogFood));
+            view.<TextView>findViewById(R.id.tv_all).setText(getString(R.string.my_all_dog_food_s, dogFood)+"g");
         }
         editText = view.findViewById(R.id.edit_price);
         view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
@@ -202,7 +202,7 @@ public class SoldQuantityDialog extends BaseDialogFragment {
         @Override
         protected void convert(BaseViewHolder helper, DogFoodWeightItemDao item) {
             TextView tv = helper.getView(R.id.tv_weight);
-            helper.setText(R.id.tv_weight, Utils.getFormat("%.2fg", item.getWeight()));
+            helper.setText(R.id.tv_weight, Utils.getFormat("%.0f", item.getWeight()));
             if (helper.getAdapterPosition() == select) {
                 tv.setTextColor(Color.parseColor("#4D67C1"));
             } else {
