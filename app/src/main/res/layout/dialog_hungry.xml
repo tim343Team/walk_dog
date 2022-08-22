@@ -42,16 +42,16 @@
 
             <com.wallet.walkthedog.custom_view.ShadowContainer
                 android:id="@+id/group_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_20"
+                android:background="@color/transparent"
                 app:containerCornerRadius="@dimen/corner_radius"
                 app:containerDeltaLength="@dimen/delta_length"
                 app:containerShadowColor="@color/color_t_548FEB"
                 app:containerShadowRadius="@dimen/shadow_radius"
                 app:deltaX="@dimen/delta_x"
-                app:deltaY="@dimen/delta_y"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:layout_marginTop="@dimen/dimen_20">
+                app:deltaY="@dimen/delta_y">
 
                 <TextView
                     android:id="@+id/txt_feeding"

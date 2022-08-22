@@ -2,6 +2,8 @@ package com.wallet.walkthedog.view.dog.fragment;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import com.wallet.walkthedog.adapter.MyDogsAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.adapter.SellDogsAdapter;
 import com.wallet.walkthedog.app.Injection;
+import com.wallet.walkthedog.bus_event.GotoMailDog;
 import com.wallet.walkthedog.bus_event.UpdateDogEvent;
 import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
 import com.wallet.walkthedog.dao.DogFoodDao;
@@ -24,6 +27,7 @@ import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.dog.DogDetailActivity;
 import com.wallet.walkthedog.view.props.fragment.PropsContract;
 
@@ -113,6 +117,16 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
         recyclerView.setLayoutManager(manager);
         adapter = new SellDogsAdapter(R.layout.adapter_sell_dog, data);
         adapter.bindToRecyclerView(recyclerView);
+        LayoutInflater layoutInflater = getLayoutInflater();//获得layoutInflater对象
+        View emptyView = layoutInflater.inflate(R.layout.empty_sell_dog, null);//获得view对象
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                EventBus.getDefault().post(new GotoMailDog());
+            }
+        });
+        adapter.setEmptyView(emptyView);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -151,7 +165,7 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
             if (obj.size() != 0) {
                 this.data.addAll(obj);
             } else {
-                adapter.loadMoreEnd();
+                adapter.loadMoreEnd(true);
             }
         }
         adapter.notifyDataSetChanged();

@@ -177,7 +177,7 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
             if (obj.size() != 0) {
                 this.data.addAll(obj);
             } else {
-                adapter.loadMoreEnd();
+                adapter.loadMoreEnd(true);
             }
         }
         adapter.notifyDataSetChanged();

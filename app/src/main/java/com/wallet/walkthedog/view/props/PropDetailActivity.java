@@ -75,6 +75,8 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     TextView txtIntroduc;
     @BindView(R.id.tv_submit)
     ShadowTextView tvSubmit;
+    @BindView(R.id.img_more)
+    View imgMore;
 
     private PropDao propDao;
     private String currentDogId;
@@ -367,6 +369,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
             foodView.setVisibility(View.GONE);
             normalView.setVisibility(View.GONE);
             txtPrice.setVisibility(View.GONE);
+            imgMore.setVisibility(View.GONE);
         }
     }
 }

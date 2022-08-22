@@ -24,6 +24,8 @@ public class MerchantActivity extends BaseActivity implements MerchantContract.M
     ShadowTextView txtConfirm;
     @BindView(R.id.txt_title)
     TextView txtTitle;
+    @BindView(R.id.txt_error_message)
+    TextView txtErrorMessage;
     @BindView(R.id.img_select)
     ImageView imgSelect;
     @BindView(R.id.ll_type_0)
@@ -32,6 +34,7 @@ public class MerchantActivity extends BaseActivity implements MerchantContract.M
     View view1;
     @BindView(R.id.ll_type_3)
     View view3;
+
 
     private boolean isSelect = false;
     private int type;
@@ -133,6 +136,8 @@ public class MerchantActivity extends BaseActivity implements MerchantContract.M
             view1.setVisibility(View.VISIBLE);
         } else if (type == 3 || type == 4) {
             view3.setVisibility(View.VISIBLE);
+            //失败信息
+            txtErrorMessage.setText(merchantStatusDao.getDetail());
         }
     }
 

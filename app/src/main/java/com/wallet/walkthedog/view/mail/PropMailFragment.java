@@ -159,7 +159,7 @@ public class PropMailFragment extends BaseLazyFragment implements MailContract.M
             if (obj.size() != 0) {
                 this.data.addAll(obj);
             } else {
-                adapter.loadMoreEnd();
+                adapter.loadMoreEnd(true);
             }
         }
         adapter.notifyDataSetChanged();

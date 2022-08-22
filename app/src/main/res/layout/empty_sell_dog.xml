@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_180"
+        android:elevation="@dimen/dp10"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        android:layout_marginVertical="@dimen/dimen_8"
+        android:background="@drawable/rectangle_white">
+
+        <ImageView
+            android:layout_width="@dimen/dimen_173"
+            android:layout_height="@dimen/dimen_180"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/icon_empty_dog" />
+
+        <ImageView
+            android:layout_width="@dimen/dimen_50"
+            android:layout_height="@dimen/dimen_50"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/dimen_70"
+            android:background="@mipmap/icon_empty_add" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_16"
+        android:text="@string/empty_sell_dog"
+        android:textColor="@color/text_7B7B7B"
+        android:textSize="14dp"
+        />
+
+</LinearLayout>

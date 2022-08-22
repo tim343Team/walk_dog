@@ -1,6 +1,11 @@
 package com.wallet.walkthedog.dialog;
 
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,14 +26,14 @@ public class SellPropDialog extends BaseDialogFragment {
     private int titleId;
 
     @OnClick(R.id.txt_cancle)
-    void cancle(){
+    void cancle() {
         dismiss();
     }
 
     @OnClick(R.id.txt_confirm)
-    void add(){
-        if(editText.getText().toString().isEmpty()){
-            Toast.makeText(getActivity(),R.string.enter_sell_price,Toast.LENGTH_SHORT).show();
+    void add() {
+        if (editText.getText().toString().isEmpty()) {
+            Toast.makeText(getActivity(), R.string.enter_sell_price, Toast.LENGTH_SHORT).show();
             return;
         }
         callback.callback(editText.getText().toString());
@@ -37,7 +42,7 @@ public class SellPropDialog extends BaseDialogFragment {
     public static SellPropDialog newInstance(int titleId) {
         SellPropDialog fragment = new SellPropDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt("titleId",titleId);
+        bundle.putInt("titleId", titleId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -60,7 +65,7 @@ public class SellPropDialog extends BaseDialogFragment {
     @Override
     protected void initView() {
         Bundle bundle = getArguments();
-        titleId  =  bundle.getInt("titleId");
+        titleId = bundle.getInt("titleId");
         txtTitle.setText(titleId);
     }
 

@@ -52,7 +52,7 @@
     <string name="dialog_error_import">助記詞不存在, 請 \ n 檢查後再導入</string>
     <!--设置密码-->
     <string name="setting_password_warning">任何向你詢問助記詞\ n 或者網站的都是騙子. 所有的 QQ，電報\n 群都是假群</string>
-    <string name="enter_the_password">設置您的密碼</string>
+    <string name="enter_the_password">輸入您的密碼</string>
     <string name="enter_your_password">再次輸入您的密碼</string>
     <string name="enter_password">輸入密碼</string>
     <string name="match_password">您輸入的密碼不匹配. 請重新輸入</string>
@@ -195,7 +195,7 @@
     <string name="insufficient_food">食物不足</string>
     <!--我的道具-->
     <string name="my_props">我的道具</string>
-    <string name="cancle_props">已裝備同類型的道具</string>
+    <string name="cancle_props">裝備道具已達上限</string>
     <string name="conguratulations">恭喜</string>
     <string name="input_prop_success">%s 已经放入道具</string>
     <string name="input_prop_fail">垃圾已经丢弃</string>
@@ -561,6 +561,10 @@
     <string name="volume">Volume</string>
     <string name="unit">unit</string>
 
+
+    <!--新增-->
+    <string name="empty_dog">You don’t have a dog yet.Please go to the mall to buy</string>
+    <string name="empty_sell_dog">You don’t have a dog for sale</string>
 
 </resources>
 

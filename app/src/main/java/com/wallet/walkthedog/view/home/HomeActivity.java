@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.app.UrlFactory;
+import com.wallet.walkthedog.bus_event.GotoMailDog;
 import com.wallet.walkthedog.dao.DogFoodWeightItemDao;
 import com.wallet.walkthedog.dao.InviteNoticeDao;
 import com.wallet.walkthedog.dao.UserInfoDao;
@@ -24,6 +25,7 @@ import com.wallet.walkthedog.dialog.InviteNoticeDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.SettingInviteDialog;
+import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
@@ -33,6 +35,10 @@ import com.wallet.walkthedog.view.login.LoginActivity;
 import com.wallet.walkthedog.view.mail.MailFragment;
 import com.wallet.walkthedog.view.mine.MineFragment;
 import com.wallet.walkthedog.view.rental.RentalFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -163,6 +169,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     @Override
     protected void initViews(Bundle savedInstanceState) {
         instance = this;
+        EventBus.getDefault().register(this);
         presenter = new HomeMainPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         lls = new LinearLayout[]{llOne, llTwo, llThree, llFour};
         llOne.setOnClickListener(new View.OnClickListener() {
@@ -276,6 +283,11 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
         }
         fragments.get(page).onHiddenChanged(false);
         showFragment(fragments.get(page));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(GotoMailDog event) {
+        selecte(llTwo, 0);
     }
 
     //权限反馈
