@@ -278,6 +278,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_friends_num" />
 
         <TextView
+            android:visibility="gone"
             android:textSize="12sp"
             android:textStyle="bold"
             android:id="@+id/textView38"
@@ -289,6 +290,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_unknow_area" />
 
         <TextView
+            android:visibility="gone"
             android:textSize="12sp"
             android:textStyle="bold"
             android:id="@+id/textView39"
@@ -299,6 +301,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView38" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/textView40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -309,6 +312,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView39" />
 
         <TextView
+            android:visibility="gone"
             android:textSize="12sp"
             android:id="@+id/tv_dog_food"
             android:layout_width="wrap_content"
@@ -322,6 +326,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
         <TextView
+            android:visibility="gone"
             android:textSize="12sp"
             android:id="@+id/tv_dog_other"
             android:layout_width="wrap_content"
@@ -331,6 +336,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_dog_food" />
 
         <TextView
+            android:visibility="gone"
             android:textSize="12sp"
             android:id="@+id/tv_rubbish"
             android:layout_width="wrap_content"
@@ -340,14 +346,17 @@
             app:layout_constraintTop_toTopOf="@+id/tv_dog_other" />
 
         <TextView
-            android:textSize="12sp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="20dp"
             android:id="@+id/tv_unknow_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            tools:text="TextView"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView38"
-            app:layout_constraintTop_toBottomOf="@+id/textView46" />
+            app:layout_constraintTop_toBottomOf="@+id/textView46"
+            tools:text="TextView" />
 
         <TextView
             android:textSize="12sp"
