@@ -280,12 +280,19 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                     .load(item.getAvatar())
                     .into(view);
         }
+        //   helper.setText(R.id.tv_name, item.getMemberName());
+        //            helper.setText(R.id.tv_price, Utils.getFormat("￥：%.2f", item.getPrice()));
+        //            helper.setText(R.id.tv_volume, Utils.getFormat(helper.itemView.getContext().getString(R.string.volume)+":%.2f", item.getRemainQuantity()));
+        //            helper.setText(R.id.tv_unit, helper.itemView.getContext().getString(R.string.unit)+" "+ item.getCoinName() + "/" + item.getLegalCurrency());
+        //            helper.setText(R.id.tv_qu, Utils.getFormat(helper.itemView.getContext().getString(R.string.quantity)+"：%.2f" + item.getCoinName(), item.getRemainQuantity()));
+        //            helper.setText(R.id.tv_limit, Utils.getFormat(helper.itemView.getContext().getString(R.string.limit)+"：%.2f" + item.getLegalCurrency(), item.getMaxLimit()));
+        //
         helper.setText(R.id.tv_name, item.getMemberName());
         helper.setText(R.id.tv_price, Utils.getFormat("￥：%.2f", item.getPrice()));
-        helper.setText(R.id.tv_volume, Utils.getFormat("%.2f", item.getRemainQuantity()));
-        helper.setText(R.id.tv_unit, item.getCoinName() + "/" + item.getLegalCurrency());
-        helper.setText(R.id.tv_qu, Utils.getFormat("Quantity：%.2f" + item.getCoinName(), item.getRemainQuantity()));
-        helper.setText(R.id.tv_limit, Utils.getFormat("Limit：%.2f" + item.getLegalCurrency(), item.getMinLimit()));
+        helper.setText(R.id.tv_volume, Utils.getFormat(helper.itemView.getContext().getString(R.string.volume)+":%.2f", item.getRemainQuantity()));
+        helper.setText(R.id.tv_unit,  helper.itemView.getContext().getString(R.string.unit)+" "+ item.getCoinName() + "/" + item.getLegalCurrency());
+        helper.setText(R.id.tv_qu, Utils.getFormat(helper.itemView.getContext().getString(R.string.quantity)+"：%.2f" + item.getCoinName(), item.getRemainQuantity()));
+        helper.setText(R.id.tv_limit, Utils.getFormat(helper.itemView.getContext().getString(R.string.limit)+"：%.2f-%.2f" + item.getLegalCurrency(),item.getMinLimit(), item.getMaxLimit()));
         if (advertiseType == 0) {
             tv_buy.setText(getString(R.string.sell));
         }

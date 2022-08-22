@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -136,10 +137,10 @@ public class OTCListFragment extends Fragment implements OTCFragment.ISelectFaBi
             }
             helper.setText(R.id.tv_name, item.getMemberName());
             helper.setText(R.id.tv_price, Utils.getFormat("￥：%.2f", item.getPrice()));
-            helper.setText(R.id.tv_volume, Utils.getFormat("%.2f", item.getRemainQuantity()));
-            helper.setText(R.id.tv_unit, item.getCoinName() + "/" + item.getLegalCurrency());
-            helper.setText(R.id.tv_qu, Utils.getFormat("Quantity：%.2f" + item.getCoinName(), item.getRemainQuantity()));
-            helper.setText(R.id.tv_qu, Utils.getFormat("Limit：%.2f" + item.getLegalCurrency(), item.getMaxLimit()));
+            helper.setText(R.id.tv_volume, Utils.getFormat(helper.itemView.getContext().getString(R.string.volume)+":%.2f", item.getRemainQuantity()));
+            helper.setText(R.id.tv_unit, helper.itemView.getContext().getString(R.string.unit)+" "+ item.getCoinName() + "/" + item.getLegalCurrency());
+            helper.setText(R.id.tv_qu, Utils.getFormat(helper.itemView.getContext().getString(R.string.quantity)+"：%.2f" + item.getCoinName(), item.getRemainQuantity()));
+            helper.setText(R.id.tv_limit, Utils.getFormat(helper.itemView.getContext().getString(R.string.limit)+"：%.2f-%.2f" + item.getLegalCurrency(),item.getMinLimit(), item.getMaxLimit()));
             if (advertiseType == 1) {
                 helper.setText(R.id.tv_buy, helper.itemView.getContext().getString(R.string.buy));
             } else {
