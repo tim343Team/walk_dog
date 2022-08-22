@@ -10,6 +10,9 @@ import androidx.core.content.ContextCompat;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.custom_view.card.ShadowFrameLayout;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseDialogFragment;
 
@@ -72,6 +75,9 @@ public class NormalErrorDialog extends BaseDialogFragment {
         if (color != 0) {
             txtNotice.setTextColor(ContextCompat.getColor(getContext(), color));
         }
+        //2s后自动关闭
+        Timer timer = new Timer();
+        timer.schedule(new MyTask(),2000);
     }
 
     @Override
@@ -82,5 +88,17 @@ public class NormalErrorDialog extends BaseDialogFragment {
     @Override
     protected void loadData() {
 
+    }
+
+    class MyTask extends TimerTask {
+        @Override
+        public void run() {
+            //判断是否第一次进入应用
+            try {
+                dismiss();
+            }catch (Exception e){
+
+            }
+        }
     }
 }

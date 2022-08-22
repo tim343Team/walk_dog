@@ -190,7 +190,7 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
             if (obj.size() != 0) {
                 this.data.addAll(obj);
             } else {
-                adapter.loadMoreEnd();
+                adapter.loadMoreEnd(true);
             }
         }
         adapter.notifyDataSetChanged();

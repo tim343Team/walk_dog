@@ -46,6 +46,11 @@ public class FeedingDialog extends BaseDialogFragment {
     private FeedDogFoodDao feedDog;
     private String totalFood;
 
+    @OnClick(R.id.back)
+    void finish(){
+        dismiss();
+    }
+
     @OnClick(R.id.txt_feeding)
     void back(){
         feedCallback.callback();

@@ -195,7 +195,7 @@
     <string name="insufficient_food">lack of food</string>
     <!--我的道具-->
     <string name="my_props">my props</string>
-    <string name="cancle_props">Equipped with the same type of props</string>
+    <string name="cancle_props">Equipment item limit has been reached</string>
     <string name="conguratulations">Congratulations</string>
     <string name="input_prop_success">%s has already placed the item</string>
     <string name="input_prop_fail">garbage has been thrown away</string>

@@ -195,7 +195,7 @@
     <string name="insufficient_food">食糧不足</string>
     <!--我的道具-->
     <string name="my_props">私の小道具</string>
-    <string name="cancle_props">同タイプの小道具を装備</string>
+    <string name="cancle_props">装備アイテムはすでに上限に</string>
     <string name="conguratulations">おめでとう</string>
     <string name="input_prop_success">%s は既にアイテムを配置しました</string>
     <string name="input_prop_fail">ゴミが捨てられた</string>
@@ -540,7 +540,7 @@
     <string name="take_on">テイクオン</string>
     <string name="number_1">番号</string>
     <string name="objects">オブジェクト</string>
-    <string name="amount">額</string>
+    <string name="amount">額</string>©
     <string name="handling_fee">手数料</string>
     <string name="completed">完了</string>
     <string name="you_can_exchange_usdt_for_suzu">USDTをSUZUに交換できます</string>

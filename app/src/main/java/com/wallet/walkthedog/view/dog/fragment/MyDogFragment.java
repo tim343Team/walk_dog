@@ -181,7 +181,7 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
             if (obj.size() != 0) {
                 this.data.addAll(obj);
             } else {
-                adapter.loadMoreEnd();
+                adapter.loadMoreEnd(true);
             }
         }
         adapter.notifyDataSetChanged();

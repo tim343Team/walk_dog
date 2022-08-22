@@ -82,7 +82,7 @@ public class SellRecordActivity extends BaseActivity implements SellRecordContra
             if (obj.size() != 0) {
                 this.data.addAll(obj);
             } else {
-                adapter.loadMoreEnd();
+                adapter.loadMoreEnd(true);
             }
         }
         adapter.notifyDataSetChanged();

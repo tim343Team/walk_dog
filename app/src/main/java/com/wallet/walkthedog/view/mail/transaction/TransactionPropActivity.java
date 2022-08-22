@@ -39,8 +39,6 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
     ImageView imgProp;
     @BindView(R.id.txt_name)
     TextView txtName;
-    @BindView(R.id.txt_charm)
-    TextView txtCharm;
     @BindView(R.id.txt_id)
     TextView txtId;
     @BindView(R.id.txt_introduce)
@@ -115,7 +113,6 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
         Glide.with(this).load(propMailDao.getImg()).apply(options).into(imgProp);
         txtTitle.setText(propMailDao.getName());
         txtName.setText(propMailDao.getName());
-        txtCharm.setText(propMailDao.getUsercp());
         txtId.setText(propMailDao.getPropNumberChain() + "");
         txtIntroduce.setText(propMailDao.getDescribeData());
         if (propMailDao.getMemberId().equals(uid)) {

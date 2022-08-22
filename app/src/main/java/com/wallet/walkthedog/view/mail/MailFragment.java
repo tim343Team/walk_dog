@@ -1,13 +1,18 @@
 package com.wallet.walkthedog.view.mail;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.PagerAdapter;
 import com.wallet.walkthedog.custom_view.NoScrollViewPager;
+import com.wallet.walkthedog.dao.UserInfoDao;
+import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -21,6 +26,10 @@ public class MailFragment extends BaseTransFragment {
     public static final String TAG = MailFragment.class.getSimpleName();
     @BindViews({R.id.txt_dog, R.id.txt_prop})
     TextView[] tvTabs;
+    @BindView(R.id.txt_user_name)
+    TextView txtName;
+    @BindView(R.id.img_user_avatar)
+    ImageView imgAvatar;
     @BindView(R.id.viewpager)
     NoScrollViewPager viewpager;
 
@@ -30,12 +39,12 @@ public class MailFragment extends BaseTransFragment {
     private ArrayList<String> tabs = new ArrayList<>();
 
     @OnClick(R.id.txt_dog)
-    void clickDog(){
+    void clickDog() {
         showTab(0);
     }
 
     @OnClick(R.id.txt_prop)
-    void clickProp(){
+    void clickProp() {
         showTab(1);
     }
 
@@ -82,6 +91,18 @@ public class MailFragment extends BaseTransFragment {
     @Override
     protected void initDestroy() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        UserInfoDao userInfoDao = SharedPrefsHelper.getInstance().getUserInfo();
+        if (userInfoDao != null) {
+            Glide.with(imgAvatar).load(userInfoDao.getChatHead())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imgAvatar);
+            txtName.setText(userInfoDao.getName());
+        }
     }
 
     private void setView() {

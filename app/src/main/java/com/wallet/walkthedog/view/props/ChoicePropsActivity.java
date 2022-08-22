@@ -183,7 +183,7 @@ public class ChoicePropsActivity extends BaseActivity implements ChoicePropsCont
             if (obj.size() != 0) {
                 this.data.addAll(obj);
             } else {
-                adapter.loadMoreEnd();
+                adapter.loadMoreEnd(true);
             }
         }
         adapter.notifyDataSetChanged();

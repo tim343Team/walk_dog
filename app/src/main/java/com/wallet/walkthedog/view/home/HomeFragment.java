@@ -102,6 +102,10 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     TextView txtTrip;
     @BindView(R.id.txt_region)
     TextView txtRegion;
+    @BindView(R.id.txt_user_name)
+    TextView txtName;
+    @BindView(R.id.img_user_avatar)
+    ImageView imgAvatar;
 
     private HomeContract.HomePresenter presenter;
     private int progressAll = 0;
@@ -332,6 +336,13 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     void updateData() {
+        UserInfoDao userInfoDao = SharedPrefsHelper.getInstance().getUserInfo();
+        if (userInfoDao != null) {
+            Glide.with(imgAvatar).load(userInfoDao.getChatHead())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imgAvatar);
+            txtName.setText(userInfoDao.getName());
+        }
         if (SharedPrefsHelper.getInstance().getDogId().equals("0")) {
             return;
         }
