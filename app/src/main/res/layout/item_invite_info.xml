@@ -35,9 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            tools:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/tv_accept"
-            app:layout_constraintTop_toBottomOf="@+id/tv_dog_name" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dog_name"
+            tools:text="TextView" />
 
         <com.wallet.walkthedog.custom_view.card.ShadowTextView
             android:id="@+id/tv_refuse"

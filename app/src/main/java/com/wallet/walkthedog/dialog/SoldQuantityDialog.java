@@ -2,6 +2,7 @@ package com.wallet.walkthedog.dialog;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -82,6 +83,7 @@ public class SoldQuantityDialog extends BaseDialogFragment {
         if (rootView != null) {
             rootView.setVisibility(View.INVISIBLE);
         }
+        dialog.setGravity(Gravity.CENTER);
         dialog.setCallback(new PasswordDialog.OperateCallback() {
             @Override
             public void callback(String password) {
