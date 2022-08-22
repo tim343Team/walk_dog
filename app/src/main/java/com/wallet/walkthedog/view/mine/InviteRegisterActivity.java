@@ -21,6 +21,7 @@ import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SafeGet;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
 
 import tim.com.libnetwork.base.BaseActivity;
@@ -42,6 +43,7 @@ public class InviteRegisterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Utils.copyText(v.getContext(), tv_code.getText().toString());
+                ToastUtils.shortToast(getString(R.string.copy_success));
             }
         });
         SharedPrefsHelper.getInstance().AsyncGetUserInfo().onGet(new SafeGet.SafeCall<UserInfoDao>() {

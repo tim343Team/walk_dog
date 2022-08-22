@@ -304,6 +304,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_frends_time" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/textView83"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -315,6 +316,7 @@
                 app:layout_constraintTop_toTopOf="@+id/textView82" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/textView84"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -326,6 +328,7 @@
                 app:layout_constraintTop_toTopOf="@+id/textView83" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/textView82"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -348,6 +351,7 @@
                 tools:text="TextView" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_frends_food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -357,6 +361,7 @@
                 tools:text="TextView" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_frends_others"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -366,6 +371,7 @@
                 tools:text="TextView" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_frends_rubbish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
