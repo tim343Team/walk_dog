@@ -207,8 +207,8 @@ public class DogWalkRecordActivity extends BaseActivity {
             helper.setText(R.id.tv_total_time, Utils.getTime(item.getWalkTheDogTime()));
             helper.setText(R.id.tv_total_mileage, String.format(Locale.getDefault(),"%.2fkm",(Double.parseDouble(item.getWalkTheDogKm())/1000D)));
             helper.setText(R.id.tv_treasure_chest, String.valueOf(item.getBox()));
-            helper.setText(R.id.tv_food, item.getDogFood() +"g");
-            helper.setText(R.id.tv_other,String.valueOf(item.getProp()));
+           // helper.setText(R.id.tv_food, item.getDogFood() +"g");
+           // helper.setText(R.id.tv_other,String.valueOf(item.getProp()));
             helper.setText(R.id.tv_rubbish, String.valueOf(item.getRubbish()));
             helper.setText(R.id.tv_well_know_area, String.format(Locale.getDefault(),"%.2fkm",item.getPopularityArea()/1000D));
             helper.setText(R.id.tv_intermediate_area, String.format(Locale.getDefault(),"%.2fkm",item.getMiddlArea()/1000D));

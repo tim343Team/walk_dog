@@ -93,26 +93,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_total_data" />
 
             <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dog_food"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/tv_total_time"
-                app:layout_constraintTop_toTopOf="@+id/textView18" />
-
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/other"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/tv_total_mileage"
-                app:layout_constraintTop_toTopOf="@+id/textView19" />
-
-            <TextView
                 android:id="@+id/tv_treasure_chest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,34 +103,25 @@
                 tools:text="TextView" />
 
             <TextView
-                android:id="@+id/tv_other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/textView20"
-                app:layout_constraintTop_toTopOf="@+id/tv_treasure_chest"
-                tools:text="TextView" />
-
-            <TextView
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:text="@string/rubbish"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/tv_treasure_chest"
-                app:layout_constraintTop_toBottomOf="@+id/tv_treasure_chest" />
+                app:layout_constraintStart_toStartOf="@+id/tv_total_time"
+                app:layout_constraintTop_toTopOf="@+id/textView18" />
 
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="@string/well_known_area"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/textView23" />
+                app:layout_constraintStart_toStartOf="@+id/tv_treasure_chest"
+                app:layout_constraintTop_toBottomOf="@+id/tv_treasure_chest" />
 
             <TextView
                 android:id="@+id/tv_rubbish"
@@ -163,12 +134,13 @@
                 tools:text="TextView" />
 
             <TextView
+                android:layout_marginTop="15dp"
                 android:id="@+id/tv_well_know_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/textView24"
-                app:layout_constraintTop_toTopOf="@+id/tv_rubbish"
+                app:layout_constraintTop_toBottomOf="@+id/textView24"
                 tools:text="TextView" />
 
             <TextView
@@ -179,8 +151,8 @@
                 android:text="@string/intermediate_area"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/tv_rubbish"
-                app:layout_constraintTop_toBottomOf="@+id/tv_rubbish" />
+                app:layout_constraintStart_toStartOf="@+id/tv_treasure_chest"
+                app:layout_constraintTop_toBottomOf="@+id/tv_well_know_area" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -189,7 +161,7 @@
                 android:text="@string/unknown_area"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/tv_well_know_area"
+                app:layout_constraintStart_toStartOf="@+id/tv_total_time"
                 app:layout_constraintTop_toTopOf="@+id/textView27" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -198,15 +170,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.36923078" />
-
-            <TextView
-                android:id="@+id/tv_food"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/textView19"
-                app:layout_constraintTop_toTopOf="@+id/tv_treasure_chest"
-                tools:text="TextView" />
 
             <TextView
                 android:id="@+id/tv_intermediate_area"
