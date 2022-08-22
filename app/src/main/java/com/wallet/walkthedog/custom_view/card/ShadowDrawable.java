@@ -501,8 +501,9 @@ public class ShadowDrawable extends Drawable {
             return this;
         }
 
-        public void setmGradientColor(int[] mGradientColor) {
+        public ShadowBuilder setmGradientColor(int[] mGradientColor) {
             this.mGradientColor = mGradientColor;
+            return this;
         }
 
         public ShadowDrawable create() {

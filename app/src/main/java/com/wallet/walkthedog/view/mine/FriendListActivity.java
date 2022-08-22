@@ -227,9 +227,9 @@ public class FriendListActivity extends BaseActivity {
         new ShadowDrawable.ShadowBuilder()
                 .setStartColor(Color.parseColor("#56758BD4"))
                 .setEndColor(Color.parseColor("#10E6E8EF"))
+                .setmGradientColor(new int[]{Color.parseColor("#548FEB"),Color.parseColor("#4D67C1")})
                 .setCardElevation(ScreenUtils.dip2px(this, 8))
-                .setCardBackgroundColor(Color.parseColor("#2950A6"))
-                .setCardCornerRadius(ScreenUtils.dip2px(this, 10))
+                .setCardCornerRadius(ScreenUtils.dip2px(this, 16))
                 .create()
                 .bindView(select);
         select.setTextColor(Color.WHITE);
@@ -421,9 +421,9 @@ public class FriendListActivity extends BaseActivity {
                     .apply(RequestOptions.placeholderOf(R.mipmap.icon_null_dog))
                     .into((ImageView) helper.getView(R.id.iv_dog_pic));
             helper.setText(R.id.iv_lv, Utils.getFormat("Lv.%d",(int) (item.getLevel())));
-            helper.setText(R.id.iv_name1, item.getDogName());
+            helper.setText(R.id.iv_name1, item.getFriendName());
             helper.setText(R.id.tv_times, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
-            helper.setText(R.id.tv_all_time, Utils.getTime(item.getWalkTheDogTime()));
+            helper.setText(R.id.tv_all_time, Utils.getTime(item.getWalkTheDogTime(),"%02dH%02dmin"));
             helper.setText(R.id.tv_today, Utils.getFormat("%d/2", item.getDayLimit()));
 
             if (item.getStarvation() == 1) {
