@@ -15,7 +15,6 @@ import com.wallet.walkthedog.adapter.MyDogsAdapter;
 import com.wallet.walkthedog.adapter.MyPropsAdapter;
 import com.wallet.walkthedog.adapter.SellDogsAdapter;
 import com.wallet.walkthedog.app.Injection;
-import com.wallet.walkthedog.bus_event.GotoMailDog;
 import com.wallet.walkthedog.bus_event.UpdateDogEvent;
 import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
 import com.wallet.walkthedog.dao.DogFoodDao;
@@ -29,6 +28,7 @@ import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.dog.DogDetailActivity;
+import com.wallet.walkthedog.view.home.HomeActivity;
 import com.wallet.walkthedog.view.props.fragment.PropsContract;
 
 import org.greenrobot.eventbus.EventBus;
@@ -123,7 +123,7 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
             @Override
             public void onClick(View view) {
                 finish();
-                EventBus.getDefault().post(new GotoMailDog());
+                HomeActivity.actionStart(getmActivity(),1);
             }
         });
         adapter.setEmptyView(emptyView);

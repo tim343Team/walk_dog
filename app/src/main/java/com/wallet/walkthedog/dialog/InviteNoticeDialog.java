@@ -68,7 +68,7 @@ public class InviteNoticeDialog extends BaseDialogFragment {
         Bundle bundle = getArguments();
         inviteNoticeDao = (InviteNoticeDao) bundle.getSerializable("inviteNoticeDao");
         if (inviteNoticeDao == null) {
-
+            return;
         }
         long timecurrentTimeMillis = System.currentTimeMillis()+1000*60*10;
         txtTime.setText(DateTimeUtil.getDetailPayTime(timecurrentTimeMillis));

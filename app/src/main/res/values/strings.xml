@@ -231,8 +231,8 @@
     <string name="invitation_together_2" formatted="false">%s 的狗狗%s 邀請你和他一起遛狗</string>
     <string name="invitation_together_3">和 助教 狗狗一起散步</string>
     <string name="invitation_together_4">一起遛狗可以增加獲得尋寶的成功幾率哦</string>
-    <string name="start_time_s">開始時間:   %s</string>
-    <string name="end_time_s">結束時間:   %s</string>
+    <string name="start_time_s">開始時間: %s</string>
+    <string name="end_time_s">結束時間: %s</string>
     <string name="accept_invitation">你已經接受了邀請，可以一起遛狗和尋寶了</string>
     <string name="refuse_invitation">你已經拒絕了邀請</string>
     <string name="accept">接受</string>

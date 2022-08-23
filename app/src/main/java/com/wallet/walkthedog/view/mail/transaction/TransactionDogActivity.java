@@ -28,6 +28,7 @@ import com.wallet.walkthedog.dialog.PasswordDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -247,7 +248,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
     public void getSysDataCodeSuccess(CodeDataDao data) {
         double fee = 0.0;
         fee = Double.parseDouble(data.getValue());
-        String feeValue = String.valueOf(dogMailDao.getPrice() * fee);
+        String feeValue = new DecimalFormat("#0.00").format(dogMailDao.getPrice() * fee);
         txtFee.setText(feeValue+" suzu");
     }
 

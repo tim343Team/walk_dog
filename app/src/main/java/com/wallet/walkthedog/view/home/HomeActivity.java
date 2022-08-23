@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.app.UrlFactory;
-import com.wallet.walkthedog.bus_event.GotoMailDog;
 import com.wallet.walkthedog.dao.DogFoodWeightItemDao;
 import com.wallet.walkthedog.dao.InviteNoticeDao;
 import com.wallet.walkthedog.dao.UserInfoDao;
@@ -66,6 +65,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     private MailFragment twoFragment;
     private RentalFragment threeFragment;
     private MineFragment fourFragment;
+    private int type;
     /*权限请求Code*/
     private final static int PERMISSION_REQUEST_CODE = 1234;
     private String[] permissions = {
@@ -101,6 +101,12 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void actionStart(Context context,int type) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 
@@ -169,7 +175,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     @Override
     protected void initViews(Bundle savedInstanceState) {
         instance = this;
-        EventBus.getDefault().register(this);
+        type = getIntent().getIntExtra("type", 0);
         presenter = new HomeMainPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         lls = new LinearLayout[]{llOne, llTwo, llThree, llFour};
         llOne.setOnClickListener(new View.OnClickListener() {
@@ -236,6 +242,24 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
         mHandler.postDelayed(runnable, 1000);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        type = getIntent().getIntExtra("type", 0);
+        if (type == 0) {
+            return;//默认值 或是 不需要跳转 就返回
+        }else if(type == 1){
+            //跳转到商城页面
+            showMailFragment(type);
+            //TODO 设置跳转到狗狗还是道具页
+//            if (twoFragment != null) {
+//                twoFragment.showPageFragment(currency, type - 1);
+//            }
+        }
+        getIntent().putExtra("type", 0);
+    }
+
     @Override
     protected void onDestroy() {
         mHandler.removeCallbacks(runnable);
@@ -258,6 +282,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
                 public void callback() {
                     //TODO 拒绝邀请
                     presenter.ideaTogether(daos.get(0).getId() + "", 3);
+                    dialog.dismiss();
                 }
             });
             dialog.setAcceptCallback(new InviteNoticeDialog.OperateAcceptCallback() {
@@ -265,6 +290,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
                 public void callback() {
                     //TODO 接受邀请
                     presenter.ideaTogether(daos.get(0).getId() + "", 1);
+                    dialog.dismiss();
                 }
             });
         }
@@ -285,9 +311,13 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
         showFragment(fragments.get(page));
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void updateData(GotoMailDog event) {
-        selecte(llTwo, 0);
+    public void showMailFragment(int position) {
+        currentPage = position;
+        llOne.setSelected(false);
+        llTwo.setSelected(true);
+        llThree.setSelected(false);
+        MailFragment fragment = (MailFragment) fragments.get(position);
+        showFragment(fragment);
     }
 
     //权限反馈

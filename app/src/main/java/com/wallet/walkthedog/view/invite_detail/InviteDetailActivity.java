@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateFriendEvent;
+import com.wallet.walkthedog.custom_view.card.ShadowTextView;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.FriendInfoDao;
 import com.wallet.walkthedog.dao.request.FriendRequest;
@@ -72,6 +73,8 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
     TextView txtTimeT;
     @BindView(R.id.txt_walk_t)
     TextView txtKmt;
+    @BindView(R.id.view_bottom)
+    ShadowTextView shadowTextView;
 
     private InviteDetailContract.InviteDetailPresenter presenter;
     private FriendInfoDao friendInfoDao;

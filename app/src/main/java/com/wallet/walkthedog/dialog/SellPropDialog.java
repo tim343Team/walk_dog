@@ -13,9 +13,14 @@ import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseDialogFragment;
+import tim.com.libnetwork.utils.CharUtil;
+import tim.com.libnetwork.utils.WonderfulStringUtils;
 
 public class SellPropDialog extends BaseDialogFragment {
     @BindView(R.id.tv_price)
@@ -67,6 +72,38 @@ public class SellPropDialog extends BaseDialogFragment {
         Bundle bundle = getArguments();
         titleId = bundle.getInt("titleId");
         txtTitle.setText(titleId);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().isEmpty()){
+                    return;
+                }
+                if (!checkoutString(editable.toString())) {
+                    editText.setText(editable.toString().substring(0,editable.toString().length()-1));
+                }
+            }
+        });
+    }
+
+    public boolean checkoutString(String text) {
+        Pattern EMAIL = Pattern.compile("^\\d+(\\.\\d{0,4})?$");
+        boolean flag = false;
+        try {
+            Matcher matcher = EMAIL.matcher(text);
+            flag = matcher.matches();
+        } catch (Exception e) {
+            flag = false;
+        }
+        return flag;
     }
 
     @Override

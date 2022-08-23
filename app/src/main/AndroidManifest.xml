@@ -114,7 +114,8 @@
             android:name=".view.home.HomeActivity1"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".view.home.HomeActivity"

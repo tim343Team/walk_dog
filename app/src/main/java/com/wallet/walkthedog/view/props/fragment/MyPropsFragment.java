@@ -154,6 +154,8 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateData(UpdatePropsEvent event) {
+        adapter.setEnableLoadMore(true);
+        adapter.loadMoreEnd(false);
         pageNo = 1;
         presenter.getUserProp(type, pageNo);
     }
@@ -177,21 +179,23 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
     }
 
     @Override
-    public void getPropSuccess(List<PropDao> obj) {
-        adapter.setEnableLoadMore(true);
+    public void getPropSuccess(List<PropDao> data) {
+        adapter.loadMoreComplete();
+        if (data == null || data.size() == 0) {
+            if (pageNo == 1) {
+                this.data.clear();
+                adapter.notifyDataSetChanged();
+            }
+            return;
+        }
         if (pageNo == 1) {
-            data.clear();
-            if (obj.size() == 0) {
-                adapter.loadMoreEnd();
-            } else {
-                this.data.addAll(obj);
-            }
+            this.data.clear();
+            this.data.addAll(data);
         } else {
-            if (obj.size() != 0) {
-                this.data.addAll(obj);
-            } else {
-                adapter.loadMoreEnd(true);
-            }
+            this.data.addAll(data);
+        }
+        if (data.size() < 20) {
+            adapter.loadMoreEnd();
         }
         adapter.notifyDataSetChanged();
     }
@@ -258,6 +262,8 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
                 dialog.setTheme(R.style.PaddingScreen);
                 dialog.setGravity(Gravity.CENTER);
                 dialog.show(getFragmentManager(), "edit");
+                //TODO 更新列表
+                updateData(new UpdatePropsEvent());
                 openindDialog.dismiss();
             }
         });

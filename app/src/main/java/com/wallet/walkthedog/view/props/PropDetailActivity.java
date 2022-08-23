@@ -292,6 +292,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
         txtIntroduc.setText(data.getDescribeData());
         //
         txtWeight.setText(String.format(getString(R.string.g), data.getWeight()));
+        txtAccess.setText(data.getCreateTime());
     }
 
     @Override

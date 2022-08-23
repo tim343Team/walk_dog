@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginStart="@dimen/dimen_30"
-        android:layout_marginTop="@dimen/dimen_10"
         android:layout_marginEnd="@dimen/dimen_30"
         android:gravity="center"
         android:padding="8dp"

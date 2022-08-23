@@ -347,7 +347,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             return;
         }
         presenter.getDogInfo(SharedPrefsHelper.getInstance().getDogId());
-        invitedFriendDao = null;
+//        invitedFriendDao = null;
         presenter.getWalkTheDogFriend();
     }
 
@@ -542,10 +542,11 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     public void trainSuccessful(String data) {
-        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
-        dialog.setTheme(R.style.PaddingScreen);
-        dialog.setGravity(Gravity.CENTER);
-        dialog.show(getFragmentManager(), "edit");
+        updateData();
+//        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
+//        dialog.setTheme(R.style.PaddingScreen);
+//        dialog.setGravity(Gravity.CENTER);
+//        dialog.show(getFragmentManager(), "edit");
     }
 
     @Override

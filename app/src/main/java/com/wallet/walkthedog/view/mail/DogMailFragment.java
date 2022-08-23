@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wallet.walkthedog.R;
@@ -31,6 +32,8 @@ import tim.com.libnetwork.base.BaseLazyFragment;
 public class DogMailFragment extends BaseLazyFragment implements MailContract.MailView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+    @BindView(R.id.refreshLayout)
+    SwipeRefreshLayout refreshLayout;
 
     private int pageNo = 1;
     private DogMailAdapter adapter;
@@ -69,6 +72,12 @@ public class DogMailFragment extends BaseLazyFragment implements MailContract.Ma
         presenter = new MailPresenter(Injection.provideTasksRepository(getmActivity()), this);//初始化presenter
         initRecyclerView();
         presenter.getDogList(new MailRequest(),pageNo);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
     }
 
     @Override
@@ -120,34 +129,46 @@ public class DogMailFragment extends BaseLazyFragment implements MailContract.Ma
         adapter.setEnableLoadMore(false);
     }
 
+    private void refresh() {
+        adapter.setEnableLoadMore(true);
+        adapter.loadMoreEnd(false);
+        pageNo = 1;
+        presenter.getDogList(new MailRequest(),pageNo);
+    }
+
     private void loadMore() {
+        refreshLayout.setEnabled(false);
         pageNo = pageNo + 1;
-        adapter.setEnableLoadMore(false);
         presenter.getDogList(new MailRequest(),pageNo);
     }
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-
     }
 
     @Override
-    public void getDogListSuccess(List<DogMailDao> obj) {
-        adapter.setEnableLoadMore(true);
+    public void getDogListSuccess(List<DogMailDao> data) {
+        adapter.loadMoreComplete();
+        if (refreshLayout == null) {
+            return;
+        }
+        refreshLayout.setEnabled(true);
+        refreshLayout.setRefreshing(false);
+        if (data == null || data.size() == 0) {
+            if (pageNo == 1) {
+                this.data.clear();
+                adapter.notifyDataSetChanged();
+            }
+            return;
+        }
         if (pageNo == 1) {
-            data.clear();
-            if (obj.size() == 0) {
-                adapter.loadMoreEnd();
-            } else {
-                this.data.addAll(obj);
-            }
+            this.data.clear();
+            this.data.addAll(data);
         } else {
-            if (obj.size() != 0) {
-                this.data.addAll(obj);
-            } else {
-                adapter.loadMoreEnd(true);
-//                adapter.loadMoreComplete();
-            }
+            this.data.addAll(data);
+        }
+        if (data.size() < 20) {
+            adapter.loadMoreEnd();
         }
         adapter.notifyDataSetChanged();
     }
