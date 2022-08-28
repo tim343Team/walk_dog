@@ -69,9 +69,11 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="@string/invitation_code_notice"
-                android:lineSpacingMultiplier="1.2"
                 android:textColor="@color/color_848484"
-                android:textSize="@dimen/dimen_14" />
+                android:textSize="@dimen/dimen_14"
+                android:inputType="text"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
         </LinearLayout>
 

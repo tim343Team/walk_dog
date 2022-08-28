@@ -23,6 +23,8 @@ import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.data.RemoteDataSource;
 import com.wallet.walkthedog.dialog.AddFriendDialog;
 import com.wallet.walkthedog.dialog.AvatarDialog;
+import com.wallet.walkthedog.even.UpdateHomeData;
+import com.wallet.walkthedog.even.UpdateMailData;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SafeGet;
@@ -130,7 +132,7 @@ public class AvatarActivity extends BaseActivity {
                 //上传图片
                 remoteUpload(file.getName(),file);
             } else {
-                ToastUtils.shortToast(R.string.library_file_exception);
+                ToastUtils.shortToast(AvatarActivity.this,R.string.library_file_exception);
             }
             Glide.with(imageView).load(avatarFilePath)
                     .apply(RequestOptions.circleCropTransform())
@@ -204,7 +206,10 @@ public class AvatarActivity extends BaseActivity {
         RemoteDataSource.getInstance().updateChatHead(url, new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
-                ToastUtils.shortToast(R.string.successful);
+                ToastUtils.shortToast(AvatarActivity.this,R.string.successful);
+                //刷新主页，商城页
+                EventBus.getDefault().post(new UpdateHomeData());
+                EventBus.getDefault().post(new UpdateMailData());
             }
 
             @Override

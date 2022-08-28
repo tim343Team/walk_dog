@@ -107,7 +107,7 @@
     <!--身份id卡-->
     <string name="name_">姓名:</string>
     <string name="name">名稱</string>
-    <string name="country">國家</string>
+    <string name="country">國家/地区</string>
     <string name="name1_">名稱:</string>
     <string name="gender_">性別:</string>
     <string name="level_">等級:</string>
@@ -279,7 +279,7 @@
     <string name="card_notice">請填寫真實銀行卡信息</string>
     <string name="email">電子郵件</string>
     <string name="captcha">驗證碼</string>
-    <string name="swift">敏捷的</string>
+    <string name="swift">swift</string>
     <string name="ral_name">真實名稱</string>
     <string name="ral_name_notice">請輸入真實名稱</string>
     <string name="card_number">卡號</string>
@@ -455,7 +455,7 @@
     <string name="copy_success">复制成功</string>
     <string name="save_success">保存成功</string>
     <string name="setting_language_nitice">重新启动应用后生效</string>
-    <string name="mine_item_otc">非處方藥</string>
+    <string name="mine_item_otc">OTC</string>
     <string name="purchase">購買</string>
     <string name="please_enter_the_amount">請輸入金額</string>
     <string name="number_of_transaction">交易數量</string>
@@ -545,7 +545,7 @@
     <string name="completed">完整的</string>
     <string name="you_can_exchange_usdt_for_suzu">你可以用USDT換SUZU</string>
     <string name="suzu_hint">如果您的USDT餘額不足，您需要在錢包中充值。</string>
-    <string name="otc_account">非處方藥 账户</string>
+    <string name="otc_account">OTC 账户</string>
     <string name="funding_account">資金帳戶</string>
     <string name="please_enter_quantity">請輸入數量</string>
     <string name="other_asset">其他资产</string>
@@ -560,11 +560,29 @@
     <string name="please_input_amount">請輸入數量</string>
     <string name="volume">Volume</string>
     <string name="unit">unit</string>
+    <string name="suzu">suzu</string>
 
+    <string-array name="text_price_type">
+        <item>全部</item>
+        <item>低價格</item>
+        <item>高價格</item>
+    </string-array>
 
     <!--新增-->
-    <string name="empty_dog">You don’t have a dog yet.Please go to the mall to buy</string>
-    <string name="empty_sell_dog">You don’t have a dog for sale</string>
+    <string name="empty_dog">你还没有养狗呢。请到商场去买</string>
+    <string name="empty_sell_dog">你没有狗要卖</string>
+    <string name="empty_my_dog">你没有狗狗</string>
+    <string name="empty_my_prop">请到商场去买</string>
+    <string name="mailbox_certificate_notice">請上傳證書</string>
+    <string name="payer_">付款人: %s</string>
+    <string name="pay_by_">付款到: %s</string>
+    <string name="country_">国家: %s</string>
+    <string name="card_number_">卡号: %s</string>
+
+    <string name="code_2000">狗狗Id不正確</string>
+    <string name="code_2204">不是發起者</string>
+    <string name="add_friend_success">添加好友信息已發送</string>
+
 
 </resources>
 

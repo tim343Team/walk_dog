@@ -46,7 +46,7 @@ public class MailBoxActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (editText.getText().toString().length() != 6) {
-                    ToastUtils.shortToast(R.string.please_enter_email_code);
+                    ToastUtils.shortToast(MailBoxActivity.this,R.string.please_enter_email_code);
                     return;
                 }
 
@@ -54,11 +54,17 @@ public class MailBoxActivity extends BaseActivity {
                     checkEmail(editText.getText().toString());
                 } else {
                     if (editText_0.getText().toString().isEmpty()) {
-                        ToastUtils.shortToast(R.string.please_enter_email);
+                        ToastUtils.shortToast(MailBoxActivity.this,R.string.please_enter_email);
                         return;
                     }
                     updateEmail(editText_0.getText().toString(), editText.getText().toString());
                 }
+            }
+        });
+        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -83,11 +89,11 @@ public class MailBoxActivity extends BaseActivity {
         editText_0.setVisibility(View.VISIBLE);
         editText_0.setText("");
         editText.setText("");
-        ToastUtils.shortToast(R.string.check_email_success);
+        ToastUtils.shortToast(MailBoxActivity.this,R.string.check_email_success);
     }
 
     private void onUpdateEmail() {
-        ToastUtils.shortToast(R.string.update_email_success);
+        ToastUtils.shortToast(MailBoxActivity.this,R.string.update_email_success);
         //去登录页
         SharedPrefsHelper.getInstance().saveToken("");
         Intent intent = new Intent(MailBoxActivity.this, EmailActivity.class);

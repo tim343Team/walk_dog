@@ -37,6 +37,12 @@ public class SecuritySetActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

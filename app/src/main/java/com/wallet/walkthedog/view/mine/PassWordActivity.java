@@ -1,6 +1,7 @@
 package com.wallet.walkthedog.view.mine;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.wallet.walkthedog.R;
 
@@ -14,7 +15,12 @@ public class PassWordActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-
+        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

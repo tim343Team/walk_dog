@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.PagerAdapter;
-import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
 import com.wallet.walkthedog.custom_view.NoScrollViewPager;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.view.mail.DogMailFragment;

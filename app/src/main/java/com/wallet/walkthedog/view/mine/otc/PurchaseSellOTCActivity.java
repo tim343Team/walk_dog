@@ -18,6 +18,7 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.AdvertiseUnitItem;
 import com.wallet.walkthedog.dao.CoinNameItem;
+import com.wallet.walkthedog.dao.FriendInfoListDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
@@ -54,9 +55,9 @@ public class PurchaseSellOTCActivity extends BaseActivity {
 
         TextView tv_title = findViewById(R.id.tv_title);
         if (advertiseType == 0) {
-            tv_title.setText(getString(R.string.sell)+" "+coinNameItem.getName());
-        } else  {
-            tv_title.setText(getString(R.string.purchase)+" "+coinNameItem.getName());
+            tv_title.setText(getString(R.string.sell) + " " + coinNameItem.getName());
+        } else {
+            tv_title.setText(getString(R.string.purchase) + " " + coinNameItem.getName());
         }
         findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,10 +290,10 @@ public class PurchaseSellOTCActivity extends BaseActivity {
         //
         helper.setText(R.id.tv_name, item.getMemberName());
         helper.setText(R.id.tv_price, Utils.getFormat("￥：%.2f", item.getPrice()));
-        helper.setText(R.id.tv_volume, Utils.getFormat(helper.itemView.getContext().getString(R.string.volume)+":%.2f", item.getRemainQuantity()));
-        helper.setText(R.id.tv_unit,  helper.itemView.getContext().getString(R.string.unit)+" "+ item.getCoinName() + "/" + item.getLegalCurrency());
-        helper.setText(R.id.tv_qu, Utils.getFormat(helper.itemView.getContext().getString(R.string.quantity)+"：%.2f" + item.getCoinName(), item.getRemainQuantity()));
-        helper.setText(R.id.tv_limit, Utils.getFormat(helper.itemView.getContext().getString(R.string.limit)+"：%.2f-%.2f" + item.getLegalCurrency(),item.getMinLimit(), item.getMaxLimit()));
+        helper.setText(R.id.tv_volume, Utils.getFormat(helper.itemView.getContext().getString(R.string.volume) + ":%.2f", item.getRemainQuantity()));
+        helper.setText(R.id.tv_unit, helper.itemView.getContext().getString(R.string.unit) + " " + item.getCoinName() + "/" + item.getLegalCurrency());
+        helper.setText(R.id.tv_qu, Utils.getFormat(helper.itemView.getContext().getString(R.string.quantity) + "：%.2f" + item.getCoinName(), item.getRemainQuantity()));
+        helper.setText(R.id.tv_limit, Utils.getFormat(helper.itemView.getContext().getString(R.string.limit) + "：%.2f-%.2f" + item.getLegalCurrency(), item.getMinLimit(), item.getMaxLimit()));
         if (advertiseType == 0) {
             tv_buy.setText(getString(R.string.sell));
         }
@@ -320,6 +321,5 @@ public class PurchaseSellOTCActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-
     }
 }

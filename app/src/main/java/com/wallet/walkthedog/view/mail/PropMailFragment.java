@@ -1,19 +1,29 @@
 package com.wallet.walkthedog.view.mail;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.DogMailAdapter;
 import com.wallet.walkthedog.adapter.PropMailAdapter;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateMaiPropEvent;
 import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
+import com.wallet.walkthedog.dao.DogBoxDao;
 import com.wallet.walkthedog.dao.DogMailDao;
+import com.wallet.walkthedog.dao.PriceBoxDao;
 import com.wallet.walkthedog.dao.PropMailDao;
 import com.wallet.walkthedog.dao.request.MailRequest;
 import com.wallet.walkthedog.db.UserDao;
@@ -25,31 +35,54 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseLazyFragment;
+import tim.com.libnetwork.utils.ScreenUtils;
 
 public class PropMailFragment extends BaseLazyFragment implements MailContract.MailView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
+    @BindView(R.id.ll_variety)
+    View llVariety;
+    @BindView(R.id.tv_variety)
+    TextView tvVariety;
+    @BindView(R.id.ll_price)
+    View llPrice;
+    @BindView(R.id.tv_price)
+    TextView tvPrice;
 
     private int pageNo = 1;
     private MailContract.MailPresenter presenter;
     private PropMailAdapter adapter;
     private List<PropMailDao> data = new ArrayList<>();
+    private List<DogBoxDao> boxDaoList = new ArrayList<>();
+    private List<PriceBoxDao> priceList = new ArrayList<>();
+    private String priceSort="";
+    private String nftCatagoryId="";
 
     @OnClick(R.id.ll_price)
     void selectPrice() {
-
+        ArrayList<String> items = new ArrayList<>();
+        for (PriceBoxDao dao : priceList) {
+            items.add(dao.getName());
+        }
+        showSelectWindow(llPrice, tvPrice, items, 0);
     }
 
     @OnClick(R.id.ll_variety)
     void selectVariety() {
-
+        ArrayList<String> items = new ArrayList<>();
+        for (DogBoxDao dao : boxDaoList) {
+            items.add(dao.getName());
+        }
+        showSelectWindow(llVariety, tvVariety, items, 1);
     }
 
     public static PropMailFragment getInstance() {
@@ -73,7 +106,8 @@ public class PropMailFragment extends BaseLazyFragment implements MailContract.M
     protected void initViews(Bundle savedInstanceState) {
         presenter = new MailPresenter(Injection.provideTasksRepository(getmActivity()), this);//初始化presenter
         initRecyclerView();
-        presenter.getPropList(new MailRequest(), pageNo);
+        presenter.getPropList(new MailRequest(priceSort,nftCatagoryId), pageNo);
+        presenter.getPropDownBox();
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -84,7 +118,19 @@ public class PropMailFragment extends BaseLazyFragment implements MailContract.M
 
     @Override
     protected void obtainData() {
-
+        final LinkedList<String> priceTypeList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.text_price_type)));
+        for (int i = 0; i < priceTypeList.size(); i++) {
+            String name = priceTypeList.get(i);
+            PriceBoxDao boxDao = new PriceBoxDao(name);
+            if (i == 0) {
+                boxDao.setDirection("");
+            } else if (i == 1) {
+                boxDao.setDirection("asc");
+            } else if (i == 2) {
+                boxDao.setDirection("desc");
+            }
+            priceList.add(boxDao);
+        }
     }
 
     @Override
@@ -134,13 +180,13 @@ public class PropMailFragment extends BaseLazyFragment implements MailContract.M
         adapter.setEnableLoadMore(true);
         adapter.loadMoreEnd(false);
         pageNo = 1;
-        presenter.getPropList(new MailRequest(),pageNo);
+        presenter.getPropList(new MailRequest(priceSort,nftCatagoryId),pageNo);
     }
 
     private void loadMore() {
         refreshLayout.setEnabled(false);
         pageNo = pageNo + 1;
-        presenter.getPropList(new MailRequest(), pageNo);
+        presenter.getPropList(new MailRequest(priceSort,nftCatagoryId), pageNo);
     }
 
     @Override
@@ -155,9 +201,8 @@ public class PropMailFragment extends BaseLazyFragment implements MailContract.M
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateData(UpdateMaiPropEvent event) {
-        pageNo = 1;
         //刷新
-        presenter.getPropList(new MailRequest(), pageNo);
+        refresh();
     }
 
     @Override
@@ -188,7 +233,81 @@ public class PropMailFragment extends BaseLazyFragment implements MailContract.M
     }
 
     @Override
+    public void getBoxtSuccess(List<DogBoxDao> data) {
+        boxDaoList.clear();
+        DogBoxDao initDogBoxDao = new DogBoxDao();
+        initDogBoxDao.setId(-1);
+        initDogBoxDao.setName(getResources().getString(R.string.all));
+        boxDaoList.add(0, initDogBoxDao);
+        boxDaoList.addAll(data);
+    }
+
+    @Override
     public void setPresenter(MailContract.MailPresenter presenter) {
         this.presenter = presenter;
+    }
+
+    private PopupWindow popupWindow;
+
+    private void showSelectWindow(View v, TextView textView, ArrayList<String> items, int type) {
+        BaseQuickAdapter<String, BaseViewHolder> adapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.simple_item_textview) {
+            @Override
+            protected void convert(BaseViewHolder helper, String item) {
+                helper.setText(R.id.tv, item);
+            }
+        };
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter a, View view, int position) {
+                if (popupWindow != null) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                    if (type == 0) {
+                        //价格
+                        onMenuPriceSelect(position, textView);
+                    } else {
+                        //种类
+                        onMenuSelect(position, textView);
+                    }
+                }
+            }
+        });
+        adapter.setNewData(items);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_type_select, null, false);
+        view.measure(View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenWidth(getActivity()), View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenHeight(getActivity()), View.MeasureSpec.AT_MOST)
+        );
+        RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
+        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerview.setAdapter(adapter);
+        popupWindow = new PopupWindow(view, -2, -2);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setClippingEnabled(false);
+        int measuredWidth = view.getMeasuredWidth();
+        int[] outLocation = new int[2];
+        int screenWidth = ScreenUtils.getScreenWidth(getActivity());
+        v.getLocationInWindow(outLocation);
+        if (type == 0) {
+            popupWindow.showAsDropDown(v, 0, 0, Gravity.BOTTOM);
+        } else {
+            popupWindow.showAsDropDown(v, -measuredWidth + (screenWidth - outLocation[0]), 0, Gravity.BOTTOM);
+        }
+    }
+
+    private void onMenuSelect(int position, TextView textView) {
+        textView.setText(boxDaoList.get(position).getName());
+        if (boxDaoList.get(position).getId() == -1) {
+            nftCatagoryId = "";
+        } else {
+            nftCatagoryId = boxDaoList.get(position).getId() + "";
+        }
+        refresh();
+    }
+
+    private void onMenuPriceSelect(int position, TextView textView) {
+        textView.setText(priceList.get(position).getName());
+        priceSort = priceList.get(position).getDirection();
+        refresh();
     }
 }

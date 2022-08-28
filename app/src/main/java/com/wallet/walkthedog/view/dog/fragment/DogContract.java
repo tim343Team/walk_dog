@@ -22,6 +22,8 @@ public class DogContract {
 
         void useDogSuccess(String data,String dogId);
 
+        void removeDogSuccess(String data,String dogId);
+
         void cancelSellSuccess(String data,int position);
 
         void getFeedDogInfo(FeedDogFoodDao data, DogInfoDao mDefultDogInfo);
@@ -54,7 +56,7 @@ public class DogContract {
 
         void getShopDogFood();// 获取商城售卖狗粮详情
 
-        void buyShopDogFood(int dogFoodId,int number);//购买商城出售的狗粮
+        void buyShopDogFood(int dogFoodId,int number,String password);//购买商城出售的狗粮
 
     }
 }

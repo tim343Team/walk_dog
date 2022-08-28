@@ -15,6 +15,7 @@ public class InviteNoticeDao implements Serializable {
     private String startTime;
     private int status;//1一起遛狗 2等待同意 3已拒绝 4自动拒绝 5发起人取消
     private int type;//1邀请别人 2被人邀请记录
+    private boolean isShow=true;
 
     public int getId() {
         return id;
@@ -110,5 +111,13 @@ public class InviteNoticeDao implements Serializable {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public boolean isShow() {
+        return isShow;
+    }
+
+    public void setShow(boolean show) {
+        isShow = show;
     }
 }

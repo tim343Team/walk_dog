@@ -20,6 +20,7 @@ import com.wallet.walkthedog.dialog.InviteMoreDialog;
 import com.wallet.walkthedog.dialog.InvitedInforDialog;
 import com.wallet.walkthedog.dialog.NicknameDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
+import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
 
@@ -158,7 +159,10 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        ToastUtils.shortToast(toastMessage);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
     }
 
     @Override
@@ -185,7 +189,7 @@ public class InviteActivity extends BaseActivity implements InviteContract.Invit
 
     @Override
     public void sendFriendInvitedSuccess(String data) {
-        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
+        NormalDialog dialog = NormalDialog.newInstance(R.string.add_friend_success, R.mipmap.icon_normal);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");

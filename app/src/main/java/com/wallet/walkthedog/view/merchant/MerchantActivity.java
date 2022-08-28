@@ -11,9 +11,12 @@ import android.widget.Toast;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.custom_view.card.ShadowTextView;
+import com.wallet.walkthedog.dao.BusinessAuthDao;
 import com.wallet.walkthedog.dao.MerchantStatusDao;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.card.CardVerifyActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,7 +38,6 @@ public class MerchantActivity extends BaseActivity implements MerchantContract.M
     @BindView(R.id.ll_type_3)
     View view3;
 
-
     private boolean isSelect = false;
     private int type;
     private MerchantContract.MerchantPresenter presenter;
@@ -54,7 +56,7 @@ public class MerchantActivity extends BaseActivity implements MerchantContract.M
     @OnClick(R.id.tv_confirm)
     void confirm() {
         if (!isSelect) {
-            ToastUtils.shortToast(R.string.merchant_agreement_notice);
+            ToastUtils.shortToast(MerchantActivity.this,R.string.merchant_agreement_notice);
             return;
         }
         MerchantAgreementActivity.actionStart(this, type);
@@ -137,8 +139,13 @@ public class MerchantActivity extends BaseActivity implements MerchantContract.M
         } else if (type == 3 || type == 4) {
             view3.setVisibility(View.VISIBLE);
             //失败信息
-            txtErrorMessage.setText(merchantStatusDao.getDetail());
+            txtErrorMessage.setText(merchantStatusDao.getReason());
         }
+    }
+
+    @Override
+    public void approveSuccess(List<BusinessAuthDao> daos) {
+
     }
 
     @Override

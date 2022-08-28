@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.mail;
 
+import com.wallet.walkthedog.dao.DogBoxDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
@@ -19,11 +20,17 @@ public class MailContract {
         void getDogListSuccess(List<DogMailDao> data);
 
         void getPropListSuccess(List<PropMailDao> data);
+
+        void getBoxtSuccess(List<DogBoxDao> data);
     }
 
     interface MailPresenter extends Contract.BasePresenter {
         void getDogList(MailRequest request,int pageNo);
 
         void getPropList(MailRequest request,int pageNo);
+
+        void getDogDownBox();
+
+        void getPropDownBox();
     }
 }

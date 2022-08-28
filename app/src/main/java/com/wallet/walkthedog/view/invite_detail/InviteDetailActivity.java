@@ -109,26 +109,9 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         dialog.setCallback(new RemoveFriendDIalog.OperateCallback() {
             @Override
             public void callback() {
-                presenter.delFriend(new FriendRequest(friendInfoDao.getFriendMemberId() + ""));
-//                PasswordDialog passwordDialog = PasswordDialog.newInstance();
-//                passwordDialog.setTheme(R.style.PaddingScreen);
-//                passwordDialog.setGravity(Gravity.CENTER);
-//                passwordDialog.show(getSupportFragmentManager(), "edit");
-//                passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
-//                    @Override
-//                    public void callback(String password) {
-//                        //删除好友
-//                        presenter.delFriend(new FriendRequest(friendInfoDao.getFriendMemberId()+""));
-//                        dialog.dismiss();
-//                        passwordDialog.dismiss();
-//                    }
-//                });
-//                passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
-//                    @Override
-//                    public void callback() {
-//                        ToastUtils.shortToast("错误");
-//                    }
-//                });
+//                presenter.delFriend(new FriendRequest(friendInfoDao.getFriendMemberId() + ""));
+//                presenter.delFriend(new FriendRequest(friendInfoDao.getFriendListId() + ""));
+                presenter.delFriend(new FriendRequest(mDefultDogInfo.getFriendListId() + ""));
             }
         });
     }
@@ -138,19 +121,24 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         if (mDefultDogInfo == null) {
             return;
         }
-        SettingInviteDialog dialog = SettingInviteDialog.newInstance();
-        dialog.setTheme(R.style.PaddingScreen);
-        dialog.setGravity(Gravity.BOTTOM);
-        dialog.show(getSupportFragmentManager(), "edit");
-        dialog.setCallback(new SettingInviteDialog.OperateCallback() {
-            @Override
-            public void callback(String startTime, String endTime) {
-                //发起邀请接口
-                //2022-07-26    2022-07-28
-                presenter.addTogether(new InviteRequest(mDefultDogInfo.getFriendMemberId(), startTime, endTime));
-                dialog.dismiss();
-            }
-        });
+        if(mDefultDogInfo.getStatus()==1 || mDefultDogInfo.getStatus()==2){
+            //取消邀請
+            presenter.ideaTogether(mDefultDogInfo.getTogetherId() + "", 4);
+        }else {
+            SettingInviteDialog dialog = SettingInviteDialog.newInstance();
+            dialog.setTheme(R.style.PaddingScreen);
+            dialog.setGravity(Gravity.BOTTOM);
+            dialog.show(getSupportFragmentManager(), "edit");
+            dialog.setCallback(new SettingInviteDialog.OperateCallback() {
+                @Override
+                public void callback(String startTime, String endTime) {
+                    //发起邀请接口
+                    //2022-07-26    2022-07-28
+                    presenter.addTogether(new InviteRequest(mDefultDogInfo.getFriendMemberId(), startTime, endTime));
+                    dialog.dismiss();
+                }
+            });
+        }
     }
 
     @OnClick(R.id.img_more)
@@ -249,6 +237,12 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
     @Override
     public void getSuccess(DogInfoDao data) {
         mDefultDogInfo = data;
+        if(mDefultDogInfo.getStatus()==1 || mDefultDogInfo.getStatus()==2){
+            //取消邀请
+            shadowTextView.setText(R.string.cancle_remove);
+        }else {
+            shadowTextView.setText(R.string.invitation);
+        }
         if (mDefultDogInfo.getSex() == 0) {
             imgGender.setBackgroundResource(R.mipmap.icon_female);
         } else {
@@ -312,6 +306,22 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
+        finish();
+    }
+
+    @Override
+    public void deleteTogetherSuccess(String data) {
+        NormalDialog dialog = NormalDialog.newInstance(data, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        finish();
+    }
+
+    @Override
+    public void ideaTogetherSuccessful(String data, int status) {
+        finish();
+        EventBus.getDefault().post(new UpdateHomeData());
     }
 
     @Override

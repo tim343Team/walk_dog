@@ -223,7 +223,7 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public void ShopDogFood(int dogFoodId, int number, DataCallback dataCallback) {
+    public void ShopDogFood(int dogFoodId, int number,String passWord, DataCallback dataCallback) {
 
     }
 
@@ -258,6 +258,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void deleteTogether(String togetherId, DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void getNewTogethersUrl(DataCallback dataCallback) {
 
     }
@@ -274,6 +279,16 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void getPropList(MailRequest request, int pageNo, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getPropDownBox(DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getDogDownBox(DataCallback dataCallback) {
 
     }
 
@@ -304,6 +319,11 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void applyMerchant(MerchantRequest requset, DataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void getApproveBusiness(DataCallback dataCallback) {
 
     }
 

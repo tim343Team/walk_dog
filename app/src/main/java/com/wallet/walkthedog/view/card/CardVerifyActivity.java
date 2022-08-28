@@ -30,16 +30,16 @@ public class CardVerifyActivity extends BaseActivity {
 
     @OnClick(R.id.tv_confirm)
     void confirm() {
-        if(tvEmail.getText().toString().isEmpty()){
-            Toast.makeText(CardVerifyActivity.this,R.string.mailbox_address,Toast.LENGTH_SHORT).show();
+        if (tvEmail.getText().toString().isEmpty()) {
+            Toast.makeText(CardVerifyActivity.this, R.string.mailbox_address, Toast.LENGTH_SHORT).show();
             return;
         }
-        if(tvCode.getText().toString().isEmpty()){
-            Toast.makeText(CardVerifyActivity.this,R.string.mailbox_code_notice_2,Toast.LENGTH_SHORT).show();
+        if (tvCode.getText().toString().isEmpty()) {
+            Toast.makeText(CardVerifyActivity.this, R.string.mailbox_code_notice_2, Toast.LENGTH_SHORT).show();
             return;
         }
-        if(!checkoutEmail(tvEmail.getText().toString())){
-            Toast.makeText(CardVerifyActivity.this,R.string.mailbox_address_notice,Toast.LENGTH_SHORT).show();
+        if (!checkoutEmail(tvEmail.getText().toString())) {
+            Toast.makeText(CardVerifyActivity.this, R.string.mailbox_address_notice, Toast.LENGTH_SHORT).show();
             return;
         }
         //TODO 添加接口
@@ -117,14 +117,14 @@ public class CardVerifyActivity extends BaseActivity {
     }
 
     public boolean checkoutEmail(String email) {
-        boolean flag=false;
+        boolean flag = false;
         try {
-            String emailMatcher="[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+";
-            Pattern regex= Pattern.compile(emailMatcher);
-            Matcher matcher=regex.matcher(email);
-            flag=matcher.matches();
-        }catch (Exception e){
-            flag=false;
+            String emailMatcher = "[a-zA-Z0-9.]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+";
+            Pattern regex = Pattern.compile(emailMatcher);
+            Matcher matcher = regex.matcher(email);
+            flag = matcher.matches();
+        } catch (Exception e) {
+            flag = false;
         }
         return flag;
     }

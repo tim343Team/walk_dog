@@ -123,7 +123,10 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
             @Override
             public void onClick(View view) {
                 finish();
-                HomeActivity.actionStart(getmActivity(),1);
+                if(HomeActivity.instance!=null){
+                    HomeActivity.instance.type=1;
+                    HomeActivity.actionStart(getActivity(),1);
+                }
             }
         });
         adapter.setEmptyView(emptyView);
@@ -173,6 +176,11 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
 
     @Override
     public void useDogSuccess(String data, String dogId) {
+
+    }
+
+    @Override
+    public void removeDogSuccess(String data, String dogId) {
 
     }
 

@@ -82,6 +82,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
     private String currentDogId;
     private String type;
     private String id;
+    private boolean isSell;
     private boolean isChange = false;
     private PasswordDialog passwordDialog;
     private ChoicePropsContract.ChoicePropsPresenter presenter;
@@ -176,6 +177,17 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
         intent.putExtra("type", type);
         intent.putExtra("propDao", propDao);
         intent.putExtra("currentDogId", currentDogId);
+        intent.putExtra("isSell", false);
+        activity.startActivity(intent);
+    }
+
+    public static void actionStart(Activity activity, String id, String type, PropDao propDao, String currentDogId,boolean isSell) {
+        Intent intent = new Intent(activity, PropDetailActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("type", type);
+        intent.putExtra("propDao", propDao);
+        intent.putExtra("currentDogId", currentDogId);
+        intent.putExtra("isSell", isSell);
         activity.startActivity(intent);
     }
 
@@ -200,6 +212,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
         type = getIntent().getStringExtra("type");
         currentDogId = getIntent().getStringExtra("currentDogId");
         propDao = (PropDao) getIntent().getSerializableExtra("propDao");
+        isSell = getIntent().getBooleanExtra("isSell",false);
         updateUi();
 
     }
@@ -282,7 +295,7 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(this).load(data.getImg()).apply(options).into(imgDog);
         TextTitle.setText(data.getName());
-        txtPrice.setText(String.format(getString(R.string.price_s), data.getPrice() + " suzu"));
+        txtPrice.setText(String.format(getString(R.string.price_s), data.getPrice() + "suzu"));
         txtName.setText(data.getName());
         txtTimee.setText(data.getCreateTime());
         txtPropId.setText(data.getId() + "");
@@ -370,6 +383,9 @@ public class PropDetailActivity extends BaseActivity implements ChoicePropsContr
             foodView.setVisibility(View.GONE);
             normalView.setVisibility(View.GONE);
             txtPrice.setVisibility(View.GONE);
+            imgMore.setVisibility(View.GONE);
+        }
+        if(isSell){
             imgMore.setVisibility(View.GONE);
         }
     }

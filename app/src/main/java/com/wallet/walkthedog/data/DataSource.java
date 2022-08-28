@@ -98,7 +98,7 @@ public interface DataSource {
 
     void getShopDogFood(DataCallback dataCallback);
 
-    void ShopDogFood(int dogFoodId, int number,DataCallback dataCallback);
+    void ShopDogFood(int dogFoodId, int number,String passWord,DataCallback dataCallback);
 
     void getFriendList(int pageNo,DataCallback dataCallback);
 
@@ -112,6 +112,8 @@ public interface DataSource {
 
     void addTogether(InviteRequest request, DataCallback dataCallback);
 
+    void deleteTogether(String togetherId, DataCallback dataCallback);
+
     void getNewTogethersUrl( DataCallback dataCallback);
 
     void ideaTogether(String togetherId, int status, DataCallback dataCallback);
@@ -119,6 +121,10 @@ public interface DataSource {
     void getDogList(MailRequest request, int pageNo, DataCallback dataCallback);
 
     void getPropList(MailRequest request, int pageNo, DataCallback dataCallback);
+
+    void getPropDownBox(DataCallback dataCallback);
+
+    void getDogDownBox(DataCallback dataCallback);
 
     void sellDog(SellRequest request,  DataCallback dataCallback);
 
@@ -131,6 +137,8 @@ public interface DataSource {
     void getApproveSwift(CardEditRequset requset,DataCallback dataCallback);
 
     void applyMerchant(MerchantRequest requset, DataCallback dataCallback);
+
+    void getApproveBusiness(DataCallback dataCallback);
 
     void cancleMerchant(DataCallback dataCallback);
 

@@ -258,9 +258,9 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public void ShopDogFood(int dogFoodId, int number, DataCallback dataCallback) {
-        if (isLocal) mLocalDataSource.ShopDogFood(dogFoodId,number, dataCallback);
-        else mRemoteDataSource.ShopDogFood(dogFoodId,number, dataCallback);
+    public void ShopDogFood(int dogFoodId, int number,String passWord, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.ShopDogFood(dogFoodId,number,passWord, dataCallback);
+        else mRemoteDataSource.ShopDogFood(dogFoodId,number,passWord, dataCallback);
     }
 
     @Override
@@ -300,6 +300,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void deleteTogether(String togetherId, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.deleteTogether(togetherId, dataCallback);
+        else mRemoteDataSource.deleteTogether(togetherId, dataCallback);
+    }
+
+    @Override
     public void getNewTogethersUrl(DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getNewTogethersUrl( dataCallback);
         else mRemoteDataSource.getNewTogethersUrl( dataCallback);
@@ -321,6 +327,18 @@ public class DataRepository implements DataSource {
     public void getPropList(MailRequest request, int pageNo, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getPropList(request, pageNo, dataCallback);
         else mRemoteDataSource.getPropList(request, pageNo, dataCallback);
+    }
+
+    @Override
+    public void getPropDownBox(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getPropDownBox(dataCallback);
+        else mRemoteDataSource.getPropDownBox(dataCallback);
+    }
+
+    @Override
+    public void getDogDownBox(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getDogDownBox(dataCallback);
+        else mRemoteDataSource.getDogDownBox(dataCallback);
     }
 
     @Override
@@ -357,6 +375,12 @@ public class DataRepository implements DataSource {
     public void applyMerchant(MerchantRequest requset, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.applyMerchant(requset, dataCallback);
         else mRemoteDataSource.applyMerchant(requset, dataCallback);
+    }
+
+    @Override
+    public void getApproveBusiness(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getApproveBusiness( dataCallback);
+        else mRemoteDataSource.getApproveBusiness( dataCallback);
     }
 
     @Override

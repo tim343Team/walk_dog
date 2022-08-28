@@ -1,5 +1,7 @@
 package com.wallet.walkthedog.view.mine.otc;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,11 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.ActivityLifecycleManager;
 import com.wallet.walkthedog.app.UrlFactory;
+import com.wallet.walkthedog.dao.AdvertiseUnitItem;
+import com.wallet.walkthedog.dao.FriendInfoListDao;
 import com.wallet.walkthedog.dao.OTCOrderDetailDao;
 import com.wallet.walkthedog.dao.PayInfo;
 import com.wallet.walkthedog.dialog.PayConfirmDialog;
@@ -21,9 +31,14 @@ import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
+import com.wallet.walkthedog.view.merchant.MerchantActivity;
+import com.wallet.walkthedog.view.mine.ad.PlaceADActivity;
+
+import java.util.ArrayList;
 
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
+import tim.com.libnetwork.utils.ScreenUtils;
 
 public class PurchaseDetailActivity extends BaseActivity {
     @Override
@@ -38,14 +53,23 @@ public class PurchaseDetailActivity extends BaseActivity {
     private long sysTime = System.currentTimeMillis();
     private TextView tv_pay;
     private TextView tv_cancel;
+    private TextView tv_payer;
+    private TextView tv_pay_by;
+    private TextView tv_country;
+    private TextView tv_card_number;
+    private TextView tv_pay_type;
+    private View layout_bank;
     private int status = -1;
-
+    private int type = 1;//1.银行卡 2，swift
+    private OTCOrderDetailDao orderDetailDao;
 
     @Override
     protected void onResume() {
         super.onResume();
         String orderID = getIntent().getStringExtra("orderID");
+        AdvertiseUnitItem advertiseUnitItem = (AdvertiseUnitItem) getIntent().getSerializableExtra("AdvertiseUnitItemKEY");
         orderDetail(orderID);
+//        getAdvertiseDetail(advertiseUnitItem.getAdvertiseId());
     }
 
     @Override
@@ -61,10 +85,23 @@ public class PurchaseDetailActivity extends BaseActivity {
         layout_status = findViewById(R.id.layout_status);
         tv_cancel = findViewById(R.id.tv_cancel);
         tv_pay = findViewById(R.id.tv_pay);
+        layout_bank = findViewById(R.id.layout_bank);
+        tv_payer = findViewById(R.id.tv_payer);
+        tv_pay_by = findViewById(R.id.tv_pay_by);
+        tv_country = findViewById(R.id.tv_country);
+        tv_card_number = findViewById(R.id.tv_card_number);
+        tv_pay_type = findViewById(R.id.tv_pay_type);
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 orderCancel(getIntent().getStringExtra("orderID"));
+            }
+        });
+        layout_bank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO 切换显示支付内容
+                showSelectWindow(view);
             }
         });
 
@@ -153,7 +190,21 @@ public class PurchaseDetailActivity extends BaseActivity {
                         onSuccess(notNullData);
                     }
                 });
+    }
 
+    private void getAdvertiseDetail(int advertiseId) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.advertiseDetail() + "?id=" + advertiseId)
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<FriendInfoListDao>>() {
+                    @Override
+                    protected void onRes(RemoteData<FriendInfoListDao> testRemoteData) {
+                        //TODO 显示支付信息
+//                        onSuccessGetFriendList(testRemoteData.getNotNullData());
+                    }
+
+                });
     }
 
 
@@ -163,8 +214,31 @@ public class PurchaseDetailActivity extends BaseActivity {
         handler.removeCallbacksAndMessages(null);
     }
 
+    private void onAdvertiseSuccess(OTCOrderDetailDao dao) {
+        tv_payer.setText(getString(R.string.payer_, dao.getPayInfo().getRealName()));
+        tv_pay_by.setText(getString(R.string.pay_by_, SharedPrefsHelper.getInstance().getUserInfo().getName()));
+        if (type == 1) {
+            //显示银行卡
+            tv_pay_type.setText(R.string.bank_card);
+            if (dao.getPayInfo().getBankInfo() != null) {
+                tv_card_number.setText(getString(R.string.card_number_, dao.getPayInfo().getBankInfo().getCardNo()));
+                tv_country.setText(getString(R.string.country_, dao.getPayInfo().getBankInfo().getBank()));
+            } else {
+                tv_card_number.setText(getString(R.string.card_number_, ""));
+                tv_country.setText(getString(R.string.country_, ""));
+            }
+        } else {
+            //显示swift
+            tv_pay_type.setText(R.string.swift);
+            tv_card_number.setText(getString(R.string.card_number_, dao.getPayInfo().getSwift() == null ? "" : dao.getPayInfo().getSwift()));
+            tv_country.setText(getString(R.string.country_, ""));
+        }
+
+    }
+
     private void onSuccess(OTCOrderDetailDao dao) {
         layout_content.setVisibility(View.VISIBLE);
+        orderDetailDao = dao;
         PurchaseSellOTCActivity.Hepler helper = new PurchaseSellOTCActivity.Hepler(getWindow().getDecorView());
         timeLimit = dao.getTimeLimit() * 60L * 1000;
         sysTime = System.currentTimeMillis();
@@ -174,6 +248,7 @@ public class PurchaseDetailActivity extends BaseActivity {
         helper.setText(R.id.tv_merchant, getString(R.string.merchant_s, dao.getPayInfo().getRealName()));
         helper.setText(R.id.tv_create_time, getString(R.string.order_time_s, dao.getCreateTime()));
         helper.setText(R.id.tv_order_id, getString(R.string.order_number_s, dao.getOrderSn()));
+        onAdvertiseSuccess(dao);
         helper.getView(R.id.tv_copy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,5 +308,57 @@ public class PurchaseDetailActivity extends BaseActivity {
         };
         handler.post(timeRun);
         return paying;
+    }
+
+    private PopupWindow popupWindow;
+
+    private void showSelectWindow(View v) {
+        BaseQuickAdapter<String, BaseViewHolder> adapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.simple_item_textview) {
+            @Override
+            protected void convert(BaseViewHolder helper, String item) {
+                helper.setText(R.id.tv, item);
+            }
+        };
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter a, View view, int position) {
+                if (popupWindow != null) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                    onMenuSelect(position);
+                }
+            }
+        });
+        ArrayList<String> items = new ArrayList<>();
+        items.add(getString(R.string.bank_card));
+        items.add(getString(R.string.swift));
+        adapter.setNewData(items);
+        View view = LayoutInflater.from(this).inflate(R.layout.pop_money_select, null, false);
+        view.measure(View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenWidth(this), View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenHeight(this), View.MeasureSpec.AT_MOST)
+        );
+        RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        recyclerview.setAdapter(adapter);
+        popupWindow = new PopupWindow(view, -2, -2);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setClippingEnabled(false);
+        int measuredWidth = view.getMeasuredWidth();
+        int[] outLocation = new int[2];
+        int screenWidth = ScreenUtils.getScreenWidth(this);
+        v.getLocationInWindow(outLocation);
+        popupWindow.showAsDropDown(v, -measuredWidth + (screenWidth - outLocation[0]), 0, Gravity.BOTTOM);
+    }
+
+    private void onMenuSelect(int position) {
+        if (position == 0) {
+            type = 1;
+        } else if (position == 1) {
+            type = 2;
+        }
+        if(orderDetailDao!=null){
+            onAdvertiseSuccess(orderDetailDao);
+        }
     }
 }

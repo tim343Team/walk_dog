@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.mail;
 
+import com.wallet.walkthedog.dao.DogBoxDao;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
@@ -45,6 +46,40 @@ public class MailPresenter implements  MailContract.MailPresenter{
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
                 view.getPropListSuccess((List<PropMailDao>) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getDogDownBox() {
+        dataRepository.getDogDownBox(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getBoxtSuccess((List<DogBoxDao>) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getPropDownBox() {
+        dataRepository.getPropDownBox(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getBoxtSuccess((List<DogBoxDao>) obj);
             }
 
             @Override

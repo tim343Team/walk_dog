@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.merchant;
 
+import com.wallet.walkthedog.dao.BusinessAuthDao;
 import com.wallet.walkthedog.dao.CardInfoDao;
 import com.wallet.walkthedog.dao.MerchantStatusDao;
 import com.wallet.walkthedog.dao.request.CardEditRequset;
@@ -20,6 +21,8 @@ public class MerchantContract {
 
         void statusSuccess(MerchantStatusDao merchantStatusDao);
 
+        void approveSuccess(List<BusinessAuthDao> daos);
+
     }
 
     interface MerchantPresenter extends Contract.BasePresenter {
@@ -28,5 +31,7 @@ public class MerchantContract {
         void cancleMerchant();
 
         void applyMerchant(MerchantRequest request);
+
+        void getApproveBusiness();
     }
 }

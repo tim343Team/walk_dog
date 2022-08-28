@@ -19,6 +19,8 @@ public class SelectContract {
 
         void useDogSuccess(String data,String dogId);
 
+        void removeDogSuccess(String data,String dogId);
+
         void getFeedDogInfo(FeedDogFoodDao data,DogInfoDao mDefultDogInfo);
 
         void feedSuccessful(String data);
@@ -48,7 +50,7 @@ public class SelectContract {
 
         void getShopDogFood();// 获取商城售卖狗粮详情
 
-        void buyShopDogFood(int dogFoodId,int number);//购买商城出售的狗粮
+        void buyShopDogFood(int dogFoodId,int number,String password);//购买商城出售的狗粮
 
     }
 }

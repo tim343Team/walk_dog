@@ -2,6 +2,8 @@ package com.wallet.walkthedog.view.props.fragment;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +25,7 @@ import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.OpenindDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.view.home.HomeActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
 import com.wallet.walkthedog.view.props.MyPropsActivity;
 import com.wallet.walkthedog.view.props.PropDetailActivity;
@@ -104,6 +107,19 @@ public class MyPropsFragment extends BaseLazyFragment implements PropsContract.P
         recyclerView.setLayoutManager(manager);
         adapter = new MyPropsAdapter(R.layout.adapter_my_props, data);
         adapter.bindToRecyclerView(recyclerView);
+        LayoutInflater layoutInflater = getLayoutInflater();//获得layoutInflater对象
+        View emptyView = layoutInflater.inflate(R.layout.empty_sell_prop, null);//获得view对象
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                if(HomeActivity.instance!=null){
+                    HomeActivity.instance.type=1;
+                    HomeActivity.actionStart(getActivity(),1);
+                }
+            }
+        });
+        adapter.setEmptyView(emptyView);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {

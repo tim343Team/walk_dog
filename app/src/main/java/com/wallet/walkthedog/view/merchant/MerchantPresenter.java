@@ -1,9 +1,12 @@
 package com.wallet.walkthedog.view.merchant;
 
+import com.wallet.walkthedog.dao.BusinessAuthDao;
 import com.wallet.walkthedog.dao.MerchantStatusDao;
 import com.wallet.walkthedog.dao.request.MerchantRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.card.CardContract;
+
+import java.util.List;
 
 public class MerchantPresenter implements MerchantContract.MerchantPresenter{
     private MerchantContract.MerchantView view;
@@ -59,6 +62,24 @@ public class MerchantPresenter implements MerchantContract.MerchantPresenter{
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
                 view.applySuccess((String) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getApproveBusiness() {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.getApproveBusiness(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.approveSuccess((List<BusinessAuthDao>) obj);
             }
 
             @Override

@@ -28,6 +28,7 @@ import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.merchant.MerchantActivity;
+import com.wallet.walkthedog.view.merchant.MerchantApplyActivity;
 import com.wallet.walkthedog.view.mine.ad.ADAssetActivity;
 import com.wallet.walkthedog.view.mine.ad.PlaceADActivity;
 
@@ -137,7 +138,8 @@ public class OTCOrderActivity extends BaseActivity {
             startActivity(intent);
         } else if (position == 3) {
             //商家
-            MerchantActivity.actionStart(this);
+//            MerchantActivity.actionStart(this);
+            MerchantApplyActivity.actionStart(this);
         }
     }
 

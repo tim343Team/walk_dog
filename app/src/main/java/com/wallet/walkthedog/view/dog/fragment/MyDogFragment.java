@@ -2,6 +2,8 @@ package com.wallet.walkthedog.view.dog.fragment;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +31,7 @@ import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.dog.DogDetailActivity;
 import com.wallet.walkthedog.view.dog.MyDogActivity;
+import com.wallet.walkthedog.view.home.HomeActivity;
 import com.wallet.walkthedog.view.props.MyPropsActivity;
 import com.wallet.walkthedog.view.props.fragment.MyPropsFragment;
 import com.wallet.walkthedog.view.props.fragment.PropsContract;
@@ -46,7 +49,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseLazyFragment;
 
-public class MyDogFragment extends BaseLazyFragment implements DogContract.DogView{
+public class MyDogFragment extends BaseLazyFragment implements DogContract.DogView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
@@ -111,7 +114,7 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
     public void updateData(UpdateDogEvent event) {
         pageNo = 1;
         presenter.getUserDog(type, pageNo);
-        if(adapter!=null){
+        if (adapter != null) {
             adapter.setCurrentDogId(SharedPrefsHelper.getInstance().getDogId());
         }
     }
@@ -127,20 +130,32 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
         recyclerView.setLayoutManager(manager);
         adapter = new MyDogsAdapter(R.layout.adapter_my_dog, data, SharedPrefsHelper.getInstance().getDogId());
         adapter.bindToRecyclerView(recyclerView);
-//        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-//            @Override
-//            public void onLoadMoreRequested() {
-//                loadMore();
-//            }
-//        }, recyclerView);
+        LayoutInflater layoutInflater = getLayoutInflater();//获得layoutInflater对象
+        View emptyView = layoutInflater.inflate(R.layout.empty_sell_dog, null);//获得view对象
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                if (HomeActivity.instance != null) {
+                    HomeActivity.instance.type = 1;
+                    HomeActivity.actionStart(getActivity(), 1);
+                }
+            }
+        });
+        adapter.setEmptyView(emptyView);
         adapter.setEnableLoadMore(false);
         adapter.setCallback(new MyDogsAdapter.OperateCallback() {
             @Override
             public void callback(DogInfoDao dao, int selectPosition, int oldSelectPosition) {
                 adapter.notifyItemChanged(selectPosition);
                 adapter.notifyItemChanged(oldSelectPosition);
-                //选择使用
-                presenter.useDog(dao.getId());
+                if(selectPosition==oldSelectPosition){
+                    //取消选择
+                    presenter.removeDog(dao.getId());
+                }else {
+                    //选择使用
+                    presenter.useDog(dao.getId());
+                }
             }
         });
         adapter.setFeedCallback(new MyDogsAdapter.FeedCallback() {
@@ -153,7 +168,7 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
         adapter.setItemCallback(new MyDogsAdapter.ItemCallback() {
             @Override
             public void callback(DogInfoDao dao) {
-                DogDetailActivity.actionStart(getActivity(),dao);
+                DogDetailActivity.actionStart(getActivity(), dao);
             }
         });
 
@@ -161,7 +176,7 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
@@ -189,12 +204,21 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
 
     @Override
     public void useDogSuccess(String data, String currentDogId) {
-//        if (!SharedPrefsHelper.getInstance().getDogId().isEmpty()) {
-//            presenter.removeDog(SharedPrefsHelper.getInstance().getDogId());
-//        }
         //选择成功弹窗
         SharedPrefsHelper.getInstance().saveDogId(currentDogId);
         NormalDialog dialog = NormalDialog.newInstance(R.string.choose_select, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getFragmentManager(), "edit");
+        //更新主页
+        ((MyDogActivity) Objects.requireNonNull(getActivity())).isChange = true;
+    }
+
+    @Override
+    public void removeDogSuccess(String data, String dogId) {
+        //选择成功弹窗
+        SharedPrefsHelper.getInstance().saveDogId("");
+        NormalDialog dialog = NormalDialog.newInstance(R.string.deselect, R.mipmap.icon_normal);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
@@ -209,7 +233,7 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
 
     @Override
     public void setPresenter(DogContract.DogPresenter presenter) {
-        this.presenter=presenter;
+        this.presenter = presenter;
     }
 
     @Override
@@ -243,52 +267,77 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
     @Override
     public void feedFail(Integer code, String toastMessage) {
         //喂食失败
-        if (code == 1) {
-            //获取狗粮数据
-            presenter.getShopDogFood();
-        }
+        presenter.getShopDogFood();
     }
 
     @Override
     public void getShopDogFoodSuccessful(DogFoodDao data) {
         //新增是否购买页面
-        FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
-        dialog.setTheme(R.style.PaddingScreen);
-        dialog.setGravity(Gravity.BOTTOM);
-        dialog.show(getFragmentManager(), "edit");
-        dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
-
+//        FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
+//        dialog.setTheme(R.style.PaddingScreen);
+//        dialog.setGravity(Gravity.BOTTOM);
+//        dialog.show(getFragmentManager(), "edit");
+//        dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
+//
+//            @Override
+//            public void callback() {
+//                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
+//                buyDialog.setTheme(R.style.PaddingScreen);
+//                buyDialog.setGravity(Gravity.CENTER);
+//                buyDialog.show(getFragmentManager(), "edit");
+//                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+//                    @Override
+//                    public void callback(int number) {
+//                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
+//                        passwordDialog.setTheme(R.style.PaddingScreen);
+//                        passwordDialog.setGravity(Gravity.CENTER);
+//                        passwordDialog.show(getFragmentManager(), "edit");
+//                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+//                            @Override
+//                            public void callback(String password) {
+//                                //購買狗糧
+//                                presenter.buyShopDogFood(data.getId(), number,password);
+//                                passwordDialog.dismiss();
+//                                buyDialog.dismiss();
+//                            }
+//                        });
+//                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+//                            @Override
+//                            public void callback() {
+//                                ToastUtils.shortToast("错误");
+//                            }
+//                        });
+//                    }
+//                });
+//                dialog.dismiss();
+//            }
+//        });
+        BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
+        buyDialog.setTheme(R.style.PaddingScreen);
+        buyDialog.setGravity(Gravity.CENTER);
+        buyDialog.show(getFragmentManager(), "edit");
+        buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
             @Override
-            public void callback() {
-                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
-                buyDialog.setTheme(R.style.PaddingScreen);
-                buyDialog.setGravity(Gravity.CENTER);
-                buyDialog.show(getFragmentManager(), "edit");
-                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+            public void callback(int number) {
+                PasswordDialog passwordDialog = PasswordDialog.newInstance();
+                passwordDialog.setTheme(R.style.PaddingScreen);
+                passwordDialog.setGravity(Gravity.CENTER);
+                passwordDialog.show(getFragmentManager(), "edit");
+                passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
                     @Override
-                    public void callback(int number) {
-                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
-                        passwordDialog.setTheme(R.style.PaddingScreen);
-                        passwordDialog.setGravity(Gravity.CENTER);
-                        passwordDialog.show(getFragmentManager(), "edit");
-                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
-                            @Override
-                            public void callback(String password) {
-                                //購買狗糧
-                                presenter.buyShopDogFood(data.getId(), number);
-                                passwordDialog.dismiss();
-                                buyDialog.dismiss();
-                            }
-                        });
-                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
-                            @Override
-                            public void callback() {
-                                ToastUtils.shortToast("错误");
-                            }
-                        });
+                    public void callback(String password) {
+                        //購買狗糧
+                        presenter.buyShopDogFood(data.getId(), number,password);
+                        passwordDialog.dismiss();
+                        buyDialog.dismiss();
                     }
                 });
-                dialog.dismiss();
+                passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+                    @Override
+                    public void callback() {
+                        ToastUtils.shortToast("错误");
+                    }
+                });
             }
         });
     }
@@ -313,12 +362,12 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
     }
 
     private void showFeeding(DogInfoDao mDefultDogInfo) {
-        presenter.getFeedDog(mDefultDogInfo.getId(),mDefultDogInfo);
+        presenter.getFeedDog(mDefultDogInfo.getId(), mDefultDogInfo);
     }
 
-    private void updateData(){
+    private void updateData() {
         presenter.getWallet("1");//获取代币总数
         presenter.getWallet("2");//获取狗粮总数
-        presenter.getUserDog(1,1);
+        presenter.getUserDog(1, 1);
     }
 }

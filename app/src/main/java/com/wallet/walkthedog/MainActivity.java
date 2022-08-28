@@ -26,6 +26,8 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseActivity;
+import tim.com.libnetwork.utils.ConstantLanguages;
+import tim.com.libnetwork.utils.SharedPreferencesUtils;
 
 public class MainActivity extends Activity {
     @Override
@@ -38,7 +40,7 @@ public class MainActivity extends Activity {
             return;
         }
         Timer timer = new Timer();
-        timer.schedule(new MyTask(),2000);
+        timer.schedule(new MyTask(), 2000);
     }
 
 
@@ -47,13 +49,14 @@ public class MainActivity extends Activity {
         public void run() {
             //判断是否第一次进入应用
             if (SharedPrefsHelper.getInstance().getFirst()) {
-//            SplashActivity.actionStart(this);
+                //设置默认语言为英文
+                SharedPreferencesUtils.setCurrentLanguages(MainActivity.this, ConstantLanguages.ENGLISH);
                 EmailActivity.actionStart(MainActivity.this);
                 SharedPrefsHelper.getInstance().saveFirst();
-            }else {
-                if(SharedPrefsHelper.getInstance().getToken().isEmpty()){
+            } else {
+                if (SharedPrefsHelper.getInstance().getToken().isEmpty()) {
                     EmailActivity.actionStart(MainActivity.this);
-                }else {
+                } else {
                     HomeActivity.actionStart(MainActivity.this);
                 }
             }

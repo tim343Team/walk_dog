@@ -5,6 +5,7 @@ import com.wallet.walkthedog.config.AppConfig;
 
 public class UrlFactory {
     public static final String host = AppConfig.BASE_URL;
+    public static final String host_walk = AppConfig.BASE_URL_2;
 
     //发送验证码
     public static String getSendMailboxUrl() {
@@ -113,6 +114,11 @@ public class UrlFactory {
 
     public static String orderBuy() {
         return host + "/order/buy";
+    }
+
+    //广告详情
+    public static String advertiseDetail() {
+        return host + "/advertise/detail";
     }
 
     public static String orderSell() {
@@ -245,12 +251,12 @@ public class UrlFactory {
 
     //开始遛狗
     public static String getStartWalkUrl() {
-        return host + "/index/startWalkTheDog";
+        return host_walk + "/index/startWalkTheDog";
     }
 
     //停止遛狗
     public static String getStopWalkUrl() {
-        return host + "/index/endWalkTheDog";
+        return host_walk + "/index/endWalkTheDog";
     }
 
     //获取遛狗奖励记录
@@ -265,7 +271,7 @@ public class UrlFactory {
 
     //遛狗坐标传入
     public static String addCoordUrl() {
-        return host + "/index/addCoord";
+        return host_walk + "/index/addCoord";
     }
 
     //获取我的道具
@@ -403,6 +409,11 @@ public class UrlFactory {
         return host + "/together/addTogether";
     }
 
+    //移除一起遛狗关系
+    public static String deleteTogetherUrl() {
+        return host + "/together/deleteTogether";
+    }
+
     //获取最新遛狗邀请通知
     public static String getNewTogethersUrl() {
         return host + "/together/getNewTogethers";
@@ -421,6 +432,16 @@ public class UrlFactory {
     //道具商城列表
     public static String propListUrl() {
         return host + "/shopping/propList";
+    }
+
+    //狗狗种类下拉框
+    public static String dogDownBoxUrl() {
+        return host + "/shopping/dogDownBox";
+    }
+
+    //道具种类下拉框
+    public static String propDownBoxUrl() {
+        return host + "/shopping/propDownBox";
     }
 
     //售卖狗狗
@@ -455,6 +476,11 @@ public class UrlFactory {
     //取消商家申请
     public static String cancleMerchantUrl() {
         return host + "/approve/cancel/business";
+    }
+
+    //保证金类型
+    public static String businessAuthUrl() {
+        return host + "/approve/business-auth-deposit/list";
     }
 
     //认证商家申请

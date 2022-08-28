@@ -23,6 +23,7 @@ import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -462,7 +463,9 @@ public class PlaceADActivity extends BaseActivity {
                     @Override
                     protected void onRes(RemoteData<String> data) {
                         if (data.getNotNullData()!=null){
-                            tv_conutry_to_coin.setText(getString(R.string.trading_price) + data.getNotNullData() + currency + "/" + "USDT");
+                            //保留小數點後兩位小數
+                            String value = new DecimalFormat("#0.00").format(data.getNotNullData());
+                            tv_conutry_to_coin.setText(getString(R.string.trading_price) + value + currency + "/" + "USDT");
                         }
                     }
                 });

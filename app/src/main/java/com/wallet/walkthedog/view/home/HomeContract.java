@@ -21,6 +21,10 @@ public class HomeContract {
 
         void getFail(Integer code, String toastMessage);
 
+        void getDogInfoFail(Integer code, String toastMessage);
+
+        void getWalkTheDogFriendFail(Integer code, String toastMessage);
+
         void getCurrentDogInfo(DogInfoDao dogInfoDao);
 
         void getFeedDogInfo(FeedDogFoodDao data);
@@ -33,7 +37,7 @@ public class HomeContract {
 
         void feedFail(Integer code, String toastMessage);
 
-        void trainSuccessful(String data);
+        void trainSuccessful(String data,TrainDao item, String totalFood);
 
         void updateSuccessful(String data);
 
@@ -62,13 +66,13 @@ public class HomeContract {
 
         void getAllTrain();//获取所有训练项目
 
-        void trainDog(TrainRequest request);//训练狗狗
+        void trainDog(TrainRequest request,TrainDao item, String totalFood);//训练狗狗
 
         void upDogLevel(String dogId);//升级
 
         void getShopDogFood();// 获取商城售卖狗粮详情
 
-        void buyShopDogFood(int dogFoodId,int number);//购买商城出售的狗粮
+        void buyShopDogFood(int dogFoodId,int number,String passWord);//购买商城出售的狗粮
 
         void getWalkTheDogFriend();//获取一起遛狗的好友
     }

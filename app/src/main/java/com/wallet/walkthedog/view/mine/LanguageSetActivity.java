@@ -14,7 +14,10 @@ import com.wallet.walkthedog.app.RootApplication;
 import com.wallet.walkthedog.custom_view.card.ShadowDrawable;
 import com.wallet.walkthedog.untils.AppLanguageUtils;
 import com.wallet.walkthedog.untils.ToastUtils;
+import com.wallet.walkthedog.view.home.HomeActivity;
 
+import butterknife.OnClick;
+import tim.com.libnetwork.base.ActivityManage;
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.utils.ConstantLanguages;
 import tim.com.libnetwork.utils.ScreenUtils;
@@ -23,6 +26,11 @@ import tim.com.libnetwork.utils.SharedPreferencesUtils;
 public class LanguageSetActivity extends BaseActivity {
 
     private int selectIndex = 0;
+
+    @OnClick(R.id.img_back)
+    void back() {
+        finish();
+    }
 
     @Override
     protected int getActivityLayoutId() {
@@ -186,8 +194,9 @@ public class LanguageSetActivity extends BaseActivity {
         SharedPreferencesUtils.setCurrentLanguages(getApplicationContext(), newLanguage);
         //切换applaction语言
         AppLanguageUtils.applyChange(RootApplication.getContext());
-        ToastUtils.shortToast(R.string.setting_language_nitice);
         //关闭应用
-//        ActivityManage.finishAll();
+        ActivityManage.finishAll();
+        HomeActivity.actionStart(LanguageSetActivity.this);
+        //        ActivityManage.finishAll();
     }
 }

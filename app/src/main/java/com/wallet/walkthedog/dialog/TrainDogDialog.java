@@ -39,8 +39,7 @@ public class TrainDogDialog extends BaseDialogFragment {
     void feeding() {
         if (status == 0) {
             status = 1;
-            updateUi();
-            callback.callback(item.getId());
+            callback.callback(item,totalFood);
         } else if (status == 1) {
             dismiss();
         }
@@ -51,11 +50,12 @@ public class TrainDogDialog extends BaseDialogFragment {
         dismiss();
     }
 
-    public static TrainDogDialog newInstance(TrainDao item, String totalFood) {
+    public static TrainDogDialog newInstance(TrainDao item, String totalFood,int status) {
         TrainDogDialog fragment = new TrainDogDialog();
         Bundle bundle = new Bundle();
         bundle.putSerializable("TrainDao", item);
         bundle.putString("totalFood", totalFood);
+        bundle.putInt("status", status);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -80,6 +80,7 @@ public class TrainDogDialog extends BaseDialogFragment {
         Bundle bundle = getArguments();
         item = (TrainDao) bundle.getSerializable("TrainDao");
         totalFood = bundle.getString("totalFood");
+        status = bundle.getInt("status");
         txtTrainType.setText(item.getName());
         txtTrainIntroduce.setText(item.getDescribe());
         txtConsume.setText(String.format(getString(R.string.g), String.valueOf(item.getConsume())));//显示消耗粮食
@@ -88,6 +89,9 @@ public class TrainDogDialog extends BaseDialogFragment {
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
         Glide.with(getContext()).load(item.getImg()).apply(options).into(imgTrainType);
+        if(status == 1){
+            updateUi();
+        }
     }
 
     private void updateUi(){
@@ -113,6 +117,6 @@ public class TrainDogDialog extends BaseDialogFragment {
     }
 
     public interface OperateCallback {
-        void callback(int trainId);
+        void callback(TrainDao item, String totalFood);
     }
 }

@@ -34,7 +34,7 @@ public class HomePresenter implements HomeContract.HomePresenter{
             @Override
             public void onDataNotAvailable(Integer code, String toastMessage) {
                 view.hideLoadingPopup();
-                view.getFail(code, toastMessage);
+                view.getDogInfoFail(code, toastMessage);
             }
         });
     }
@@ -115,7 +115,6 @@ public class HomePresenter implements HomeContract.HomePresenter{
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
                 view.feedSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
-//                view.feedFail(1,(String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override
@@ -145,12 +144,12 @@ public class HomePresenter implements HomeContract.HomePresenter{
     }
 
     @Override
-    public void trainDog(TrainRequest request) {
+    public void trainDog(TrainRequest request,TrainDao item, String totalFood) {
         dataRepository.trainDog(request,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
-                view.trainSuccessful((String) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+                view.trainSuccessful((String) obj,item,totalFood);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override
@@ -196,9 +195,9 @@ public class HomePresenter implements HomeContract.HomePresenter{
     }
 
     @Override
-    public void buyShopDogFood(int dogFoodId, int number) {
+    public void buyShopDogFood(int dogFoodId, int number,String passWord) {
         view.displayLoadingPopup();
-        dataRepository.ShopDogFood(dogFoodId,number,new DataSource.DataCallback() {
+        dataRepository.ShopDogFood(dogFoodId,number,passWord,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
@@ -223,7 +222,7 @@ public class HomePresenter implements HomeContract.HomePresenter{
 
             @Override
             public void onDataNotAvailable(Integer code, String toastMessage) {
-//                view.getFail(code, toastMessage);
+                view.getWalkTheDogFriendFail(code, toastMessage);
             }
         });
     }

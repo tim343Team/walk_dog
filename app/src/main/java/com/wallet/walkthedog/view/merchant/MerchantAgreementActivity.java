@@ -11,10 +11,13 @@ import android.widget.TextView;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.custom_view.card.ShadowTextView;
+import com.wallet.walkthedog.dao.BusinessAuthDao;
 import com.wallet.walkthedog.dao.MerchantStatusDao;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.untils.ToastUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -62,7 +65,7 @@ public class MerchantAgreementActivity extends BaseActivity implements MerchantC
     @OnClick(R.id.tv_confirm)
     void confirm() {
         if (!isSelect) {
-            ToastUtils.shortToast(R.string.merchant_agreement_notice);
+            ToastUtils.shortToast(MerchantAgreementActivity.this,R.string.merchant_agreement_notice);
             return;
         }
         if (type == 0) {
@@ -158,6 +161,11 @@ public class MerchantAgreementActivity extends BaseActivity implements MerchantC
 
     @Override
     public void statusSuccess(MerchantStatusDao merchantStatusDao) {
+
+    }
+
+    @Override
+    public void approveSuccess(List<BusinessAuthDao> daos) {
 
     }
 

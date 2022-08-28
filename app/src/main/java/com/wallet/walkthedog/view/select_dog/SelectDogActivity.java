@@ -131,8 +131,13 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
             public void callback(DogInfoDao dao, int selectPosition, int oldSelectPosition) {
                 adapter.notifyItemChanged(selectPosition);
                 adapter.notifyItemChanged(oldSelectPosition);
-                //选择使用
-                presenter.useDog(dao.getId());
+                if(selectPosition==oldSelectPosition){
+                    //取消选择
+                    presenter.removeDog(dao.getId());
+                }else {
+                    //选择使用
+                    presenter.useDog(dao.getId());
+                }
             }
         });
         adapter.setFeedCallback(new MyDogsAdapter.FeedCallback() {
@@ -174,12 +179,21 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
 
     @Override
     public void useDogSuccess(String data, String currentDogId) {
-        if (!SharedPrefsHelper.getInstance().getDogId().isEmpty()) {
-            presenter.removeDog(SharedPrefsHelper.getInstance().getDogId());
-        }
         //选择成功弹窗
         SharedPrefsHelper.getInstance().saveDogId(currentDogId);
         NormalDialog dialog = NormalDialog.newInstance(R.string.choose_select, R.mipmap.icon_normal);
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.show(getSupportFragmentManager(), "edit");
+        //更新主页
+        EventBus.getDefault().post(new UpdateHomeData());
+    }
+
+    @Override
+    public void removeDogSuccess(String data, String dogId) {
+        //选择成功弹窗
+        SharedPrefsHelper.getInstance().saveDogId("");
+        NormalDialog dialog = NormalDialog.newInstance(R.string.deselect, R.mipmap.icon_normal);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -223,52 +237,77 @@ public class SelectDogActivity extends BaseActivity implements SelectContract.Se
     @Override
     public void feedFail(Integer code, String toastMessage) {
         //喂食失败
-        if (code == 1) {
-            //获取狗粮数据
-            presenter.getShopDogFood();
-        }
+        presenter.getShopDogFood();
     }
 
     @Override
     public void getShopDogFoodSuccessful(DogFoodDao data) {
         //新增是否购买页面
-        FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
-        dialog.setTheme(R.style.PaddingScreen);
-        dialog.setGravity(Gravity.BOTTOM);
-        dialog.show(getSupportFragmentManager(), "edit");
-        dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
-
+//        FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
+//        dialog.setTheme(R.style.PaddingScreen);
+//        dialog.setGravity(Gravity.BOTTOM);
+//        dialog.show(getSupportFragmentManager(), "edit");
+//        dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
+//
+//            @Override
+//            public void callback() {
+//                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
+//                buyDialog.setTheme(R.style.PaddingScreen);
+//                buyDialog.setGravity(Gravity.CENTER);
+//                buyDialog.show(getSupportFragmentManager(), "edit");
+//                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+//                    @Override
+//                    public void callback(int number) {
+//                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
+//                        passwordDialog.setTheme(R.style.PaddingScreen);
+//                        passwordDialog.setGravity(Gravity.CENTER);
+//                        passwordDialog.show(getSupportFragmentManager(), "edit");
+//                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+//                            @Override
+//                            public void callback(String password) {
+//                                //購買狗糧
+//                                presenter.buyShopDogFood(data.getId(), number,password);
+//                                passwordDialog.dismiss();
+//                                buyDialog.dismiss();
+//                            }
+//                        });
+//                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+//                            @Override
+//                            public void callback() {
+//                                ToastUtils.shortToast("错误");
+//                            }
+//                        });
+//                    }
+//                });
+//                dialog.dismiss();
+//            }
+//        });
+        BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
+        buyDialog.setTheme(R.style.PaddingScreen);
+        buyDialog.setGravity(Gravity.CENTER);
+        buyDialog.show(getSupportFragmentManager(), "edit");
+        buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
             @Override
-            public void callback() {
-                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
-                buyDialog.setTheme(R.style.PaddingScreen);
-                buyDialog.setGravity(Gravity.CENTER);
-                buyDialog.show(getSupportFragmentManager(), "edit");
-                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+            public void callback(int number) {
+                PasswordDialog passwordDialog = PasswordDialog.newInstance();
+                passwordDialog.setTheme(R.style.PaddingScreen);
+                passwordDialog.setGravity(Gravity.CENTER);
+                passwordDialog.show(getSupportFragmentManager(), "edit");
+                passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
                     @Override
-                    public void callback(int number) {
-                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
-                        passwordDialog.setTheme(R.style.PaddingScreen);
-                        passwordDialog.setGravity(Gravity.CENTER);
-                        passwordDialog.show(getSupportFragmentManager(), "edit");
-                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
-                            @Override
-                            public void callback(String password) {
-                                //購買狗糧
-                                presenter.buyShopDogFood(data.getId(), number);
-                                passwordDialog.dismiss();
-                                buyDialog.dismiss();
-                            }
-                        });
-                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
-                            @Override
-                            public void callback() {
-                                ToastUtils.shortToast("错误");
-                            }
-                        });
+                    public void callback(String password) {
+                        //購買狗糧
+                        presenter.buyShopDogFood(data.getId(), number,password);
+                        passwordDialog.dismiss();
+                        buyDialog.dismiss();
                     }
                 });
-                dialog.dismiss();
+                passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+                    @Override
+                    public void callback() {
+                        ToastUtils.shortToast("错误");
+                    }
+                });
             }
         });
     }

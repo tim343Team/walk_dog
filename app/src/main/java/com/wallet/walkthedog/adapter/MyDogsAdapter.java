@@ -26,7 +26,7 @@ import tim.com.libnetwork.utils.DateTimeUtil;
 
 public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> {
     private String currentDogId;
-    private int selectPosition;
+    private int selectPosition=-1;
 
     public MyDogsAdapter(int layoutResId, @Nullable List<DogInfoDao> data, String currentDogId) {
         super(layoutResId, data);
@@ -51,7 +51,7 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
         setProgress(helper,item.getRateOfProgress()/100.00);
         helper.setText(R.id.txt_number, item.getDayLimit() + "/2");
         helper.setText(R.id.txt_time, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
-        helper.setText(R.id.txt_trip, DateTimeUtil.second2Time(Long.parseLong(item.getWalkTheDogTime())));//总次数
+        helper.setText(R.id.txt_trip, DateTimeUtil.second2Time(item.getWalkTheDogTime()));//总次数
         TextView txtSelect = helper.getView(R.id.txt_select);
         View rootView = helper.getView(R.id.root_view);
         if (currentDogId.equals(item.getId())) {
@@ -92,7 +92,8 @@ public class MyDogsAdapter extends BaseQuickAdapter<DogInfoDao, BaseViewHolder> 
             @Override
             public void onClick(View view) {
                 if (currentDogId.equals(item.getId())) {
-                    return;
+                    currentDogId = "";
+                    callback.callback(item, helper.getAdapterPosition(), selectPosition);
                 } else {
                     currentDogId = item.getId();
                     callback.callback(item, helper.getAdapterPosition(), selectPosition);

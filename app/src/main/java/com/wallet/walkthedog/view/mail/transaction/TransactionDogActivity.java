@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.ErrorCode;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
 import com.wallet.walkthedog.dao.CodeDataDao;
@@ -207,7 +208,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(ErrorCode.getInstance(code).getMessage(), R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -249,7 +250,7 @@ public class TransactionDogActivity extends BaseActivity implements TransactionC
         double fee = 0.0;
         fee = Double.parseDouble(data.getValue());
         String feeValue = new DecimalFormat("#0.00").format(dogMailDao.getPrice() * fee);
-        txtFee.setText(feeValue+" suzu");
+        txtFee.setText(feeValue + "suzu");
     }
 
     @Override

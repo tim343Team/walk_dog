@@ -22,9 +22,11 @@ public class DogInfoDao implements Serializable {
 
     private double level;
 
+    private int togetherId;
+
     private int type;//1背包 2出售 3使用中
 
-    private int status;
+    private int status;//1一起遛狗 2等待同意 3已拒绝 4自动拒绝 5发起人取消 6完成 7取消
 
     private double walkTheDogKm;
 
@@ -32,7 +34,7 @@ public class DogInfoDao implements Serializable {
 
     private int dayLimit;//今日次数
 
-    private String walkTheDogTime;//总时长（秒）
+    private long walkTheDogTime;//总时长（秒）
 
     private double weight;
 
@@ -82,6 +84,14 @@ public class DogInfoDao implements Serializable {
     private String friendWalkTheDogTime;
 
     private String dogName;
+
+    public int getTogetherId() {
+        return togetherId;
+    }
+
+    public void setTogetherId(int togetherId) {
+        this.togetherId = togetherId;
+    }
 
     public String getId() {
         return id;
@@ -179,11 +189,11 @@ public class DogInfoDao implements Serializable {
         this.walkTheDogCount = walkTheDogCount;
     }
 
-    public String getWalkTheDogTime() {
+    public long getWalkTheDogTime() {
         return walkTheDogTime;
     }
 
-    public void setWalkTheDogTime(String walkTheDogTime) {
+    public void setWalkTheDogTime(long walkTheDogTime) {
         this.walkTheDogTime = walkTheDogTime;
     }
 

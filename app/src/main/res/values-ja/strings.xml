@@ -107,7 +107,7 @@
     <!--身份id卡-->
     <string name="name_">名前：</string>
     <string name="name">名前</string>
-    <string name="country">国家</string>
+    <string name="country">国家/地域</string>
     <string name="name1_">名前：</string>
     <string name="gender_">性別：</string>
     <string name="level_">学年：</string>
@@ -279,7 +279,7 @@
     <string name="card_notice">実際の銀行カード情報を入力してください</string>
     <string name="email">Eメール</string>
     <string name="captcha">検証コード</string>
-    <string name="swift">迅速</string>
+    <string name="swift">swift</string>
     <string name="ral_name">本名</string>
     <string name="ral_name_notice">本名を入力してください</string>
     <string name="card_number">カード番号</string>
@@ -545,7 +545,7 @@
     <string name="completed">完了</string>
     <string name="you_can_exchange_usdt_for_suzu">USDTをSUZUに交換できます</string>
     <string name="suzu_hint">USDT 残高が不足している場合は、ウォレットにチャージする必要があります。</string>
-    <string name="otc_account">店頭口座</string>
+    <string name="otc_account">OTC</string>
     <string name="funding_account">資金口座</string>
     <string name="please_enter_quantity">数量を入力してください</string>
     <string name="other_asset">その他の資産</string>
@@ -558,6 +558,26 @@
     <string name="otc_duihuan">Otc exchange</string>
     <string name="otc_trade">otc trading</string>
     <string name="please_input_amount">Please enter amount</string>
+
+    <string-array name="text_price_type">
+        <item>全て</item>
+        <item>低価格</item>
+        <item>高価</item>
+    </string-array>
+
+    <string name="empty_dog">あなたはまだ犬を育てていません。モールに行って購入してください</string>
+    <string name="empty_sell_dog">あなたは売る犬を飼っていません</string>
+    <string name="empty_my_dog">あなたには犬がいません</string>
+    <string name="empty_my_prop">モールに行って購入してください</string>
+    <string name="mailbox_certificate_notice">証明書をアップロードしてください</string>
+    <string name="payer_">支払者: %s</string>
+    <string name="pay_by_">支払い: %s</string>
+    <string name="country_">国家: %s</string>
+    <string name="card_number_">カード番号: %s</string>
+
+    <string name="code_2000">The dog Id is incorrect</string>
+    <string name="code_2204">Not the initiator</string>
+    <string name="add_friend_success">友だち追加情報は送信済み</string>
 
 </resources>
 

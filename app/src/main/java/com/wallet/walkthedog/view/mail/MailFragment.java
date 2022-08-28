@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.mail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,8 +13,14 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.adapter.PagerAdapter;
 import com.wallet.walkthedog.custom_view.NoScrollViewPager;
 import com.wallet.walkthedog.dao.UserInfoDao;
+import com.wallet.walkthedog.even.UpdateHomeData;
+import com.wallet.walkthedog.even.UpdateMailData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.view.home.HomeFragment;
+import com.wallet.walkthedog.view.mine.AvatarActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -46,6 +53,12 @@ public class MailFragment extends BaseTransFragment {
     @OnClick(R.id.txt_prop)
     void clickProp() {
         showTab(1);
+    }
+
+    @OnClick(R.id.img_user_avatar)
+    void editAvatar() {
+        Intent intent = new Intent(requireContext(), AvatarActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -103,6 +116,12 @@ public class MailFragment extends BaseTransFragment {
                     .into(imgAvatar);
             txtName.setText(userInfoDao.getName());
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(UpdateMailData event) {
+        //刷新
+        onResume();
     }
 
     private void setView() {

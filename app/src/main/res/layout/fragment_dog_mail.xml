@@ -10,7 +10,7 @@
         android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginEnd="@dimen/dimen_20"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/ll_price"
@@ -32,9 +32,10 @@
                 android:background="@mipmap/icon_polygon_down" />
 
             <TextView
+                android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/low_price"
+                android:layout_height="20dp"
+                android:text="@string/price"
                 android:textColor="@color/color_848484"
                 android:textSize="@dimen/dp12" />
 
@@ -60,6 +61,7 @@
                 android:background="@mipmap/icon_polygon_down" />
 
             <TextView
+                android:id="@+id/tv_variety"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/select_variety"

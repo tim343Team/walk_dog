@@ -24,7 +24,7 @@ public class NicknameDialog extends BaseDialogFragment {
     void reNickname() {
         String nickname = editText.getText().toString();
         if (nickname.isEmpty()) {
-            ToastUtils.shortToast(R.string.note_nickname);
+            ToastUtils.shortToast(getContext(),R.string.note_nickname);
             return;
         }
         callback.callback(nickname);

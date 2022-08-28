@@ -79,6 +79,7 @@ public class SelectPresenter implements SelectContract.SelectPresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();
+                view.removeDogSuccess((String) obj,dogId);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override
@@ -141,9 +142,9 @@ public class SelectPresenter implements SelectContract.SelectPresenter{
     }
 
     @Override
-    public void buyShopDogFood(int dogFoodId, int number) {
+    public void buyShopDogFood(int dogFoodId, int number,String password) {
         view.displayLoadingPopup();
-        dataRepository.ShopDogFood(dogFoodId,number,new DataSource.DataCallback() {
+        dataRepository.ShopDogFood(dogFoodId,number,password,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();

@@ -19,6 +19,10 @@ public class InviteDetailContract {
 
         void addTogetherSuccess(String data);
 
+        void deleteTogetherSuccess(String data);
+
+        void ideaTogetherSuccessful(String data,int status);
+
         void addTogetherFail(Integer code, String toastMessage);
 
     }
@@ -31,6 +35,10 @@ public class InviteDetailContract {
         void delFriend(FriendRequest request);
 
         void addTogether(InviteRequest request);
+
+        void deleteTogether(String togetherId);
+
+        void ideaTogether(String togetherId,int status);//1同意 3拒绝 4取消邀请
 
     }
 }

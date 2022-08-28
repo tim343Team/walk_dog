@@ -76,14 +76,14 @@ public class AddFriendDialog extends BaseDialogFragment {
     }
 
     public boolean checkoutEmail(String email) {
-        boolean flag=false;
+        boolean flag = false;
         try {
-            String emailMatcher="[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+";
-            Pattern regex= Pattern.compile(emailMatcher);
-            Matcher matcher=regex.matcher(email);
-            flag=matcher.matches();
-        }catch (Exception e){
-            flag=false;
+            String emailMatcher = "[a-zA-Z0-9.]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+";
+            Pattern regex = Pattern.compile(emailMatcher);
+            Matcher matcher = regex.matcher(email);
+            flag = matcher.matches();
+        } catch (Exception e) {
+            flag = false;
         }
         return flag;
     }

@@ -109,11 +109,11 @@ public class SettingInviteDialog extends BaseDialogFragment {
     @OnClick(R.id.txt_confirm)
     void confirm() {
         if(startTime==null || startTime.isEmpty()){
-            ToastUtils.shortToast(R.string.start_time_hint);
+            ToastUtils.shortToast(getContext(),R.string.start_time_hint);
             return;
         }
         if(endTime==null || endTime.isEmpty()){
-            ToastUtils.shortToast(R.string.end_time_hint);
+            ToastUtils.shortToast(getContext(),R.string.end_time_hint);
             return;
         }
         callback.callback(startTime, endTime);

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.ActivityLifecycleManager;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.DogFoodWeightItemDao;
@@ -39,6 +41,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,7 +68,8 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     private MailFragment twoFragment;
     private RentalFragment threeFragment;
     private MineFragment fourFragment;
-    private int type;
+    public int type;
+    public List<InviteNoticeDao> inviteNoticeDaos = new ArrayList<>();
     /*权限请求Code*/
     private final static int PERMISSION_REQUEST_CODE = 1234;
     private String[] permissions = {
@@ -101,10 +105,11 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra("type", 0);
         context.startActivity(intent);
     }
 
-    public static void actionStart(Context context,int type) {
+    public static void actionStart(Context context, int type) {
         Intent intent = new Intent(context, HomeActivity.class);
         intent.putExtra("type", type);
         context.startActivity(intent);
@@ -239,31 +244,37 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
                         onSuccessUserInfo(testRemoteData.getNotNullData());
                     }
                 });
-        mHandler.postDelayed(runnable, 1000);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        type = getIntent().getIntExtra("type", 0);
+        mHandler.postDelayed(runnable, 1000);
         if (type == 0) {
             return;//默认值 或是 不需要跳转 就返回
-        }else if(type == 1){
+        } else if (type == 1) {
             //跳转到商城页面
             showMailFragment(type);
+            selecte(llTwo, 1);
             //TODO 设置跳转到狗狗还是道具页
 //            if (twoFragment != null) {
 //                twoFragment.showPageFragment(currency, type - 1);
 //            }
         }
+        type = 0;
         getIntent().putExtra("type", 0);
     }
 
     @Override
     protected void onDestroy() {
-        mHandler.removeCallbacks(runnable);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        mHandler.removeCallbacks(runnable);
+        super.onPause();
     }
 
     private void onSuccessUserInfo(UserInfoDao userinfo) {
@@ -272,27 +283,8 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
 
     private void getInviteNotice(List<InviteNoticeDao> daos) {
         if (daos.size() > 0) {
-            //弹出邀请信息
-            InviteNoticeDialog dialog = InviteNoticeDialog.newInstance(daos.get(0));
-            dialog.setTheme(R.style.PaddingScreen);
-            dialog.setGravity(Gravity.CENTER);
-            dialog.show(getSupportFragmentManager(), "edit");
-            dialog.setRefuseCallback(new InviteNoticeDialog.OperateRefuseCallback() {
-                @Override
-                public void callback() {
-                    //TODO 拒绝邀请
-                    presenter.ideaTogether(daos.get(0).getId() + "", 3);
-                    dialog.dismiss();
-                }
-            });
-            dialog.setAcceptCallback(new InviteNoticeDialog.OperateAcceptCallback() {
-                @Override
-                public void callback() {
-                    //TODO 接受邀请
-                    presenter.ideaTogether(daos.get(0).getId() + "", 1);
-                    dialog.dismiss();
-                }
-            });
+            inviteNoticeDaos.addAll(daos);
+            showInvitedDialog();
         }
     }
 
@@ -367,7 +359,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
 
     @Override
     public void getNewTogethersSuccessful(List<InviteNoticeDao> noticeDaoList) {
-        if(noticeDaoList.size()>0){
+        if (noticeDaoList.size() > 0) {
             getInviteNotice(noticeDaoList);
         }
     }
@@ -375,5 +367,61 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     @Override
     public void setPresenter(HomeMainContract.HomeMainPresenter presenter) {
         this.presenter = presenter;
+    }
+
+    private void showInvitedDialog() {
+        //弹出邀请信息
+        try {
+            for (InviteNoticeDao dao : inviteNoticeDaos) {
+                if (!dao.isShow()) {
+                    continue;
+                }
+                InviteNoticeDialog dialog = InviteNoticeDialog.newInstance(dao);
+                dialog.setTheme(R.style.PaddingScreen);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show(getSupportFragmentManager(), "edit");
+                dialog.setRefuseCallback(new InviteNoticeDialog.OperateRefuseCallback() {
+                    @Override
+                    public void callback() {
+                        //拒绝邀请
+                        presenter.ideaTogether(dao.getId() + "", 3);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setAcceptCallback(new InviteNoticeDialog.OperateAcceptCallback() {
+                    @Override
+                    public void callback() {
+                        //接受邀请
+                        presenter.ideaTogether(dao.getId() + "", 1);
+                        dialog.dismiss();
+                    }
+                });
+                dao.setShow(false);
+            }
+//            InviteNoticeDao dao=new InviteNoticeDao();
+//            InviteNoticeDialog dialog = InviteNoticeDialog.newInstance(dao);
+//            dialog.setTheme(R.style.PaddingScreen);
+//            dialog.setGravity(Gravity.CENTER);
+//            dialog.show(getSupportFragmentManager(), "edit");
+//            dialog.setRefuseCallback(new InviteNoticeDialog.OperateRefuseCallback() {
+//                @Override
+//                public void callback() {
+//                    //拒绝邀请
+//                    presenter.ideaTogether(dao.getId() + "", 3);
+//                    dialog.dismiss();
+//                }
+//            });
+//            dialog.setAcceptCallback(new InviteNoticeDialog.OperateAcceptCallback() {
+//                @Override
+//                public void callback() {
+//                    //接受邀请
+//                    presenter.ideaTogether(dao.getId() + "", 1);
+//                    dialog.dismiss();
+//                }
+//            });
+//            dao.setShow(false);
+        } catch (Exception e) {
+
+        }
     }
 }

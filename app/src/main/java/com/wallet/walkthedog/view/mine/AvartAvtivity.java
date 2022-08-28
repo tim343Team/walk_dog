@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.core.content.ContextCompat;
 
@@ -41,7 +43,8 @@ import tim.com.libnetwork.view.clip_image.ClipImageLayout;
  */
 public class AvartAvtivity extends BaseActivity {
     private static final String WALKDOG = "/walk_avart";
-
+    @BindView(R.id.button)
+    ImageView button;
     @BindView(R.id.clipImageLayout)
     ClipImageLayout mClipImageLayout;
     private String filePath;
@@ -53,6 +56,8 @@ public class AvartAvtivity extends BaseActivity {
 
     @OnClick(R.id.button)
     void enter() {
+        button.setEnabled(false);
+        button.setFocusable(false);
         Bitmap bitmap = mClipImageLayout.clip();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -77,8 +82,12 @@ public class AvartAvtivity extends BaseActivity {
             EventBus.getDefault().post(uploadEevent);
             finish();
         } catch (FileNotFoundException e) {
+            button.setEnabled(true);
+            button.setFocusable(true);
             e.printStackTrace();
         } catch (IOException e) {
+            button.setEnabled(true);
+            button.setFocusable(true);
             e.printStackTrace();
         }
     }

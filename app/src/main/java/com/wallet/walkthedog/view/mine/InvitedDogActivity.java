@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.mine;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.custom_view.card.ShadowDrawable;
 import com.wallet.walkthedog.dao.InviteFriendTheDogDao;
 import com.wallet.walkthedog.dao.InviteFriendTheDogItem;
+import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
@@ -114,15 +116,15 @@ public class InvitedDogActivity extends BaseActivity {
         adapter1.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                int togetherId = adapter1.getData().get(position).getId();
                 if (view.getId() == R.id.tv_refuse) {
-                    ideaTogether(3);
-                } else if (view.getId() == R.id.tv_accept){
-                    ideaTogether(1);
+                    ideaTogether(togetherId, 3);
+                } else if (view.getId() == R.id.tv_accept) {
+                    ideaTogether(togetherId, 1);
                 }
             }
         });
     }
-
 
 
     private void selectTextView(TextView select, TextView unselect) {
@@ -179,11 +181,10 @@ public class InvitedDogActivity extends BaseActivity {
         int type = 1;
     }
 
-    private void ideaTogether(int state) {
+    private void ideaTogether(int togetherId, int state) {
         displayLoadingPopup();
-        WonderfulOkhttpUtils.get().url(UrlFactory.getIdeaTogether())
+        WonderfulOkhttpUtils.get().url(UrlFactory.getIdeaTogether() + "?togetherId=" + togetherId + "&status=" + String.valueOf(state))
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-                .addParams("state", String.valueOf(state))
                 .build()
                 .getCall()
                 .enqueue(new GsonWalkDogCallBack<RemoteData<Object>>() {
@@ -191,6 +192,19 @@ public class InvitedDogActivity extends BaseActivity {
                     protected void onRes(RemoteData<Object> testRemoteData) {
                         onSuccessIdeaTogether();
                         hideLoadingPopup();
+                        if (state == 1) {
+                            //接受邀请
+                            NormalDialog dialog = NormalDialog.newInstance(R.string.accept_invitation, R.mipmap.icon_normal);
+                            dialog.setTheme(R.style.PaddingScreen);
+                            dialog.setGravity(Gravity.CENTER);
+                            dialog.show(getSupportFragmentManager(), "edit");
+                        } else if (state == 3) {
+                            //取消邀请
+                            NormalDialog dialog = NormalDialog.newInstance(R.string.refuse_invitation, R.mipmap.icon_normal);
+                            dialog.setTheme(R.style.PaddingScreen);
+                            dialog.setGravity(Gravity.CENTER);
+                            dialog.show(getSupportFragmentManager(), "edit");
+                        }
                     }
 
                     @Override
@@ -202,9 +216,8 @@ public class InvitedDogActivity extends BaseActivity {
     }
 
 
-
     private void getTogetherPage(RequestData data) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getTogetherPage()+"?pageNo="+ data.pageNo +"&pageSize=" + data.pageSize + "&type="+ data.type)
+        WonderfulOkhttpUtils.get().url(UrlFactory.getTogetherPage() + "?pageNo=" + data.pageNo + "&pageSize=" + data.pageSize + "&type=" + data.type)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -295,10 +308,10 @@ public class InvitedDogActivity extends BaseActivity {
                 helper.setText(R.id.tv_state, R.string.cancle);
 
             }
-            if (visible){
+            if (visible) {
                 helper.setGone(R.id.tv_refuse, true);
                 helper.setGone(R.id.tv_accept, true);
-            }else {
+            } else {
                 helper.setGone(R.id.tv_refuse, false);
                 helper.setGone(R.id.tv_accept, false);
             }

@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -41,6 +42,7 @@ import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.invite.InviteActivity;
 import com.wallet.walkthedog.view.invite_detail.InviteDetailActivity;
+import com.wallet.walkthedog.view.mine.AvatarActivity;
 import com.wallet.walkthedog.view.props.ChoicePropsActivity;
 import com.wallet.walkthedog.view.select_dog.SelectDogActivity;
 import com.wallet.walkthedog.view.walk.WalkActivity;
@@ -55,6 +57,8 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseTransFragment;
+import tim.com.libnetwork.utils.DateTimeUtil;
+import tim.com.libnetwork.utils.WonderfulStringUtils;
 
 public class HomeFragment extends BaseTransFragment implements HomeContract.HomeView {
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -117,31 +121,13 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.ll_add_dog)
     void addDoag() {
-        //TODO
-//        SettingInviteDialog dialog = SettingInviteDialog.newInstance();
-//        dialog.setTheme(R.style.PaddingScreen);
-//        dialog.setGravity(Gravity.BOTTOM);
-//        dialog.show(getFragmentManager(), "edit");
-//        dialog.setCallback(new SettingInviteDialog.OperateCallback() {
-//            @Override
-//            public void callback() {
-//                PickTimeView timeView = new PickTimeView(getmActivity());
-//                timeView.setStartTime(1970, 1, 1, 0, 0, 0);
-//                timeView.setEndtTimeMillis();
-//                timeView.setTitle("生日");
-//                timeView.showTimePickerView();
-//                timeView.setOnTimeSelectListener(new PickTimeView.OnTimeSelect() {
-//                    @Override
-//                    public void onSelect(Date date) {
-////                DateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
-////                DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-////                tvBirthday.setText(df.format(date));
-////                bean.setBirthday(df2.format(date));
-//                    }
-//                });
-//            }
-//        });
         SelectDogActivity.actionStart(getActivity());
+    }
+
+    @OnClick(R.id.img_user_avatar)
+    void editAvatar() {
+        Intent intent = new Intent(requireContext(), AvatarActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.img_invate)
@@ -395,7 +381,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         txtDogLevel.setText("Lv. " + mDefultDogInfo.getLevel());
         txtSpeed.setText(String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm() + "Km"));
         txtNumber.setText(String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount() + ""));
-        txtTrip.setText(String.format(getString(R.string.time_totle), mDefultDogInfo.getWalkTheDogTime() + ""));
+        txtTrip.setText(String.format(getString(R.string.time_totle),DateTimeUtil.second2Minute(mDefultDogInfo.getWalkTheDogTime())));
         txtRegion.setText(String.format(getString(R.string.number_today), mDefultDogInfo.getDayLimit() + "/2"));
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -461,6 +447,20 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     @Override
+    public void getDogInfoFail(Integer code, String toastMessage) {
+        mDefultDogInfo=null;
+        updateUI();
+    }
+
+    @Override
+    public void getWalkTheDogFriendFail(Integer code, String toastMessage) {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.icon_invate);
+        Glide.with(getmActivity()).load(R.mipmap.icon_invate).apply(options).into(imgInvate);
+    }
+
+    @Override
     public void getCurrentDogInfo(DogInfoDao dogInfoDao) {
         mDefultDogInfo = dogInfoDao;
         presenter.getWallet("1");//获取代币总数
@@ -505,15 +505,15 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         trainDialog.setCallback(new TrainListDialog.OperateCallback() {
             @Override
             public void callback(TrainDao item) {
-                TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item, totalFood);
+                TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item, totalFood,0);
                 trainDogDialog.setTheme(R.style.PaddingScreen);
                 trainDogDialog.setGravity(Gravity.CENTER);
                 trainDogDialog.show(getFragmentManager(), "edit");
                 trainDogDialog.setCallback(new TrainDogDialog.OperateCallback() {
                     @Override
-                    public void callback(int trainId) {
+                    public void callback(TrainDao item, String totalFood) {
                         //获取训练详情
-                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(), trainId + ""));
+                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(), item.getId() + ""),item,totalFood);
                     }
                 });
                 trainDialog.dismiss();
@@ -534,15 +534,18 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void feedFail(Integer code, String toastMessage) {
         //喂食失败
-        if (code == 1) {
-            //获取狗粮数据
-            presenter.getShopDogFood();
-        }
+        presenter.getShopDogFood();
     }
 
     @Override
-    public void trainSuccessful(String data) {
+    public void trainSuccessful(String data,TrainDao item, String totalFood) {
         updateData();
+        //弹出肌肉增加页面
+        double balance=Double.parseDouble(totalFood)-item.getConsume()<0?0:Double.parseDouble(totalFood)-item.getConsume();
+        TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item,balance+"" ,1);
+        trainDogDialog.setTheme(R.style.PaddingScreen);
+        trainDogDialog.setGravity(Gravity.CENTER);
+        trainDogDialog.show(getFragmentManager(), "edit");
 //        NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
 //        dialog.setTheme(R.style.PaddingScreen);
 //        dialog.setGravity(Gravity.CENTER);
@@ -561,43 +564,72 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void getShopDogFoodSuccessful(DogFoodDao data) {
         //新增是否购买页面
-        FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
-        dialog.setTheme(R.style.PaddingScreen);
-        dialog.setGravity(Gravity.BOTTOM);
-        dialog.show(getFragmentManager(), "edit");
-        dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
-
+//        FeedofRemindDialog dialog = FeedofRemindDialog.newInstance();
+//        dialog.setTheme(R.style.PaddingScreen);
+//        dialog.setGravity(Gravity.BOTTOM);
+//        dialog.show(getFragmentManager(), "edit");
+//        dialog.setCallback(new FeedofRemindDialog.OperateCallback() {
+//
+//            @Override
+//            public void callback() {
+//                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
+//                buyDialog.setTheme(R.style.PaddingScreen);
+//                buyDialog.setGravity(Gravity.CENTER);
+//                buyDialog.show(getFragmentManager(), "edit");
+//                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+//                    @Override
+//                    public void callback(int number) {
+//                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
+//                        passwordDialog.setTheme(R.style.PaddingScreen);
+//                        passwordDialog.setGravity(Gravity.CENTER);
+//                        passwordDialog.show(getFragmentManager(), "edit");
+//                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
+//                            @Override
+//                            public void callback(String password) {
+//                                //購買狗糧
+//                                presenter.buyShopDogFood(data.getId(), number,password);
+//                                passwordDialog.dismiss();
+//                                buyDialog.dismiss();
+//                            }
+//                        });
+//                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+//                            @Override
+//                            public void callback() {
+//                                ToastUtils.shortToast("错误");
+//                            }
+//                        });
+//                    }
+//                });
+//                dialog.dismiss();
+//            }
+//        });
+        //直接跳购买页面
+        BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
+        buyDialog.setTheme(R.style.PaddingScreen);
+        buyDialog.setGravity(Gravity.CENTER);
+        buyDialog.show(getFragmentManager(), "edit");
+        buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
             @Override
-            public void callback() {
-                BuyFoodDialog buyDialog = BuyFoodDialog.newInstance(totalProperty, data);
-                buyDialog.setTheme(R.style.PaddingScreen);
-                buyDialog.setGravity(Gravity.CENTER);
-                buyDialog.show(getFragmentManager(), "edit");
-                buyDialog.setCallback(new BuyFoodDialog.OperateCallback() {
+            public void callback(int number) {
+                PasswordDialog passwordDialog = PasswordDialog.newInstance();
+                passwordDialog.setTheme(R.style.PaddingScreen);
+                passwordDialog.setGravity(Gravity.CENTER);
+                passwordDialog.show(getFragmentManager(), "edit");
+                passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
                     @Override
-                    public void callback(int number) {
-                        PasswordDialog passwordDialog = PasswordDialog.newInstance();
-                        passwordDialog.setTheme(R.style.PaddingScreen);
-                        passwordDialog.setGravity(Gravity.CENTER);
-                        passwordDialog.show(getFragmentManager(), "edit");
-                        passwordDialog.setCallback(new PasswordDialog.OperateCallback() {
-                            @Override
-                            public void callback(String password) {
-                                //購買狗糧
-                                presenter.buyShopDogFood(data.getId(), number);
-                                passwordDialog.dismiss();
-                                buyDialog.dismiss();
-                            }
-                        });
-                        passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
-                            @Override
-                            public void callback() {
-                                ToastUtils.shortToast("错误");
-                            }
-                        });
+                    public void callback(String password) {
+                        //購買狗糧
+                        presenter.buyShopDogFood(data.getId(), number,password);
+                        passwordDialog.dismiss();
+                        buyDialog.dismiss();
                     }
                 });
-                dialog.dismiss();
+                passwordDialog.setCallback(new PasswordDialog.OperateErrorCallback() {
+                    @Override
+                    public void callback() {
+                        ToastUtils.shortToast("错误");
+                    }
+                });
             }
         });
     }
@@ -627,7 +659,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         if (data != null) {
             RequestOptions options = new RequestOptions()
                     .centerCrop()
-                    .placeholder(R.mipmap.icon_null_dog)
+                    .placeholder(R.mipmap.icon_invate)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
             Glide.with(getmActivity()).load(data.getDog().getImg()).apply(options).into(imgInvate);
         }

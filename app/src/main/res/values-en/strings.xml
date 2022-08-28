@@ -107,7 +107,7 @@
     <!--身份id卡-->
     <string name="name_">Name:</string>
     <string name="name">name</string>
-    <string name="country">nation</string>
+    <string name="country">nation/area</string>
     <string name="name1_">name:</string>
     <string name="gender_">gender:</string>
     <string name="level_">grade:</string>
@@ -558,6 +558,27 @@
     <string name="otc_duihuan">Otc exchange</string>
     <string name="otc_trade">otc trading</string>
     <string name="please_input_amount">Please enter amount</string>
+
+
+    <string-array name="text_price_type">
+        <item>All</item>
+        <item>low price</item>
+        <item>high price</item>
+    </string-array>
+
+    <string name="empty_dog">You don’t have a dog yet.Please go to the mall to buy</string>
+    <string name="empty_sell_dog">You don’t have a dog for sale</string>
+    <string name="empty_my_dog">You don’t have a dog</string>
+    <string name="empty_my_prop">Please go to the mall to buy</string>
+    <string name="mailbox_certificate_notice">Please upload the certificate.</string>
+    <string name="payer_">Payer: %s</string>
+    <string name="pay_by_">Pay by: %s</string>
+    <string name="country_">Country: %s</string>
+    <string name="card_number_">Card number: %s</string>
+
+    <string name="code_2000">The dog Id is incorrect</string>
+    <string name="code_2204">Not the initiator</string>
+    <string name="add_friend_success">Added friend information has been send</string>
 
 </resources>
 

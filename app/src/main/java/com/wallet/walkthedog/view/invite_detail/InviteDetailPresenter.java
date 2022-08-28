@@ -86,4 +86,40 @@ public class InviteDetailPresenter implements InviteDetailContract.InviteDetailP
             }
         });
     }
+
+    @Override
+    public void deleteTogether(String togetherId) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.deleteTogether(togetherId,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.deleteTogetherSuccess((String) obj);
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.addTogetherFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void ideaTogether(String togetherId, int status) {
+        view.displayLoadingPopup();//显示loading
+        dataRepository.ideaTogether(togetherId,status,new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.ideaTogetherSuccessful((String) obj,status);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.addTogetherFail(code, toastMessage);
+            }
+        });
+    }
 }

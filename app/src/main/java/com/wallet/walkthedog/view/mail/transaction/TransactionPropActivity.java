@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.ErrorCode;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.bus_event.UpdateMaiPropEvent;
 import com.wallet.walkthedog.bus_event.UpdateMailDogEvent;
@@ -18,6 +19,7 @@ import com.wallet.walkthedog.dao.CodeDataDao;
 import com.wallet.walkthedog.dao.DogMailDao;
 import com.wallet.walkthedog.dao.PropMailDao;
 import com.wallet.walkthedog.dao.request.BuyRequest;
+import com.wallet.walkthedog.data.Constant;
 import com.wallet.walkthedog.db.UserDao;
 import com.wallet.walkthedog.db.dao.UserCache;
 import com.wallet.walkthedog.dialog.NormalDialog;
@@ -26,6 +28,7 @@ import com.wallet.walkthedog.dialog.PasswordDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,6 +48,10 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
     TextView txtIntroduce;
     @BindView(R.id.txt_operation)
     TextView txtOperation;
+    @BindView(R.id.txt_fee)
+    TextView txtFee;
+    @BindView(R.id.txt_price)
+    TextView txtPrice;
 
     private TransactionContract.TransactionPresenter presenter;
     private PropMailDao propMailDao;
@@ -115,6 +122,7 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
         txtName.setText(propMailDao.getName());
         txtId.setText(propMailDao.getPropNumberChain() + "");
         txtIntroduce.setText(propMailDao.getDescribeData());
+        txtPrice.setText(propMailDao.getPrice() + "suzu");
         if (propMailDao.getMemberId().equals(uid)) {
             status = 1;
             txtOperation.setText(R.string.cancle_buy);
@@ -122,6 +130,7 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
             status = 0;
             txtOperation.setText(R.string.buy);
         }
+        presenter.getSysDataCode(Constant.SHOPPING_FEE);
     }
 
     @Override
@@ -141,7 +150,7 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(ErrorCode.getInstance(code).getMessage(), R.mipmap.icon_normal_no,R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
@@ -177,7 +186,10 @@ public class TransactionPropActivity extends BaseActivity implements Transaction
 
     @Override
     public void getSysDataCodeSuccess(CodeDataDao data) {
-
+        double fee = 0.0;
+        fee = Double.parseDouble(data.getValue());
+        String feeValue = new DecimalFormat("#0.00").format(propMailDao.getPrice() * fee);
+        txtFee.setText(feeValue+"suzu");
     }
 
     @Override

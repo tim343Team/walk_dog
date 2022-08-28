@@ -2,6 +2,8 @@ package com.wallet.walkthedog.dialog;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +26,8 @@ import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import tim.com.libnetwork.base.BaseDialogFragment;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
@@ -69,6 +73,26 @@ public class SoldQuantityDialog extends BaseDialogFragment {
                 if (check()) {
                     double price = Double.parseDouble(editText.getText().toString());
                     showPWDialog(price, adapter.getData().get(adapter.select).getId());
+                }
+            }
+        });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().isEmpty()){
+                    return;
+                }
+                if (!checkoutString(editable.toString())) {
+                    editText.setText(editable.toString().substring(0,editable.toString().length()-1));
                 }
             }
         });
@@ -209,6 +233,18 @@ public class SoldQuantityDialog extends BaseDialogFragment {
                 tv.setTextColor(Color.BLACK);
             }
         }
+    }
+
+    public boolean checkoutString(String text) {
+        Pattern EMAIL = Pattern.compile("^\\d+(\\.\\d{0,4})?$");
+        boolean flag = false;
+        try {
+            Matcher matcher = EMAIL.matcher(text);
+            flag = matcher.matches();
+        } catch (Exception e) {
+            flag = false;
+        }
+        return flag;
     }
 
     public interface DialogConfimCall {

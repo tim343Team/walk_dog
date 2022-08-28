@@ -3,6 +3,8 @@ package com.wallet.walkthedog.view.email;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,24 +37,7 @@ public class InvitationActivity extends BaseActivity implements EmailContract.Em
 
     @OnClick({R.id.view_bottom, R.id.img_ok})
     void gotocheckInvitation() {
-        if (status == 0) {
-            if (editText.getText().toString().isEmpty()) {
-                Toast.makeText(InvitationActivity.this, R.string.invitation_code_notice, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            //保存邀请码
-            switchToStatus();
-        } else if (status == 1) {
-            if (editText.getText().toString().isEmpty()) {
-                Toast.makeText(InvitationActivity.this, R.string.mailbox_address, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!checkoutEmail(editText.getText().toString())) {
-                Toast.makeText(InvitationActivity.this, R.string.mailbox_address_notice, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            presenter.sendMailboxCode(new SendMailboxCodeRequest(editText.getText().toString()));//发起请求
-        }
+        actionNext();
     }
 
     @OnClick(R.id.ll_edit)
@@ -84,6 +69,17 @@ public class InvitationActivity extends BaseActivity implements EmailContract.Em
     protected void initViews(Bundle savedInstanceState) {
         instance = this;
         presenter = new EmailPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    //执行对应的操作
+                    actionNext();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -112,7 +108,7 @@ public class InvitationActivity extends BaseActivity implements EmailContract.Em
     public boolean checkoutEmail(String email) {
         boolean flag = false;
         try {
-            String emailMatcher = "[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+";
+            String emailMatcher = "[a-zA-Z0-9.]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+";
             Pattern regex = Pattern.compile(emailMatcher);
             Matcher matcher = regex.matcher(email);
             flag = matcher.matches();
@@ -147,5 +143,26 @@ public class InvitationActivity extends BaseActivity implements EmailContract.Em
     @Override
     public void setPresenter(EmailContract.EmailPresenter presenter) {
         this.presenter = presenter;
+    }
+
+    private void actionNext(){
+        if (status == 0) {
+            if (editText.getText().toString().isEmpty()) {
+                Toast.makeText(InvitationActivity.this, R.string.invitation_code_notice, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            //保存邀请码
+            switchToStatus();
+        } else if (status == 1) {
+            if (editText.getText().toString().isEmpty()) {
+                Toast.makeText(InvitationActivity.this, R.string.mailbox_address, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!checkoutEmail(editText.getText().toString())) {
+                Toast.makeText(InvitationActivity.this, R.string.mailbox_address_notice, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            presenter.sendMailboxCode(new SendMailboxCodeRequest(editText.getText().toString()));//发起请求
+        }
     }
 }

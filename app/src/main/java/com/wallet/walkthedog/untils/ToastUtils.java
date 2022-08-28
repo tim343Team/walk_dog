@@ -15,7 +15,7 @@ public class ToastUtils {
     }
 
     public static void shortToast(Context context, int resource) {
-        show(context,RootApplication.getInstance().getString(resource), Toast.LENGTH_SHORT);
+        show(context,context.getString(resource), Toast.LENGTH_SHORT);
     }
 
     public static void shortToast(String message) {
