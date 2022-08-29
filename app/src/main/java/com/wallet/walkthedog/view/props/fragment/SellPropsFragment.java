@@ -44,7 +44,7 @@ public class SellPropsFragment extends BaseLazyFragment implements PropsContract
     @OnClick(R.id.ll_sell_record)
     void gotoRecord(){
         //售卖记录
-        SellRecordActivity.actionStart(getmActivity());
+        SellRecordActivity.actionStart(getmActivity(),1);
     }
 
     private PropsContract.PropsPresenter presenter;

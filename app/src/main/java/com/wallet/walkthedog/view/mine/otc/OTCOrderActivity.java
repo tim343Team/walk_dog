@@ -138,8 +138,8 @@ public class OTCOrderActivity extends BaseActivity {
             startActivity(intent);
         } else if (position == 3) {
             //商家
-//            MerchantActivity.actionStart(this);
-            MerchantApplyActivity.actionStart(this);
+            MerchantActivity.actionStart(this);
+//            MerchantApplyActivity.actionStart(this);
         }
     }
 

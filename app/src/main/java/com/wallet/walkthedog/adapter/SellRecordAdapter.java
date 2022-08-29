@@ -20,7 +20,7 @@ public class SellRecordAdapter extends BaseQuickAdapter<SellRecordDao, BaseViewH
     protected void convert(BaseViewHolder helper, SellRecordDao item) {
         helper.setText(R.id.txt_name,item.getNftTypeName());
         helper.setText(R.id.txt_prop_id,item.getDogNumberChain());
-        helper.setText(R.id.txt_price,"缺少價格字段");
+        helper.setText(R.id.txt_price,item.getSum()+"");
         helper.setText(R.id.txt_time,item.getCreateTime());
         helper.setText(R.id.txt_orider_id,String.format(mContext.getString(R.string.order_number_), item.getId()+""));
     }

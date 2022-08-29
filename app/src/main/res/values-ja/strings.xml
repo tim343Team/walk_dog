@@ -578,6 +578,7 @@
     <string name="code_2000">The dog Id is incorrect</string>
     <string name="code_2204">Not the initiator</string>
     <string name="add_friend_success">友だち追加情報は送信済み</string>
+    <string name="upload_error">Upload failed. Please upload pictures smaller than 1M</string>
 
 </resources>
 

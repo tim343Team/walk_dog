@@ -333,7 +333,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
             return;
         }
         presenter.getDogInfo(SharedPrefsHelper.getInstance().getDogId());
-//        invitedFriendDao = null;
         presenter.getWalkTheDogFriend();
     }
 

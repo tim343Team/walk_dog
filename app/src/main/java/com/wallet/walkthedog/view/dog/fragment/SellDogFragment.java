@@ -29,6 +29,7 @@ import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.dog.DogDetailActivity;
 import com.wallet.walkthedog.view.home.HomeActivity;
+import com.wallet.walkthedog.view.props.SellRecordActivity;
 import com.wallet.walkthedog.view.props.fragment.PropsContract;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,11 +40,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseLazyFragment;
 
 public class SellDogFragment extends BaseLazyFragment  implements DogContract.DogView{
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+
+    @OnClick(R.id.ll_sell_record)
+    void gotoRecord(){
+        //售卖记录
+        SellRecordActivity.actionStart(getmActivity(),2);
+    }
 
     private DogContract.DogPresenter presenter;
     private int pageNo = 1;
@@ -187,11 +195,18 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
     @Override
     public void cancelSellSuccess(String message,int position) {
         data.remove(position);
+        if (data.size() > 0) {
+            adapter.notifyItemRemoved(position);
+        } else {
+            adapter.notifyDataSetChanged();
+        }
         adapter.notifyItemRemoved(position);
         NormalDialog normalDialog = NormalDialog.newInstance(R.string.cancle_sale, R.mipmap.icon_normal);
         normalDialog.setTheme(R.style.PaddingScreen);
         normalDialog.setGravity(Gravity.CENTER);
         normalDialog.show(getFragmentManager(), "edit");
+        EventBus.getDefault().post(new UpdateDogEvent());
+
     }
 
     @Override

@@ -18,7 +18,7 @@ public class SellRecordContract {
 
     interface SellRecordPresenter extends Contract.BasePresenter {
 
-        void getShoppLog(int pageNo);
+        void getShoppLog(int type,int pageNo);
 
     }
 }

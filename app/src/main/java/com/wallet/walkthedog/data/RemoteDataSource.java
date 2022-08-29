@@ -1700,8 +1700,9 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void getShoppLog(int pageNo, DataCallback dataCallback) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getShoppLogUrl() + "?pageNo="+pageNo+"&pageSize=20")
+    public void getShoppLog(int type,int pageNo, DataCallback dataCallback) {
+        //1是道具 2狗狗
+        WonderfulOkhttpUtils.get().url(UrlFactory.getShoppLogUrl() + "?pageNo="+pageNo+"&pageSize=20"+"&nftBaseType="+type)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .execute(new StringCallBack() {

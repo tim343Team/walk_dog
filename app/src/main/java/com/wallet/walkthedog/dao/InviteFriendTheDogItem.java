@@ -2,6 +2,7 @@ package com.wallet.walkthedog.dao;
 
 public class InviteFriendTheDogItem {
 	private String friendName;
+	private String friendNickName;
 	private int isDelete;
 	private int isRead;
 	private String memberName;
@@ -17,6 +18,10 @@ public class InviteFriendTheDogItem {
 
 	public String getFriendName(){
 		return friendName;
+	}
+
+	public String getFriendNickName() {
+		return friendNickName;
 	}
 
 	public int getIsDelete(){

@@ -348,9 +348,9 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public void getShoppLog(int pageNo, DataCallback dataCallback) {
-        if (isLocal) mLocalDataSource.getShoppLog(pageNo, dataCallback);
-        else mRemoteDataSource.getShoppLog(pageNo, dataCallback);
+    public void getShoppLog(int type,int pageNo, DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.getShoppLog(type,pageNo, dataCallback);
+        else mRemoteDataSource.getShoppLog(type,pageNo, dataCallback);
     }
 
     @Override

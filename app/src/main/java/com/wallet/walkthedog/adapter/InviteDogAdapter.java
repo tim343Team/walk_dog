@@ -31,17 +31,17 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
         helper.getView(R.id.txt_invite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.callback(item,helper.getLayoutPosition());
+                callback.callback(item, helper.getLayoutPosition());
             }
         });
 
         ImageView imgGender = (ImageView) helper.getView(R.id.img_gender);
-        helper.setText(R.id.txt_dog_name,item.getNftName());
-        helper.setText(R.id.txt_rent_name,item.getFriendName());
-        helper.setText(R.id.txt_level,"Lv." + item.getLevel());
+        helper.setText(R.id.txt_dog_name, item.getNftName());
+        helper.setText(R.id.txt_rent_name, item.getFriendNickName().isEmpty() ? item.getFriendName() : item.getFriendNickName());
+        helper.setText(R.id.txt_level, "Lv." + item.getLevel());
         helper.setText(R.id.txt_time, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
         helper.setText(R.id.txt_trip, DateTimeUtil.second2Time(item.getWalkTheDogTime()));//总次数
-        helper.setText(R.id.txt_id, item.getId()+"");
+        helper.setText(R.id.txt_id, item.getId() + "");
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -55,12 +55,12 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
         }
         helper.setText(R.id.txt_number, item.getDayLimit() + "/2");
         //精力状态
-        if(item.getStarvation()==1){
-            helper.setTextColor(R.id.txt_status,Color.parseColor("#E51616"));
-            helper.setText(R.id.txt_status,R.string.full_of_hunger);
-        }else {
+        if (item.getStarvation() == 1) {
+            helper.setTextColor(R.id.txt_status, Color.parseColor("#E51616"));
+            helper.setText(R.id.txt_status, R.string.full_of_hunger);
+        } else {
             helper.setTextColor(R.id.txt_status, Color.parseColor("#30B226"));
-            helper.setText(R.id.txt_status,R.string.full_of_energy);
+            helper.setText(R.id.txt_status, R.string.full_of_energy);
         }
     }
 
@@ -71,6 +71,6 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
     }
 
     public interface OperateCallback {
-        void callback(FriendInfoDao dao,int position);
+        void callback(FriendInfoDao dao, int position);
     }
 }

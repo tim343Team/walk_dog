@@ -29,6 +29,7 @@ import com.wallet.walkthedog.dialog.PasswordDialog;
 import com.wallet.walkthedog.dialog.RemoveFriendDIalog;
 import com.wallet.walkthedog.dialog.SettingInviteDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
+import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,6 +80,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
     private InviteDetailContract.InviteDetailPresenter presenter;
     private FriendInfoDao friendInfoDao;
     private DogInfoDao mDefultDogInfo;
+    private int type = -1;//0:邀请  1：取消邀请  2：拒绝  3:解除关系
 
     @OnClick(R.id.img_back)
     void back() {
@@ -121,10 +123,8 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         if (mDefultDogInfo == null) {
             return;
         }
-        if(mDefultDogInfo.getStatus()==1 || mDefultDogInfo.getStatus()==2){
-            //取消邀請
-            presenter.ideaTogether(mDefultDogInfo.getTogetherId() + "", 4);
-        }else {
+        if (type == 0) {
+            //邀请
             SettingInviteDialog dialog = SettingInviteDialog.newInstance();
             dialog.setTheme(R.style.PaddingScreen);
             dialog.setGravity(Gravity.BOTTOM);
@@ -138,6 +138,15 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
                     dialog.dismiss();
                 }
             });
+        } else if (type == 1) {
+            //取消
+            presenter.ideaTogether(mDefultDogInfo.getTogetherId() + "", 4);
+        } else if (type == 2) {
+            //拒绝
+            presenter.ideaTogether(mDefultDogInfo.getTogetherId() + "", 3);
+        }else if (type == 3) {
+            //接触关系
+            presenter.deleteTogether(mDefultDogInfo.getTogetherId() + "");
         }
     }
 
@@ -236,12 +245,33 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
 
     @Override
     public void getSuccess(DogInfoDao data) {
+//        A邀请B.B可以同意可以拒绝.用idea接口
+//        B同意了.要移除关系用delete (A或者B都可以调用)
+//        A发出的申请.B没有同意也没有拒绝.A可以取消邀请用idea接口.
+        //1已同意 2等待同意 3已拒绝 4自动拒绝 5发起人取消
         mDefultDogInfo = data;
-        if(mDefultDogInfo.getStatus()==1 || mDefultDogInfo.getStatus()==2){
-            //取消邀请
-            shadowTextView.setText(R.string.cancle_remove);
-        }else {
+        //A就是取消邀请.B就是拒绝.没有关系的就是邀请.
+        if (mDefultDogInfo.getTogetherId() == 0) {
+            type = 0;
             shadowTextView.setText(R.string.invitation);
+        } else {
+            if (mDefultDogInfo.getFromMemberId() == SharedPrefsHelper.getInstance().getUserInfo().getId()) {
+                //我发起的邀请
+                if(mDefultDogInfo.getStatus()==1){
+                    type = 3;
+                }else {
+                    type = 1;
+                }
+                shadowTextView.setText(R.string.cancle_remove);
+            } else {
+                //我被邀请 有两种状态"拒绝""解除关系"
+                if(mDefultDogInfo.getStatus()==1){
+                    type = 3;
+                }else {
+                    type = 2;
+                }
+                shadowTextView.setText(R.string.refuse);
+            }
         }
         if (mDefultDogInfo.getSex() == 0) {
             imgGender.setBackgroundResource(R.mipmap.icon_female);

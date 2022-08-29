@@ -17,9 +17,9 @@ public class SellRecordPresenter implements SellRecordContract.SellRecordPresent
     }
 
     @Override
-    public void getShoppLog(int pageNo) {
+    public void getShoppLog(int type,int pageNo) {
         view.displayLoadingPopup();//显示loading
-        dataRepository.getShoppLog(pageNo,new DataSource.DataCallback() {
+        dataRepository.getShoppLog(type,pageNo,new DataSource.DataCallback() {
             @Override
             public void onDataLoaded(Object obj) {
                 view.hideLoadingPopup();

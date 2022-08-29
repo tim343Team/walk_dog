@@ -324,7 +324,7 @@ public class MineFragment extends BaseTransFragment {
         for (int i = 0; i < wallets.size(); i++) {
             WalletsItem item = wallets.get(i);
             if (item.getType() == 1) {
-                String asset = Utils.getFormat("%.2f", item.getDogFood());
+                String asset = Utils.getFormat("%.4f", item.getDogFood());
                 if (see) {
                     tv_asset.setText(asset);
                 } else {
@@ -332,7 +332,7 @@ public class MineFragment extends BaseTransFragment {
                 }
 
             } else if (item.getType() == 2) {
-                String dogFood = Utils.getFormat("%.2f", item.getDogFood());
+                String dogFood = Utils.getFormat("%.4f", item.getDogFood());
                 tv_dog_food.setText(dogFood +"g");
             }
         }

@@ -292,9 +292,9 @@ public class MerchantApplyActivity extends BaseActivity implements MerchantContr
                     }
                     Bitmap bm = null;
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-                        bm = WonderfulBitmapUtils.zoomBitmap(bitmap, bitmap.getWidth() / 6, bitmap.getHeight() / 6);
-                        WonderfulBitmapUtils.saveBitmapToFile(bitmap,imageFile, 50);
+//                        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+//                        bm = WonderfulBitmapUtils.zoomBitmap(bitmap, bitmap.getWidth() / 6, bitmap.getHeight() / 6);
+//                        WonderfulBitmapUtils.saveBitmapToFile(bitmap,imageFile, 50);
                     } catch (Exception e) {
                         ToastUtils.shortToast(R.string.library_file_exception);
                     }
@@ -363,7 +363,7 @@ public class MerchantApplyActivity extends BaseActivity implements MerchantContr
 
             @Override
             public void onDataNotAvailable(Integer code, String toastMessage) {
-                ToastUtils.shortToast(toastMessage);
+                ToastUtils.shortToast(MerchantApplyActivity.this,R.string.upload_error);
             }
         });
     }

@@ -64,6 +64,8 @@ public class DogInfoDao implements Serializable {
 
     private int starvation;//1饥饿 2正常
 
+    private int fromMemberId;//发起邀请的用户id
+
     private List<PropDao> propList=new ArrayList<>();
 
     //一起遛狗信息
@@ -395,5 +397,13 @@ public class DogInfoDao implements Serializable {
 
     public void setFriendWalkTheDogTime(String friendWalkTheDogTime) {
         this.friendWalkTheDogTime = friendWalkTheDogTime;
+    }
+
+    public int getFromMemberId() {
+        return fromMemberId;
+    }
+
+    public void setFromMemberId(int fromMemberId) {
+        this.fromMemberId = fromMemberId;
     }
 }

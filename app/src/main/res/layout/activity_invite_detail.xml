@@ -447,7 +447,7 @@
                     android:layout_alignParentBottom="true"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="@string/invitation"
+                    android:text=""
                     android:textColor="#FFF"
                     android:textStyle="bold" />
 

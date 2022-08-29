@@ -112,6 +112,8 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateData(UpdateDogEvent event) {
+        adapter.setEnableLoadMore(true);
+        adapter.loadMoreEnd(false);
         pageNo = 1;
         presenter.getUserDog(type, pageNo);
         if (adapter != null) {

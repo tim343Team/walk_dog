@@ -27,6 +27,7 @@ public class SellRecordActivity extends BaseActivity implements SellRecordContra
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
+    private int type = 1;
     private int pageNo = 1;
     private SellRecordContract.SellRecordPresenter presenter;
     private SellRecordAdapter adapter;
@@ -37,8 +38,10 @@ public class SellRecordActivity extends BaseActivity implements SellRecordContra
         finish();
     }
 
-    public static void actionStart(Activity activity) {
+    public static void actionStart(Activity activity, int type) {
+        //type 1是道具 2狗狗
         Intent intent = new Intent(activity, SellRecordActivity.class);
+        intent.putExtra("type", type);
         activity.startActivity(intent);
     }
 
@@ -49,6 +52,7 @@ public class SellRecordActivity extends BaseActivity implements SellRecordContra
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        type = getIntent().getIntExtra("type",1);
         presenter = new SellRecordPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         initRecyclerView();
     }
@@ -65,7 +69,8 @@ public class SellRecordActivity extends BaseActivity implements SellRecordContra
 
     @Override
     protected void loadData() {
-        presenter.getShoppLog(pageNo);
+        //1是道具 2狗狗
+        presenter.getShoppLog(type,pageNo);
     }
 
     @Override
@@ -104,7 +109,7 @@ public class SellRecordActivity extends BaseActivity implements SellRecordContra
     private void loadMore() {
         pageNo = pageNo + 1;
         adapter.setEnableLoadMore(false);
-        presenter.getShoppLog(pageNo);
+        presenter.getShoppLog(type,pageNo);
     }
 
     @Override
