@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.home;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.InviteNoticeDao;
+import com.wallet.walkthedog.dao.VersionInfoDao;
 import com.wallet.walkthedog.data.DataSource;
 
 import java.util.List;
@@ -40,6 +41,20 @@ public class HomeMainPresenter implements HomeMainContract.HomeMainPresenter{
             @Override
             public void onDataLoaded(Object obj) {
                 view.getNewTogethersSuccessful((List<InviteNoticeDao>) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+            }
+        });
+    }
+
+    @Override
+    public void getVersionInfo() {
+        dataRepository.getVersionInfo(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.getVersionful((VersionInfoDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
             }
 
             @Override

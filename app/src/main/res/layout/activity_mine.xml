@@ -629,7 +629,8 @@
                     <ImageView
                         android:layout_width="@dimen/dimen_7"
                         android:layout_height="@dimen/dimen_7"
-                        android:background="@mipmap/icon_red_point"/>
+                        android:background="@mipmap/icon_red_point"
+                        android:visibility="gone"/>
 
                     <View
                         android:layout_width="0dp"
@@ -637,10 +638,11 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/tv_version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dimen_9"
-                        android:text="v1.00"
+                        android:text=""
                         android:textColor="@color/color_485EA8"
                         android:textSize="14dp" />
 

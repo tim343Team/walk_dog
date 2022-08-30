@@ -3,7 +3,9 @@ package com.wallet.walkthedog.view.home;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,23 +18,29 @@ import android.widget.Toast;
 
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.ActivityLifecycleManager;
+import com.wallet.walkthedog.app.GlobalConstant;
 import com.wallet.walkthedog.app.Injection;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.DogFoodWeightItemDao;
 import com.wallet.walkthedog.dao.InviteNoticeDao;
 import com.wallet.walkthedog.dao.UserInfoDao;
+import com.wallet.walkthedog.dao.VersionInfoDao;
 import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dialog.InviteNoticeDialog;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.dialog.SettingInviteDialog;
+import com.wallet.walkthedog.dialog.VerifyDialog;
+import com.wallet.walkthedog.dialog.VersionDialog;
 import com.wallet.walkthedog.even.UpdateHomeData;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.view.email.EmailPresenter;
+import com.wallet.walkthedog.view.login.CreateActivity;
 import com.wallet.walkthedog.view.login.LoginActivity;
+import com.wallet.walkthedog.view.login.VerificationActivity;
 import com.wallet.walkthedog.view.mail.MailFragment;
 import com.wallet.walkthedog.view.mine.MineFragment;
 import com.wallet.walkthedog.view.rental.RentalFragment;
@@ -47,6 +55,7 @@ import java.util.List;
 import butterknife.BindView;
 import tim.com.libnetwork.base.BaseTransFragmentActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
+import tim.com.libnetwork.utils.WonderfulPermissionUtils;
 
 public class HomeActivity extends BaseTransFragmentActivity implements HomeMainContract.HomeMainView {
     public static HomeActivity instance = null;
@@ -204,6 +213,9 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
             hideFragment(oneFragment);
             selecte(llOne, 0);
         }
+        // 获取当前版本号
+        versionName = getAppVersionName(this);
+        presenter.getVersionInfo();
     }
 
     @Override
@@ -247,7 +259,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
             //跳转到商城页面
             showMailFragment(1);
             selecte(llTwo, 1);
-            //TODO 设置跳转到狗狗还是道具页
+            //设置跳转到狗狗还是道具页
             if (twoFragment != null) {
                 twoFragment.showPosition = type;
                 twoFragment.showTab(type);
@@ -356,6 +368,15 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     }
 
     @Override
+    public void getVersionful(VersionInfoDao obj) {
+        if(obj.getVersion().equals(versionName)){
+            return;
+        }
+        //TODO 弹窗提示更新
+        showUpDialog(obj);
+    }
+
+    @Override
     public void setPresenter(HomeMainContract.HomeMainPresenter presenter) {
         this.presenter = presenter;
     }
@@ -414,5 +435,54 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
         } catch (Exception e) {
 
         }
+    }
+
+    /**
+     * 返回当前程序版本名
+     */
+    private String versionName;
+    private int versionCode;
+
+    public String getAppVersionName(Context context) {
+        versionName = "";
+        try {
+            // ---get the package info---
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versionName = pi.versionName;
+            versionCode = pi.versionCode;
+            Log.e("VersionInfo：", versionName);
+            //versioncode = pi.versionCode;
+            if (versionName == null || versionName.length() <= 0) {
+                return "";
+            }
+        } catch (Exception e) {
+            Log.e("VersionInfo", "Exception", e);
+        }
+        return versionName;
+    }
+
+    private void showUpDialog(final VersionInfoDao obj) {
+        VersionDialog dialog=new VersionDialog();
+        dialog.setTheme(R.style.PaddingScreen);
+        dialog.setGravity(Gravity.CENTER);
+        dialog.setCancelable(false);
+        dialog.show(getSupportFragmentManager(), "edit");
+        dialog.setCallback(new VersionDialog.OperateCallback() {
+            @Override
+            public void callback() {
+                Intent intent = new Intent();
+                intent.setData(Uri.parse(obj.getDownloadUrl()));//Url 就是你要打开的网址
+                intent.setAction(Intent.ACTION_VIEW);
+                startActivity(intent); //启动浏览器
+            }
+        });
+        dialog.setCallback(new VersionDialog.LogoutCallback() {
+            @Override
+            public void callback() {
+                finish();
+            }
+        });
+
     }
 }

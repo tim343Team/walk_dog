@@ -584,6 +584,8 @@
     <string name="add_friend_success">添加好友信息已發送</string>
     <string name="upload_error">上传失败，请上传大小为1M内的图片</string>
     <string name="merchant_settle_out">商家退出</string>
+    <string name="update">更新</string>
+    <string name="update_notice">發現新版本，請更新到最新版本後使用</string>
 
 </resources>
 

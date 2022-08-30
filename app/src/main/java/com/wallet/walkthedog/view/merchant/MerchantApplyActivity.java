@@ -178,6 +178,7 @@ public class MerchantApplyActivity extends BaseActivity implements MerchantContr
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getSupportFragmentManager(), "edit");
+        MerchantActivity.actionStart(this);
         finish();
     }
 

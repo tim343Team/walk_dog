@@ -24,6 +24,7 @@ import com.wallet.walkthedog.dao.PropMailDao;
 import com.wallet.walkthedog.dao.SellRecordDao;
 import com.wallet.walkthedog.dao.StartWalkDao;
 import com.wallet.walkthedog.dao.TrainDao;
+import com.wallet.walkthedog.dao.VersionInfoDao;
 import com.wallet.walkthedog.dao.request.AwardRequest;
 import com.wallet.walkthedog.dao.request.BuyRequest;
 import com.wallet.walkthedog.dao.request.CardEditRequset;
@@ -1489,6 +1490,38 @@ public class RemoteDataSource implements DataSource {
                                 List<InviteNoticeDao> objs = gson.fromJson(object.getJSONArray("data").toString(), new TypeToken<List<InviteNoticeDao>>() {
                                 }.getType());
                                 dataCallback.onDataLoaded(objs);
+                            } else {
+                                dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataCallback.onDataNotAvailable(JSON_ERROR, null);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getVersionInfo(DataCallback dataCallback) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getLastRevisionUrl() + "?platform=0")
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .execute(new StringCallBack() {
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        super.onError(request, e);
+                        WonderfulLogUtils.logi("获取版本信息:", e.getMessage());
+                        dataCallback.onDataNotAvailable(OKHTTP_ERROR, null);
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        WonderfulLogUtils.logi("获取版本信息：", response.toString());
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.optInt("code") == 0) {
+                                VersionInfoDao obj = gson.fromJson(object.getJSONObject("data").toString(), VersionInfoDao.class);
+                                dataCallback.onDataLoaded(obj);
                             } else {
                                 dataCallback.onDataNotAvailable(object.getInt("code"), object.optString("message"));
                             }

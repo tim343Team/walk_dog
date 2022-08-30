@@ -268,6 +268,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void getVersionInfo(DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void ideaTogether(String togetherId, int status, DataCallback dataCallback) {
 
     }

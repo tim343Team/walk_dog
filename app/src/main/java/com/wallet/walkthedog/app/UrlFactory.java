@@ -158,6 +158,11 @@ public class UrlFactory {
         return host + "/userInfo/getUserInfo";
     }
 
+    //查询最新版本下载地址
+    public static String getLastRevisionUrl() {
+        return host + "/appRevision/getLastRevision";
+    }
+
     //update头像
     public static String updateAvatar() {
         return host + "/userInfo/updateChatHead";

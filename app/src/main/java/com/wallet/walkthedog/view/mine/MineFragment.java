@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.UserInfoDao;
+import com.wallet.walkthedog.dao.VersionInfoDao;
 import com.wallet.walkthedog.dao.WalletsItem;
 import com.wallet.walkthedog.dialog.NicknameDialog;
 import com.wallet.walkthedog.dialog.QrDialog;
@@ -187,7 +188,7 @@ public class MineFragment extends BaseTransFragment {
                         dialog.dismiss();
                     }
                 });
-                dialog.show(requireFragmentManager(),"");
+                dialog.show(requireFragmentManager(), "");
             }
         });
 
@@ -203,7 +204,7 @@ public class MineFragment extends BaseTransFragment {
         rootView.findViewById(R.id.ll_invite_register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireContext(),InviteRegisterActivity.class);
+                Intent intent = new Intent(requireContext(), InviteRegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -224,16 +225,15 @@ public class MineFragment extends BaseTransFragment {
                 if (userInfo != null) {
                     updateUserInfo(userInfo);
                 }
-                if (see){
+                if (see) {
                     iv_see.setImageResource(R.mipmap.icon_eye_see);
-                }else {
+                } else {
                     iv_see.setImageResource(R.mipmap.icon_eye_close);
                 }
             }
         });
         iv_see.setImageResource(R.mipmap.icon_eye_see);
     }
-
 
 
     @Override
@@ -268,6 +268,7 @@ public class MineFragment extends BaseTransFragment {
     public void onResume() {
         super.onResume();
         getUserInfo();
+        getVersionInfo();
         SharedPrefsHelper.getInstance().AsyncGetUserInfo().onGet(new SafeGet.SafeCall<UserInfoDao>() {
             @Override
             public void call(UserInfoDao dao) {
@@ -277,7 +278,7 @@ public class MineFragment extends BaseTransFragment {
     }
 
     private void updateNickName(String name) {
-        WonderfulOkhttpUtils.get().url(UrlFactory.updateNickName()+"?nickName="+name)
+        WonderfulOkhttpUtils.get().url(UrlFactory.updateNickName() + "?nickName=" + name)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -298,6 +299,20 @@ public class MineFragment extends BaseTransFragment {
                     @Override
                     protected void onRes(RemoteData<UserInfoDao> testRemoteData) {
                         onSuccessUserInfo(testRemoteData.getNotNullData());
+                    }
+                });
+    }
+
+    private void getVersionInfo() {
+        WonderfulOkhttpUtils.get().url(UrlFactory.getLastRevisionUrl() + "?platform=0")
+                .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
+                .build()
+                .getCall()
+                .enqueue(new GsonWalkDogCallBack<RemoteData<VersionInfoDao>>() {
+                    @Override
+                    protected void onRes(RemoteData<VersionInfoDao> testRemoteData) {
+                        TextView tvVersion = rootView.findViewById(R.id.tv_version);
+                        tvVersion.setText("v" + testRemoteData.getNotNullData().getVersion());
                     }
                 });
     }
@@ -333,7 +348,7 @@ public class MineFragment extends BaseTransFragment {
 
             } else if (item.getType() == 2) {
                 String dogFood = Utils.getFormat("%.4f", item.getDogFood());
-                tv_dog_food.setText(dogFood +"g");
+                tv_dog_food.setText(dogFood + "g");
             }
         }
     }

@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.home;
 
 
 import com.wallet.walkthedog.dao.InviteNoticeDao;
+import com.wallet.walkthedog.dao.VersionInfoDao;
 
 import java.util.List;
 
@@ -16,11 +17,15 @@ public class HomeMainContract {
 
         void getNewTogethersSuccessful(List<InviteNoticeDao> noticeDaoList);
 
+        void getVersionful(VersionInfoDao obj);
+
     }
 
     interface HomeMainPresenter extends Contract.BasePresenter {
         void ideaTogether(String togetherId,int status);//1同意 3拒绝 4取消邀请
 
         void getNewTogethersUrl();//1同意 3拒绝 4取消邀请
+
+        void getVersionInfo();//1同意 3拒绝 4取消邀请
     }
 }

@@ -116,6 +116,8 @@ public interface DataSource {
 
     void getNewTogethersUrl( DataCallback dataCallback);
 
+    void getVersionInfo( DataCallback dataCallback);
+
     void ideaTogether(String togetherId, int status, DataCallback dataCallback);
 
     void getDogList(MailRequest request, int pageNo, DataCallback dataCallback);
