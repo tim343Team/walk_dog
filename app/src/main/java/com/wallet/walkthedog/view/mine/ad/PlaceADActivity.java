@@ -2,11 +2,14 @@ package com.wallet.walkthedog.view.mine.ad;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wallet.walkthedog.R;
@@ -34,7 +37,8 @@ import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 import tim.com.libnetwork.view.switchbuttom.SwitchButton;
 
 public class PlaceADActivity extends BaseActivity {
-    private EditText edit_premium;
+    private EditText edit_premium, edit_real_price;
+    private TextView tv_price_hint;
     private TextView tv_token;
     private TextView tv_contry_select;
     private TextView tv_max_c;
@@ -43,6 +47,7 @@ public class PlaceADActivity extends BaseActivity {
     private TextView tv_conutry_to_coin;
     private TextView tv_pay_info;
     private SwitchButton settings_right_toogle;
+    private LinearLayout layout_edit_premium, layout_edit_price;
     private EditText edit_max, edit_min, edit_quantity, edit_trade_period;
 
     private final List<ADCoinItem> adCoinItems = new ArrayList<>();
@@ -56,10 +61,11 @@ public class PlaceADActivity extends BaseActivity {
     private final List<PayInfo> payInfos = new ArrayList<>();
     private boolean ignoreCoinNextReset = false;
     private boolean ignoreCountryNextReset = false;
+    private double rate = -1D;
 
     @Override
     protected int getActivityLayoutId() {
-        payInfos.add(new PayInfo("Bank Paypal", getString(R.string.bank_card)));
+        payInfos.add(new PayInfo("Bank", getString(R.string.bank_card)));
         payInfos.add(new PayInfo("Swift", getString(R.string.swift)));
         return R.layout.activity_place_ad;
     }
@@ -67,6 +73,10 @@ public class PlaceADActivity extends BaseActivity {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         TextView tv_hint_quantity = findViewById(R.id.tv_hint_quantity);
+        edit_real_price = findViewById(R.id.edit_real_price);
+        layout_edit_premium = findViewById(R.id.layout_edit_premium);
+        layout_edit_price = findViewById(R.id.layout_edit_price);
+        tv_price_hint = findViewById(R.id.tv_price_hint);
 
         settings_right_toogle = findViewById(R.id.settings_right_toogle);
         tv_pay_info = findViewById(R.id.tv_pay_info);
@@ -85,7 +95,7 @@ public class PlaceADActivity extends BaseActivity {
         tv_contry_select = findViewById(R.id.tv_contry_select);
         edit_premium = findViewById(R.id.edit_premium);
         tv_token = findViewById(R.id.tv_token);
-        MinMaxInputFilter.minMaxLimit(edit_premium, 0, 100);
+        MinMaxInputFilter.minMaxLimit(edit_premium, 0, 10);
         ScaleInputFilter.scale(edit_premium, 2);
         findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,11 +127,16 @@ public class PlaceADActivity extends BaseActivity {
         settings_right_toogle.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
-                if(isChecked){
-                    //TODO 打开开关
-                }else {
-                    //TODO 关闭开关
-
+                if (isChecked) {
+                    tv_conutry_to_coin.setVisibility(View.GONE);
+                    layout_edit_premium.setVisibility(View.GONE);
+                    layout_edit_price.setVisibility(View.VISIBLE);
+                    tv_price_hint.setVisibility(View.GONE);
+                } else {
+                    tv_conutry_to_coin.setVisibility(View.VISIBLE);
+                    layout_edit_premium.setVisibility(View.VISIBLE);
+                    layout_edit_price.setVisibility(View.GONE);
+                    tv_price_hint.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -130,6 +145,44 @@ public class PlaceADActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 submit();
+            }
+        });
+        edit_premium.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (rate == -1) {
+                    return;
+                }
+                if (TextUtils.isEmpty(s)) {
+                    tv_price_hint.setText(getString(R.string.market_reference_hint, Utils.getScale2(rate)));
+                    return;
+                }
+
+                Utils.runCatch(new Runnable() {
+                    @Override
+                    public void run() {
+                        double v;
+                        if (advertiseType == 0) {
+                            //买
+                            v = 1 + Double.parseDouble(s.toString()) / 100;
+                        } else {
+                            //卖
+                            v = 1 - Double.parseDouble(s.toString()) / 100;
+                        }
+                        tv_price_hint.setText(getString(R.string.market_reference_hint, Utils.getScale2(rate * v)));
+                    }
+                });
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -251,6 +304,7 @@ public class PlaceADActivity extends BaseActivity {
         double tradePeriod = Utils.toDouble(edit_trade_period.getText().toString());
         double min = Utils.toDouble(edit_min.getText().toString());
         double max = Utils.toDouble(edit_max.getText().toString());
+        double realPrice = Utils.toDouble(edit_real_price.getText().toString());
         if (quantity == 0) {
             ToastUtils.shortToast(getString(R.string.input_quantity));
             return;
@@ -271,6 +325,10 @@ public class PlaceADActivity extends BaseActivity {
             ToastUtils.shortToast(getString(R.string.please_choose_a_payment_method));
             return;
         }
+        if (realPrice == 0 && settings_right_toogle.isChecked()) {
+            ToastUtils.shortToast(getString(R.string.please_input_price));
+            return;
+        }
         HashMap<String, Object> hashMap = new HashMap<>();
         Runnable runnable = new Runnable() {
             @Override
@@ -288,12 +346,14 @@ public class PlaceADActivity extends BaseActivity {
                 hashMap.put("minLimit", min);
                 hashMap.put("maxLimit", max);
                 hashMap.put("remark", "r");
-                hashMap.put("price", "0");//TODO price写死了
                 hashMap.put("timeLimit", (int) tradePeriod);
-                hashMap.put("premiseRate", premium / 100);
-                String priceType = "REGULAR";
+                hashMap.put("price", rate);
+                String priceType = "MUTATIVE";
                 if (settings_right_toogle.isChecked()) {
-                    priceType = "MUTATIVE";
+                    priceType = "REGULAR";
+                    hashMap.put("price", realPrice);
+                }else {
+                    hashMap.put("premiseRate", premium / 100);
                 }
                 hashMap.put("priceType", priceType);
                 hashMap.put("number", quantity);
@@ -462,8 +522,8 @@ public class PlaceADActivity extends BaseActivity {
                 });
     }
 
-    private void getPrice(String currency){
-        WonderfulOkhttpUtils.get().url(UrlFactory.marketGetMarket()+"?currency="+currency)
+    private void getPrice(String currency) {
+        WonderfulOkhttpUtils.get().url(UrlFactory.marketGetMarket() + "?currency=" + currency)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -472,9 +532,12 @@ public class PlaceADActivity extends BaseActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     protected void onRes(RemoteData<Double> data) {
-                        if (data.getNotNullData()!=null){
+                        if (data.getNotNullData() != null) {
                             //保留小數點後兩位小數
+                            rate = data.getNotNullData();
                             String value = new DecimalFormat("#0.00").format(data.getNotNullData());
+                            edit_premium.setText("");
+                            tv_price_hint.setText(getString(R.string.market_reference_hint, Utils.getScale2(rate)));
                             tv_conutry_to_coin.setText(getString(R.string.trading_price) + value + currency + "/" + "USDT");
                         }
                     }

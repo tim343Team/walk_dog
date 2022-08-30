@@ -52,7 +52,7 @@ public class Utils {
      * @param time 秒
      * @return HH：mm
      */
-    public static String getTime(long time,String format) {
+    public static String getTime(long time, String format) {
         long hours = time / 3600;
         long mintes = time / 60 % 60;
         return String.format(Locale.getDefault(), format, hours, mintes);
@@ -194,6 +194,14 @@ public class Utils {
             return result.replace(result.length() - 1, result.length(), "").toString();
         } catch (UnsupportedEncodingException e) {
             return "";
+        }
+    }
+
+    public static void runCatch(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Exception ignored) {
+
         }
     }
 }

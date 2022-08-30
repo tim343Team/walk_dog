@@ -503,7 +503,7 @@
     <string name="place_an_ad">広告を掲載する</string>
     <string name="token_choose">トークンの選択</string>
     <string name="premium">プレミアム</string>
-    <string name="market_reference_hint">市場参考価格: 7.074\nプレミアムは、現在の市場価格を上回るパーセンテージで販売されます。</string>
+    <string name="market_reference_hint">市場参考価格: %s\nプレミアムは、現在の市場価格を上回るパーセンテージで販売されます。</string>
     <string name="buy_quantity">購入数量</string>
     <string name="sell_quantity">販売数量</string>
     <string name="trading_period">取引期間</string>

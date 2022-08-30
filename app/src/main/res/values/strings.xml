@@ -503,7 +503,7 @@
     <string name="place_an_ad">刊登廣告</string>
     <string name="token_choose">代幣選擇</string>
     <string name="premium">保險費</string>
-    <string name="market_reference_hint">市場參考價格：7.074\n最高價格是高於當前市場銷售價格的百分比。</string>
+    <string name="market_reference_hint">市場參考價格：%s\n最高價格是高於當前市場銷售價格的百分比。</string>
     <string name="buy_quantity">購買數量</string>
     <string name="sell_quantity">銷售數量</string>
     <string name="trading_period">交易期</string>

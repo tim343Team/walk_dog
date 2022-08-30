@@ -180,7 +180,7 @@
                     app:sb_checked="false"
                     app:sb_checked_color="#485EA8"
                     app:sb_show_indicator="false"
-                    tools:sb_checked="true" />
+                    />
             </LinearLayout>
 
             <TextView
@@ -194,6 +194,7 @@
                 tools:text="Trading price：7.14 JPY/USDT" />
 
             <LinearLayout
+                android:id="@+id/layout_edit_premium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -239,11 +240,53 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/layout_edit_price"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@mipmap/bg_input"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edit_real_price"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textColor="#848484"
+                        tools:ignore="RtlSymmetry"
+                        tools:text="USDT" />
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
+                android:id="@+id/tv_price_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/market_reference_hint"
+                android:minLines="2"
                 android:textSize="12sp" />
 
             <LinearLayout

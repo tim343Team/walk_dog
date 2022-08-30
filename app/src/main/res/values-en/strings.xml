@@ -503,7 +503,7 @@
     <string name="place_an_ad">Place an Ad</string>
     <string name="token_choose">Token Choose</string>
     <string name="premium">Premium</string>
-    <string name="market_reference_hint">Market reference price: 7.074\nPremium is the percentage above the current market price to sell.</string>
+    <string name="market_reference_hint">Market reference price: %s\nPremium is the percentage above the current market price to sell.</string>
     <string name="buy_quantity">Buy Quantity</string>
     <string name="sell_quantity">Sell ​​Quantity</string>
     <string name="trading_period">Trading Period</string>
