@@ -16,6 +16,7 @@ import com.wallet.walkthedog.sp.SafeGet;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.ToastUtils;
 import com.wallet.walkthedog.untils.Utils;
+import com.wallet.walkthedog.view.merchant.MerchantApplyActivity;
 
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class CollectionActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Utils.copyText(CollectionActivity.this, tv_address.getText().toString());
-                ToastUtils.shortToast(getString(R.string.copy_success));
+                ToastUtils.shortToast(CollectionActivity.this,R.string.copy_success);
             }
         });
         findViewById(R.id.tv_save).setOnClickListener(new View.OnClickListener() {

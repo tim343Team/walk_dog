@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wallet.walkthedog.R;
+import com.wallet.walkthedog.app.ErrorCode;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.DogFoodWeightItemDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
@@ -142,6 +143,16 @@ public class SoldQuantityDialog extends BaseDialogFragment {
                     @Override
                     protected void onRes(RemoteData<Double> testRemoteData) {
                         runnable.run();
+                    }
+
+                    @Override
+                    protected void onFail(Exception e) {
+                        //TODO 弹窗提示缺少错误码
+//                        NormalErrorDialog dialog = NormalErrorDialog.newInstance(ErrorCode.getInstance(code).getMessage(), R.mipmap.icon_normal_no, R.color.color_E12828);
+//                        dialog.setTheme(R.style.PaddingScreen);
+//                        dialog.setGravity(Gravity.CENTER);
+//                        dialog.show(getChildFragmentManager(), "edit");
+                        super.onFail(e);
                     }
                 });
     }

@@ -37,9 +37,11 @@ import com.wallet.walkthedog.dialog.HeaderSelectDialogFragment;
 import com.wallet.walkthedog.dialog.NormalDialog;
 import com.wallet.walkthedog.dialog.NormalErrorDialog;
 import com.wallet.walkthedog.untils.ToastUtils;
+import com.wallet.walkthedog.untils.Utils;
 import com.wallet.walkthedog.view.card.CardPresenter;
 import com.wallet.walkthedog.view.card.CardVerifyActivity;
 import com.wallet.walkthedog.view.home.HomeActivity;
+import com.wallet.walkthedog.view.mine.CollectionActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -103,6 +105,12 @@ public class MerchantApplyActivity extends BaseActivity implements MerchantContr
     @OnClick(R.id.ll_upload)
     void uploadll() {
         showHeaderSelectDialog();
+    }
+
+    @OnClick(R.id.iv_copy)
+    void copy() {
+        Utils.copyText(MerchantApplyActivity.this, txtAddress.getText().toString());
+        ToastUtils.shortToast(MerchantApplyActivity.this,R.string.copy_success);
     }
 
     @OnClick(R.id.img_back)

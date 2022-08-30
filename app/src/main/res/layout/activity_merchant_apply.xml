@@ -177,23 +177,40 @@
                 android:layout_marginTop="@dimen/dp20"
                 android:layout_gravity="center_horizontal"/>
 
-            <TextView
-                android:id="@+id/txt_address"
-                android:layout_width="165dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp20"
-                android:layout_gravity="center"
-                android:maxLines="1"
-                android:ellipsize="middle"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#ff848484"
-                android:textSize="12dp"
-                />
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_address"
+                    android:layout_width="165dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="middle"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="#ff848484"
+                    android:textSize="12dp"
+                    />
+
+                <ImageView
+                    android:visibility="visible"
+                    android:id="@+id/iv_copy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@mipmap/icon_copy_name"
+                    app:tint="#848484"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp30"
                 android:text="@string/merchant_apply_data_3"
                 android:textColor="#ff848484"
