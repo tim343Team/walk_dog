@@ -68,7 +68,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     private MailFragment twoFragment;
     private RentalFragment threeFragment;
     private MineFragment fourFragment;
-    public int type;
+    public int type = -1;
     public List<InviteNoticeDao> inviteNoticeDaos = new ArrayList<>();
     /*权限请求Code*/
     private final static int PERMISSION_REQUEST_CODE = 1234;
@@ -85,16 +85,6 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
         public void run() {
             //定时检查是否获取有邀请信息
             try {
-//                WonderfulOkhttpUtils.get().url(UrlFactory.getNewTogethersUrl())
-//                        .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
-//                        .build()
-//                        .getCall()
-//                        .enqueue(new GsonWalkDogCallBack<RemoteData<List<InviteNoticeDao>>>() {
-//                            @Override
-//                            protected void onRes(RemoteData<List<InviteNoticeDao>> testRemoteData) {
-//                                getInviteNotice(testRemoteData.getNotNullData());
-//                            }
-//                        });
                 presenter.getNewTogethersUrl();
                 mHandler.postDelayed(this, 15000);
             } catch (Exception e) {
@@ -105,7 +95,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
-        intent.putExtra("type", 0);
+        intent.putExtra("type", -1);
         context.startActivity(intent);
     }
 
@@ -180,7 +170,7 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     @Override
     protected void initViews(Bundle savedInstanceState) {
         instance = this;
-        type = getIntent().getIntExtra("type", 0);
+        type = getIntent().getIntExtra("type", -1);
         presenter = new HomeMainPresenter(Injection.provideTasksRepository(getApplicationContext()), this);//初始化presenter
         lls = new LinearLayout[]{llOne, llTwo, llThree, llFour};
         llOne.setOnClickListener(new View.OnClickListener() {
@@ -251,19 +241,20 @@ public class HomeActivity extends BaseTransFragmentActivity implements HomeMainC
     protected void onResume() {
         super.onResume();
         mHandler.postDelayed(runnable, 1000);
-        if (type == 0) {
+        if (type == -1) {
             return;//默认值 或是 不需要跳转 就返回
-        } else if (type == 1) {
+        } else if (type == 0 || type == 1) {
             //跳转到商城页面
-            showMailFragment(type);
+            showMailFragment(1);
             selecte(llTwo, 1);
             //TODO 设置跳转到狗狗还是道具页
-//            if (twoFragment != null) {
-//                twoFragment.showPageFragment(currency, type - 1);
-//            }
+            if (twoFragment != null) {
+                twoFragment.showPosition = type;
+                twoFragment.showTab(type);
+            }
         }
-        type = 0;
-        getIntent().putExtra("type", 0);
+        type = -1;
+        getIntent().putExtra("type", -1);
     }
 
     @Override

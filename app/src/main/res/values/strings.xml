@@ -583,7 +583,7 @@
     <string name="code_2204">不是發起者</string>
     <string name="add_friend_success">添加好友信息已發送</string>
     <string name="upload_error">上传失败，请上传大小为1M内的图片</string>
-
+    <string name="merchant_settle_out">商家退出</string>
 
 </resources>
 

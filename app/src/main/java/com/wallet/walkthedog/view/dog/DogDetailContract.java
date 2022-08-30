@@ -2,6 +2,7 @@ package com.wallet.walkthedog.view.dog;
 
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.FeedDogFoodDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.view.dog.fragment.DogContract;
 
@@ -26,6 +27,10 @@ public class DogDetailContract {
 
         void useDogSuccess(String data,String dogId);
 
+        void getWalkTheDogFriendSuccessful(InvitedFriendDao data);
+
+        void getWalkTheDogFriendFail(Integer code, String toastMessage);
+
     }
 
     interface DogDetailPresenter extends Contract.BasePresenter {
@@ -38,6 +43,8 @@ public class DogDetailContract {
         void getWallet(String type);//获取钱包余额 1是代币 2狗粮
 
         void useDog(String dogId);
+
+        void getWalkTheDogFriend();//获取一起遛狗的好友
 
     }
 }

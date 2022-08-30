@@ -114,6 +114,17 @@ public class PlaceADActivity extends BaseActivity {
                 showSelectPayInfo();
             }
         });
+        settings_right_toogle.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if(isChecked){
+                    //TODO 打开开关
+                }else {
+                    //TODO 关闭开关
+
+                }
+            }
+        });
 
         findViewById(R.id.tv_submit).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,13 +288,12 @@ public class PlaceADActivity extends BaseActivity {
                 hashMap.put("minLimit", min);
                 hashMap.put("maxLimit", max);
                 hashMap.put("remark", "r");
-                hashMap.put("price", "0");
+                hashMap.put("price", "0");//TODO price写死了
                 hashMap.put("timeLimit", (int) tradePeriod);
                 hashMap.put("premiseRate", premium / 100);
                 String priceType = "REGULAR";
                 if (settings_right_toogle.isChecked()) {
                     priceType = "MUTATIVE";
-                    hashMap.remove("price");
                 }
                 hashMap.put("priceType", priceType);
                 hashMap.put("number", quantity);
@@ -457,11 +467,11 @@ public class PlaceADActivity extends BaseActivity {
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
-                .enqueue(new GsonWalkDogCallBack<RemoteData<String>>() {
+                .enqueue(new GsonWalkDogCallBack<RemoteData<Double>>() {
 
                     @SuppressLint("SetTextI18n")
                     @Override
-                    protected void onRes(RemoteData<String> data) {
+                    protected void onRes(RemoteData<Double> data) {
                         if (data.getNotNullData()!=null){
                             //保留小數點後兩位小數
                             String value = new DecimalFormat("#0.00").format(data.getNotNullData());

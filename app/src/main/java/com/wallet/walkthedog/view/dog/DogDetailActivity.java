@@ -18,6 +18,7 @@ import com.wallet.walkthedog.bus_event.UpdateDogEvent;
 import com.wallet.walkthedog.bus_event.UpdatePropsEvent;
 import com.wallet.walkthedog.dao.DogInfoDao;
 import com.wallet.walkthedog.dao.FeedDogFoodDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.dialog.FeedingDialog;
 import com.wallet.walkthedog.dialog.IdentityDialog;
@@ -57,6 +58,8 @@ public class DogDetailActivity extends BaseActivity implements DogDetailContract
     TextView txtState;
     @BindView(R.id.img_dog)
     ImageView imgDog;
+    @BindView(R.id.img_invate)
+    ImageView imgInvate;
     @BindViews({R.id.img_equipment_1, R.id.img_equipment_2, R.id.img_equipment_3})
     ImageView[] imgEquipments;
 
@@ -173,6 +176,7 @@ public class DogDetailActivity extends BaseActivity implements DogDetailContract
         Glide.with(this).load(dogInfoDao.getImg()).apply(options).into(imgDog);
         initEquipment();
         presenter.getWallet("2");//获取狗粮总数
+        presenter.getWalkTheDogFriend();
     }
 
     @Override
@@ -315,6 +319,28 @@ public class DogDetailActivity extends BaseActivity implements DogDetailContract
         dialog.show(getSupportFragmentManager(), "edit");
         //更新主页
         isChange=true;
+    }
+
+    @Override
+    public void getWalkTheDogFriendSuccessful(InvitedFriendDao data) {
+        //展示遛狗好友狗狗头像
+        if(SharedPrefsHelper.getInstance().getDogId().equals(dogInfoDao.getId())){
+            imgInvate.setVisibility(View.VISIBLE);
+        }else {
+            imgInvate.setVisibility(View.GONE);
+        }
+        if (data != null) {
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_invate)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+            Glide.with(this).load(data.getDog().getImg()).apply(options).into(imgInvate);
+        }
+    }
+
+    @Override
+    public void getWalkTheDogFriendFail(Integer code, String toastMessage) {
+
     }
 
 

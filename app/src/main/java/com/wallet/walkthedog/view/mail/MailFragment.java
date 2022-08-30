@@ -44,6 +44,7 @@ public class MailFragment extends BaseTransFragment {
     private DogMailFragment subFragment1;
     private PropMailFragment subFragment2;
     private ArrayList<String> tabs = new ArrayList<>();
+    public int showPosition = 0;
 
     @OnClick(R.id.txt_dog)
     void clickDog() {
@@ -79,6 +80,7 @@ public class MailFragment extends BaseTransFragment {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         setView();
+        showTab(showPosition);
     }
 
     @Override
@@ -142,7 +144,10 @@ public class MailFragment extends BaseTransFragment {
         }
     }
 
-    void showTab(int position) {
+    public void showTab(int position) {
+        if (tvTabs == null) {
+            return;
+        }
         for (int i = 0; i < tvTabs.length; i++) {
             if (i == position) {
                 tvTabs[i].setBackgroundResource(R.drawable.button_gradual_background_round);

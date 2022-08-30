@@ -251,24 +251,25 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         //1已同意 2等待同意 3已拒绝 4自动拒绝 5发起人取消
         mDefultDogInfo = data;
         //A就是取消邀请.B就是拒绝.没有关系的就是邀请.
+        // type = -1;//0:邀请  1：取消邀请  2：拒绝  3:解除关系
         if (mDefultDogInfo.getTogetherId() == 0) {
-            type = 0;
+            type = 0;//邀请
             shadowTextView.setText(R.string.invitation);
         } else {
             if (mDefultDogInfo.getFromMemberId() == SharedPrefsHelper.getInstance().getUserInfo().getId()) {
                 //我发起的邀请
                 if(mDefultDogInfo.getStatus()==1){
-                    type = 3;
+                    type = 3;//解除关系
                 }else {
-                    type = 1;
+                    type = 1;//取消邀请
                 }
                 shadowTextView.setText(R.string.cancle_remove);
             } else {
                 //我被邀请 有两种状态"拒绝""解除关系"
                 if(mDefultDogInfo.getStatus()==1){
-                    type = 3;
+                    type = 3;//解除关系
                 }else {
-                    type = 2;
+                    type = 2;//拒绝
                 }
                 shadowTextView.setText(R.string.refuse);
             }

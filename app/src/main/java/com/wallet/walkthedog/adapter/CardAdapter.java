@@ -41,6 +41,11 @@ public class CardAdapter extends BaseQuickAdapter<CardInfoDao, BaseViewHolder> {
         helper.setText(R.id.txt_card_number, item.getAccount());
         helper.setText(R.id.txt_bank, item.getBankName());
         helper.setText(R.id.txt_type, item.getTypeText());
+        if(item.getType()==2){
+            helper.getView(R.id.ll_name).setVisibility(View.GONE);
+        }else {
+            helper.getView(R.id.ll_name).setVisibility(View.VISIBLE);
+        }
         if (type == item.getType()) {
             helper.getView(R.id.img_select).setBackgroundResource(R.mipmap.icon_select_white);
         } else {

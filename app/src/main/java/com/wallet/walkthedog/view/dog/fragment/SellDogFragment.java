@@ -43,14 +43,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tim.com.libnetwork.base.BaseLazyFragment;
 
-public class SellDogFragment extends BaseLazyFragment  implements DogContract.DogView{
+public class SellDogFragment extends BaseLazyFragment implements DogContract.DogView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
     @OnClick(R.id.ll_sell_record)
-    void gotoRecord(){
+    void gotoRecord() {
         //售卖记录
-        SellRecordActivity.actionStart(getmActivity(),2);
+        SellRecordActivity.actionStart(getmActivity(), 2);
     }
 
     private DogContract.DogPresenter presenter;
@@ -80,7 +80,7 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
     protected void initViews(Bundle savedInstanceState) {
         presenter = new DogPresenter(Injection.provideTasksRepository(getmActivity()), this);//初始化presenter
         initRecyclerView();
-        presenter.getUserDog(type,pageNo);
+        presenter.getUserDog(type, pageNo);
     }
 
     @Override
@@ -131,9 +131,9 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
             @Override
             public void onClick(View view) {
                 finish();
-                if(HomeActivity.instance!=null){
-                    HomeActivity.instance.type=1;
-                    HomeActivity.actionStart(getActivity(),1);
+                if (HomeActivity.instance != null) {
+                    HomeActivity.instance.type = 0;
+                    HomeActivity.actionStart(getActivity(), 1);
                 }
             }
         });
@@ -147,16 +147,16 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
         adapter.setEnableLoadMore(false);
         adapter.OnclickListenerItem(new SellDogsAdapter.OnclickListenerItem() {
             @Override
-            public void click(DogInfoDao item,int position) {
+            public void click(DogInfoDao item, int position) {
                 //取消售卖
-                presenter.cancelSellDog(new BuyRequest(item.getId()),position);
+                presenter.cancelSellDog(new BuyRequest(item.getId()), position);
             }
         });
     }
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no,R.color.color_E12828);
+        NormalErrorDialog dialog = NormalErrorDialog.newInstance(toastMessage, R.mipmap.icon_normal_no, R.color.color_E12828);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
@@ -193,7 +193,7 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
     }
 
     @Override
-    public void cancelSellSuccess(String message,int position) {
+    public void cancelSellSuccess(String message, int position) {
         data.remove(position);
         if (data.size() > 0) {
             adapter.notifyItemRemoved(position);
@@ -241,6 +241,6 @@ public class SellDogFragment extends BaseLazyFragment  implements DogContract.Do
 
     @Override
     public void setPresenter(DogContract.DogPresenter presenter) {
-        this.presenter=presenter;
+        this.presenter = presenter;
     }
 }

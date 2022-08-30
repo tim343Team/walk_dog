@@ -1,6 +1,7 @@
 package com.wallet.walkthedog.view.dog;
 
 import com.wallet.walkthedog.dao.FeedDogFoodDao;
+import com.wallet.walkthedog.dao.InvitedFriendDao;
 import com.wallet.walkthedog.dao.request.SellRequest;
 import com.wallet.walkthedog.data.DataSource;
 import com.wallet.walkthedog.view.props.ChoicePropsContract;
@@ -98,6 +99,21 @@ public class DogDetailPresenter implements DogDetailContract.DogDetailPresenter{
             public void onDataNotAvailable(Integer code, String toastMessage) {
                 view.hideLoadingPopup();
                 view.getFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getWalkTheDogFriend() {
+        dataRepository.getWalkTheDogFriend(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.getWalkTheDogFriendSuccessful((InvitedFriendDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.getWalkTheDogFriendFail(code, toastMessage);
             }
         });
     }

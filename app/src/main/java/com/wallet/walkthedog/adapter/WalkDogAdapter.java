@@ -24,28 +24,28 @@ public class WalkDogAdapter extends BaseQuickAdapter<AwardDao, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, AwardDao item) {
-//        if(item.getStatus()==1) {
-//            helper.getView(R.id.txt_collect).setVisibility(View.VISIBLE);
-//        }else {
-//            helper.getView(R.id.txt_collect).setVisibility(View.INVISIBLE);
-//        }
-//        helper.getView(R.id.txt_collect).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(item.getStatus()==1){
-//                    itemClick.click(helper.getLayoutPosition());
-//                }else {
-//                    itemClick.click(-1);
-//                }
-//            }
-//        });
-//        RequestOptions options = new RequestOptions()
-//                .centerCrop()
-//                .placeholder(R.mipmap.icon_bell)
-//                .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
-//        Glide.with(mContext).load(item.getCatImg()).apply(options).into((ImageView) helper.getView(R.id.img_equipment));
-//        helper.setText(R.id.txt_time,item.getCreateTime());
-//        helper.setText(R.id.txt_name,String.format(mContext.getString(R.string._time), item.getCatName()));
+        if(item.getStatus()==1) {
+            helper.getView(R.id.txt_collect).setVisibility(View.VISIBLE);
+        }else {
+            helper.getView(R.id.txt_collect).setVisibility(View.INVISIBLE);
+        }
+        helper.getView(R.id.txt_collect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(item.getStatus()==1){
+                    itemClick.click(helper.getLayoutPosition());
+                }else {
+                    itemClick.click(-1);
+                }
+            }
+        });
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.icon_bell)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE); //缓存
+        Glide.with(mContext).load(item.getCatImg()).apply(options).into((ImageView) helper.getView(R.id.img_equipment));
+        helper.setText(R.id.txt_time,item.getCreateTime());
+        helper.setText(R.id.txt_name,String.format(mContext.getString(R.string._time), item.getCatName()));
     }
 
     OnclickListenerItem itemClick;

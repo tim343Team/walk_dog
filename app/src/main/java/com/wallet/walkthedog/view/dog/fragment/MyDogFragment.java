@@ -139,7 +139,7 @@ public class MyDogFragment extends BaseLazyFragment implements DogContract.DogVi
             public void onClick(View view) {
                 finish();
                 if (HomeActivity.instance != null) {
-                    HomeActivity.instance.type = 1;
+                    HomeActivity.instance.type = 0;
                     HomeActivity.actionStart(getActivity(), 1);
                 }
             }

@@ -27,7 +27,7 @@ public class BuyFoodDialog extends BaseDialogFragment {
     TextView txtBalance;
 
     private DogFoodDao data;
-    private int amount = 0;
+    private int amount = 1;
     private double price = 0;
     private double weight = 0;
     private String balance;
@@ -45,7 +45,7 @@ public class BuyFoodDialog extends BaseDialogFragment {
 
     @OnClick(R.id.img_subtract)
     void subAmount() {
-        if (amount < 1) {
+        if (amount < 2) {
             return;
         }
         amount = amount - 1;

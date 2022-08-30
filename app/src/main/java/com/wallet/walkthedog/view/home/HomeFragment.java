@@ -329,6 +329,8 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                     .into(imgAvatar);
             txtName.setText(userInfoDao.getName());
         }
+        presenter.getWallet("1");//获取代币总数
+        presenter.getWallet("2");//获取狗粮总数
         if (SharedPrefsHelper.getInstance().getDogId().equals("0")) {
             return;
         }
@@ -462,8 +464,6 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void getCurrentDogInfo(DogInfoDao dogInfoDao) {
         mDefultDogInfo = dogInfoDao;
-        presenter.getWallet("1");//获取代币总数
-        presenter.getWallet("2");//获取狗粮总数
         updateUI();
     }
 
@@ -635,12 +635,12 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     public void buyShopDogFoodSuccessful(String data) {
+        //更新
+        updateData();
         NormalDialog dialog = NormalDialog.newInstance(R.string.successful, R.mipmap.icon_normal);
         dialog.setTheme(R.style.PaddingScreen);
         dialog.setGravity(Gravity.CENTER);
         dialog.show(getFragmentManager(), "edit");
-        //更新
-        updateData();
     }
 
     @Override

@@ -95,7 +95,8 @@ public class OTCOrderActivity extends BaseActivity {
         items.add(getString(R.string.buy_ads));
         items.add(getString(R.string.sell_ads));
         items.add(getString(R.string.my_ads));
-        items.add(getString(R.string.merchant_settle));
+        if (isMerchant)
+            items.add(getString(R.string.merchant_settle_out));
         adapter.setNewData(items);
         View view = LayoutInflater.from(this).inflate(R.layout.pop_money_select, null, false);
         view.measure(View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenWidth(this), View.MeasureSpec.AT_MOST),
@@ -144,6 +145,7 @@ public class OTCOrderActivity extends BaseActivity {
     }
 
     private boolean canTouch = true;
+    private boolean isMerchant = false;
 
     private void statusMerchant() {
         WonderfulOkhttpUtils.get().url(UrlFactory.statusMerchantUrl())
@@ -155,6 +157,7 @@ public class OTCOrderActivity extends BaseActivity {
                     protected void onRes(RemoteData<MerchantStatusDao> testRemoteData) {
                         int certifiedBusinessStatus = testRemoteData.getNotNullData().getCertifiedBusinessStatus();
                         canTouch = certifiedBusinessStatus == 2 || certifiedBusinessStatus == 5 || certifiedBusinessStatus == 6;
+                        isMerchant = certifiedBusinessStatus == 2;
                     }
                 });
     }
