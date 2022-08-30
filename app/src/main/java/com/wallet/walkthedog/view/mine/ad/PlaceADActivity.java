@@ -158,25 +158,25 @@ public class PlaceADActivity extends BaseActivity {
                 if (rate == -1) {
                     return;
                 }
-                if (TextUtils.isEmpty(s)) {
-                    tv_price_hint.setText(getString(R.string.market_reference_hint, Utils.getScale2(rate)));
+                if (selectContryPostion == -1) {
                     return;
                 }
-
+                ContryItem contryItem = contryItems.get(selectContryPostion);
+                final double[] v = {1};
                 Utils.runCatch(new Runnable() {
                     @Override
                     public void run() {
-                        double v;
+
                         if (advertiseType == 0) {
                             //买
-                            v = 1 + Double.parseDouble(s.toString()) / 100;
+                            v[0] = 1 + Double.parseDouble(s.toString()) / 100;
                         } else {
                             //卖
-                            v = 1 - Double.parseDouble(s.toString()) / 100;
+                            v[0] = 1 - Double.parseDouble(s.toString()) / 100;
                         }
-                        tv_price_hint.setText(getString(R.string.market_reference_hint, Utils.getScale2(rate * v)));
                     }
                 });
+                tv_conutry_to_coin.setText(getString(R.string.trading_price) + Utils.getScale2(rate * v[0]) + contryItem.getLocalCurrency() + "/" + "USDT");
 
             }
 
@@ -352,7 +352,7 @@ public class PlaceADActivity extends BaseActivity {
                 if (settings_right_toogle.isChecked()) {
                     priceType = "REGULAR";
                     hashMap.put("price", realPrice);
-                }else {
+                } else {
                     hashMap.put("premiseRate", premium / 100);
                 }
                 hashMap.put("priceType", priceType);
@@ -537,8 +537,8 @@ public class PlaceADActivity extends BaseActivity {
                             rate = data.getNotNullData();
                             String value = new DecimalFormat("#0.00").format(data.getNotNullData());
                             edit_premium.setText("");
-                            tv_price_hint.setText(getString(R.string.market_reference_hint, Utils.getScale2(rate)));
                             tv_conutry_to_coin.setText(getString(R.string.trading_price) + value + currency + "/" + "USDT");
+                            tv_price_hint.setText(getString(R.string.market_reference_hint, Utils.getScale2(rate)));
                         }
                     }
                 });

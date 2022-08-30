@@ -460,7 +460,8 @@
     <string name="please_enter_the_amount">請輸入金額</string>
     <string name="number_of_transaction">交易數量</string>
     <string name="amount_of_the_transaction">交易金額</string>
-    <string name="the_otc_order_hint">*訂單總價低於指定的最低交易金額。</string>
+    <string name="the_otc_order_price_low_hint">*訂單總價低於指定的最低交易金額。</string>
+    <string name="the_otc_order_price_hight_hint">*訂單總價低於指定的最高交易金額。</string>
     <string name="transaction_details">交易詳情</string>
     <string name="bank_card">銀行卡</string>
     <string name="other_payment_method">其他付款方式</string>

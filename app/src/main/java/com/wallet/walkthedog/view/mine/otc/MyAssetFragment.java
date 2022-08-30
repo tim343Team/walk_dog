@@ -21,6 +21,7 @@ import com.wallet.walkthedog.dao.OtherAssetDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.untils.Utils;
 import com.wallet.walkthedog.view.mine.MyAssetActivity;
 
 import java.util.ArrayList;
@@ -129,7 +130,7 @@ public class MyAssetFragment extends Fragment {
             if (otherAssetDao == null && !hashMap.containsKey(item.getName())) {
                 requestAsset(item.getName(), helper.getAdapterPosition());
             } else if (otherAssetDao != null) {
-                helper.setText(R.id.tv_2, otherAssetDao.getBalance());
+                helper.setText(R.id.tv_2, Utils.getFormat("%.4f",otherAssetDao.getBalance()));
             }
         }
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class OtherAssetDao implements Serializable {
 	private int isLock;
-	private String balance;
+	private double balance;
 	private double frozenBalance;
 	private int id;
 	private int version;
@@ -16,7 +16,7 @@ public class OtherAssetDao implements Serializable {
 		return isLock;
 	}
 
-	public String getBalance(){
+	public double getBalance(){
 		return balance;
 	}
 

@@ -18,7 +18,6 @@ import com.wallet.walkthedog.R;
 import com.wallet.walkthedog.app.UrlFactory;
 import com.wallet.walkthedog.dao.AdvertiseUnitItem;
 import com.wallet.walkthedog.dao.CoinNameItem;
-import com.wallet.walkthedog.dao.FriendInfoListDao;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
@@ -115,10 +114,18 @@ public class PurchaseSellOTCActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (limit(s.toString())) {
+                int limitStatus = limit(s.toString());
+
+                if (limitStatus != 0) {
                     tv_limit_hint.setVisibility(View.VISIBLE);
                 } else {
                     tv_limit_hint.setVisibility(View.INVISIBLE);
+                }
+
+                if (limitStatus == 1) {
+                    tv_limit_hint.setText(getString(R.string.the_otc_order_price_low_hint));
+                } else if (limitStatus == 2) {
+                    tv_limit_hint.setText(getString(R.string.the_otc_order_price_hight_hint));
                 }
             }
 
@@ -155,10 +162,12 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                 ToastUtils.shortToast(getString(R.string.max_quantity_is_s, advertiseUnitItem.getRemainQuantity()));
                 return;
             }
-
-            if (limit(amount)) {
-                ToastUtils.shortToast(getString(R.string.the_otc_order_hint));
+            int limitStaus = limit(amount);
+            if (limitStaus == 1) {
+                ToastUtils.shortToast(getString(R.string.the_otc_order_price_low_hint));
                 return;
+            } else if (limitStaus == 2) {
+                ToastUtils.shortToast(getString(R.string.the_otc_order_price_hight_hint));
             }
             requestSell(num);
         } catch (Exception ignored) {
@@ -180,10 +189,12 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                 ToastUtils.shortToast(getString(R.string.max_quantity_is_s, advertiseUnitItem.getRemainQuantity()));
                 return;
             }
-
-            if (limit(amount)) {
-                ToastUtils.shortToast(getString(R.string.the_otc_order_hint));
+            int limitStaus = limit(amount);
+            if (limitStaus == 1) {
+                ToastUtils.shortToast(getString(R.string.the_otc_order_price_low_hint));
                 return;
+            } else if (limitStaus == 2) {
+                ToastUtils.shortToast(getString(R.string.the_otc_order_price_hight_hint));
             }
             requestBuy(num);
         } catch (Exception ignored) {
@@ -245,19 +256,22 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                 });
     }
 
-    private boolean limit(CharSequence amount) {
+    private int limit(CharSequence amount) {
         try {
             if (!amount.toString().isEmpty()) {
                 double a = Double.parseDouble(amount.toString());
-                if (a > advertiseUnitItem.getMaxLimit() || a < advertiseUnitItem.getMinLimit()) {
-                    return true;
+                if (a > advertiseUnitItem.getMaxLimit()) {
+                    return 2;
+                } else if (a < advertiseUnitItem.getMinLimit()) {
+                    return 1;
                 }
+
             }
 
         } catch (Exception ignored) {
 
         }
-        return false;
+        return 0;
     }
 
     private CoinNameItem coinNameItem;

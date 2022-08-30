@@ -84,7 +84,7 @@ public class OTCExchangeActivity extends BaseActivity {
         });
         tv_otc_money.setText(getString(R.string.balance_) + otherAssetDao.getBalance());
         try {
-            double max = Double.parseDouble(otherAssetDao.getBalance());
+            double max = otherAssetDao.getBalance();
             MinMaxInputFilter.minMaxLimit(edit_2, 0, max);
         } catch (Exception ignored) {
 

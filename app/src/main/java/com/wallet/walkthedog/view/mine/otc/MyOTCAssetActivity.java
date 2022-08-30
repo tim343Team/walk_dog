@@ -34,7 +34,7 @@ import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
  */
 public class MyOTCAssetActivity extends BaseActivity {
     TextView tv_all_asset;
-    private String all_asset = "0.0";
+    private double all_asset = 0D;
     private final static String xxxx = "****";
     private final AssetListAdapter adapter = new AssetListAdapter();
     boolean see = false;
@@ -67,7 +67,7 @@ public class MyOTCAssetActivity extends BaseActivity {
                 see = !see;
                 if (see) {
                     iv.setImageResource(R.mipmap.icon_eye_see);
-                    tv_all_asset.setText(all_asset);
+                    tv_all_asset.setText(Utils.getFormat("%.4f",all_asset));
                 } else {
                     iv.setImageResource(R.mipmap.icon_eye_close);
                     tv_all_asset.setText(xxxx);
