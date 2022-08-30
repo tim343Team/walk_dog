@@ -68,6 +68,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -270,7 +271,6 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
             BigDecimal bigDecimal = new BigDecimal(location.getSpeed());
             speend = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
             txtSpeed.setText(String.valueOf(speend));
-            txtSpeed2.setText(location.getSpeedStatus());
             if (location.getSpeedStatus().equals("1")) {
                 //彈出彈窗
                 showWarning("1", String.valueOf(speend));
@@ -346,7 +346,11 @@ public class WalkActivity extends BaseActivity implements WalkContract.WalkView 
             txtNotice.setText(R.string.walk_notice_1);
             txtNotice.setTextColor(getResources().getColor(R.color.white));
         }
-        isUpdateAward = true;
+        String value = new DecimalFormat("#0.000").format(coordDao.getWalkDogKm() / 1000);
+        txtSpeed2.setText(value + "km");
+        if (coordDao.getStatus() == 1) {
+            isUpdateAward = true;
+        }
     }
 
     //更新好友

@@ -198,10 +198,8 @@ public class GpsService extends Service implements WalkContract.WalkView {
 
     @Override
     public void coordSuccess(CoordDao data) {
-        if (data.getStatus() == 1) {
             //如果有道具
             EventBus.getDefault().post(data);
-        }
     }
 
     @Override

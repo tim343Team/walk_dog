@@ -129,14 +129,14 @@
     <string name="walk_title">遛狗</string>
     <string name="gps_week">全球定位系統 信號弱</string>
     <string name="gps">全球定位系統</string>
-    <string name="walk_notice_1">散步越遠，獲得\ n 的獎勵越多喲</string>
+    <string name="walk_notice_1">散步越遠，獲得\n的獎勵越多喲</string>
     <string name="found_s">找到%s</string>
     <string name="walk_stop">停止遛狗</string>
     <string name="walk_start">开始遛狗</string>
     <string name="walk_start_notice">是否停止遛狗</string>
     <string name="walk_notice_2">你進入了 [ 未知區域]，得到道具概率將會增加</string>
     <string name="collect">收藏</string>
-    <string name="collect_notice">道具已经收集並且\ n 放在我的道具里了</string>
+    <string name="collect_notice">道具已经收集並且\n 放在我的道具里了</string>
     <string name="speed_up">需加速</string>
     <string name="speed_down">需减速</string>
     <string name="stop_count">后停止计数</string>

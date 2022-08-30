@@ -141,7 +141,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/dp25"
                                 android:layout_toEndOf="@+id/img_2"
-                                android:text="0.0 km/h"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/dimen_14"
                                 android:textStyle="bold" />
