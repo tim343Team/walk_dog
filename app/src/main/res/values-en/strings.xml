@@ -460,7 +460,8 @@
     <string name="please_enter_the_amount">Please enter the amount</string>
     <string name="number_of_transaction">Number of Transaction</string>
     <string name="amount_of_the_transaction">Amount of the Transaction</string>
-    <string name="the_otc_order_hint">* The total order price is less than the specified minimum transaction amount.</string>
+    <string name="the_otc_order_price_low_hint">* The total order price is less than the specified minimum transaction amount.</string>
+    <string name="the_otc_order_price_hight_hint">* The total order price is more than the specified minimum transaction amount.</string>
     <string name="transaction_details">Transaction Details</string>
     <string name="bank_card">Bank card</string>
     <string name="other_payment_method">Other payment method</string>

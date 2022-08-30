@@ -460,7 +460,8 @@
     <string name="please_enter_the_amount">金額を入力してください</string>
     <string name="number_of_transaction">取引数</string>
     <string name="amount_of_the_transaction">取引金額</string>
-    <string name="the_otc_order_hint">* 注文合計金額が、指定された最低取引金額を下回っています。</string>
+    <string name="the_otc_order_price_low_hint">* 注文合計金額が、指定された最低取引金額を下回っています。</string>
+    <string name="the_otc_order_price_hight_hint">* 注文合計金額が、指定された最多取引金額を下回っています。</string>
     <string name="transaction_details">取引明細</string>
     <string name="bank_card">バンクカード</string>
     <string name="other_payment_method">その他のお支払い方法</string>
