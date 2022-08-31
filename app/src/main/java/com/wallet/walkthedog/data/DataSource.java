@@ -42,6 +42,8 @@ public interface DataSource {
 
     void removeDog(String dogId,DataCallback dataCallback);
 
+    void useDogInfo(DataCallback dataCallback);
+
     void getDogInfo(String dogId,DataCallback dataCallback);
 
     void getUseDog(String dogId,DataCallback dataCallback);

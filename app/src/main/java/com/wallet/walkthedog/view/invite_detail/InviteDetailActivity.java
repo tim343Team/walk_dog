@@ -111,7 +111,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         dialog.setCallback(new RemoveFriendDIalog.OperateCallback() {
             @Override
             public void callback() {
-//                presenter.delFriend(new FriendRequest(friendInfoDao.getFriendMemberId() + ""));
+//                presenter.delFriend(new FriendRequest(mDefultDogInfo.getFriendMemberId() + ""));
 //                presenter.delFriend(new FriendRequest(friendInfoDao.getFriendListId() + ""));
                 presenter.delFriend(new FriendRequest(mDefultDogInfo.getFriendListId() + ""));
             }
@@ -240,7 +240,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
 
     @Override
     public void getFail(Integer code, String toastMessage) {
-
+        ToastUtils.shortToast(toastMessage);
     }
 
     @Override
@@ -260,18 +260,20 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
                 //我发起的邀请
                 if(mDefultDogInfo.getStatus()==1){
                     type = 3;//解除关系
+                    shadowTextView.setText(R.string.cancle_remove_2);
                 }else {
                     type = 1;//取消邀请
+                    shadowTextView.setText(R.string.cancle_remove);
                 }
-                shadowTextView.setText(R.string.cancle_remove);
             } else {
                 //我被邀请 有两种状态"拒绝""解除关系"
                 if(mDefultDogInfo.getStatus()==1){
                     type = 3;//解除关系
+                    shadowTextView.setText(R.string.cancle_remove_2);
                 }else {
                     type = 2;//拒绝
+                    shadowTextView.setText(R.string.refuse);
                 }
-                shadowTextView.setText(R.string.refuse);
             }
         }
         if (mDefultDogInfo.getSex() == 0) {

@@ -132,7 +132,7 @@ public class DogWalkRecordActivity extends BaseActivity {
     }
 
     private void getWalkDogLog() {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getWalkDogLog() +"?pageNo="+pageNo +"&pageSize" +pageSize)
+        WonderfulOkhttpUtils.get().url(UrlFactory.getWalkDogLog() +"?pageNo="+pageNo +"&pageSize=" +pageSize)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .addParams("pageNo", String.valueOf(pageNo))
                 .addParams("pageSize", String.valueOf(pageSize))

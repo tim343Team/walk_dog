@@ -235,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@string/gain_weight"
+                android:text="@string/gain_dog_food"
                 android:textColor="@color/color_848484"
                 android:textSize="@dimen/dp14" />
 

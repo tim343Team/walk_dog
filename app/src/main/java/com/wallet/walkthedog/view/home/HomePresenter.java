@@ -22,6 +22,23 @@ public class HomePresenter implements HomeContract.HomePresenter{
     }
 
     @Override
+    public void useDogInfo() {
+        dataRepository.useDogInfo(new DataSource.DataCallback() {
+            @Override
+            public void onDataLoaded(Object obj) {
+                view.hideLoadingPopup();
+                view.getUsedDogInfo((DogInfoDao) obj);//接受RemoteDataSource里sendMailboxCode方法的返回
+            }
+
+            @Override
+            public void onDataNotAvailable(Integer code, String toastMessage) {
+                view.hideLoadingPopup();
+                view.getUsedDogFail(code, toastMessage);
+            }
+        });
+    }
+
+    @Override
     public void getDogInfo(String dogId) {
 //        view.displayLoadingPopup();//显示loading
         dataRepository.getDogInfo(dogId,new DataSource.DataCallback() {

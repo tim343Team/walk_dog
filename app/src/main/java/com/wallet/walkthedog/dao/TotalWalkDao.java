@@ -32,7 +32,7 @@ public class TotalWalkDao{
 	private double friendKm;
 
 	@SerializedName("friendDogFood")
-	private int friendDogFood;
+	private String friendDogFood;
 
 	@SerializedName("friendRubbish")
 	private int friendRubbish;
@@ -50,7 +50,7 @@ public class TotalWalkDao{
 	private int rubbish;
 
 	@SerializedName("dogFood")
-	private int dogFood;
+	private String dogFood;
 
 	@SerializedName("middlArea")
 	private double middlArea;
@@ -130,12 +130,12 @@ public class TotalWalkDao{
 		return friendKm;
 	}
 
-	public void setFriendDogFood(int friendDogFood){
-		this.friendDogFood = friendDogFood;
+	public String getFriendDogFood() {
+		return friendDogFood;
 	}
 
-	public int getFriendDogFood(){
-		return friendDogFood;
+	public void setFriendDogFood(String friendDogFood) {
+		this.friendDogFood = friendDogFood;
 	}
 
 	public void setFriendRubbish(int friendRubbish){
@@ -178,12 +178,12 @@ public class TotalWalkDao{
 		return rubbish;
 	}
 
-	public void setDogFood(int dogFood){
-		this.dogFood = dogFood;
+	public String getDogFood() {
+		return dogFood;
 	}
 
-	public int getDogFood(){
-		return dogFood;
+	public void setDogFood(String dogFood) {
+		this.dogFood = dogFood;
 	}
 
 	public void setMiddlArea(double middlArea){

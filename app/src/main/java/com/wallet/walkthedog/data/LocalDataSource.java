@@ -83,6 +83,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void useDogInfo(DataCallback dataCallback) {
+
+    }
+
+    @Override
     public void getDogInfo(String dogId, DataCallback dataCallback) {
 
     }

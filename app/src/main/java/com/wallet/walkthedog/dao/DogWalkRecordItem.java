@@ -14,7 +14,7 @@ public class DogWalkRecordItem {
 	private int dogId;
 
 	@SerializedName("dogLevel")
-	private int dogLevel;
+	private double dogLevel;
 
 	@SerializedName("friendBox")
 	private int friendBox;
@@ -124,12 +124,12 @@ public class DogWalkRecordItem {
 		return dogId;
 	}
 
-	public void setDogLevel(int dogLevel){
-		this.dogLevel = dogLevel;
+	public double getDogLevel() {
+		return dogLevel;
 	}
 
-	public int getDogLevel(){
-		return dogLevel;
+	public void setDogLevel(double dogLevel) {
+		this.dogLevel = dogLevel;
 	}
 
 	public void setFriendBox(int friendBox){
