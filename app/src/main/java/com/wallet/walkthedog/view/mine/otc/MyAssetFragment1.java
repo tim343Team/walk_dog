@@ -30,11 +30,11 @@ import java.util.List;
 
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 
-public class MyAssetFragment extends Fragment {
-    public static MyAssetFragment newInstance(int postion) {
+public class MyAssetFragment1 extends Fragment {
+    public static MyAssetFragment1 newInstance(int postion) {
         Bundle args = new Bundle();
         args.putInt("postion", postion);
-        MyAssetFragment fragment = new MyAssetFragment();
+        MyAssetFragment1 fragment = new MyAssetFragment1();
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,6 +64,13 @@ public class MyAssetFragment extends Fragment {
                     Intent intent;
                     if (postion == 0) {
                         intent = new Intent(requireContext(), MyAssetActivity.class);
+                        if (otherAssetDao.getCoin().getName().equals("USDT")){
+                            intent.putExtra("type","3");
+                        } else if (otherAssetDao.getCoin().getName().equals("ETH")){
+                            intent.putExtra("type","4");
+                        }
+                        intent.putExtra("allAsset",otherAssetDao.getBalance());
+                        intent.putExtra("coldWalletAddress",otherAssetDao.getCoin().getColdWalletAddress());
                     } else {
                         intent = new Intent(requireContext(), MyOTCAssetActivity.class);
                     }

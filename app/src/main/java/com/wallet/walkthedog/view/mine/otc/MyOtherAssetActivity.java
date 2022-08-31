@@ -36,7 +36,10 @@ public class MyOtherAssetActivity extends BaseActivity {
             @NonNull
             @Override
             public Fragment getItem(int position) {
-                return MyAssetFragment.newInstance(position);
+                if (position==0){
+                    return MyAssetFragment0.newInstance(position);
+                }
+                return MyAssetFragment1.newInstance(position);
             }
 
             @Override

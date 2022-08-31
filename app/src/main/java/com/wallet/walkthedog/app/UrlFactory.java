@@ -52,6 +52,10 @@ public class UrlFactory {
         return host + "/coin/all";
     }
 
+    public static String wallentList(){
+        return host +"/wallet/getWalletList";
+    }
+
     public static String otcWalletGet() {
         return host + "/otc/wallet/get";
     }

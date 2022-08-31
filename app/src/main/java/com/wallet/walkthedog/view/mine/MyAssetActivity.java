@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.mine;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.wallet.walkthedog.sp.SharedPrefsHelper;
 import com.wallet.walkthedog.untils.Utils;
 
 import java.util.List;
+import java.util.Objects;
 
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
@@ -30,10 +32,11 @@ import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
 public class MyAssetActivity extends BaseActivity {
     TextView tv_all_asset;
     private double all_asset = 0.0;
-    private final static String xxxx ="****";
+    private final static String xxxx = "****";
     private AssetListAdapter adapter = new AssetListAdapter();
     private int pageNo = 1;
     boolean see = false;
+    private String type = "1";
 
     @Override
     protected int getActivityLayoutId() {
@@ -70,6 +73,7 @@ public class MyAssetActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyAssetActivity.this, CollectionActivity.class);
+                intent.putExtra("coldWalletAddress", getIntent().getStringExtra("coldWalletAddress"));
                 startActivity(intent);
             }
         });
@@ -78,6 +82,8 @@ public class MyAssetActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyAssetActivity.this, TransferActivity.class);
+                intent.putExtra("all_asset", all_asset);
+                intent.putExtra("type", type);
                 startActivity(intent);
             }
         });
@@ -92,9 +98,21 @@ public class MyAssetActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void obtainData() {
-
+        String type = getIntent().getStringExtra("type");
+        if (type != null) {
+            this.type = type;
+        }
+        TextView tv_coin_name = findViewById(R.id.tv_coin_name);
+        if (Objects.equals(type, "1")) {
+            tv_coin_name.setText("SUZU");
+        } else if (Objects.equals(type, "3")) {
+            tv_coin_name.setText("USDT");
+        } else if (Objects.equals(type, "4")) {
+            tv_coin_name.setText("ETH");
+        }
     }
 
     @Override
@@ -115,7 +133,7 @@ public class MyAssetActivity extends BaseActivity {
     }
 
     private void getAsset() {
-        WonderfulOkhttpUtils.get().url(UrlFactory.getWallet() + "?type=1")
+        WonderfulOkhttpUtils.get().url(UrlFactory.getWallet() + "?type=" + type)
                 .addHeader("access-auth-token", SharedPrefsHelper.getInstance().getToken())
                 .build()
                 .getCall()
@@ -136,6 +154,7 @@ public class MyAssetActivity extends BaseActivity {
                 .addParams("pageSize", "50")
                 .addParams("startTime", "1970-01-01 00:00:00")
                 .addParams("endTime", nowTime)
+                .addParams("type", type)
                 .build()
                 .getCall()
                 .enqueue(new GsonWalkDogCallBack<RemoteData<AssetLogDao>>() {
@@ -172,9 +191,9 @@ public class MyAssetActivity extends BaseActivity {
 
     private void onSuccessGetAsset(double notNullData) {
         this.all_asset = notNullData;
-        if (see){
+        if (see) {
             tv_all_asset.setText(Utils.getFormat("%.2f", notNullData));
-        }else {
+        } else {
             tv_all_asset.setText(xxxx);
         }
     }

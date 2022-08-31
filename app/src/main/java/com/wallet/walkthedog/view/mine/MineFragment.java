@@ -89,6 +89,7 @@ public class MineFragment extends BaseTransFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(requireContext(), MyAssetActivity.class);
+                intent.putExtra("type","1");
                 startActivity(intent);
             }
         });

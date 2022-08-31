@@ -29,13 +29,14 @@ public class CollectionActivity extends BaseActivity {
         return R.layout.activity_collection;
     }
 
+    private ImageView qr;
     TextView tv_address;
     View iv_copy;
     Bitmap qrCode;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        ImageView qr = findViewById(R.id.iv_qr);
+        qr = findViewById(R.id.iv_qr);
         tv_address = findViewById(R.id.tv_address);
         iv_copy = findViewById(R.id.iv_copy);
 
@@ -45,50 +46,59 @@ public class CollectionActivity extends BaseActivity {
                 finish();
             }
         });
+        String coldWalletAddress = getIntent().getStringExtra("coldWalletAddress");
+        if (coldWalletAddress == null) {
+            SharedPrefsHelper.getInstance().AsyncGetUserInfo().onGet(new SafeGet.SafeCall<UserInfoDao>() {
+                @Override
+                public void call(UserInfoDao userinfo) {
+                    List<WalletsItem> wallets = userinfo.getWallets();
 
-        SharedPrefsHelper.getInstance().AsyncGetUserInfo().onGet(new SafeGet.SafeCall<UserInfoDao>() {
-            @Override
-            public void call(UserInfoDao userinfo) {
-                List<WalletsItem> wallets = userinfo.getWallets();
-
-                for (int i = 0; i < wallets.size(); i++) {
-                    WalletsItem item = wallets.get(i);
-                    if (item.getType() == 1) {
-                        String asset = item.getAddress();
-                        if (TextUtils.isEmpty(asset)){
-                            ToastUtils.shortToast(getString(R.string.you_has_not_address));
-                            return;
+                    for (int i = 0; i < wallets.size(); i++) {
+                        WalletsItem item = wallets.get(i);
+                        if (item.getType() == 1) {
+                            String address = item.getAddress();
+                            if (TextUtils.isEmpty(address)) {
+                                ToastUtils.shortToast(getString(R.string.you_has_not_address));
+                                return;
+                            }
+                            updateUI(address);
+                            break;
                         }
-                        try {
-                            qrCode = EncodingHandler.createQRCode(asset, ScreenUtils.dip2px(CollectionActivity.this, 350f));
-                            qr.setImageBitmap(qrCode);
-                        } catch (WriterException e) {
-                            e.printStackTrace();
-                        }
-                        tv_address.setText(asset);
-                        iv_copy.setVisibility(View.VISIBLE);
-                        break;
                     }
                 }
-            }
-        });
+            });
+        } else {
+            updateUI(coldWalletAddress);
+        }
+
         iv_copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Utils.copyText(CollectionActivity.this, tv_address.getText().toString());
-                ToastUtils.shortToast(CollectionActivity.this,R.string.copy_success);
+                ToastUtils.shortToast(CollectionActivity.this, R.string.copy_success);
             }
         });
         findViewById(R.id.tv_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (qrCode != null) {
-                    Utils.saveImage29(CollectionActivity.this,qrCode,"walkdogqr");
+                    Utils.saveImage29(CollectionActivity.this, qrCode, "walkdogqr");
                     ToastUtils.shortToast(getString(R.string.save_success));
                 }
             }
         });
 
+    }
+
+    private void updateUI(String address) {
+        try {
+            qrCode = EncodingHandler.createQRCode(address, ScreenUtils.dip2px(CollectionActivity.this, 350f));
+            qr.setImageBitmap(qrCode);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        tv_address.setText(address);
+        iv_copy.setVisibility(View.VISIBLE);
     }
 
     @Override

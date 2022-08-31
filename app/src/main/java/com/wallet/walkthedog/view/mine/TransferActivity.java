@@ -155,21 +155,8 @@ public class TransferActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-        SharedPrefsHelper.getInstance().AsyncGetUserInfo().onGet(new SafeGet.SafeCall<UserInfoDao>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void call(UserInfoDao userinfo) {
-                List<WalletsItem> wallets = userinfo.getWallets();
-                for (int i = 0; i < wallets.size(); i++) {
-                    WalletsItem item = wallets.get(i);
-                    if (item.getType() == 1) {
-                        asset = Utils.getFormat("%.2f", item.getDogFood());
-                        tv_all_asset.setText(getString(R.string.balance_) + asset);
-                        break;
-                    }
-                }
-            }
-        });
+        asset = Utils.getFormat("%.4f", getIntent().getDoubleExtra("all_asset",0));
+        tv_all_asset.setText(getString(R.string.balance_) + asset);
         computeyugu();
     }
 
@@ -194,6 +181,7 @@ public class TransferActivity extends BaseActivity {
                 .addParams("toAddress",address)
                 .addParams("amount",p)
                 .addParams("password",password)
+                .addParams("type",getIntent().getStringExtra("type"))
                 .build()
                 .getCall()
                 .enqueue(new GsonWalkDogCallBack<RemoteData<Object>>() {
