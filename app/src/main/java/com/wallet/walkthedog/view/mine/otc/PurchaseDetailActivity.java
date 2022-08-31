@@ -55,8 +55,9 @@ public class PurchaseDetailActivity extends BaseActivity {
     private TextView tv_cancel;
     private TextView tv_payer;
     private TextView tv_pay_by;
-    private TextView tv_country;
+    private TextView tv_name;
     private TextView tv_card_number;
+    private TextView tv_bank_name;
     private TextView tv_pay_type;
     private View layout_bank;
     private int status = -1;
@@ -88,8 +89,9 @@ public class PurchaseDetailActivity extends BaseActivity {
         layout_bank = findViewById(R.id.layout_bank);
         tv_payer = findViewById(R.id.tv_payer);
         tv_pay_by = findViewById(R.id.tv_pay_by);
-        tv_country = findViewById(R.id.tv_country);
+        tv_name = findViewById(R.id.tv_name);
         tv_card_number = findViewById(R.id.tv_card_number);
+        tv_bank_name = findViewById(R.id.tv_bank_name);
         tv_pay_type = findViewById(R.id.tv_pay_type);
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,18 +222,27 @@ public class PurchaseDetailActivity extends BaseActivity {
         if (type == 1) {
             //显示银行卡
             tv_pay_type.setText(R.string.bank_card);
+            tv_bank_name.setVisibility(View.VISIBLE);
             if (dao.getPayInfo().getBankInfo() != null) {
                 tv_card_number.setText(getString(R.string.card_number_, dao.getPayInfo().getBankInfo().getCardNo()));
-                tv_country.setText(getString(R.string.country_, dao.getPayInfo().getBankInfo().getBank()));
+                tv_name.setText(getString(R.string.pay_name_, dao.getPayInfo().getBankInfo().getRealName()));
+                tv_bank_name.setText(getString(R.string.bank_name_, dao.getPayInfo().getBankInfo().getBank()));
             } else {
                 tv_card_number.setText(getString(R.string.card_number_, ""));
-                tv_country.setText(getString(R.string.country_, ""));
+                tv_name.setText(getString(R.string.pay_name_, ""));
+                tv_bank_name.setText(getString(R.string.bank_name_, ""));
             }
         } else {
             //显示swift
             tv_pay_type.setText(R.string.swift);
-            tv_card_number.setText(getString(R.string.card_number_, dao.getPayInfo().getSwift() == null ? "" : dao.getPayInfo().getSwift()));
-            tv_country.setText(getString(R.string.country_, ""));
+            tv_bank_name.setVisibility(View.GONE);
+            if (dao.getPayInfo().getSwift() != null) {
+                tv_card_number.setText(getString(R.string.card_number_, dao.getPayInfo().getSwift().getCardNo()));
+                tv_name.setText(getString(R.string.pay_name_, dao.getPayInfo().getSwift().getRealName()));
+            }else {
+                tv_card_number.setText(getString(R.string.card_number_, ""));
+                tv_name.setText(getString(R.string.pay_name_, ""));
+            }
         }
 
     }
