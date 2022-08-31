@@ -1,22 +1,22 @@
 package com.wallet.walkthedog.dao;
 
 public class SwiftInfo {
-    private String cardNo;
-    private String realName;
+    private String swiftAddress;
+    private String swiftRealName;
 
-    public String getCardNo() {
-        return cardNo;
+    public String getSwiftAddress() {
+        return swiftAddress;
     }
 
-    public void setCardNo(String cardNo) {
-        this.cardNo = cardNo;
+    public void setSwiftAddress(String swiftAddress) {
+        this.swiftAddress = swiftAddress;
     }
 
-    public String getRealName() {
-        return realName;
+    public String getSwiftRealName() {
+        return swiftRealName;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setSwiftRealName(String swiftRealName) {
+        this.swiftRealName = swiftRealName;
     }
 }

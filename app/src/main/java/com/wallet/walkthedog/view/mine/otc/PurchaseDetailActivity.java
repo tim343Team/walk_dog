@@ -237,8 +237,8 @@ public class PurchaseDetailActivity extends BaseActivity {
             tv_pay_type.setText(R.string.swift);
             tv_bank_name.setVisibility(View.GONE);
             if (dao.getPayInfo().getSwift() != null) {
-                tv_card_number.setText(getString(R.string.card_number_, dao.getPayInfo().getSwift().getCardNo()));
-                tv_name.setText(getString(R.string.pay_name_, dao.getPayInfo().getSwift().getRealName()));
+                tv_card_number.setText(getString(R.string.card_number_, dao.getPayInfo().getSwift().getSwiftAddress()));
+                tv_name.setText(getString(R.string.pay_name_, dao.getPayInfo().getSwift().getSwiftRealName()));
             }else {
                 tv_card_number.setText(getString(R.string.card_number_, ""));
                 tv_name.setText(getString(R.string.pay_name_, ""));
