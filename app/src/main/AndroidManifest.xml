@@ -285,6 +285,7 @@
         <activity android:name=".view.mine.otc.OTCExchangeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.otc.MyOTCAssetActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.mine.otc.MyOtherAssetActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.mine.otc.AgreementActivity" android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.GpsService"

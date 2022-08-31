@@ -1,5 +1,6 @@
 package com.wallet.walkthedog.view.mine.ad;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import com.wallet.walkthedog.dao.OTCOrderItemWrapper;
 import com.wallet.walkthedog.net.GsonWalkDogCallBack;
 import com.wallet.walkthedog.net.RemoteData;
 import com.wallet.walkthedog.sp.SharedPrefsHelper;
+import com.wallet.walkthedog.view.mine.otc.PurchaseDetailActivity;
+import com.wallet.walkthedog.view.mine.otc.SellDetailActivity;
 
 import tim.com.libnetwork.network.okhttp.RequestBuilder;
 import tim.com.libnetwork.network.okhttp.WonderfulOkhttpUtils;
@@ -40,6 +43,23 @@ public class MyOrderListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new OTCOrderItemAdapter();
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter a, View view, int position) {
+                OTCOrderItem otcOrderItem = adapter.getData().get(position);
+                if (otcOrderItem.getType() == 1) {
+                    //卖
+                    Intent intent = new Intent(requireContext(), SellDetailActivity.class);
+                    intent.putExtra("orderID",otcOrderItem.getOrderSn());
+                    startActivity(intent);
+                } else {
+                    //买
+                    Intent intent = new Intent(requireContext(), PurchaseDetailActivity.class);
+                    intent.putExtra("orderID",otcOrderItem.getOrderSn());
+                    startActivity(intent);
+                }
+            }
+        });
         recyclerView.setAdapter(adapter);
         request();
     }

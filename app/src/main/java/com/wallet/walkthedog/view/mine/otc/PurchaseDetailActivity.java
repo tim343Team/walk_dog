@@ -67,7 +67,7 @@ public class PurchaseDetailActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         String orderID = getIntent().getStringExtra("orderID");
-        AdvertiseUnitItem advertiseUnitItem = (AdvertiseUnitItem) getIntent().getSerializableExtra("AdvertiseUnitItemKEY");
+       // AdvertiseUnitItem advertiseUnitItem = (AdvertiseUnitItem) getIntent().getSerializableExtra("AdvertiseUnitItemKEY");
         orderDetail(orderID);
 //        getAdvertiseDetail(advertiseUnitItem.getAdvertiseId());
     }
@@ -113,7 +113,7 @@ public class PurchaseDetailActivity extends BaseActivity {
                 } else {
                     if (ActivityLifecycleManager.get().hasActivity(PurchaseSellOTCActivity.class)) {
                         finish();
-                        ActivityLifecycleManager.get().finishs(PurchaseSellOTCActivity.class, OTCOrderActivity.class);
+                        ActivityLifecycleManager.get().finishs(PurchaseSellOTCActivity.class);
                     } else {
                         finish();
                     }

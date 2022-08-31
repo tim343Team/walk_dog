@@ -95,8 +95,14 @@ public class OTCOrderActivity extends BaseActivity {
         items.add(getString(R.string.buy_ads));
         items.add(getString(R.string.sell_ads));
         items.add(getString(R.string.my_ads));
-        if (isMerchant)
+        items.add(getString(R.string.my_order));
+
+        if (isMerchant){
             items.add(getString(R.string.merchant_settle_out));
+        }else {
+            items.add(getString(R.string.how_to_pay));
+        }
+
         adapter.setNewData(items);
         View view = LayoutInflater.from(this).inflate(R.layout.pop_money_select, null, false);
         view.measure(View.MeasureSpec.makeMeasureSpec(ScreenUtils.getScreenWidth(this), View.MeasureSpec.AT_MOST),
@@ -138,9 +144,11 @@ public class OTCOrderActivity extends BaseActivity {
             Intent intent = new Intent(this, ADAssetActivity.class);
             startActivity(intent);
         } else if (position == 3) {
-            //商家
+            Intent intent = new Intent(this, ADAssetActivity.class);
+            intent.putExtra("position",1);
+            startActivity(intent);
+        } else {
             MerchantActivity.actionStart(this);
-//            MerchantApplyActivity.actionStart(this);
         }
     }
 

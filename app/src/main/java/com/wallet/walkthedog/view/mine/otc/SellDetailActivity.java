@@ -79,7 +79,7 @@ public class SellDetailActivity extends BaseActivity {
                 } else {
                     if (ActivityLifecycleManager.get().hasActivity(PurchaseSellOTCActivity.class)) {
                         finish();
-                        ActivityLifecycleManager.get().finishs(PurchaseSellOTCActivity.class, OTCOrderActivity.class);
+                        ActivityLifecycleManager.get().finishs(PurchaseSellOTCActivity.class);
                     } else {
                         finish();
                     }

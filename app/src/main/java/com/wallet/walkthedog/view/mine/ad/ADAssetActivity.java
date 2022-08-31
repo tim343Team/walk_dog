@@ -55,6 +55,14 @@ public class ADAssetActivity extends BaseActivity {
                 return getString(R.string.my_order);
             }
         });
+        viewPager.post(new Runnable() {
+            @Override
+            public void run() {
+                int position = getIntent().getIntExtra("position", 0);
+                viewPager.setCurrentItem(position);
+            }
+        });
+
     }
 
     @Override
