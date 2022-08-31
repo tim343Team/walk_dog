@@ -132,11 +132,11 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @OnClick(R.id.img_invate)
     void addInvate() {
-        if(invitedFriendDao==null){
+        if (invitedFriendDao == null) {
             InviteActivity.actionStart(getmActivity());
-        }else {
+        } else {
             //进入朋友详情页
-            InviteDetailActivity.actionStart(getmActivity(),invitedFriendDao.getDog());
+            InviteDetailActivity.actionStart(getmActivity(), invitedFriendDao.getDog());
         }
     }
 
@@ -311,7 +311,11 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     @Override
     public void onResume() {
         super.onResume();
-        updateData();
+        if (SharedPrefsHelper.getInstance().getDogId() == null || (SharedPrefsHelper.getInstance().getDogId().equals("0"))) {
+            presenter.useDogInfo();
+        } else {
+            updateData();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -382,7 +386,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         txtDogLevel.setText("Lv. " + mDefultDogInfo.getLevel());
         txtSpeed.setText(String.format(getString(R.string.trip_totle), mDefultDogInfo.getWalkTheDogKm() + "Km"));
         txtNumber.setText(String.format(getString(R.string.number_totle), mDefultDogInfo.getWalkTheDogCount() + ""));
-        txtTrip.setText(String.format(getString(R.string.time_totle),DateTimeUtil.second2Minute(mDefultDogInfo.getWalkTheDogTime())));
+        txtTrip.setText(String.format(getString(R.string.time_totle), DateTimeUtil.second2Minute(mDefultDogInfo.getWalkTheDogTime())));
         txtRegion.setText(String.format(getString(R.string.number_today), mDefultDogInfo.getDayLimit() + "/2"));
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -449,16 +453,29 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
 
     @Override
     public void getDogInfoFail(Integer code, String toastMessage) {
-        mDefultDogInfo=null;
+        mDefultDogInfo = null;
         updateUI();
     }
 
     @Override
     public void getWalkTheDogFriendFail(Integer code, String toastMessage) {
+        invitedFriendDao = null;
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_invate);
         Glide.with(getmActivity()).load(R.mipmap.icon_invate).apply(options).into(imgInvate);
+    }
+
+    @Override
+    public void getUsedDogInfo(DogInfoDao dogInfoDao) {
+        if (dogInfoDao != null)
+            SharedPrefsHelper.getInstance().saveDogId(dogInfoDao.getId());
+        updateData();
+    }
+
+    @Override
+    public void getUsedDogFail(Integer code, String toastMessage) {
+        updateData();
     }
 
     @Override
@@ -504,7 +521,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
         trainDialog.setCallback(new TrainListDialog.OperateCallback() {
             @Override
             public void callback(TrainDao item) {
-                TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item, totalFood,0);
+                TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item, totalFood, 0);
                 trainDogDialog.setTheme(R.style.PaddingScreen);
                 trainDogDialog.setGravity(Gravity.CENTER);
                 trainDogDialog.show(getFragmentManager(), "edit");
@@ -512,7 +529,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                     @Override
                     public void callback(TrainDao item, String totalFood) {
                         //获取训练详情
-                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(), item.getId() + ""),item,totalFood);
+                        presenter.trainDog(new TrainRequest(mDefultDogInfo.getId(), item.getId() + ""), item, totalFood);
                     }
                 });
                 trainDialog.dismiss();
@@ -537,11 +554,11 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
     }
 
     @Override
-    public void trainSuccessful(String data,TrainDao item, String totalFood) {
+    public void trainSuccessful(String data, TrainDao item, String totalFood) {
         updateData();
         //弹出肌肉增加页面
-        double balance=Double.parseDouble(totalFood)-item.getConsume()<0?0:Double.parseDouble(totalFood)-item.getConsume();
-        TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item,balance+"" ,1);
+        double balance = Double.parseDouble(totalFood) - item.getConsume() < 0 ? 0 : Double.parseDouble(totalFood) - item.getConsume();
+        TrainDogDialog trainDogDialog = TrainDogDialog.newInstance(item, balance + "", 1);
         trainDogDialog.setTheme(R.style.PaddingScreen);
         trainDogDialog.setGravity(Gravity.CENTER);
         trainDogDialog.show(getFragmentManager(), "edit");
@@ -618,7 +635,7 @@ public class HomeFragment extends BaseTransFragment implements HomeContract.Home
                     @Override
                     public void callback(String password) {
                         //購買狗糧
-                        presenter.buyShopDogFood(data.getId(), number,password);
+                        presenter.buyShopDogFood(data.getId(), number, password);
                         passwordDialog.dismiss();
                         buyDialog.dismiss();
                     }

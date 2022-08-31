@@ -90,6 +90,12 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public void useDogInfo(DataCallback dataCallback) {
+        if (isLocal) mLocalDataSource.useDogInfo(dataCallback);
+        else mRemoteDataSource.useDogInfo(dataCallback);
+    }
+
+    @Override
     public void getDogInfo(String dogId, DataCallback dataCallback) {
         if (isLocal) mLocalDataSource.getDogInfo(dogId, dataCallback);
         else mRemoteDataSource.getDogInfo(dogId, dataCallback);

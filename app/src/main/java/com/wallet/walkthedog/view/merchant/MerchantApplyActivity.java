@@ -92,7 +92,7 @@ public class MerchantApplyActivity extends BaseActivity implements MerchantContr
             Toast.makeText(MerchantApplyActivity.this, R.string.mailbox_address_notice, Toast.LENGTH_SHORT).show();
             return;
         }
-        if(assetImg.isEmpty()){
+        if (assetImg == null || assetImg.isEmpty()) {
             Toast.makeText(MerchantApplyActivity.this, R.string.mailbox_certificate_notice, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -110,7 +110,7 @@ public class MerchantApplyActivity extends BaseActivity implements MerchantContr
     @OnClick(R.id.iv_copy)
     void copy() {
         Utils.copyText(MerchantApplyActivity.this, txtAddress.getText().toString());
-        ToastUtils.shortToast(MerchantApplyActivity.this,R.string.copy_success);
+        ToastUtils.shortToast(MerchantApplyActivity.this, R.string.copy_success);
     }
 
     @OnClick(R.id.img_back)
@@ -198,8 +198,8 @@ public class MerchantApplyActivity extends BaseActivity implements MerchantContr
     @Override
     public void approveSuccess(List<BusinessAuthDao> daos) {
         for (BusinessAuthDao businessAuthDao : daos) {
-            txtAmount.setText(businessAuthDao.getAmount()+"");
-            if(businessAuthDao.getCoin()!=null){
+            txtAmount.setText(businessAuthDao.getAmount() + "");
+            if (businessAuthDao.getCoin() != null) {
                 txtAddress.setText(businessAuthDao.getCoin().getColdWalletAddress());
                 imgAddress.post(new Runnable() {
                     @Override
@@ -372,7 +372,7 @@ public class MerchantApplyActivity extends BaseActivity implements MerchantContr
 
             @Override
             public void onDataNotAvailable(Integer code, String toastMessage) {
-                ToastUtils.shortToast(MerchantApplyActivity.this,R.string.upload_error);
+                ToastUtils.shortToast(MerchantApplyActivity.this, R.string.upload_error);
             }
         });
     }

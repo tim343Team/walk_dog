@@ -95,6 +95,8 @@ public class BuyFoodDialog extends BaseDialogFragment {
         txtPrice.setText(String.valueOf(data.getPrice()));
         price = data.getPrice();
         weight = data.getWeight();
+        updatePrice(price * amount);
+        updateWeight(weight * amount);
     }
 
     @Override

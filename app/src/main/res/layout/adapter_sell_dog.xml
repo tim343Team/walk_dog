@@ -43,8 +43,7 @@
                 android:layout_width="@dimen/dimen_12"
                 android:layout_height="@dimen/dimen_12"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/dimen_5"
-                android:background="@mipmap/icon_blue_male" />
+                android:layout_marginStart="@dimen/dimen_5"/>
 
         </LinearLayout>
 

@@ -587,6 +587,8 @@
     <string name="merchant_settle_out">商家退出</string>
     <string name="update">更新</string>
     <string name="update_notice">發現新版本，請更新到最新版本後使用</string>
+    <string name="cancle_remove_2">取消遛狗</string>
+    <string name="gain_dog_food">獲得狗糧</string>
     <string name="agreement">Agreement</string>
     <string name="apply_to_be_a_merchant">Apply to be a merchant</string>
     <string name="we_will_review_your_business_application_information_within_3_5_working_days_please_keep_an_eye_on_the_review_status_which_can_be_viewed_on_the_submission_page_after_approval_you_can_advertise_in_the_fiat_currency_trading_area">We will review your business application information within 3-5 working days, please keep an eye on the review status, which can be viewed on the submission page. After approval, you can advertise in the fiat currency trading area.</string>
@@ -598,6 +600,7 @@
     <string name="how_to_apply_to_become_a_merchant">How to apply to become a merchant?</string>
     <string name="agree_to_pledge_2000usdt_as_the_merchant_s_security_deposit">Agree to pledge 2000USDT as the merchant\'s security deposit.</string>
     <string name="please_agree_to_freeze_the_deposit">Please agree to freeze the deposit.</string>
+
 
 </resources>
 

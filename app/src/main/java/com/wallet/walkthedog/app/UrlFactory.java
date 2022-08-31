@@ -502,6 +502,11 @@ public class UrlFactory {
         return host + "/approve/certified/business/status";
     }
 
+    //获取当前装备狗狗
+    public static String useDogInfoUrl() {
+        return host + "/index/useDogInfo";
+    }
+
     //上传图片
     public static String uploadImgUrl() {
         return host + "/common/upload/local/image";
