@@ -5,7 +5,7 @@ public class PayInfo{
 	private BankCarInfo bankInfo;
 	private Object alipay;
 	private Object wechatPay;
-	private Object swift;
+	private SwiftInfo swift;
 
 	public String getRealName(){
 		return realName;
@@ -23,7 +23,7 @@ public class PayInfo{
 		return wechatPay;
 	}
 
-	public Object getSwift(){
+	public SwiftInfo getSwift(){
 		return swift;
 	}
 }

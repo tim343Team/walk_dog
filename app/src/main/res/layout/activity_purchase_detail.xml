@@ -227,16 +227,22 @@
                     android:text="@string/pay_by_" />
 
                 <TextView
-                    android:id="@+id/tv_country"
+                    android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/country_" />
+                    android:text="@string/pay_name_" />
 
                 <TextView
                     android:id="@+id/tv_card_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/card_number_" />
+
+                <TextView
+                    android:id="@+id/tv_bank_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bank_name_" />
 
             </LinearLayout>
 
