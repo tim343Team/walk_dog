@@ -37,7 +37,7 @@ public class InviteDogAdapter extends BaseQuickAdapter<FriendInfoDao, BaseViewHo
 
         ImageView imgGender = (ImageView) helper.getView(R.id.img_gender);
         helper.setText(R.id.txt_dog_name, item.getNftName());
-        helper.setText(R.id.txt_rent_name, item.getFriendNickName().isEmpty() ? item.getFriendName() : item.getFriendNickName());
+        helper.setText(R.id.txt_rent_name, (item.getFriendNickName() == null || item.getFriendNickName().isEmpty()) ? item.getFriendName() : item.getFriendNickName());
         helper.setText(R.id.txt_level, "Lv." + item.getLevel());
         helper.setText(R.id.txt_time, String.format(mContext.getString(R.string._time), item.getWalkTheDogCount() + ""));
         helper.setText(R.id.txt_trip, DateTimeUtil.second2Time(item.getWalkTheDogTime()));//总次数
