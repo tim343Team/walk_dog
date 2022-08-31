@@ -353,7 +353,7 @@ public class PlaceADActivity extends BaseActivity {
                     priceType = "REGULAR";
                     hashMap.put("price", realPrice);
                 } else {
-                    hashMap.put("premiseRate", premium / 100);
+                    hashMap.put("premiseRate", premium);
                 }
                 hashMap.put("priceType", priceType);
                 hashMap.put("number", quantity);
