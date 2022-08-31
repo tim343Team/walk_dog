@@ -208,7 +208,7 @@ public class InviteDetailActivity extends BaseActivity implements InviteDetailCo
         if (friendInfoDao == null) {
             return;
         }
-        presenter.getFriendDogDetail(friendInfoDao.getId() + "");
+        presenter.getFriendDogDetail(friendInfoDao.getFriendListId() + "");
     }
 
     //设置进度条
