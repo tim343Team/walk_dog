@@ -212,7 +212,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                 .addParams("id", String.valueOf(advertiseUnitItem.getAdvertiseId()))
                 .addParams("coinId", String.valueOf(coinNameItem.getId()))
                 .addParams("price", String.valueOf(advertiseUnitItem.getPrice()))
-                .addParams("remark", "")
+                .addParams("remark", "c")
                 .addParams("mode", String.valueOf(0));
         builder.addParams("amount", num);
         builder.addParams("money", String.valueOf(Double.parseDouble(num) * advertiseUnitItem.getPrice()));
@@ -239,7 +239,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
                 .addParams("id", String.valueOf(advertiseUnitItem.getAdvertiseId()))
                 .addParams("coinId", String.valueOf(coinNameItem.getId()))
                 .addParams("price", String.valueOf(advertiseUnitItem.getPrice()))
-                .addParams("remark", "")
+                .addParams("remark", "c")
                 .addParams("mode", String.valueOf(0));
         builder.addParams("amount", num);
         builder.addParams("money", String.valueOf(Double.parseDouble(num) * advertiseUnitItem.getPrice()));
@@ -311,7 +311,7 @@ public class PurchaseSellOTCActivity extends BaseActivity {
         helper.setText(R.id.tv_volume, Utils.getFormat(helper.itemView.getContext().getString(R.string.volume) + ":%.2f", item.getRemainQuantity()));
         helper.setText(R.id.tv_unit, helper.itemView.getContext().getString(R.string.unit) + " " + item.getCoinName() + "/" + item.getLegalCurrency());
         helper.setText(R.id.tv_qu, Utils.getFormat(helper.itemView.getContext().getString(R.string.quantity) + "：%.2f" + item.getCoinName(), item.getRemainQuantity()));
-        helper.setText(R.id.tv_limit, Utils.getFormat(helper.itemView.getContext().getString(R.string.limit) + "：%.2f-%.2f" + item.getLegalCurrency(), item.getMinLimit(), item.getMaxLimit()));
+        helper.setText(R.id.tv_limit, Utils.getFormat(helper.itemView.getContext().getString(R.string.limit) + "：%.2f-%.2f" + item.getLegalCurrency(), item.getMinLimit() * item.getPrice(), item.getMaxLimit() * item.getPrice()));
         if (advertiseType == 0) {
             tv_buy.setText(getString(R.string.sell));
         }
