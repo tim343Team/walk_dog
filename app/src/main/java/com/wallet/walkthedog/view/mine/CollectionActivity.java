@@ -19,6 +19,7 @@ import com.wallet.walkthedog.untils.Utils;
 import com.wallet.walkthedog.view.merchant.MerchantApplyActivity;
 
 import java.util.List;
+import java.util.Objects;
 
 import tim.com.libnetwork.base.BaseActivity;
 import tim.com.libnetwork.utils.ScreenUtils;
@@ -87,6 +88,20 @@ public class CollectionActivity extends BaseActivity {
                 }
             }
         });
+
+        String type = getIntent().getStringExtra("type");
+        TextView textView5 = findViewById(R.id.textView5);
+        TextView textView = findViewById(R.id.textView);
+        if (Objects.equals(type, "1")) {
+            textView5.setText(getString(R.string.suzu_zol));
+            textView.setText(getString(R.string.info_collection,getString(R.string.suzu_zol)));
+        } else if (Objects.equals(type, "3")) {
+            textView5.setText("USDT-ERC20");
+            textView.setText(getString(R.string.info_collection,"USDT-ERC20"));
+        } else {
+            textView5.setText("ETH");
+            textView.setText(getString(R.string.info_collection,"ETH"));
+        }
 
     }
 

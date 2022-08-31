@@ -73,6 +73,7 @@ public class MyAssetActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyAssetActivity.this, CollectionActivity.class);
+                intent.putExtra("type",type);
                 intent.putExtra("coldWalletAddress", getIntent().getStringExtra("coldWalletAddress"));
                 startActivity(intent);
             }

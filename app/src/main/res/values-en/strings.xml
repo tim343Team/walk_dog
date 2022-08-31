@@ -357,7 +357,7 @@
     <string name="quantity">Quantity</string>
     <string name="time">Time</string>
     <string name="state">State</string>
-    <string name="info_collection">1.Do not recharge any SUZU other than Ethereum to the above landiords ohterwise the assest wills not recoverable\n2.After you rechare to the address you need the confirmation of the whole net fter you rechare to the address you need the confirmation of the whole net\n3.After you rechare to the address you need the confirmation of the whole net fter you rechare to the address you need the confirmation of the whole net.</string>
+    <string name="info_collection">1.Do not recharge any %s other than Ethereum to the above landiords ohterwise the assest wills not recoverable\n2.After you rechare to the address you need the confirmation of the whole net fter you rechare to the address you need the confirmation of the whole net\n3.After you rechare to the address you need the confirmation of the whole net fter you rechare to the address you need the confirmation of the whole net.</string>
     <string name="reminder">Reminder:</string>
     <string name="save_qr_code">Save QR Code</string>
     <string name="suzu_zol">SUZU_ZOL</string>

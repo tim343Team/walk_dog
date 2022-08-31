@@ -357,10 +357,10 @@
     <string name="quantity">數量</string>
     <string name="time">時間</string>
     <string name="state">狀態</string>
-    <string name="info_collection">1.除以太坊外，請勿向上述平臺充值任何SUZU。否則，資產將無法恢復。\n2.重新共亯地址後，您需要確認整個網絡。重新共亯地址之後，您需要確定整個網絡。\n3.重新共亯到地址之後，需要確認整個網。\n3 確認整個網絡。</string>
+    <string name="info_collection">1.除以太坊外，請勿向上述平臺充值任何%s。否則，資產將無法恢復。\n2.重新共亯地址後，您需要確認整個網絡。重新共亯地址之後，您需要確定整個網絡。\n3.重新共亯到地址之後，需要確認整個網。\n3 確認整個網絡。</string>
     <string name="reminder">提醒：</string>
     <string name="save_qr_code">保存二維碼</string>
-    <string name="suzu_zol">蘇祖佐爾</string>
+    <string name="suzu_zol">SUZU_ZOL</string>
     <string name="str_collection">充值</string>
     <string name="str_transfer">轉移</string>
     <string name="please_enter_the_address">請輸入地址</string>

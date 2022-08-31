@@ -357,7 +357,7 @@
     <string name="quantity">量</string>
     <string name="time">時間</string>
     <string name="state">州</string>
-    <string name="info_collection">1.Ethereum 以外の SUZU を上記の Landiords にリチャージしないでください。そうしないと、アセットは回収できません\n2.アドレスにリチャージした後、全体の確認が必要なアドレスにリチャージした後、ネット全体の確認が必要ですnet\n3.ネット全体の確認が必要なアドレスにリチャージした後、ネット全体の確認が必要なアドレスにリチャージします。</string>
+    <string name="info_collection">1.Ethereum 以外の %s を上記の Landiords にリチャージしないでください。そうしないと、アセットは回収できません\n2.アドレスにリチャージした後、全体の確認が必要なアドレスにリチャージした後、ネット全体の確認が必要ですnet\n3.ネット全体の確認が必要なアドレスにリチャージした後、ネット全体の確認が必要なアドレスにリチャージします。</string>
     <string name="reminder">リマインダー：</string>
     <string name="save_qr_code">QRコードを保存</string>
     <string name="suzu_zol">SUZU_ZOL</string>
